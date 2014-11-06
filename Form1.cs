@@ -1,12 +1,13 @@
 ﻿//=====================================================================
 // AUTHORS: 
-//          Cycle 1: Karan Singh & Michelle Jaro
-//          Cycle 2: Maxwell Partington & Ranier Limpiado     
-// PURPOSE: This is the main form of the program that runs all of the
-//          functionality that the user requires, be it regular user
-//          or admin. 
-// PARAMS:  Proper execution of the .exe is the only parameter. 
-// DATE:    11/3/14
+//              Cycle 1: Karan Singh & Michelle Jaro
+//              Cycle 2: Maxwell Partington & Ranier Limpiado     
+//              Cycle 3: Jeff Henry & Augustine Garcia
+// PURPOSE:     This is the main form of the program that runs all of the
+//              functionality that the user requires, be it regular user
+//              or admin. 
+// PARAMS:      Proper execution of the .exe is the only parameter. 
+// LAST UPDATE: 11/6/14
 //=====================================================================
 using System;
 using System.Collections.Generic;
@@ -495,7 +496,6 @@ namespace Project_Forms
             }
         }//end button6_Click
 
-
         //=======================================================
         //Author: Maxwell Partington & Ranier Limpiado 
         //Purpose: Exports the report into excel.
@@ -504,14 +504,13 @@ namespace Project_Forms
         private void export_Click_1(object sender, EventArgs e)
         {
             if (dataGridView1.Rows.Count == 0)
-                MessageBox.Show("Cannot export an empty report. Please generate a report with values.");
+                MessageBox.Show("Cannot export an empty report. Please generate a report first.");
             else
             {
                 Control excel = new Control();
                 excel.export(this.dataGridView1, vr_mon_total.Text, vr_mileage_total.Text);
             }
         }//end 
-        //=====================================================================
 
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado
@@ -559,7 +558,6 @@ namespace Project_Forms
                 }
             }
         }//end detailedRe_Click 
-        //=====================================================================
 
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado
@@ -573,7 +571,6 @@ namespace Project_Forms
             AboutBox1 about = new AboutBox1();
             about.ShowDialog();
         }//end 
-        //=====================================================================
 
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
@@ -587,7 +584,6 @@ namespace Project_Forms
             Form2 helpForm = new Form2();
             helpForm.Show();
         }//end 
-        //=====================================================================
 
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
@@ -626,27 +622,21 @@ namespace Project_Forms
                     e.Handled = true;
                 }
             }
-        }//end textBox3_keyPress_1 
-        //=====================================================================
+        }//end textBox3_keyPress_1
 
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado
-        // PURPOSE: Used to check if the proper format of the expense is used. Checks if the digits is 2 after the decimal
+        // PURPOSE: Used to check if the proper format of the expense is used. 
+        //          Checks if the digits is 2 after the decimal.
         //          If not then it is the wrong format.
         // UPDATED: 11/3/2014
         //=====================================================================
         private bool checkExpenseInput(string userInput)
         {
             int length = userInput.Substring(userInput.IndexOf(".") + 1).Length;
-            if (length != 2)
-            {
-                return false;
-            }
-            else if (!userInput.Contains(".")) //needs to have a decimal
-            {
-                return false;
-            }
-            return true;
+            if (length != 2){return false;}
+            else if (!userInput.Contains(".")){return false;}
+            else return true;
         }//end checkExpenseInput
         //=====================================================================
     }

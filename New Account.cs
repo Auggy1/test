@@ -1,13 +1,14 @@
 ﻿//=====================================================================
 // AUTHORS: 
-//          Cycle 2: Maxwell Partington & Ranier Limpiado     
+//          Cycle 2: Maxwell Partington & Ranier Limpiado    
+//          Cycle 3: Jeff Henry & Augustine Garcia 
 // PURPOSE: This is the new account form of the program that creates
 //          a new user based on the administrators input. It then saves
 //          the new user to either the user.xml file or the userAdminXml
 //          file depending on whether or not the admin wants them to
 //          be an admin. 
 // PARAMS:  Proper execution of the .exe is the only parameter. 
-// UPDATED:    11/3/14
+// UPDATED: 11/6/14
 //=====================================================================
 using System;
 using System.Collections.Generic;
@@ -28,22 +29,21 @@ namespace Project_Forms
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
         // PURPOSE: This creates the new account form and class. 
         // PARAMS:  None. 
-        // UPDATED: 11/3/14
+        // UPDATED: 11/5/14     Reassigned ToolTips to boxes.
         //=====================================================================
         public New_Account()
         {
             InitializeComponent();
-            toolTip1.SetToolTip(this.label9, "Username must follow these guidelines: \n 1. At least five characters in length \n 2. At least one uppercase charcter (A-Z) \n 3. At least one lowercase character (a-z) \n 4. At least one number (0-9) \n 5. _ character acceptable \n All other characters forbidden");
-            toolTip1.SetToolTip(this.label10, "Password must follow these guidelines: \n 1. At least six characters in length \n 2. At least one uppercase charcter (A-Z) \n 3. At least one lowercase character (a-z) \n 4. At least one number (0-9) \n All other characters forbidden");
+            toolTip1.SetToolTip(this.na_username, "Username must follow these guidelines: \n 1. At least five characters in length \n 2. At least one uppercase charcter (A-Z) \n 3. At least one lowercase character (a-z) \n 4. At least one number (0-9) \n 5. _ character acceptable \n All other characters forbidden");
+            toolTip1.SetToolTip(this.na_password, "Password must follow these guidelines: \n 1. At least six characters in length \n 2. At least one uppercase charcter (A-Z) \n 3. At least one lowercase character (a-z) \n 4. At least one number (0-9) \n All other characters forbidden");
         }//end 
-        //=====================================================================
        
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
         // PURPOSE: Checks if the inputs are correct if it is then the user is 
         //          added to the xml file
         // PARAMS:  None.
-        // UPDATED: 11/3/14
+        // UPDATED: 11/5/14     Email is no longer required. Jeff Henry
         //=====================================================================
         private void button2_Click(object sender, EventArgs e)
         {
@@ -52,7 +52,7 @@ namespace Project_Forms
             {
                 MessageBox.Show("Please enter a user name containing the following characters: [a-z][A-Z][0-9] or […]");
             }
-            else if (string.IsNullOrWhiteSpace(na_password.Text) || checkInput(na_firstname.Text) || na_password.Text.Length < 6 || string.IsNullOrWhiteSpace(na_email.Text) || string.IsNullOrWhiteSpace(na_verifyemail.Text)) // make sure format is correct for password
+            else if (string.IsNullOrWhiteSpace(na_password.Text) || checkInput(na_firstname.Text) || na_password.Text.Length < 6) // make sure format is correct for password
             {
                 MessageBox.Show(error);
             }
@@ -60,7 +60,7 @@ namespace Project_Forms
             {
                 MessageBox.Show("Emails do not match. Try Again.");
             }
-            else if (!IsValidEmail(na_email.Text))
+            else if (!string.IsNullOrWhiteSpace(na_email.Text) && !IsValidEmail(na_email.Text))
             {
                 MessageBox.Show("Please enter a valid email address (johndoe@aol.com).");
             }
@@ -74,10 +74,10 @@ namespace Project_Forms
                     this.Close();
                 }
                 else 
-                    {
-                       string encryptedPass = newUser.Encrypt(na_password.Text, "password");// encrypt the password, need to decrypt it later 10/27/2014
-                       newUser.addNewUser(na_username.Text, encryptedPass, admin_chkbox.Checked, na_firstname.Text, na_lastname.Text, na_email.Text);
-                    }
+                {
+                    string encryptedPass = newUser.Encrypt(na_password.Text, "password");// encrypt the password, need to decrypt it later 10/27/2014
+                    newUser.addNewUser(na_username.Text, encryptedPass, admin_chkbox.Checked, na_firstname.Text, na_lastname.Text, na_email.Text);
+                }
                 this.Refresh();
                 this.Close();
             }
@@ -88,33 +88,23 @@ namespace Project_Forms
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
         // PURPOSE: To check if the correct format is entered into the password and username
         // PARAMS:  The userName from the textboxes.
-        // UPDATED: 11/3/14
+        // UPDATED: 11/5/14     Refactored      Jeff Henry
         //=====================================================================
         private bool checkInput(string userName)
         {
             string regex = @"^[a-zA-Z0-9_]*$"; // for the username only letters, numbers, and underscores
             Match m = Regex.Match(userName, regex, RegexOptions.IgnoreCase);
-            if (!m.Success)
-            {
-                return true;
-            }
+            if (!m.Success){return true;}
             else
             {
                 for (int i = 0; i < userName.Length; i++) // check for spaces between the string and return true 
                 {
-                    if (char.IsWhiteSpace(userName, i))
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    if (char.IsWhiteSpace(userName, i)){return true;}
+                    //else{return false;}
                 }
                 return false;
             }
         }//end checkInput
-        //=====================================================================
 
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
@@ -127,14 +117,13 @@ namespace Project_Forms
             int stringSize = na_username.Text.Length;
             if (stringSize < 5)
             {
-                errorProvider1.SetError(na_username, "Needs to be at least 5 characters."); //errorProvider enabled if username is < 5
+                errorProvider1.SetError(na_username, "Needs to be at least 5 characters."); 
             }
             else
             {
                 errorProvider1.Clear();
             }
-        }//end 
-        //=====================================================================
+        }//end
 
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
@@ -147,14 +136,13 @@ namespace Project_Forms
             var stringSize = na_password.Text.Length;
             if (stringSize < 6)
             {
-                errorProvider2.SetError(na_password, "Needs to be at least 6 characters."); //errorProvider enabled if password is < 6
+                errorProvider2.SetError(na_password, "Needs to be at least 6 characters."); 
             }
             else
             {
                 errorProvider2.Clear();
             }
-        }//end 
-        //=====================================================================
+        }//end
 
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
@@ -165,8 +153,7 @@ namespace Project_Forms
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
-        }//end 
-        //=====================================================================
+        }//end
 
         string oldText = string.Empty;
 
@@ -194,8 +181,7 @@ namespace Project_Forms
                 na_firstname.ForeColor = System.Drawing.Color.White;
             }
             na_firstname.SelectionStart = na_firstname.Text.Length;
-        }//end 
-        //=====================================================================
+        }//end
 
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
@@ -221,8 +207,7 @@ namespace Project_Forms
                 na_lastname.ForeColor = System.Drawing.Color.White;
             }
             na_lastname.SelectionStart = na_lastname.Text.Length;
-        }//end textBox4_TextChanged
-        //=====================================================================
+        }//end
 
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
@@ -232,18 +217,12 @@ namespace Project_Forms
         //=====================================================================
         public bool IsValidEmail(string emailaddress)
         {
-                try
-                {
-                    MailAddress m = new MailAddress(emailaddress);
-
-                    return true;
-                }
-                catch (FormatException)
-                {
-                    return false;
-                }
-        }//end isValidEmail
-        //=====================================================================
-
+            try
+            {
+                MailAddress m = new MailAddress(emailaddress);
+                return true;
+            }
+            catch (FormatException){return false;}
+        }//end 
     }
 }
