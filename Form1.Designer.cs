@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Home));
             this.date_label = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.username_label = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +47,7 @@
             this.time_stamp = new System.Windows.Forms.Label();
             this.username_box = new System.Windows.Forms.TextBox();
             this.pass_box = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.pass_label = new System.Windows.Forms.Label();
             this.tab_control = new System.Windows.Forms.TabControl();
             this.home_tab = new System.Windows.Forms.TabPage();
             this.home_user_details = new System.Windows.Forms.RichTextBox();
@@ -123,14 +123,14 @@
             this.date_label.TabIndex = 0;
             this.date_label.Text = "Date";
             // 
-            // label3
+            // username_label
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(402, 143);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Username:";
+            this.username_label.AutoSize = true;
+            this.username_label.Location = new System.Drawing.Point(402, 143);
+            this.username_label.Name = "username_label";
+            this.username_label.Size = new System.Drawing.Size(58, 13);
+            this.username_label.TabIndex = 6;
+            this.username_label.Text = "Username:";
             // 
             // menuStrip1
             // 
@@ -223,7 +223,7 @@
             // 
             // login_btn
             // 
-            this.login_btn.Location = new System.Drawing.Point(544, 193);
+            this.login_btn.Location = new System.Drawing.Point(541, 224);
             this.login_btn.Name = "login_btn";
             this.login_btn.Size = new System.Drawing.Size(75, 21);
             this.login_btn.TabIndex = 4;
@@ -249,20 +249,20 @@
             // 
             // pass_box
             // 
-            this.pass_box.Location = new System.Drawing.Point(464, 167);
+            this.pass_box.Location = new System.Drawing.Point(464, 180);
             this.pass_box.Name = "pass_box";
             this.pass_box.PasswordChar = '*';
             this.pass_box.Size = new System.Drawing.Size(152, 20);
             this.pass_box.TabIndex = 3;
             // 
-            // label5
+            // pass_label
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(402, 170);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(56, 13);
-            this.label5.TabIndex = 14;
-            this.label5.Text = "Password:";
+            this.pass_label.AutoSize = true;
+            this.pass_label.Location = new System.Drawing.Point(402, 183);
+            this.pass_label.Name = "pass_label";
+            this.pass_label.Size = new System.Drawing.Size(56, 13);
+            this.pass_label.TabIndex = 14;
+            this.pass_label.Text = "Password:";
             // 
             // tab_control
             // 
@@ -279,8 +279,8 @@
             // home_tab
             // 
             this.home_tab.Controls.Add(this.home_user_details);
-            this.home_tab.Controls.Add(this.label5);
-            this.home_tab.Controls.Add(this.label3);
+            this.home_tab.Controls.Add(this.pass_label);
+            this.home_tab.Controls.Add(this.username_label);
             this.home_tab.Controls.Add(this.pass_box);
             this.home_tab.Controls.Add(this.login_btn);
             this.home_tab.Controls.Add(this.username_box);
@@ -297,7 +297,7 @@
             // home_user_details
             // 
             this.home_user_details.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.home_user_details.Location = new System.Drawing.Point(6, 251);
+            this.home_user_details.Location = new System.Drawing.Point(6, 256);
             this.home_user_details.Name = "home_user_details";
             this.home_user_details.ReadOnly = true;
             this.home_user_details.Size = new System.Drawing.Size(296, 108);
@@ -309,7 +309,7 @@
             // 
             this.welcome_msg.AutoSize = true;
             this.welcome_msg.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.welcome_msg.Location = new System.Drawing.Point(311, 84);
+            this.welcome_msg.Location = new System.Drawing.Point(428, 91);
             this.welcome_msg.Name = "welcome_msg";
             this.welcome_msg.Size = new System.Drawing.Size(188, 24);
             this.welcome_msg.TabIndex = 1;
@@ -365,6 +365,7 @@
             // ee_expense_input
             // 
             this.ee_expense_input.Location = new System.Drawing.Point(202, 92);
+            this.ee_expense_input.MaxLength = 6;
             this.ee_expense_input.Name = "ee_expense_input";
             this.ee_expense_input.Size = new System.Drawing.Size(187, 20);
             this.ee_expense_input.TabIndex = 1;
@@ -793,7 +794,7 @@
         #endregion
 
         private System.Windows.Forms.Label date_label;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label username_label;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.Button login_btn;
@@ -801,7 +802,7 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.TextBox username_box;
         private System.Windows.Forms.TextBox pass_box;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label pass_label;
         private System.Windows.Forms.ToolStripMenuItem administrationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;

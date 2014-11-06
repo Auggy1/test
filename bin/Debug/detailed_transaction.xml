@@ -51,4 +51,18 @@
     <Category>Automobile</Category>
     <Date>2014-11-05T00:00:00</Date>
   </Transaction>
+  <Transaction>
+    <Added_by>jhenry</Added_by>
+    <Expenditure>20.00</Expenditure>
+    <Comments></Comments>
+    <Category>Commissions &amp; Fees</Category>
+    <Date>2014-11-06T00:00:00</Date>
+  </Transaction>
+  <Transaction>
+    <Added_by>jhenry</Added_by>
+    <Expenditure>85</Expenditure>
+    <Comments></Comments>
+    <Category>Mileage</Category>
+    <Date>2014-11-06T00:00:00</Date>
+  </Transaction>
 </All_Transactions>

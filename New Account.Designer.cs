@@ -40,17 +40,17 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.na_username = new System.Windows.Forms.TextBox();
+            this.na_firstname = new System.Windows.Forms.TextBox();
+            this.na_password = new System.Windows.Forms.TextBox();
+            this.na_lastname = new System.Windows.Forms.TextBox();
+            this.na_email = new System.Windows.Forms.TextBox();
+            this.na_verifyemail = new System.Windows.Forms.TextBox();
+            this.na_cancel_btn = new System.Windows.Forms.Button();
+            this.na_submit_btn = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.admin_chkbox = new System.Windows.Forms.CheckBox();
             this.label11 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
@@ -150,70 +150,70 @@
             this.label10.TabIndex = 9;
             this.label10.Text = "( At least 6 characters )";
             // 
-            // textBox1
+            // na_username
             // 
-            this.textBox1.Location = new System.Drawing.Point(83, 35);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.na_username.Location = new System.Drawing.Point(83, 35);
+            this.na_username.Name = "na_username";
+            this.na_username.Size = new System.Drawing.Size(100, 20);
+            this.na_username.TabIndex = 0;
+            this.na_username.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
-            // textBox2
+            // na_firstname
             // 
-            this.textBox2.Location = new System.Drawing.Point(82, 124);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 2;
+            this.na_firstname.Location = new System.Drawing.Point(82, 124);
+            this.na_firstname.Name = "na_firstname";
+            this.na_firstname.Size = new System.Drawing.Size(100, 20);
+            this.na_firstname.TabIndex = 2;
             // 
-            // textBox3
+            // na_password
             // 
-            this.textBox3.Location = new System.Drawing.Point(82, 63);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.PasswordChar = '*';
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
-            this.textBox3.TabIndex = 1;
-            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
+            this.na_password.Location = new System.Drawing.Point(82, 63);
+            this.na_password.Name = "na_password";
+            this.na_password.PasswordChar = '*';
+            this.na_password.Size = new System.Drawing.Size(100, 20);
+            this.na_password.TabIndex = 1;
+            this.na_password.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
-            // textBox4
+            // na_lastname
             // 
-            this.textBox4.Location = new System.Drawing.Point(83, 150);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(100, 20);
-            this.textBox4.TabIndex = 3;
+            this.na_lastname.Location = new System.Drawing.Point(83, 150);
+            this.na_lastname.Name = "na_lastname";
+            this.na_lastname.Size = new System.Drawing.Size(100, 20);
+            this.na_lastname.TabIndex = 3;
             // 
-            // textBox5
+            // na_email
             // 
-            this.textBox5.Location = new System.Drawing.Point(83, 176);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(188, 20);
-            this.textBox5.TabIndex = 4;
+            this.na_email.Location = new System.Drawing.Point(83, 176);
+            this.na_email.Name = "na_email";
+            this.na_email.Size = new System.Drawing.Size(188, 20);
+            this.na_email.TabIndex = 4;
             // 
-            // textBox6
+            // na_verifyemail
             // 
-            this.textBox6.Location = new System.Drawing.Point(83, 202);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(188, 20);
-            this.textBox6.TabIndex = 5;
+            this.na_verifyemail.Location = new System.Drawing.Point(83, 202);
+            this.na_verifyemail.Name = "na_verifyemail";
+            this.na_verifyemail.Size = new System.Drawing.Size(188, 20);
+            this.na_verifyemail.TabIndex = 5;
             // 
-            // button1
+            // na_cancel_btn
             // 
-            this.button1.Location = new System.Drawing.Point(185, 232);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Cancel";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.na_cancel_btn.Location = new System.Drawing.Point(185, 232);
+            this.na_cancel_btn.Name = "na_cancel_btn";
+            this.na_cancel_btn.Size = new System.Drawing.Size(75, 23);
+            this.na_cancel_btn.TabIndex = 7;
+            this.na_cancel_btn.Text = "Cancel";
+            this.na_cancel_btn.UseVisualStyleBackColor = true;
+            this.na_cancel_btn.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button2
+            // na_submit_btn
             // 
-            this.button2.Location = new System.Drawing.Point(12, 232);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "Submit";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.na_submit_btn.Location = new System.Drawing.Point(12, 232);
+            this.na_submit_btn.Name = "na_submit_btn";
+            this.na_submit_btn.Size = new System.Drawing.Size(75, 23);
+            this.na_submit_btn.TabIndex = 6;
+            this.na_submit_btn.Text = "Submit";
+            this.na_submit_btn.UseVisualStyleBackColor = true;
+            this.na_submit_btn.Click += new System.EventHandler(this.button2_Click);
             // 
             // errorProvider1
             // 
@@ -223,14 +223,14 @@
             // 
             this.errorProvider2.ContainerControl = this;
             // 
-            // checkBox1
+            // admin_chkbox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(296, 124);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(15, 14);
-            this.checkBox1.TabIndex = 10;
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.admin_chkbox.AutoSize = true;
+            this.admin_chkbox.Location = new System.Drawing.Point(296, 124);
+            this.admin_chkbox.Name = "admin_chkbox";
+            this.admin_chkbox.Size = new System.Drawing.Size(15, 14);
+            this.admin_chkbox.TabIndex = 10;
+            this.admin_chkbox.UseVisualStyleBackColor = true;
             // 
             // label11
             // 
@@ -243,20 +243,20 @@
             // 
             // New_Account
             // 
-            this.AcceptButton = this.button2;
+            this.AcceptButton = this.na_submit_btn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(333, 263);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox6);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.admin_chkbox);
+            this.Controls.Add(this.na_submit_btn);
+            this.Controls.Add(this.na_cancel_btn);
+            this.Controls.Add(this.na_verifyemail);
+            this.Controls.Add(this.na_email);
+            this.Controls.Add(this.na_lastname);
+            this.Controls.Add(this.na_password);
+            this.Controls.Add(this.na_firstname);
+            this.Controls.Add(this.na_username);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
@@ -289,18 +289,18 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox na_username;
+        private System.Windows.Forms.TextBox na_firstname;
+        private System.Windows.Forms.TextBox na_password;
+        private System.Windows.Forms.TextBox na_lastname;
+        private System.Windows.Forms.TextBox na_email;
+        private System.Windows.Forms.TextBox na_verifyemail;
+        private System.Windows.Forms.Button na_cancel_btn;
+        private System.Windows.Forms.Button na_submit_btn;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.ErrorProvider errorProvider2;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox admin_chkbox;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolTip toolTip2;
     }

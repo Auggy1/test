@@ -48,19 +48,19 @@ namespace Project_Forms
         private void button2_Click(object sender, EventArgs e)
         {
             string error = "Incorrect Login Information"; // error meessage
-            if (string.IsNullOrWhiteSpace(textBox1.Text) || checkInput(textBox1.Text) || textBox1.Text.Length < 5) // make sure format is correct for username
+            if (string.IsNullOrWhiteSpace(na_username.Text) || checkInput(na_username.Text) || na_username.Text.Length < 5) // make sure format is correct for username
             {
                 MessageBox.Show("Please enter a user name containing the following characters: [a-z][A-Z][0-9] or […]");
             }
-            else if (string.IsNullOrWhiteSpace(textBox3.Text) || checkInput(textBox2.Text) || textBox3.Text.Length < 6 || string.IsNullOrWhiteSpace(textBox5.Text) || string.IsNullOrWhiteSpace(textBox6.Text)) // make sure format is correct for password
+            else if (string.IsNullOrWhiteSpace(na_password.Text) || checkInput(na_firstname.Text) || na_password.Text.Length < 6 || string.IsNullOrWhiteSpace(na_email.Text) || string.IsNullOrWhiteSpace(na_verifyemail.Text)) // make sure format is correct for password
             {
                 MessageBox.Show(error);
             }
-            else if (!textBox6.Text.Equals(textBox5.Text))
+            else if (!na_verifyemail.Text.Equals(na_email.Text))
             {
                 MessageBox.Show("Emails do not match. Try Again.");
             }
-            else if (!IsValidEmail(textBox5.Text))
+            else if (!IsValidEmail(na_email.Text))
             {
                 MessageBox.Show("Please enter a valid email address (johndoe@aol.com).");
             }
@@ -68,15 +68,15 @@ namespace Project_Forms
             {
                 Data newUser = new Data();
                 
-                if (newUser.userExists(textBox1.Text,checkBox1.Checked))
+                if (newUser.userExists(na_username.Text,admin_chkbox.Checked))
                 {
                     MessageBox.Show("User exists already.");
                     this.Close();
                 }
                 else 
                     {
-                       string encryptedPass = newUser.Encrypt(textBox3.Text, "password");// encrypt the password, need to decrypt it later 10/27/2014
-                       newUser.addNewUser(textBox1.Text, encryptedPass, checkBox1.Checked, textBox2.Text, textBox4.Text, textBox5.Text);
+                       string encryptedPass = newUser.Encrypt(na_password.Text, "password");// encrypt the password, need to decrypt it later 10/27/2014
+                       newUser.addNewUser(na_username.Text, encryptedPass, admin_chkbox.Checked, na_firstname.Text, na_lastname.Text, na_email.Text);
                     }
                 this.Refresh();
                 this.Close();
@@ -124,10 +124,10 @@ namespace Project_Forms
         //=====================================================================
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            int stringSize = textBox1.Text.Length;
+            int stringSize = na_username.Text.Length;
             if (stringSize < 5)
             {
-                errorProvider1.SetError(textBox1, "Needs to be at least 5 characters."); //errorProvider enabled if username is < 5
+                errorProvider1.SetError(na_username, "Needs to be at least 5 characters."); //errorProvider enabled if username is < 5
             }
             else
             {
@@ -144,10 +144,10 @@ namespace Project_Forms
         //=====================================================================
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
-            var stringSize = textBox3.Text.Length;
+            var stringSize = na_password.Text.Length;
             if (stringSize < 6)
             {
-                errorProvider2.SetError(textBox3, "Needs to be at least 6 characters."); //errorProvider enabled if password is < 6
+                errorProvider2.SetError(na_password, "Needs to be at least 6 characters."); //errorProvider enabled if password is < 6
             }
             else
             {
@@ -178,22 +178,22 @@ namespace Project_Forms
         //=====================================================================
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            if (textBox2.Text.All(chr => char.IsLetter(chr)))
+            if (na_firstname.Text.All(chr => char.IsLetter(chr)))
             {
-                oldText = textBox2.Text;
-                textBox2.Text = oldText;
+                oldText = na_firstname.Text;
+                na_firstname.Text = oldText;
 
-                textBox2.BackColor = System.Drawing.Color.White;
-                textBox2.ForeColor = System.Drawing.Color.Black;
+                na_firstname.BackColor = System.Drawing.Color.White;
+                na_firstname.ForeColor = System.Drawing.Color.Black;
             }
             else
             {
-                textBox2.Text = oldText;
-                textBox2.BackColor = System.Drawing.Color.Red;
+                na_firstname.Text = oldText;
+                na_firstname.BackColor = System.Drawing.Color.Red;
                 MessageBox.Show("Please enter a first name.");
-                textBox2.ForeColor = System.Drawing.Color.White;
+                na_firstname.ForeColor = System.Drawing.Color.White;
             }
-            textBox2.SelectionStart = textBox2.Text.Length;
+            na_firstname.SelectionStart = na_firstname.Text.Length;
         }//end 
         //=====================================================================
 
@@ -205,22 +205,22 @@ namespace Project_Forms
         //=====================================================================
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
-            if (textBox4.Text.All(chr => char.IsLetter(chr)))
+            if (na_lastname.Text.All(chr => char.IsLetter(chr)))
             {
-                oldText = textBox4.Text;
-                textBox4.Text = oldText;
+                oldText = na_lastname.Text;
+                na_lastname.Text = oldText;
 
-                textBox4.BackColor = System.Drawing.Color.White;
-                textBox4.ForeColor = System.Drawing.Color.Black;
+                na_lastname.BackColor = System.Drawing.Color.White;
+                na_lastname.ForeColor = System.Drawing.Color.Black;
             }
             else
             {
-                textBox4.Text = oldText;
-                textBox4.BackColor = System.Drawing.Color.Red;
+                na_lastname.Text = oldText;
+                na_lastname.BackColor = System.Drawing.Color.Red;
                 MessageBox.Show("Please enter a last name.");
-                textBox4.ForeColor = System.Drawing.Color.White;
+                na_lastname.ForeColor = System.Drawing.Color.White;
             }
-            textBox4.SelectionStart = textBox4.Text.Length;
+            na_lastname.SelectionStart = na_lastname.Text.Length;
         }//end textBox4_TextChanged
         //=====================================================================
 
