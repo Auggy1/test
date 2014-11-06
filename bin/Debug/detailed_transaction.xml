@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!--This database will store transactions under <Detailed_Transaction> label-->
+<!--This transaction history will be stored under History_Username-->
+<All_Transactions>
+  <Transaction>
+    <Added_by>admin</Added_by>
+    <Expenditure>111.10</Expenditure>
+    <Comments>nioce</Comments>
+    <Category>Insurance (health)</Category>
+    <Date>2014-11-03T00:00:00</Date>
+  </Transaction>
+  <Transaction>
+    <Added_by>admin</Added_by>
+    <Expenditure>111.00</Expenditure>
+    <Comments>nice</Comments>
+    <Category>Contract labor</Category>
+    <Date>2014-10-27T00:00:00</Date>
+  </Transaction>
+  <Transaction>
+    <Added_by>maxwell</Added_by>
+    <Expenditure>111556.00</Expenditure>
+    <Comments>Okay. </Comments>
+    <Category>Automobile</Category>
+    <Date>2014-11-03T00:00:00</Date>
+  </Transaction>
+  <Transaction>
+    <Added_by>admin</Added_by>
+    <Expenditure>999999</Expenditure>
+    <Comments></Comments>
+    <Category>Mileage</Category>
+    <Date>2014-08-25T00:00:00</Date>
+  </Transaction>
+  <Transaction>
+    <Added_by>admin</Added_by>
+    <Expenditure>1111</Expenditure>
+    <Comments></Comments>
+    <Category>Mileage</Category>
+    <Date>2014-11-03T00:00:00</Date>
+  </Transaction>
+  <Transaction>
+    <Added_by>admin</Added_by>
+    <Expenditure>234234.00</Expenditure>
+    <Comments>DICKS</Comments>
+    <Category>Advertising</Category>
+    <Date>2014-11-03T00:00:00</Date>
+  </Transaction>
+</All_Transactions>

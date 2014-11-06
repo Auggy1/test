@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!--This database will store transactions under <Transaction> label-->
+<!--This transaction history will be stored under History_Username-->
+<App_Records>
+  <All_Transactions>
+    <Transaction Id="1">
+      <Added_by>admin</Added_by>
+      <Expenditure>111.10</Expenditure>
+      <Comments>nioce</Comments>
+      <Category>Insurance (health)</Category>
+      <Date>2014-11-03T00:00:00</Date>
+    </Transaction>
+    <Transaction Id="2">
+      <Added_by>admin</Added_by>
+      <Expenditure>111.00</Expenditure>
+      <Comments>nice</Comments>
+      <Category>Contract labor</Category>
+      <Date>2014-10-27T00:00:00</Date>
+    </Transaction>
+    <Transaction Id="3">
+      <Added_by>maxwell</Added_by>
+      <Expenditure>111556.00</Expenditure>
+      <Comments>Okay. </Comments>
+      <Category>Automobile</Category>
+      <Date>2014-11-03T00:00:00</Date>
+    </Transaction>
+    <Transaction Id="4">
+      <Added_by>admin</Added_by>
+      <Expenditure>999999</Expenditure>
+      <Comments></Comments>
+      <Category>Mileage</Category>
+      <Date>2014-08-25T00:00:00</Date>
+    </Transaction>
+    <Transaction Id="5">
+      <Added_by>admin</Added_by>
+      <Expenditure>1111</Expenditure>
+      <Comments></Comments>
+      <Category>Mileage</Category>
+      <Date>2014-11-03T00:00:00</Date>
+    </Transaction>
+    <Transaction Id="6">
+      <Added_by>admin</Added_by>
+      <Expenditure>234234.00</Expenditure>
+      <Comments>DICKS</Comments>
+      <Category>Advertising</Category>
+      <Date>2014-11-03T00:00:00</Date>
+    </Transaction>
+  </All_Transactions>
+  <Change_History>
+    <DefaultID>7</DefaultID>
+    <Record ChangeID="1">
+      <Transaction_Date>2014-11-03T00:00:00</Transaction_Date>
+      <Adding_user>admin</Adding_user>
+    </Record>
+    <Record ChangeID="2">
+      <Transaction_Date>2014-10-27T00:00:00</Transaction_Date>
+      <Adding_user>admin</Adding_user>
+    </Record>
+    <Record ChangeID="3">
+      <Transaction_Date>2014-11-03T00:00:00</Transaction_Date>
+      <Adding_user>maxwell</Adding_user>
+    </Record>
+    <Record ChangeID="4">
+      <Transaction_Date>2014-08-25T00:00:00</Transaction_Date>
+      <Adding_user>admin</Adding_user>
+    </Record>
+    <Record ChangeID="5">
+      <Transaction_Date>2014-11-03T00:00:00</Transaction_Date>
+      <Adding_user>admin</Adding_user>
+    </Record>
+    <Record ChangeID="6">
+      <Transaction_Date>2014-11-03T00:00:00</Transaction_Date>
+      <Adding_user>admin</Adding_user>
+    </Record>
+  </Change_History>
+  <Login_History>
+    <Default_login_id>25</Default_login_id>
+    <Log id="1">
+      <User>admin</User>
+      <last_login>2014-11-03T00:00:00Z</last_login>
+    </Log>
+    <Log id="2">
+      <User>admin</User>
+      <last_login>2014-11-03T00:00:00Z</last_login>
+    </Log>
+    <Log id="3">
+      <User>admin</User>
+      <last_login>2014-11-03T00:00:00Z</last_login>
+    </Log>
+    <Log id="4">
+      <User>admin</User>
+      <last_login>2014-11-03T00:00:00Z</last_login>
+    </Log>
+    <Log id="5">
+      <User>admin</User>
+      <last_login>2014-11-03T00:00:00Z</last_login>
+    </Log>
+    <Log id="6">
+      <User>admin</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="7">
+      <User>admin</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="8">
+      <User>admin</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="9">
+      <User>admin</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="10">
+      <User>admin</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="11">
+      <User>maxwell</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="12">
+      <User>admin</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="13">
+      <User>admin</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="14">
+      <User>admin</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="15">
+      <User>admin</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="16">
+      <User>admin</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="17">
+      <User>admin</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="18">
+      <User>admin</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="19">
+      <User>maxwell</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="20">
+      <User>admin</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="21">
+      <User>admin</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="22">
+      <User>admin</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="23">
+      <User>admin</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="24">
+      <User>admin</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="25">
+      <User>admin</User>
+      <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+  </Login_History>
+</App_Records>

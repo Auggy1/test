@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!--This database will store categories under <Categories> label-->
+<All_Categories>
+  <Category>
+    <categoryName>Mileage</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Rent (other)</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Advertising</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Insurance (health)</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Repairs and maintenance</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Automobile</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Interest (mortgage)</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Supplies</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Commissions &amp; Fees</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Interest (other)</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Taxes and licenses</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Contract labor</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Legal &amp; professional fees</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Travel</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Depletion</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Office Expenses</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Travel (Meals &amp; Entertainment)</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Employee benefits</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Pension &amp; profit sharing plans</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Utilities</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Rent (vehicles &amp; equipment)</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Wages</categoryName>
+  </Category>
+</All_Categories>

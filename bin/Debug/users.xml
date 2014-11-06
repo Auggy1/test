@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!--This database will all users under <User> label-->
+<!--This user information will be stored under Username-->
+<Users>
+  <User>
+    <Username>maxwell</Username>
+    <password>IsDFmROP25SA8xtsATQhPg==</password>
+    <firstName>maxwell</firstName>
+    <lastName>partington</lastName>
+    <email>mcpartington@gmail.com</email>
+    <admin>false</admin>
+    <locked>false</locked>
+    <lastLogin>11/3/2014 4:53:39 PM</lastLogin>
+  </User>
+</Users>
