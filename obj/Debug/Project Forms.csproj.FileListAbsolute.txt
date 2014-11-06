@@ -209,3 +209,6 @@ C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Project Forms(1)\Project For
 C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Project Forms\Project Forms\bin\Debug\Venture Business Management.exe.config
 C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Project Forms\Project Forms\obj\Debug\Venture Business Management.exe
 C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Project Forms\Project Forms\obj\Debug\Venture Business Management.pdb
+C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\bin\Debug\Venture Business Management.exe.config
+C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\obj\Debug\Venture Business Management.exe
+C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\obj\Debug\Venture Business Management.pdb
