@@ -45,9 +45,16 @@
       <Category>Advertising</Category>
       <Date>2014-11-03T00:00:00</Date>
     </Transaction>
+    <Transaction Id="7">
+      <Added_by>admin</Added_by>
+      <Expenditure>124.56</Expenditure>
+      <Comments>Example</Comments>
+      <Category>Automobile</Category>
+      <Date>2014-11-05T00:00:00</Date>
+    </Transaction>
   </All_Transactions>
   <Change_History>
-    <DefaultID>7</DefaultID>
+    <DefaultID>8</DefaultID>
     <Record ChangeID="1">
       <Transaction_Date>2014-11-03T00:00:00</Transaction_Date>
       <Adding_user>admin</Adding_user>
@@ -72,9 +79,13 @@
       <Transaction_Date>2014-11-03T00:00:00</Transaction_Date>
       <Adding_user>admin</Adding_user>
     </Record>
+    <Record ChangeID="7">
+      <Transaction_Date>2014-11-05T00:00:00</Transaction_Date>
+      <Adding_user>admin</Adding_user>
+    </Record>
   </Change_History>
   <Login_History>
-    <Default_login_id>25</Default_login_id>
+    <Default_login_id>30</Default_login_id>
     <Log id="1">
       <User>admin</User>
       <last_login>2014-11-03T00:00:00Z</last_login>
@@ -174,6 +185,26 @@
     <Log id="25">
       <User>admin</User>
       <last_login>2014-11-04T00:00:00Z</last_login>
+    </Log>
+    <Log id="26">
+      <User>admin</User>
+      <last_login>2014-11-06T00:00:00Z</last_login>
+    </Log>
+    <Log id="27">
+      <User>admin</User>
+      <last_login>2014-11-06T00:00:00Z</last_login>
+    </Log>
+    <Log id="28">
+      <User>admin</User>
+      <last_login>2014-11-06T00:00:00Z</last_login>
+    </Log>
+    <Log id="29">
+      <User>admin</User>
+      <last_login>2014-11-06T00:00:00Z</last_login>
+    </Log>
+    <Log id="30">
+      <User>admin</User>
+      <last_login>2014-11-06T00:00:00Z</last_login>
     </Log>
   </Login_History>
 </App_Records>

@@ -22,6 +22,7 @@ using System.IO;
 using System.Xml;
 using System.Globalization;
 using System.Threading;
+using System.Timers;
 
 namespace Project_Forms
 {
@@ -40,50 +41,77 @@ namespace Project_Forms
         public Home()
         {
             InitializeComponent();
-            label18.Hide();
+            vr_report_label.Hide();
             //get rid of the * on the history table
             dataGridView2.AllowUserToAddRows = false;
             //comboBox2.Items.AddRange(types);//removed because getting information from XML after user logs in 10/29/2014
-            comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;//set the format to dropdownlist 
+            ee_category_list.DropDownStyle = ComboBoxStyle.DropDownList;//set the format to dropdownlist 
             //comboBox3.Items.AddRange(types); //removed because getting information from XML after user logs in 10/29/2014
-            comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;
+            vr_category_list.DropDownStyle = ComboBoxStyle.DropDownList;
             //comboBox5.Items.AddRange(types);//removed because getting information from XML after user logs in 10/29/2014
-            comboBox5.DropDownStyle = ComboBoxStyle.DropDownList;
+            vh_category_list.DropDownStyle = ComboBoxStyle.DropDownList;
 
             //The already initialized logout button under file is not visible to the user initially
             logOutToolStripMenuItem.Visible = false;
 
-            //Shows the current time at the labels
-            DateTime dateTime = DateTime.UtcNow.Date;
-            textBox3.MaxLength = 6;
-            dateTimePicker1.MaxDate = DateTime.Now; //added 10/27
-            dateTimePicker2.MaxDate = DateTime.Now; //added 10/30
-            dateTimePicker3.MaxDate = DateTime.Now; //added 10/30
-            dateTimePicker4.MaxDate = DateTime.Now; //added 10/27
-            dateTimePicker5.MaxDate = DateTime.Now; //added 10/27
-            label1.Text = DateTime.Now.ToString("MM/dd/yyyy");//Month/date/year format
-            label4.Text = DateTime.Now.ToString("hh:mm tt");  //Time format
+            
+            
+            
+            ee_expense_input.MaxLength = 6;                         // Max length for an expense to be when entered
 
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.StartPosition = FormStartPosition.CenterScreen;
+            /*************************************** Date and Time Displays *******************************************/
+            ee_date_picker.MaxDate = DateTime.Now;                  // Enter Expense date picker
+            vr_end_date_picker.MaxDate = DateTime.Now;              // View Reports start date picker
+            vr_start_date_picker.MaxDate = DateTime.Now;            // View Reports end date picker
+            vh_end_date_picker.MaxDate = DateTime.Now;              // View History start date picker
+            vh_start_date_picker.MaxDate = DateTime.Now;            // View History end date picker
+            date_label.Text = DateTime.Now.ToString("MM/dd/yyyy");  // Month/date/year format for program date display
+            date = DateTime.UtcNow.Date;
 
-            date = dateTime;
+            System.Timers.Timer clk_timer = new System.Timers.Timer(1000);
+            clk_timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            clk_timer.Enabled = true;
+            clk_timer.Start();
 
+            //time_stamp.Text = DateTime.Now.ToString("hh:mm tt");    //Time format
+
+            /****************************************** Hidden labels/tabs ********************************************/
+            welcome_msg.Hide();                                     // Hide the welcome message
             label13.Hide();
-            label2.Hide();
-            tabPage1.Hide();
+
+            home_tab.Hide();
             administrationToolStripMenuItem.Visible = false; 
-            tabcontrol1.Appearance = TabAppearance.FlatButtons;
-            tabcontrol1.ItemSize = new Size(0, 1); 
-            tabcontrol1.SizeMode = TabSizeMode.Fixed;
+            tab_control.Appearance = TabAppearance.FlatButtons;
+            tab_control.ItemSize = new Size(0, 1); 
+            tab_control.SizeMode = TabSizeMode.Fixed;
             var source0 = new AutoCompleteStringCollection();
 
-        }//end home
-        //=====================================================================
+        }// end home
 
         //=====================================================================
+        // Purpose: These functions were required because the OnTimeEvent 
+        //          function comes from another thread context than the UI 
+        //          thread, so we have to use a dispatcher to make it work.
+        //=====================================================================
+        delegate void SetTextCallback(string text);
+        private void SetText(string text)
+        {
+            if (this.time_stamp.InvokeRequired)
+            {
+                SetTextCallback d = new SetTextCallback(SetText);
+                this.Invoke(d, new object[] { text });
+            }
+            else{this.time_stamp.Text = text;}
+        }
+
+        //=====================================================================
+        // Purpose: Provides a dynamic clock on the UI.
+        //=====================================================================
+        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            string txt = DateTime.Now.ToString("HH:mm:ss tt");
+            SetText(txt);
+        }
         //===================================================================== 
         // Purpose: Button4 is the Select button. The event is meant to confirm 
         //          the users identity by showing the users name in a text box 
@@ -110,20 +138,20 @@ namespace Project_Forms
             // checks of the user's input to make sure they actually exist
             // in the system, they have the proper username and password,
             // and if they are an admin or not. 
-            if ((textBox1.Text== "") || (textBox1.TextLength < 5))
+            if ((username_box.Text== "") || (username_box.TextLength < 5))
             {
                 MessageBox.Show("Incorrect login information.");
-                textBox1.Clear();
+                username_box.Clear();
             }
-            else if  ((textBox2.Text=="") || (textBox2.TextLength <5))
+            else if  ((pass_box.Text=="") || (pass_box.TextLength <5))
             {
                 MessageBox.Show("Incorrect login information.");
-                textBox2.Clear();
+                pass_box.Clear();
             }
-            else if (textBox1.Text != "" && textBox2.Text != "")
+            else if (username_box.Text != "" && pass_box.Text != "")
             {
-                user = textBox1.Text;
-                password = textBox2.Text;
+                user = username_box.Text;
+                password = pass_box.Text;
                     // Perform the proper checks of the user. 
                     isAdmin = userChecks.checkAdmin(user);
                     exists = userChecks.userExists(user, isAdmin);
@@ -134,46 +162,46 @@ namespace Project_Forms
                     // data and buttons/labels for the specific users. 
                     if (exists == true && validPassword == true)
                     {
-                        label2.Text = "Welcome " + user + "!"; 
-                        label2.Show();
-                        richTextBox1.Text = userChecks.fillInLoginInfo(user, isAdmin);
+                        welcome_msg.Text = "Welcome " + user + "!"; 
+                        welcome_msg.Show();
+                        home_user_details.Text = userChecks.fillInLoginInfo(user, isAdmin);
                         userChecks.updateLastLogin(user, isAdmin); 
 
-                        tabcontrol1.Appearance = TabAppearance.Normal;
-                        tabcontrol1.ItemSize =  new Size(20, 20);
-                        tabcontrol1.SizeMode = TabSizeMode.Normal;
+                        tab_control.Appearance = TabAppearance.Normal;
+                        tab_control.ItemSize =  new Size(20, 20);
+                        tab_control.SizeMode = TabSizeMode.Normal;
                         logOutToolStripMenuItem.Visible = true; 
 
                         if (isAdmin)
                         {
-                            tabcontrol1.SelectedTab = tabPage3;
-                            label2.Show();
-                            button4.Hide();
-                            textBox1.Hide();
-                            textBox2.Hide();
+                            tab_control.SelectedTab = vr_tab;
+                            welcome_msg.Show();
+                            login_btn.Hide();
+                            username_box.Hide();
+                            pass_box.Hide();
                             label3.Hide();
                             label5.Hide();
                             dataGridView2.Show();
-                            comboBox4.Show();
-                            comboBox5.Show();
-                            dateTimePicker4.Show();
-                            dateTimePicker5.Show();
+                            vh_user_list.Show();
+                            vh_category_list.Show();
+                            vh_end_date_picker.Show();
+                            vh_start_date_picker.Show();
                             label19.Show();
                             label17.Show();
                             label20.Show();
                             label21.Show();
-                            button6.Show();
+                            vh_search_btn.Show();
                             administrationToolStripMenuItem.Visible = true;
                         }
                         else if (!isAdmin)
                         {
-                            tabcontrol1.SelectedTab = tabPage2; 
+                            tab_control.SelectedTab = ee_tab; 
                             //Admin information 
                             dataGridView2.Hide();
-                            comboBox4.Hide();
-                            comboBox5.Hide();
-                            dateTimePicker4.Hide();
-                            dateTimePicker5.Hide();
+                            vh_user_list.Hide();
+                            vh_category_list.Hide();
+                            vh_end_date_picker.Hide();
+                            vh_start_date_picker.Hide();
                             label19.Hide();
                             label17.Hide();
                             label20.Hide();
@@ -181,10 +209,10 @@ namespace Project_Forms
                             //================
 
                             label13.Show();
-                            button6.Hide();
-                            textBox1.Hide();
-                            textBox2.Hide();
-                            button4.Hide();
+                            vh_search_btn.Hide();
+                            username_box.Hide();
+                            pass_box.Hide();
+                            login_btn.Hide();
                             label3.Hide();
                             label5.Hide();
                         }
@@ -192,35 +220,35 @@ namespace Project_Forms
                       
                         // This call loads the categories after logging in so there needs to be a user logged in to do anything. 
                         // This list does not contain "All Categories". 
-                        comboBox2.Items.Clear();
-                        comboBox2.Items.AddRange(userChecks.addCategories().ToArray());
+                        ee_category_list.Items.Clear();
+                        ee_category_list.Items.AddRange(userChecks.addCategories().ToArray());
                
                         // This call loads the categories after logging in so there needs to be a user logged in to do anything.
-                        comboBox5.Items.Clear();//no duplicates
-                        comboBox5.Items.AddRange(login.loadCategoryList().ToArray());
+                        vh_category_list.Items.Clear();//no duplicates
+                        vh_category_list.Items.AddRange(login.loadCategoryList().ToArray());
                       
                         // This call loads the list of users into the comboBox on the view history tab.
-                        comboBox4.Items.Clear();//no duplicates
-                        comboBox4.Items.AddRange(login.loadUserList().ToArray());
+                        vh_user_list.Items.Clear();//no duplicates
+                        vh_user_list.Items.AddRange(login.loadUserList().ToArray());
                       
                         // This call loads the categories after logging in so there needs to be a user logged in to do anything.
-                        comboBox3.Items.Clear(); //no duplicates
-                        comboBox3.Items.AddRange(login.loadCategoryList().ToArray());
+                        vr_category_list.Items.Clear(); //no duplicates
+                        vr_category_list.Items.AddRange(login.loadCategoryList().ToArray());
 
                         // This adds the login history of the user. 
-                        login.add_history(textBox1.Text, date);
+                        login.add_history(username_box.Text, date);
                     }
                     else if (exists == false)
                     {
                         MessageBox.Show("Incorrect login information.", "ERROR");
-                        textBox1.Clear();
-                        textBox2.Clear();
+                        username_box.Clear();
+                        pass_box.Clear();
                     }
 
                     else if (validPassword == false)
                     {
                         MessageBox.Show("Incorrect login information.", "ERROR");
-                        textBox2.Clear();
+                        pass_box.Clear();
                     }
             }
         }//end button4_Click
@@ -249,23 +277,23 @@ namespace Project_Forms
         //=====================================================================
         private void logOutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            tabcontrol1.SelectedTab = tabPage1; 
+            tab_control.SelectedTab = home_tab; 
             label13.Hide();
-            label2.Hide();
-            tabPage1.Hide();
+            welcome_msg.Hide();
+            home_tab.Hide();
             logOutToolStripMenuItem.Visible = false; 
             administrationToolStripMenuItem.Visible = false;
-            tabcontrol1.Appearance = TabAppearance.FlatButtons;
-            tabcontrol1.ItemSize = new Size(0, 1);
-            tabcontrol1.SizeMode = TabSizeMode.Fixed;
-            button4.Show();
-            textBox1.Show();
-            textBox2.Show();
+            tab_control.Appearance = TabAppearance.FlatButtons;
+            tab_control.ItemSize = new Size(0, 1);
+            tab_control.SizeMode = TabSizeMode.Fixed;
+            login_btn.Show();
+            username_box.Show();
+            pass_box.Show();
             label3.Show();
             label5.Show();
-            textBox1.Clear();
-            textBox2.Clear();
-            richTextBox1.Text = "Venture Business Management";
+            username_box.Clear();
+            pass_box.Clear();
+            home_user_details.Text = "Venture Business Management";
         }//end logOutToolStripMenuItem
         //=====================================================================
 
@@ -317,22 +345,22 @@ namespace Project_Forms
         private void button5_Click(object sender, EventArgs e)
         {
             decimal d;
-            if (comboBox2.Text == "")//Make sure a category is picked
+            if (ee_category_list.Text == "")//Make sure a category is picked
             {
                 MessageBox.Show("Please select a category.", "ERROR");
             }
 
-            else if (textBox3.Text == "")//make sure something is entered for the text box
+            else if (ee_expense_input.Text == "")//make sure something is entered for the text box
             {
                 MessageBox.Show("Error: You forgot to enter an expense", "Error!");
             }
-            else if (!decimal.TryParse(textBox3.Text, out d))
+            else if (!decimal.TryParse(ee_expense_input.Text, out d))
             {
                 MessageBox.Show("Please enter a valid expense. (Ex. 1234.56)");
-                textBox3.Clear();
+                ee_expense_input.Clear();
                 return;
             }
-            else if (comboBox2.Text == "Mileage" && !decimal.TryParse(textBox3.Text, out d))
+            else if (ee_category_list.Text == "Mileage" && !decimal.TryParse(ee_expense_input.Text, out d))
             {
                 MessageBox.Show("Please enter a valid mileage. (Ex. 1234.5)");
             }
@@ -340,38 +368,38 @@ namespace Project_Forms
             {                                     // when entering data. 
                 MessageBox.Show("You must enter comments for your expense.");
             }*/
-            else if (Convert.ToDecimal(textBox3.Text) == 0)//no 0 values allowed for expense
+            else if (Convert.ToDecimal(ee_expense_input.Text) == 0)//no 0 values allowed for expense
             {
                 MessageBox.Show("The entry you are trying to enter is Free (Does not need to be recorded).", "Error!");
             }
 
             else// convert the contents of the input to the correct formats and pass them to an add transaction function in Control
             {
-                if (!checkExpenseInput(textBox3.Text) && comboBox2.Text != "Mileage")//added 10/30/2014 checks for decimal and correct formatting if it's not mileage
+                if (!checkExpenseInput(ee_expense_input.Text) && ee_category_list.Text != "Mileage")//added 10/30/2014 checks for decimal and correct formatting if it's not mileage
                 {
                     MessageBox.Show("Incorrect format. Try again.");
                 }
-                else if (comboBox2.Text == "Mileage" && textBox3.Text.Contains("."))
+                else if (ee_category_list.Text == "Mileage" && ee_expense_input.Text.Contains("."))
                 {
                     MessageBox.Show("Incorrect format. Try again."); //mileage should not have decimal
                 }
-                else if (comboBox2.Text == "Mileage" && textBox3.TextLength > 6) //mileage should not be over 6 digits added: 11/2/2014
+                else if (ee_category_list.Text == "Mileage" && ee_expense_input.TextLength > 6) //mileage should not be over 6 digits added: 11/2/2014
                 {
                     MessageBox.Show("Error, input too large.");
                 }
                 else
                 {
-                    decimal expense = Convert.ToDecimal(textBox3.Text);
-                    DateTime date = Convert.ToDateTime(dateTimePicker1.Value.ToShortDateString());
+                    decimal expense = Convert.ToDecimal(ee_expense_input.Text);
+                    DateTime date = Convert.ToDateTime(ee_date_picker.Value.ToShortDateString());
                     Control newdata = new Control();
                     Data dataCaller = new Data();
 
-                    dataCaller.add_detailed(expense, comboBox2.Text, date, textBox1.Text, richTextBox2.Text);
-                    newdata.addatransaction(expense, comboBox2.Text, date, textBox1.Text, richTextBox2.Text);
-                    comboBox2.SelectedIndex = -1;
-                    dateTimePicker1.Value = DateTime.Today;
-                    textBox3.Clear();
-                    richTextBox2.Clear();
+                    dataCaller.add_detailed(expense, ee_category_list.Text, date, username_box.Text, ee_comment_box.Text);
+                    newdata.addatransaction(expense, ee_category_list.Text, date, username_box.Text, ee_comment_box.Text);
+                    ee_category_list.SelectedIndex = -1;
+                    ee_date_picker.Value = DateTime.Today;
+                    ee_expense_input.Clear();
+                    ee_comment_box.Clear();
                     MessageBox.Show("The record has been saved.");
                 }
             }
@@ -388,10 +416,10 @@ namespace Project_Forms
         //=====================================================================
         private void button2_Click(object sender, EventArgs e)
         {
-            CultureInfo ci = new CultureInfo("en-us");//used to display the totals in the correct format added 11/2/2014
-            label10.Text = "0"; //clear text so it doesn't show old values
-            label23.Text = "0"; //clear text so it doesn't show old values
-            if (comboBox3.Text == "")
+            CultureInfo ci = new CultureInfo("en-us");  //used to display the totals in the correct format added 11/2/2014
+            vr_mon_total.Text = "0";                    //clear text so it doesn't show old values
+            vr_mileage_total.Text = "0";                //clear text so it doesn't show old values
+            if (vr_category_list.Text == "")
             {
                 MessageBox.Show("Please select a category.", "ERROR");//make sure the category is not empty
             }
@@ -400,33 +428,33 @@ namespace Project_Forms
                 //make appropriate conversions
                 List<Transaction> expenseReport = new List<Transaction>();
                 decimal totalExp = 0;
-                DateTime startDate = Convert.ToDateTime(dateTimePicker3.Value.ToShortDateString());
-                DateTime endDate = Convert.ToDateTime(dateTimePicker2.Value.ToShortDateString());
+                DateTime startDate = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());
+                DateTime endDate = Convert.ToDateTime(vr_end_date_picker.Value.ToShortDateString());
                 Control loadData = new Control();
                 //call the control function to load data. Pass the values.
-                loadData.loadExpenseReport(startDate, endDate, comboBox3.Text, ref expenseReport, ref totalExp, textBox1.Text);//Use start date, end date, and category
+                loadData.loadExpenseReport(startDate, endDate, vr_category_list.Text, ref expenseReport, ref totalExp, username_box.Text);//Use start date, end date, and category
                
                 dataGridView1.DataSource = expenseReport;//Display in text field (date, expense, total expense)
                 
-                label18.Text = comboBox3.Text; // to show which report is being shown
-                label18.Show();
+                vr_report_label.Text = vr_category_list.Text + " Report"; // to show which report is being shown
+                vr_report_label.Show();
                 if (endDate < startDate) 
                 { 
                     MessageBox.Show("Your end date is higher than your start date, please correct this and try again.", "Error!");
                     return;
                 }
-                else if (comboBox3.Text == "Mileage")
+                else if (vr_category_list.Text == "Mileage")
                 {                
-                    label23.Text = loadData.mileage(startDate, endDate).ToString(); //display total for mileage only
+                    vr_mileage_total.Text = loadData.mileage(startDate, endDate).ToString(); //display total for mileage only
                 }
-                else if (comboBox3.Text == "All Categories")
+                else if (vr_category_list.Text == "All Categories")
                 {
-                    label10.Text = totalExp.ToString("N02", ci);//Display the total correct format with commas
-                    label23.Text =  loadData.mileage(startDate, endDate).ToString("N0", ci); //display total for mileage only
+                    vr_mon_total.Text = "$" + totalExp.ToString("N02", ci);//Display the total correct format with commas
+                    vr_mileage_total.Text = loadData.mileage(startDate, endDate).ToString("N0", ci) + " mi"; //display total for mileage only
                 }
                 else
                 {
-                    label10.Text = totalExp.ToString("N02", ci);//Display the total correct format with commas
+                    vr_mon_total.Text = totalExp.ToString("N02", ci);//Display the total correct format with commas
                 }
                 this.dataGridView1.Columns["Expense"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 //this.dataGridView1.Sort(this.dataGridView1.Columns["Category"], ListSortDirection.Ascending);
@@ -445,31 +473,31 @@ namespace Project_Forms
         {
             dataGridView2.Rows.Clear();//clear the rows when ever the button is clicked so the entries stay fresh
 
-            string startstring = dateTimePicker1.Value.ToShortDateString();//get the start date
+            string startstring = ee_date_picker.Value.ToShortDateString();//get the start date
             DateTime start = Convert.ToDateTime(startstring);
 
-            string endstring = dateTimePicker2.Value.ToShortDateString();//get the end date
+            string endstring = vr_end_date_picker.Value.ToShortDateString();//get the end date
             DateTime end = Convert.ToDateTime(endstring);
             Data history = new Data();
 
             List<Transaction> expenseReport = new List<Transaction>();
             decimal totalExp = 0;
-            DateTime startDate = Convert.ToDateTime(dateTimePicker3.Value.ToShortDateString());
-            DateTime endDate = Convert.ToDateTime(dateTimePicker2.Value.ToShortDateString());
+            DateTime startDate = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());
+            DateTime endDate = Convert.ToDateTime(vr_end_date_picker.Value.ToShortDateString());
             Control loadData = new Control();
             //call the control function to load data. Pass the values.
-            loadData.loadExpenseReport(startDate, endDate, comboBox3.Text, ref expenseReport, ref totalExp, textBox1.Text);//Use start date, end date, and category
+            loadData.loadExpenseReport(startDate, endDate, vr_category_list.Text, ref expenseReport, ref totalExp, username_box.Text);//Use start date, end date, and category
 
             //make sure that ALL the fields are filled in and also that the user does not pick an end date earlier than the start date
-            if (comboBox4.Text == "" && comboBox5.Text == "") 
+            if (vh_user_list.Text == "" && vh_category_list.Text == "") 
             { 
                 MessageBox.Show("You have not provided a USER or CATEGORY with which to process your request. Please try again after doing so.", "Error!"); 
             }
-            else if (comboBox4.Text == "") 
+            else if (vh_user_list.Text == "") 
             {
                 MessageBox.Show("Please select a user.", "ERROR"); 
             }
-            else if (comboBox5.Text == "") 
+            else if (vh_category_list.Text == "") 
             {
                 MessageBox.Show("Please select a category.", "ERROR"); 
             }
@@ -479,7 +507,7 @@ namespace Project_Forms
             }
             else
             {
-                history.getTransCount(this.dataGridView2, comboBox4.Text, comboBox5.Text, start, end);
+                history.getTransCount(this.dataGridView2, vh_user_list.Text, vh_category_list.Text, start, end);
             }
         }//end button6_Click
         //=====================================================================
@@ -496,7 +524,7 @@ namespace Project_Forms
             else
             {
                 Control excel = new Control();
-                excel.export(this.dataGridView1, label10.Text, label23.Text);
+                excel.export(this.dataGridView1, vr_mon_total.Text, vr_mileage_total.Text);
             }
         }//end 
         //=====================================================================
@@ -511,9 +539,9 @@ namespace Project_Forms
         private void detailedRe_Click(object sender, EventArgs e)
         {       
             CultureInfo ci = new CultureInfo("en-us");//used to display the totals in the correct format added 11/2/2014
-            label10.Text = "0"; //clear text so it doesn't show old values
-            label23.Text = "0"; //clear text so it doesn't show old values
-            if (comboBox3.Text == "")
+            vr_mon_total.Text = "0"; //clear text so it doesn't show old values
+            vr_mileage_total.Text = "0"; //clear text so it doesn't show old values
+            if (vr_category_list.Text == "")
             {
                 MessageBox.Show("Please select a category.", "ERROR");
             }
@@ -521,29 +549,29 @@ namespace Project_Forms
             {
                 List<DetailedTransaction> expenseReports = new List<DetailedTransaction>();
                 decimal totalExp = 0;
-                DateTime startDate = Convert.ToDateTime(dateTimePicker3.Value.ToShortDateString());
-                DateTime endDate = Convert.ToDateTime(dateTimePicker2.Value.ToShortDateString());
+                DateTime startDate = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());
+                DateTime endDate = Convert.ToDateTime(vr_end_date_picker.Value.ToShortDateString());
                 Control loadData = new Control();
                 //call the control function to load data. Pass the values.
-                loadData.loadDetailedExpenseReport(startDate, endDate, comboBox3.Text, ref expenseReports, ref totalExp, textBox1.Text);//Use start date, end date, and category
+                loadData.loadDetailedExpenseReport(startDate, endDate, vr_category_list.Text, ref expenseReports, ref totalExp, username_box.Text);//Use start date, end date, and category
                 dataGridView1.DataSource = expenseReports;//Display in text field (date, expense, total expense)
                 if (endDate < startDate)
                 {
                     MessageBox.Show("Your end date is higher than your start date, please correct this and try again.", "Error!");
                     return;
                 }
-                else if (comboBox3.Text == "Mileage")
+                else if (vr_category_list.Text == "Mileage")
                 {
-                    label23.Text = loadData.mileage(startDate, endDate).ToString(); //display total for mileage only
+                    vr_mileage_total.Text = loadData.mileage(startDate, endDate).ToString(); //display total for mileage only
                 }
-                else if (comboBox3.Text == "All Categories")
+                else if (vr_category_list.Text == "All Categories")
                 {
-                    label10.Text = totalExp.ToString("N02", ci);//Display the total correct format with commas
-                    label23.Text = loadData.mileage(startDate, endDate).ToString("N0", ci); //display total for mileage only
+                    vr_mon_total.Text = "$" + totalExp.ToString("N02", ci);//Display the total correct format with commas
+                    vr_mileage_total.Text = loadData.mileage(startDate, endDate).ToString("N0", ci) + " mi"; //display total for mileage only
                 }
                 else
                 {
-                    label10.Text = totalExp.ToString("N02", ci);//Display the total correct format with commas
+                    vr_mon_total.Text = totalExp.ToString("N02", ci);//Display the total correct format with commas
                 }
             }
         }//end detailedRe_Click 
@@ -586,7 +614,7 @@ namespace Project_Forms
         //=====================================================================
         private void textBox3_KeyPress_1(object sender, KeyPressEventArgs e)
         {
-            textBox3.MaxLength = 6;
+            ee_expense_input.MaxLength = 6;
             TextBox textBox = (TextBox)sender;
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {

@@ -44,4 +44,11 @@
     <Category>Advertising</Category>
     <Date>2014-11-03T00:00:00</Date>
   </Transaction>
+  <Transaction>
+    <Added_by>admin</Added_by>
+    <Expenditure>124.56</Expenditure>
+    <Comments>Example</Comments>
+    <Category>Automobile</Category>
+    <Date>2014-11-05T00:00:00</Date>
+  </Transaction>
 </All_Transactions>

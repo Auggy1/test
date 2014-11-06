@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Home));
-            this.label1 = new System.Windows.Forms.Label();
+            this.date_label = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,56 +43,55 @@
             this.applicationHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.applicationInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button4 = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.login_btn = new System.Windows.Forms.Button();
+            this.time_stamp = new System.Windows.Forms.Label();
+            this.username_box = new System.Windows.Forms.TextBox();
+            this.pass_box = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.tabcontrol1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.button5 = new System.Windows.Forms.Button();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.label23 = new System.Windows.Forms.Label();
+            this.tab_control = new System.Windows.Forms.TabControl();
+            this.home_tab = new System.Windows.Forms.TabPage();
+            this.home_user_details = new System.Windows.Forms.RichTextBox();
+            this.welcome_msg = new System.Windows.Forms.Label();
+            this.home_logo = new System.Windows.Forms.PictureBox();
+            this.ee_tab = new System.Windows.Forms.TabPage();
+            this.save_expense_btn = new System.Windows.Forms.Button();
+            this.ee_category_list = new System.Windows.Forms.ComboBox();
+            this.ee_expense_input = new System.Windows.Forms.TextBox();
+            this.ee_comment_box = new System.Windows.Forms.RichTextBox();
+            this.ee_date_picker = new System.Windows.Forms.DateTimePicker();
+            this.ee_date_label = new System.Windows.Forms.Label();
+            this.ee_comments_label = new System.Windows.Forms.Label();
+            this.ee_label = new System.Windows.Forms.Label();
+            this.ee_category_label = new System.Windows.Forms.Label();
+            this.vr_tab = new System.Windows.Forms.TabPage();
+            this.vr_mileage_total = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.detailedRe = new System.Windows.Forms.Button();
-            this.export = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
+            this.vr_report_label = new System.Windows.Forms.Label();
+            this.detailed_report_btn = new System.Windows.Forms.Button();
+            this.export_btn = new System.Windows.Forms.Button();
+            this.vr_mon_total = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker3 = new System.Windows.Forms.DateTimePicker();
-            this.label12 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.vr_end_date_picker = new System.Windows.Forms.DateTimePicker();
+            this.vr_start_date_picker = new System.Windows.Forms.DateTimePicker();
+            this.view_reports_btn = new System.Windows.Forms.Button();
+            this.vr_category_list = new System.Windows.Forms.ComboBox();
+            this.vr_start_date = new System.Windows.Forms.Label();
+            this.vr_end_date = new System.Windows.Forms.Label();
+            this.vr_categories = new System.Windows.Forms.Label();
+            this.vh_tab = new System.Windows.Forms.TabPage();
             this.label13 = new System.Windows.Forms.Label();
-            this.dateTimePicker5 = new System.Windows.Forms.DateTimePicker();
+            this.vh_start_date_picker = new System.Windows.Forms.DateTimePicker();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Expense = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label17 = new System.Windows.Forms.Label();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
-            this.button6 = new System.Windows.Forms.Button();
-            this.comboBox5 = new System.Windows.Forms.ComboBox();
+            this.vh_user_list = new System.Windows.Forms.ComboBox();
+            this.vh_end_date_picker = new System.Windows.Forms.DateTimePicker();
+            this.vh_search_btn = new System.Windows.Forms.Button();
+            this.vh_category_list = new System.Windows.Forms.ComboBox();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
@@ -101,13 +100,13 @@
             this.errorProvider3 = new System.Windows.Forms.ErrorProvider(this.components);
             this.eventLog1 = new System.Diagnostics.EventLog();
             this.menuStrip1.SuspendLayout();
-            this.tabcontrol1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
+            this.tab_control.SuspendLayout();
+            this.home_tab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.home_logo)).BeginInit();
+            this.ee_tab.SuspendLayout();
+            this.vr_tab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this.tabPage4.SuspendLayout();
+            this.vh_tab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
@@ -115,19 +114,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // date_label
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 361);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(30, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Date";
+            this.date_label.AutoSize = true;
+            this.date_label.Location = new System.Drawing.Point(15, 423);
+            this.date_label.Name = "date_label";
+            this.date_label.Size = new System.Drawing.Size(30, 13);
+            this.date_label.TabIndex = 0;
+            this.date_label.Text = "Date";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(366, 127);
+            this.label3.Location = new System.Drawing.Point(402, 143);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(58, 13);
             this.label3.TabIndex = 6;
@@ -142,7 +141,7 @@
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(657, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(753, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -177,7 +176,6 @@
             this.administrationToolStripMenuItem.Name = "administrationToolStripMenuItem";
             this.administrationToolStripMenuItem.Size = new System.Drawing.Size(98, 20);
             this.administrationToolStripMenuItem.Text = "Administration";
-           
             // 
             // addUserToolStripMenuItem
             // 
@@ -200,7 +198,6 @@
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
-        
             // 
             // applicationHelpToolStripMenuItem
             // 
@@ -216,7 +213,6 @@
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.aboutToolStripMenuItem.Text = "About";
-        
             // 
             // applicationInfoToolStripMenuItem
             // 
@@ -225,294 +221,292 @@
             this.applicationInfoToolStripMenuItem.Text = "Application Info";
             this.applicationInfoToolStripMenuItem.Click += new System.EventHandler(this.applicationInfoToolStripMenuItem_Click);
             // 
-            // button4
+            // login_btn
             // 
-            this.button4.Location = new System.Drawing.Point(508, 174);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 21);
-            this.button4.TabIndex = 4;
-            this.button4.Text = "Login";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.login_btn.Location = new System.Drawing.Point(544, 193);
+            this.login_btn.Name = "login_btn";
+            this.login_btn.Size = new System.Drawing.Size(75, 21);
+            this.login_btn.TabIndex = 4;
+            this.login_btn.Text = "Login";
+            this.login_btn.UseVisualStyleBackColor = true;
+            this.login_btn.Click += new System.EventHandler(this.button4_Click);
             // 
-            // label4
+            // time_stamp
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(597, 361);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "label4";
+            this.time_stamp.AutoSize = true;
+            this.time_stamp.Location = new System.Drawing.Point(672, 423);
+            this.time_stamp.Name = "time_stamp";
+            this.time_stamp.Size = new System.Drawing.Size(63, 13);
+            this.time_stamp.TabIndex = 11;
+            this.time_stamp.Text = "Time Stamp";
             // 
-            // textBox1
+            // username_box
             // 
-            this.textBox1.Location = new System.Drawing.Point(428, 124);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(152, 20);
-            this.textBox1.TabIndex = 2;
+            this.username_box.Location = new System.Drawing.Point(464, 143);
+            this.username_box.Name = "username_box";
+            this.username_box.Size = new System.Drawing.Size(152, 20);
+            this.username_box.TabIndex = 2;
             // 
-            // textBox2
+            // pass_box
             // 
-            this.textBox2.Location = new System.Drawing.Point(428, 148);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.PasswordChar = '*';
-            this.textBox2.Size = new System.Drawing.Size(152, 20);
-            this.textBox2.TabIndex = 3;
+            this.pass_box.Location = new System.Drawing.Point(464, 167);
+            this.pass_box.Name = "pass_box";
+            this.pass_box.PasswordChar = '*';
+            this.pass_box.Size = new System.Drawing.Size(152, 20);
+            this.pass_box.TabIndex = 3;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(366, 151);
+            this.label5.Location = new System.Drawing.Point(402, 170);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(56, 13);
             this.label5.TabIndex = 14;
             this.label5.Text = "Password:";
             // 
-            // tabcontrol1
+            // tab_control
             // 
-            this.tabcontrol1.Controls.Add(this.tabPage1);
-            this.tabcontrol1.Controls.Add(this.tabPage2);
-            this.tabcontrol1.Controls.Add(this.tabPage3);
-            this.tabcontrol1.Controls.Add(this.tabPage4);
-            this.tabcontrol1.Location = new System.Drawing.Point(12, 27);
-            this.tabcontrol1.Name = "tabcontrol1";
-            this.tabcontrol1.SelectedIndex = 0;
-            this.tabcontrol1.Size = new System.Drawing.Size(641, 330);
-            this.tabcontrol1.TabIndex = 1;
+            this.tab_control.Controls.Add(this.home_tab);
+            this.tab_control.Controls.Add(this.ee_tab);
+            this.tab_control.Controls.Add(this.vr_tab);
+            this.tab_control.Controls.Add(this.vh_tab);
+            this.tab_control.Location = new System.Drawing.Point(12, 27);
+            this.tab_control.Name = "tab_control";
+            this.tab_control.SelectedIndex = 0;
+            this.tab_control.Size = new System.Drawing.Size(727, 393);
+            this.tab_control.TabIndex = 1;
             // 
-            // tabPage1
+            // home_tab
             // 
-            this.tabPage1.Controls.Add(this.richTextBox1);
-            this.tabPage1.Controls.Add(this.label5);
-            this.tabPage1.Controls.Add(this.label3);
-            this.tabPage1.Controls.Add(this.textBox2);
-            this.tabPage1.Controls.Add(this.button4);
-            this.tabPage1.Controls.Add(this.textBox1);
-            this.tabPage1.Controls.Add(this.label2);
-            this.tabPage1.Controls.Add(this.pictureBox1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(633, 304);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Home";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.home_tab.Controls.Add(this.home_user_details);
+            this.home_tab.Controls.Add(this.label5);
+            this.home_tab.Controls.Add(this.label3);
+            this.home_tab.Controls.Add(this.pass_box);
+            this.home_tab.Controls.Add(this.login_btn);
+            this.home_tab.Controls.Add(this.username_box);
+            this.home_tab.Controls.Add(this.welcome_msg);
+            this.home_tab.Controls.Add(this.home_logo);
+            this.home_tab.Location = new System.Drawing.Point(4, 22);
+            this.home_tab.Name = "home_tab";
+            this.home_tab.Padding = new System.Windows.Forms.Padding(3);
+            this.home_tab.Size = new System.Drawing.Size(719, 367);
+            this.home_tab.TabIndex = 0;
+            this.home_tab.Text = "Home";
+            this.home_tab.UseVisualStyleBackColor = true;
             // 
-            // richTextBox1
+            // home_user_details
             // 
-            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox1.Location = new System.Drawing.Point(6, 204);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(260, 96);
-            this.richTextBox1.TabIndex = 7;
-            this.richTextBox1.TabStop = false;
-            this.richTextBox1.Text = "Venture Business Management";
+            this.home_user_details.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.home_user_details.Location = new System.Drawing.Point(6, 251);
+            this.home_user_details.Name = "home_user_details";
+            this.home_user_details.ReadOnly = true;
+            this.home_user_details.Size = new System.Drawing.Size(296, 108);
+            this.home_user_details.TabIndex = 7;
+            this.home_user_details.TabStop = false;
+            this.home_user_details.Text = "Venture Business Management";
             // 
-            // label2
+            // welcome_msg
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(365, 124);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(66, 24);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "label2";
-            this.label2.TextChanged += new System.EventHandler(this.label2_TextChanged);
+            this.welcome_msg.AutoSize = true;
+            this.welcome_msg.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.welcome_msg.Location = new System.Drawing.Point(311, 84);
+            this.welcome_msg.Name = "welcome_msg";
+            this.welcome_msg.Size = new System.Drawing.Size(188, 24);
+            this.welcome_msg.TabIndex = 1;
+            this.welcome_msg.Text = "Welcome Message";
+            this.welcome_msg.TextChanged += new System.EventHandler(this.label2_TextChanged);
             // 
-            // pictureBox1
+            // home_logo
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(20, 6);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(232, 211);
-            this.pictureBox1.TabIndex = 15;
-            this.pictureBox1.TabStop = false;
+            this.home_logo.Image = ((System.Drawing.Image)(resources.GetObject("home_logo.Image")));
+            this.home_logo.Location = new System.Drawing.Point(6, 6);
+            this.home_logo.Name = "home_logo";
+            this.home_logo.Size = new System.Drawing.Size(296, 239);
+            this.home_logo.TabIndex = 15;
+            this.home_logo.TabStop = false;
             // 
-            // tabPage2
+            // ee_tab
             // 
-            this.tabPage2.Controls.Add(this.button5);
-            this.tabPage2.Controls.Add(this.comboBox2);
-            this.tabPage2.Controls.Add(this.textBox3);
-            this.tabPage2.Controls.Add(this.richTextBox2);
-            this.tabPage2.Controls.Add(this.dateTimePicker1);
-            this.tabPage2.Controls.Add(this.label8);
-            this.tabPage2.Controls.Add(this.label9);
-            this.tabPage2.Controls.Add(this.label7);
-            this.tabPage2.Controls.Add(this.label6);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(633, 304);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Enter Expense";
-            this.tabPage2.UseVisualStyleBackColor = true;
- 
+            this.ee_tab.Controls.Add(this.save_expense_btn);
+            this.ee_tab.Controls.Add(this.ee_category_list);
+            this.ee_tab.Controls.Add(this.ee_expense_input);
+            this.ee_tab.Controls.Add(this.ee_comment_box);
+            this.ee_tab.Controls.Add(this.ee_date_picker);
+            this.ee_tab.Controls.Add(this.ee_date_label);
+            this.ee_tab.Controls.Add(this.ee_comments_label);
+            this.ee_tab.Controls.Add(this.ee_label);
+            this.ee_tab.Controls.Add(this.ee_category_label);
+            this.ee_tab.Location = new System.Drawing.Point(4, 22);
+            this.ee_tab.Name = "ee_tab";
+            this.ee_tab.Padding = new System.Windows.Forms.Padding(3);
+            this.ee_tab.Size = new System.Drawing.Size(719, 367);
+            this.ee_tab.TabIndex = 1;
+            this.ee_tab.Text = "Enter Expense";
+            this.ee_tab.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // save_expense_btn
             // 
-            this.button5.Location = new System.Drawing.Point(434, 207);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(104, 23);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "Save Expense";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.save_expense_btn.Location = new System.Drawing.Point(434, 207);
+            this.save_expense_btn.Name = "save_expense_btn";
+            this.save_expense_btn.Size = new System.Drawing.Size(104, 23);
+            this.save_expense_btn.TabIndex = 4;
+            this.save_expense_btn.Text = "Save Expense";
+            this.save_expense_btn.UseVisualStyleBackColor = true;
+            this.save_expense_btn.Click += new System.EventHandler(this.button5_Click);
             // 
-            // comboBox2
+            // ee_category_list
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(202, 60);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(187, 21);
-            this.comboBox2.TabIndex = 0;
+            this.ee_category_list.FormattingEnabled = true;
+            this.ee_category_list.Location = new System.Drawing.Point(202, 60);
+            this.ee_category_list.Name = "ee_category_list";
+            this.ee_category_list.Size = new System.Drawing.Size(187, 21);
+            this.ee_category_list.TabIndex = 0;
             // 
-            // textBox3
+            // ee_expense_input
             // 
-            this.textBox3.Location = new System.Drawing.Point(202, 92);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(187, 20);
-            this.textBox3.TabIndex = 1;
-            this.textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress_1);
+            this.ee_expense_input.Location = new System.Drawing.Point(202, 92);
+            this.ee_expense_input.Name = "ee_expense_input";
+            this.ee_expense_input.Size = new System.Drawing.Size(187, 20);
+            this.ee_expense_input.TabIndex = 1;
+            this.ee_expense_input.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress_1);
             // 
-            // richTextBox2
+            // ee_comment_box
             // 
-            this.richTextBox2.Location = new System.Drawing.Point(202, 147);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(187, 83);
-            this.richTextBox2.TabIndex = 3;
-            this.richTextBox2.Text = "";
+            this.ee_comment_box.Location = new System.Drawing.Point(202, 147);
+            this.ee_comment_box.Name = "ee_comment_box";
+            this.ee_comment_box.Size = new System.Drawing.Size(187, 83);
+            this.ee_comment_box.TabIndex = 3;
+            this.ee_comment_box.Text = "";
             // 
-            // dateTimePicker1
+            // ee_date_picker
             // 
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker1.Location = new System.Drawing.Point(202, 121);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(106, 20);
-            this.dateTimePicker1.TabIndex = 2;
+            this.ee_date_picker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.ee_date_picker.Location = new System.Drawing.Point(202, 121);
+            this.ee_date_picker.Name = "ee_date_picker";
+            this.ee_date_picker.Size = new System.Drawing.Size(106, 20);
+            this.ee_date_picker.TabIndex = 2;
             // 
-            // label8
+            // ee_date_label
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(105, 121);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(30, 13);
-            this.label8.TabIndex = 17;
-            this.label8.Text = "Date";
+            this.ee_date_label.AutoSize = true;
+            this.ee_date_label.Location = new System.Drawing.Point(105, 121);
+            this.ee_date_label.Name = "ee_date_label";
+            this.ee_date_label.Size = new System.Drawing.Size(30, 13);
+            this.ee_date_label.TabIndex = 17;
+            this.ee_date_label.Text = "Date";
             // 
-            // label9
+            // ee_comments_label
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(105, 147);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(56, 13);
-            this.label9.TabIndex = 16;
-            this.label9.Text = "Comments";
+            this.ee_comments_label.AutoSize = true;
+            this.ee_comments_label.Location = new System.Drawing.Point(105, 147);
+            this.ee_comments_label.Name = "ee_comments_label";
+            this.ee_comments_label.Size = new System.Drawing.Size(56, 13);
+            this.ee_comments_label.TabIndex = 16;
+            this.ee_comments_label.Text = "Comments";
             // 
-            // label7
+            // ee_label
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(105, 92);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(91, 13);
-            this.label7.TabIndex = 9;
-            this.label7.Text = "Enter Expenditure";
+            this.ee_label.AutoSize = true;
+            this.ee_label.Location = new System.Drawing.Point(105, 92);
+            this.ee_label.Name = "ee_label";
+            this.ee_label.Size = new System.Drawing.Size(91, 13);
+            this.ee_label.TabIndex = 9;
+            this.ee_label.Text = "Enter Expenditure";
             // 
-            // label6
+            // ee_category_label
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(105, 63);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(49, 13);
-            this.label6.TabIndex = 8;
-            this.label6.Text = "Category";
+            this.ee_category_label.AutoSize = true;
+            this.ee_category_label.Location = new System.Drawing.Point(105, 63);
+            this.ee_category_label.Name = "ee_category_label";
+            this.ee_category_label.Size = new System.Drawing.Size(49, 13);
+            this.ee_category_label.TabIndex = 8;
+            this.ee_category_label.Text = "Category";
             // 
-            // tabPage3
+            // vr_tab
             // 
-            this.tabPage3.Controls.Add(this.label23);
-            this.tabPage3.Controls.Add(this.label22);
-            this.tabPage3.Controls.Add(this.label18);
-            this.tabPage3.Controls.Add(this.detailedRe);
-            this.tabPage3.Controls.Add(this.export);
-            this.tabPage3.Controls.Add(this.label10);
-            this.tabPage3.Controls.Add(this.label11);
-            this.tabPage3.Controls.Add(this.dataGridView1);
-            this.tabPage3.Controls.Add(this.dateTimePicker2);
-            this.tabPage3.Controls.Add(this.dateTimePicker3);
-            this.tabPage3.Controls.Add(this.label12);
-            this.tabPage3.Controls.Add(this.button2);
-            this.tabPage3.Controls.Add(this.comboBox3);
-            this.tabPage3.Controls.Add(this.label14);
-            this.tabPage3.Controls.Add(this.label15);
-            this.tabPage3.Controls.Add(this.label16);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(633, 304);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "View Reports";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.vr_tab.Controls.Add(this.vr_mileage_total);
+            this.vr_tab.Controls.Add(this.label22);
+            this.vr_tab.Controls.Add(this.vr_report_label);
+            this.vr_tab.Controls.Add(this.detailed_report_btn);
+            this.vr_tab.Controls.Add(this.export_btn);
+            this.vr_tab.Controls.Add(this.vr_mon_total);
+            this.vr_tab.Controls.Add(this.label11);
+            this.vr_tab.Controls.Add(this.dataGridView1);
+            this.vr_tab.Controls.Add(this.vr_end_date_picker);
+            this.vr_tab.Controls.Add(this.vr_start_date_picker);
+            this.vr_tab.Controls.Add(this.view_reports_btn);
+            this.vr_tab.Controls.Add(this.vr_category_list);
+            this.vr_tab.Controls.Add(this.vr_start_date);
+            this.vr_tab.Controls.Add(this.vr_end_date);
+            this.vr_tab.Controls.Add(this.vr_categories);
+            this.vr_tab.Location = new System.Drawing.Point(4, 22);
+            this.vr_tab.Name = "vr_tab";
+            this.vr_tab.Padding = new System.Windows.Forms.Padding(3);
+            this.vr_tab.Size = new System.Drawing.Size(719, 367);
+            this.vr_tab.TabIndex = 2;
+            this.vr_tab.Text = "View Reports";
+            this.vr_tab.UseVisualStyleBackColor = true;
             // 
-            // label23
+            // vr_mileage_total
             // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(548, 288);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(13, 13);
-            this.label23.TabIndex = 35;
-            this.label23.Text = "0";
+            this.vr_mileage_total.AutoSize = true;
+            this.vr_mileage_total.Location = new System.Drawing.Point(651, 347);
+            this.vr_mileage_total.Name = "vr_mileage_total";
+            this.vr_mileage_total.Size = new System.Drawing.Size(13, 13);
+            this.vr_mileage_total.TabIndex = 35;
+            this.vr_mileage_total.Text = "0";
             // 
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(478, 288);
+            this.label22.Location = new System.Drawing.Point(581, 347);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(47, 13);
             this.label22.TabIndex = 34;
             this.label22.Text = "Mileage:";
             // 
-            // label18
+            // vr_report_label
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(240, 3);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(41, 13);
-            this.label18.TabIndex = 33;
-            this.label18.Text = "label18";
+            this.vr_report_label.AutoSize = true;
+            this.vr_report_label.Location = new System.Drawing.Point(240, 3);
+            this.vr_report_label.Name = "vr_report_label";
+            this.vr_report_label.Size = new System.Drawing.Size(62, 13);
+            this.vr_report_label.TabIndex = 33;
+            this.vr_report_label.Text = "Report Title";
             // 
-            // detailedRe
+            // detailed_report_btn
             // 
-            this.detailedRe.Location = new System.Drawing.Point(130, 204);
-            this.detailedRe.Name = "detailedRe";
-            this.detailedRe.Size = new System.Drawing.Size(95, 23);
-            this.detailedRe.TabIndex = 32;
-            this.detailedRe.Text = "Detailed Report";
-            this.detailedRe.UseVisualStyleBackColor = true;
-            this.detailedRe.Click += new System.EventHandler(this.detailedRe_Click);
+            this.detailed_report_btn.Location = new System.Drawing.Point(130, 273);
+            this.detailed_report_btn.Name = "detailed_report_btn";
+            this.detailed_report_btn.Size = new System.Drawing.Size(95, 23);
+            this.detailed_report_btn.TabIndex = 32;
+            this.detailed_report_btn.Text = "Detailed Report";
+            this.detailed_report_btn.UseVisualStyleBackColor = true;
+            this.detailed_report_btn.Click += new System.EventHandler(this.detailedRe_Click);
             // 
-            // export
+            // export_btn
             // 
-            this.export.Location = new System.Drawing.Point(130, 235);
-            this.export.Name = "export";
-            this.export.Size = new System.Drawing.Size(95, 23);
-            this.export.TabIndex = 31;
-            this.export.Text = "Export to Excel";
-            this.export.UseVisualStyleBackColor = true;
-            this.export.Click += new System.EventHandler(this.export_Click_1);
+            this.export_btn.Location = new System.Drawing.Point(130, 302);
+            this.export_btn.Name = "export_btn";
+            this.export_btn.Size = new System.Drawing.Size(95, 23);
+            this.export_btn.TabIndex = 31;
+            this.export_btn.Text = "Export to Excel";
+            this.export_btn.UseVisualStyleBackColor = true;
+            this.export_btn.Click += new System.EventHandler(this.export_Click_1);
             // 
-            // label10
+            // vr_mon_total
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(307, 288);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(13, 13);
-            this.label10.TabIndex = 30;
-            this.label10.Text = "0";
+            this.vr_mon_total.AutoSize = true;
+            this.vr_mon_total.Location = new System.Drawing.Point(309, 347);
+            this.vr_mon_total.Name = "vr_mon_total";
+            this.vr_mon_total.Size = new System.Drawing.Size(13, 13);
+            this.vr_mon_total.TabIndex = 30;
+            this.vr_mon_total.Text = "0";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(240, 288);
+            this.label11.Location = new System.Drawing.Point(242, 347);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(34, 13);
             this.label11.TabIndex = 29;
@@ -523,117 +517,108 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(243, 19);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(377, 266);
+            this.dataGridView1.Size = new System.Drawing.Size(452, 325);
             this.dataGridView1.TabIndex = 28;
             // 
-            // dateTimePicker2
+            // vr_end_date_picker
             // 
-            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker2.Location = new System.Drawing.Point(75, 112);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(150, 20);
-            this.dateTimePicker2.TabIndex = 27;
+            this.vr_end_date_picker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.vr_end_date_picker.Location = new System.Drawing.Point(75, 119);
+            this.vr_end_date_picker.Name = "vr_end_date_picker";
+            this.vr_end_date_picker.Size = new System.Drawing.Size(150, 20);
+            this.vr_end_date_picker.TabIndex = 27;
             // 
-            // dateTimePicker3
+            // vr_start_date_picker
             // 
-            this.dateTimePicker3.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker3.Location = new System.Drawing.Point(75, 86);
-            this.dateTimePicker3.Name = "dateTimePicker3";
-            this.dateTimePicker3.Size = new System.Drawing.Size(150, 20);
-            this.dateTimePicker3.TabIndex = 26;
+            this.vr_start_date_picker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.vr_start_date_picker.Location = new System.Drawing.Point(75, 65);
+            this.vr_start_date_picker.Name = "vr_start_date_picker";
+            this.vr_start_date_picker.Size = new System.Drawing.Size(150, 20);
+            this.vr_start_date_picker.TabIndex = 26;
             // 
-            // label12
+            // view_reports_btn
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(410, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(39, 13);
-            this.label12.TabIndex = 25;
-            this.label12.Text = "Report";
+            this.view_reports_btn.Location = new System.Drawing.Point(130, 244);
+            this.view_reports_btn.Name = "view_reports_btn";
+            this.view_reports_btn.Size = new System.Drawing.Size(95, 23);
+            this.view_reports_btn.TabIndex = 24;
+            this.view_reports_btn.Text = "View Reports";
+            this.view_reports_btn.UseVisualStyleBackColor = true;
+            this.view_reports_btn.Click += new System.EventHandler(this.button2_Click);
             // 
-            // button2
+            // vr_category_list
             // 
-            this.button2.Location = new System.Drawing.Point(130, 175);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(95, 23);
-            this.button2.TabIndex = 24;
-            this.button2.Text = "View Reports";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.vr_category_list.FormattingEnabled = true;
+            this.vr_category_list.Location = new System.Drawing.Point(75, 173);
+            this.vr_category_list.Name = "vr_category_list";
+            this.vr_category_list.Size = new System.Drawing.Size(150, 21);
+            this.vr_category_list.TabIndex = 23;
             // 
-            // comboBox3
+            // vr_start_date
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(75, 140);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(150, 21);
-            this.comboBox3.TabIndex = 23;
+            this.vr_start_date.AutoSize = true;
+            this.vr_start_date.Location = new System.Drawing.Point(9, 71);
+            this.vr_start_date.Name = "vr_start_date";
+            this.vr_start_date.Size = new System.Drawing.Size(55, 13);
+            this.vr_start_date.TabIndex = 21;
+            this.vr_start_date.Text = "Start Date";
             // 
-            // label14
+            // vr_end_date
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(12, 86);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(55, 13);
-            this.label14.TabIndex = 21;
-            this.label14.Text = "Start Date";
+            this.vr_end_date.AutoSize = true;
+            this.vr_end_date.Location = new System.Drawing.Point(9, 125);
+            this.vr_end_date.Name = "vr_end_date";
+            this.vr_end_date.Size = new System.Drawing.Size(52, 13);
+            this.vr_end_date.TabIndex = 20;
+            this.vr_end_date.Text = "End Date";
             // 
-            // label15
+            // vr_categories
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(12, 112);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(52, 13);
-            this.label15.TabIndex = 20;
-            this.label15.Text = "End Date";
+            this.vr_categories.AutoSize = true;
+            this.vr_categories.Location = new System.Drawing.Point(9, 176);
+            this.vr_categories.Name = "vr_categories";
+            this.vr_categories.Size = new System.Drawing.Size(57, 13);
+            this.vr_categories.TabIndex = 19;
+            this.vr_categories.Text = "Categories";
             // 
-            // label16
+            // vh_tab
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(12, 140);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(57, 13);
-            this.label16.TabIndex = 19;
-            this.label16.Text = "Categories";
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.label13);
-            this.tabPage4.Controls.Add(this.dateTimePicker5);
-            this.tabPage4.Controls.Add(this.dataGridView2);
-            this.tabPage4.Controls.Add(this.label17);
-            this.tabPage4.Controls.Add(this.comboBox4);
-            this.tabPage4.Controls.Add(this.dateTimePicker4);
-            this.tabPage4.Controls.Add(this.button6);
-            this.tabPage4.Controls.Add(this.comboBox5);
-            this.tabPage4.Controls.Add(this.label19);
-            this.tabPage4.Controls.Add(this.label20);
-            this.tabPage4.Controls.Add(this.label21);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(633, 304);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "View History";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.vh_tab.Controls.Add(this.label13);
+            this.vh_tab.Controls.Add(this.vh_start_date_picker);
+            this.vh_tab.Controls.Add(this.dataGridView2);
+            this.vh_tab.Controls.Add(this.label17);
+            this.vh_tab.Controls.Add(this.vh_user_list);
+            this.vh_tab.Controls.Add(this.vh_end_date_picker);
+            this.vh_tab.Controls.Add(this.vh_search_btn);
+            this.vh_tab.Controls.Add(this.vh_category_list);
+            this.vh_tab.Controls.Add(this.label19);
+            this.vh_tab.Controls.Add(this.label20);
+            this.vh_tab.Controls.Add(this.label21);
+            this.vh_tab.Location = new System.Drawing.Point(4, 22);
+            this.vh_tab.Name = "vh_tab";
+            this.vh_tab.Padding = new System.Windows.Forms.Padding(3);
+            this.vh_tab.Size = new System.Drawing.Size(719, 367);
+            this.vh_tab.TabIndex = 3;
+            this.vh_tab.Text = "View History";
+            this.vh_tab.UseVisualStyleBackColor = true;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(80, 108);
+            this.label13.Location = new System.Drawing.Point(109, 312);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(484, 39);
             this.label13.TabIndex = 45;
             this.label13.Text = "This tab reserved for admins.";
             // 
-            // dateTimePicker5
+            // vh_start_date_picker
             // 
-            this.dateTimePicker5.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker5.Location = new System.Drawing.Point(75, 81);
-            this.dateTimePicker5.Name = "dateTimePicker5";
-            this.dateTimePicker5.Size = new System.Drawing.Size(182, 20);
-            this.dateTimePicker5.TabIndex = 44;
+            this.vh_start_date_picker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.vh_start_date_picker.Location = new System.Drawing.Point(68, 117);
+            this.vh_start_date_picker.Name = "vh_start_date_picker";
+            this.vh_start_date_picker.Size = new System.Drawing.Size(182, 20);
+            this.vh_start_date_picker.TabIndex = 44;
             // 
             // dataGridView2
             // 
@@ -646,7 +631,7 @@
             this.dataGridView2.Location = new System.Drawing.Point(266, 6);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.ReadOnly = true;
-            this.dataGridView2.Size = new System.Drawing.Size(361, 292);
+            this.dataGridView2.Size = new System.Drawing.Size(445, 303);
             this.dataGridView2.TabIndex = 43;
             // 
             // Category
@@ -676,54 +661,54 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(13, 134);
+            this.label17.Location = new System.Drawing.Point(6, 190);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(29, 13);
             this.label17.TabIndex = 42;
             this.label17.Text = "User";
             // 
-            // comboBox4
+            // vh_user_list
             // 
-            this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(75, 134);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(182, 21);
-            this.comboBox4.TabIndex = 41;
+            this.vh_user_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.vh_user_list.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.vh_user_list.FormattingEnabled = true;
+            this.vh_user_list.Location = new System.Drawing.Point(68, 190);
+            this.vh_user_list.Name = "vh_user_list";
+            this.vh_user_list.Size = new System.Drawing.Size(182, 21);
+            this.vh_user_list.TabIndex = 41;
             // 
-            // dateTimePicker4
+            // vh_end_date_picker
             // 
-            this.dateTimePicker4.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker4.Location = new System.Drawing.Point(75, 105);
-            this.dateTimePicker4.Name = "dateTimePicker4";
-            this.dateTimePicker4.Size = new System.Drawing.Size(182, 20);
-            this.dateTimePicker4.TabIndex = 40;
+            this.vh_end_date_picker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.vh_end_date_picker.Location = new System.Drawing.Point(68, 155);
+            this.vh_end_date_picker.Name = "vh_end_date_picker";
+            this.vh_end_date_picker.Size = new System.Drawing.Size(182, 20);
+            this.vh_end_date_picker.TabIndex = 40;
             // 
-            // button6
+            // vh_search_btn
             // 
-            this.button6.Location = new System.Drawing.Point(163, 199);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(94, 25);
-            this.button6.TabIndex = 38;
-            this.button6.Text = "Search";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.vh_search_btn.Location = new System.Drawing.Point(156, 284);
+            this.vh_search_btn.Name = "vh_search_btn";
+            this.vh_search_btn.Size = new System.Drawing.Size(94, 25);
+            this.vh_search_btn.TabIndex = 38;
+            this.vh_search_btn.Text = "Search";
+            this.vh_search_btn.UseVisualStyleBackColor = true;
+            this.vh_search_btn.Click += new System.EventHandler(this.button6_Click);
             // 
-            // comboBox5
+            // vh_category_list
             // 
-            this.comboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox5.FormattingEnabled = true;
-            this.comboBox5.Location = new System.Drawing.Point(76, 158);
-            this.comboBox5.Name = "comboBox5";
-            this.comboBox5.Size = new System.Drawing.Size(181, 21);
-            this.comboBox5.TabIndex = 37;
+            this.vh_category_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.vh_category_list.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.vh_category_list.FormattingEnabled = true;
+            this.vh_category_list.Location = new System.Drawing.Point(68, 227);
+            this.vh_category_list.Name = "vh_category_list";
+            this.vh_category_list.Size = new System.Drawing.Size(181, 21);
+            this.vh_category_list.TabIndex = 37;
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(13, 81);
+            this.label19.Location = new System.Drawing.Point(6, 117);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(55, 13);
             this.label19.TabIndex = 35;
@@ -732,7 +717,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(13, 105);
+            this.label20.Location = new System.Drawing.Point(6, 155);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(52, 13);
             this.label20.TabIndex = 34;
@@ -741,7 +726,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(13, 161);
+            this.label21.Location = new System.Drawing.Point(5, 230);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(57, 13);
             this.label21.TabIndex = 33;
@@ -765,32 +750,36 @@
             // 
             // Home
             // 
-            this.AcceptButton = this.button4;
+            this.AcceptButton = this.login_btn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(657, 381);
+            this.ClientSize = new System.Drawing.Size(753, 445);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.tabcontrol1);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.tab_control);
+            this.Controls.Add(this.time_stamp);
+            this.Controls.Add(this.date_label);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Home";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Venture Business Management";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.tabcontrol1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
+            this.tab_control.ResumeLayout(false);
+            this.home_tab.ResumeLayout(false);
+            this.home_tab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.home_logo)).EndInit();
+            this.ee_tab.ResumeLayout(false);
+            this.ee_tab.PerformLayout();
+            this.vr_tab.ResumeLayout(false);
+            this.vr_tab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.tabPage4.ResumeLayout(false);
-            this.tabPage4.PerformLayout();
+            this.vh_tab.ResumeLayout(false);
+            this.vh_tab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).EndInit();
@@ -803,65 +792,63 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label date_label;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button login_btn;
         private System.Windows.Forms.ToolStripMenuItem logOutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox username_box;
+        private System.Windows.Forms.TextBox pass_box;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ToolStripMenuItem administrationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.TabControl tabcontrol1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TabControl tab_control;
+        private System.Windows.Forms.TabPage home_tab;
+        private System.Windows.Forms.RichTextBox home_user_details;
+        private System.Windows.Forms.PictureBox home_logo;
+        private System.Windows.Forms.TabPage ee_tab;
+        private System.Windows.Forms.TabPage vr_tab;
+        private System.Windows.Forms.TabPage vh_tab;
+        private System.Windows.Forms.Label welcome_msg;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.ErrorProvider errorProvider2;
         private System.Windows.Forms.ErrorProvider errorProvider3;
         private System.Diagnostics.EventLog eventLog1;
         private System.Windows.Forms.ToolStripMenuItem addUserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editUserToolStripMenuItem;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.RichTextBox richTextBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label ee_category_label;
+        private System.Windows.Forms.Label ee_label;
+        private System.Windows.Forms.Label ee_comments_label;
+        private System.Windows.Forms.Label ee_date_label;
+        private System.Windows.Forms.DateTimePicker ee_date_picker;
+        private System.Windows.Forms.RichTextBox ee_comment_box;
+        private System.Windows.Forms.TextBox ee_expense_input;
+        private System.Windows.Forms.ComboBox ee_category_list;
+        private System.Windows.Forms.Button save_expense_btn;
+        private System.Windows.Forms.Label vr_mon_total;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker3;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.DateTimePicker vr_end_date_picker;
+        private System.Windows.Forms.DateTimePicker vr_start_date_picker;
+        private System.Windows.Forms.Button view_reports_btn;
+        private System.Windows.Forms.ComboBox vr_category_list;
+        private System.Windows.Forms.Label vr_start_date;
+        private System.Windows.Forms.Label vr_end_date;
+        private System.Windows.Forms.Label vr_categories;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.ComboBox comboBox4;
-        private System.Windows.Forms.DateTimePicker dateTimePicker4;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.ComboBox comboBox5;
+        private System.Windows.Forms.ComboBox vh_user_list;
+        private System.Windows.Forms.DateTimePicker vh_end_date_picker;
+        private System.Windows.Forms.Button vh_search_btn;
+        private System.Windows.Forms.ComboBox vh_category_list;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.DateTimePicker dateTimePicker5;
-        private System.Windows.Forms.Button export;
-        private System.Windows.Forms.Button detailedRe;
+        private System.Windows.Forms.DateTimePicker vh_start_date_picker;
+        private System.Windows.Forms.Button export_btn;
+        private System.Windows.Forms.Button detailed_report_btn;
         private System.Windows.Forms.ToolStripMenuItem applicationInfoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem applicationHelpToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataGridView2;
@@ -870,8 +857,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn User;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label vr_report_label;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label vr_mileage_total;
+        public System.Windows.Forms.Label time_stamp;
     }
 }
