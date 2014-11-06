@@ -50,10 +50,12 @@
             this.pass_label = new System.Windows.Forms.Label();
             this.tab_control = new System.Windows.Forms.TabControl();
             this.home_tab = new System.Windows.Forms.TabPage();
+            this.login_error_msg = new System.Windows.Forms.Label();
             this.home_user_details = new System.Windows.Forms.RichTextBox();
             this.welcome_msg = new System.Windows.Forms.Label();
             this.home_logo = new System.Windows.Forms.PictureBox();
             this.ee_tab = new System.Windows.Forms.TabPage();
+            this.expense_error_msg = new System.Windows.Forms.Label();
             this.save_expense_btn = new System.Windows.Forms.Button();
             this.ee_category_list = new System.Windows.Forms.ComboBox();
             this.ee_expense_input = new System.Windows.Forms.TextBox();
@@ -99,8 +101,6 @@
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider3 = new System.Windows.Forms.ErrorProvider(this.components);
             this.eventLog1 = new System.Diagnostics.EventLog();
-            this.login_error_msg = new System.Windows.Forms.Label();
-            this.expense_error_msg = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.tab_control.SuspendLayout();
             this.home_tab.SuspendLayout();
@@ -297,6 +297,16 @@
             this.home_tab.Text = "Home";
             this.home_tab.UseVisualStyleBackColor = true;
             // 
+            // login_error_msg
+            // 
+            this.login_error_msg.AutoSize = true;
+            this.login_error_msg.ForeColor = System.Drawing.Color.Red;
+            this.login_error_msg.Location = new System.Drawing.Point(461, 256);
+            this.login_error_msg.Name = "login_error_msg";
+            this.login_error_msg.Size = new System.Drawing.Size(35, 13);
+            this.login_error_msg.TabIndex = 16;
+            this.login_error_msg.Text = "label1";
+            // 
             // home_user_details
             // 
             this.home_user_details.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -347,6 +357,16 @@
             this.ee_tab.TabIndex = 1;
             this.ee_tab.Text = "Enter Expense";
             this.ee_tab.UseVisualStyleBackColor = true;
+            // 
+            // expense_error_msg
+            // 
+            this.expense_error_msg.AutoSize = true;
+            this.expense_error_msg.ForeColor = System.Drawing.Color.Red;
+            this.expense_error_msg.Location = new System.Drawing.Point(199, 251);
+            this.expense_error_msg.Name = "expense_error_msg";
+            this.expense_error_msg.Size = new System.Drawing.Size(35, 13);
+            this.expense_error_msg.TabIndex = 18;
+            this.expense_error_msg.Text = "label1";
             // 
             // save_expense_btn
             // 
@@ -519,6 +539,12 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToOrderColumns = true;
+            this.dataGridView1.AllowUserToResizeColumns = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
+            this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(243, 19);
             this.dataGridView1.Name = "dataGridView1";
@@ -752,26 +778,6 @@
             // eventLog1
             // 
             this.eventLog1.SynchronizingObject = this;
-            // 
-            // login_error_msg
-            // 
-            this.login_error_msg.AutoSize = true;
-            this.login_error_msg.ForeColor = System.Drawing.Color.Red;
-            this.login_error_msg.Location = new System.Drawing.Point(461, 256);
-            this.login_error_msg.Name = "login_error_msg";
-            this.login_error_msg.Size = new System.Drawing.Size(35, 13);
-            this.login_error_msg.TabIndex = 16;
-            this.login_error_msg.Text = "label1";
-            // 
-            // expense_error_msg
-            // 
-            this.expense_error_msg.AutoSize = true;
-            this.expense_error_msg.ForeColor = System.Drawing.Color.Red;
-            this.expense_error_msg.Location = new System.Drawing.Point(199, 251);
-            this.expense_error_msg.Name = "expense_error_msg";
-            this.expense_error_msg.Size = new System.Drawing.Size(35, 13);
-            this.expense_error_msg.TabIndex = 18;
-            this.expense_error_msg.Text = "label1";
             // 
             // Home
             // 

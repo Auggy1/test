@@ -165,7 +165,9 @@ namespace Project_Forms
             bool exists;                                // Check if user exists
             bool validPassword;                         // Check if the password is valid
             bool isAdmin = false;                       // Check if user is admin
-            
+
+            errorProvider1.Clear();                     // Reset errorProvider1
+            errorProvider2.Clear();                     // Reset errorProvider2
 
             // The following if/else statements perform the proper
             // checks of the user's input to make sure they actually exist
@@ -278,7 +280,7 @@ namespace Project_Forms
         // PURPOSE: This function simulates a logout be resetting all forms and 
         //          data associated with the last logged in user.
         // PARAMS:  None
-        // UPDATED: 11/5/14 By Jeff Henry (Refactoring)
+        // UPDATED: 11/6/14 By Jeff Henry (Refactoring)
         //=====================================================================
         private void logOutToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -286,7 +288,10 @@ namespace Project_Forms
             tab_control.SelectedTab = home_tab;                 // Return program to home 
             logOutToolStripMenuItem.Visible = false;            // Hide 'Logout' Option
             administrationToolStripMenuItem.Visible = false;    // Hide 'Administration'
+
+            // Clear our the view reports data grid:
             
+
             // Hide all tabs:
             tab_control.Appearance = TabAppearance.FlatButtons;
             tab_control.ItemSize = new Size(0, 1);
@@ -428,40 +433,43 @@ namespace Project_Forms
         //          view their own reports that they have previous entered into
         //          the xml data file. 
         // PARAMS:  None. 
-        // UPDATED: 11/3/14
+        // UPDATED: 11/5/14 - Refactoring Jeff Henry
         //=====================================================================
         private void button2_Click(object sender, EventArgs e)
         {
-            CultureInfo ci = new CultureInfo("en-us");  //used to display the totals in the correct format added 11/2/2014
-            vr_mon_total.Text = "0";                    //clear text so it doesn't show old values
-            vr_mileage_total.Text = "0";                //clear text so it doesn't show old values
-            if (vr_category_list.Text == "")
-            {
-                MessageBox.Show("Please select a category.", "ERROR");//make sure the category is not empty
-            }
+            CultureInfo ci = new CultureInfo("en-us");  // Used to display the totals in the correct format added 11/2/2014
+            vr_mon_total.Text = "$0.00";                // Clear text so it doesn't show old values
+            vr_mileage_total.Text = "0 mi";             // Clear text so it doesn't show old values
+            errorProvider1.Clear();                     // Clears the errorProvider1
+            errorProvider2.Clear();                     // Clears the errorProvider2
+
+
+            if (vr_category_list.Text == ""){errorProvider1.SetError(vr_category_list, "Please select a category.");}
             else
             {
-                //make appropriate conversions
-                List<Transaction> expenseReport = new List<Transaction>();
-                decimal totalExp = 0;
-                DateTime startDate = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());
-                DateTime endDate = Convert.ToDateTime(vr_end_date_picker.Value.ToShortDateString());
+                List<Transaction> expenseReport = new List<Transaction>();      // List to be used for the transactions.
+                decimal totalExp = 0;                                           // Total expenses
+                DateTime startDate = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());    // Grab the start date
+                DateTime endDate = Convert.ToDateTime(vr_end_date_picker.Value.ToShortDateString());        // Grab the end date
                 Control loadData = new Control();
-                //call the control function to load data. Pass the values.
-                loadData.loadExpenseReport(startDate, endDate, vr_category_list.Text, ref expenseReport, ref totalExp, username_box.Text);//Use start date, end date, and category
+
+                // Call the control function to load data. Pass the values.
+                loadData.loadExpenseReport(startDate, endDate, vr_category_list.Text, ref expenseReport, ref totalExp, username_box.Text);
                
-                dataGridView1.DataSource = expenseReport;//Display in text field (date, expense, total expense)
-                
-                vr_report_label.Text = vr_category_list.Text + " Report"; // to show which report is being shown
-                vr_report_label.Show();
+                dataGridView1.DataSource = expenseReport;                       //Display in text field (date, expense, total expense)
+                vr_report_label.Text = vr_category_list.Text + " Report";       // Display the appropriate title for the report.
+                vr_report_label.Show();                                         // Show the new title.
+
+                // Verify the user entered an appropriate date range.
                 if (endDate < startDate) 
-                { 
-                    MessageBox.Show("Your end date is higher than your start date, please correct this and try again.", "Error!");
+                {
+                    errorProvider1.SetError(vr_start_date_picker, "Start date must be before end date.");
+                    errorProvider2.SetError(vr_end_date_picker, "End date must be after start date.");
                     return;
                 }
                 else if (vr_category_list.Text == "Mileage")
                 {                
-                    vr_mileage_total.Text = loadData.mileage(startDate, endDate).ToString(); //display total for mileage only
+                    vr_mileage_total.Text = loadData.mileage(startDate, endDate).ToString() + " mi"; //display total for mileage only
                 }
                 else if (vr_category_list.Text == "All Categories")
                 {
@@ -470,11 +478,12 @@ namespace Project_Forms
                 }
                 else
                 {
-                    vr_mon_total.Text = totalExp.ToString("N02", ci);//Display the total correct format with commas
+                    vr_mon_total.Text = "$" + totalExp.ToString("N02", ci);//Display the total correct format with commas
                 }
+
                 this.dataGridView1.Columns["Expense"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                //this.dataGridView1.Sort(this.dataGridView1.Columns["Category"], ListSortDirection.Ascending);
-            }
+                this.dataGridView1.RowHeadersWidth = 5;         // Hides the arrow.
+             }
         }//end button2_Click 
 
         //=====================================================================
