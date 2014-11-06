@@ -65,4 +65,18 @@
     <Category>Mileage</Category>
     <Date>2014-11-06T00:00:00</Date>
   </Transaction>
+  <Transaction>
+    <Added_by>admin</Added_by>
+    <Expenditure>12</Expenditure>
+    <Comments></Comments>
+    <Category>Mileage</Category>
+    <Date>2014-11-06T00:00:00</Date>
+  </Transaction>
+  <Transaction>
+    <Added_by>admin</Added_by>
+    <Expenditure>50000.00</Expenditure>
+    <Comments></Comments>
+    <Category>Automobile</Category>
+    <Date>2014-11-06T00:00:00</Date>
+  </Transaction>
 </All_Transactions>

@@ -99,6 +99,8 @@
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider3 = new System.Windows.Forms.ErrorProvider(this.components);
             this.eventLog1 = new System.Diagnostics.EventLog();
+            this.login_error_msg = new System.Windows.Forms.Label();
+            this.expense_error_msg = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.tab_control.SuspendLayout();
             this.home_tab.SuspendLayout();
@@ -223,7 +225,7 @@
             // 
             // login_btn
             // 
-            this.login_btn.Location = new System.Drawing.Point(541, 224);
+            this.login_btn.Location = new System.Drawing.Point(500, 224);
             this.login_btn.Name = "login_btn";
             this.login_btn.Size = new System.Drawing.Size(75, 21);
             this.login_btn.TabIndex = 4;
@@ -278,6 +280,7 @@
             // 
             // home_tab
             // 
+            this.home_tab.Controls.Add(this.login_error_msg);
             this.home_tab.Controls.Add(this.home_user_details);
             this.home_tab.Controls.Add(this.pass_label);
             this.home_tab.Controls.Add(this.username_label);
@@ -327,6 +330,7 @@
             // 
             // ee_tab
             // 
+            this.ee_tab.Controls.Add(this.expense_error_msg);
             this.ee_tab.Controls.Add(this.save_expense_btn);
             this.ee_tab.Controls.Add(this.ee_category_list);
             this.ee_tab.Controls.Add(this.ee_expense_input);
@@ -749,6 +753,26 @@
             // 
             this.eventLog1.SynchronizingObject = this;
             // 
+            // login_error_msg
+            // 
+            this.login_error_msg.AutoSize = true;
+            this.login_error_msg.ForeColor = System.Drawing.Color.Red;
+            this.login_error_msg.Location = new System.Drawing.Point(461, 256);
+            this.login_error_msg.Name = "login_error_msg";
+            this.login_error_msg.Size = new System.Drawing.Size(35, 13);
+            this.login_error_msg.TabIndex = 16;
+            this.login_error_msg.Text = "label1";
+            // 
+            // expense_error_msg
+            // 
+            this.expense_error_msg.AutoSize = true;
+            this.expense_error_msg.ForeColor = System.Drawing.Color.Red;
+            this.expense_error_msg.Location = new System.Drawing.Point(199, 251);
+            this.expense_error_msg.Name = "expense_error_msg";
+            this.expense_error_msg.Size = new System.Drawing.Size(35, 13);
+            this.expense_error_msg.TabIndex = 18;
+            this.expense_error_msg.Text = "label1";
+            // 
             // Home
             // 
             this.AcceptButton = this.login_btn;
@@ -862,5 +886,7 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label vr_mileage_total;
         public System.Windows.Forms.Label time_stamp;
+        private System.Windows.Forms.Label login_error_msg;
+        private System.Windows.Forms.Label expense_error_msg;
     }
 }

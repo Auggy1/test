@@ -74,6 +74,8 @@ namespace Project_Forms
 
             /****************************************** Hidden labels/tabs ********************************************/
             welcome_msg.Hide();                                     // Hide the welcome message
+            login_error_msg.Hide();
+            expense_error_msg.Hide();
             label13.Hide();   
             administrationToolStripMenuItem.Visible = false;        // Hide the administration menu
             tab_control.Controls.Remove(vh_tab);                    // Remove the view history tab
@@ -169,15 +171,18 @@ namespace Project_Forms
             // checks of the user's input to make sure they actually exist
             // in the system, they have the proper username and password,
             // and if they are an admin or not. 
-            if ((username_box.Text== "") || (username_box.TextLength < 5))
+            if ((username_box.Text=="") && (pass_box.Text==""))
             {
-                MessageBox.Show("Incorrect login information.");
-                username_box.Clear();
+                errorProvider1.SetError(username_box, "Username must be provided.");
+                errorProvider2.SetError(pass_box, "Password must be provided.");
+            }
+            else if ((username_box.Text== "") || (username_box.TextLength < 5))
+            {
+                errorProvider1.SetError(username_box, "Username must be provided.");
             }
             else if  ((pass_box.Text=="") || (pass_box.TextLength < 5))
             {
-                MessageBox.Show("Incorrect login information.");
-                pass_box.Clear();
+                errorProvider1.SetError(pass_box, "Password must be provided.");
             }
             else if (username_box.Text != "" && pass_box.Text != "")
             {                 
@@ -240,13 +245,17 @@ namespace Project_Forms
                 }
                 else if (exists == false)
                 {
-                    MessageBox.Show("Invalid User.", "ERROR");
+                    //MessageBox.Show("Invalid User.", "ERROR");
+                    login_error_msg.Text = "User does not exist.";
+                    login_error_msg.Show();
                     username_box.Clear();
                     pass_box.Clear();
                 }
                 else if (validPassword == false)
                 {
-                    MessageBox.Show("Invalid Password.", "ERROR");
+                    //MessageBox.Show("Invalid Password.", "ERROR");
+                    login_error_msg.Text = "Invalid Password. Try Again.";
+                    login_error_msg.Show();
                     pass_box.Clear();
                 }
             }
@@ -328,50 +337,71 @@ namespace Project_Forms
         //          user has entered the correct information and is allowed
         //          to save their information into the xml file. 
         // PARAMS:  None. 
-        // UPDATED: 11/3/14
+        // UPDATED: 11/6/14 - errorProviders instead of pop-up errors Jeff Henry
         //=====================================================================
         private void button5_Click(object sender, EventArgs e)
         {
             decimal d;
+            errorProvider1.Clear();
             if (ee_category_list.Text == "")                            //Is a Cateogory chosen?
             {
-                MessageBox.Show("Please select a category.", "ERROR");
+                errorProvider1.SetError(ee_category_list, "Please select a category.");
+                expense_error_msg.Text = "Please select a category.";
+                expense_error_msg.Show();
+                //MessageBox.Show("Please select a category.", "ERROR");
             }
             else if (ee_expense_input.Text == "")                       //Is an Expense entered?
             {
-                MessageBox.Show("Error: You forgot to enter an expense", "Error!");
+                errorProvider1.SetError(ee_expense_input, "Please enter an expense.");
+                expense_error_msg.Text = "Please enter an expense.";
+                expense_error_msg.Show();
+                //MessageBox.Show("Error: You forgot to enter an expense", "Error!");
             }
             else if (!decimal.TryParse(ee_expense_input.Text, out d))
             {
-                MessageBox.Show("Please enter a valid expense. (Ex. 1234.56)");
+                errorProvider1.SetError(ee_expense_input, "Please enter a valid expense. (Ex. $100.00)");
+                expense_error_msg.Text = "Please enter a valid expense (Ex. $100.00)";
+                expense_error_msg.Show();
+                //MessageBox.Show("Please enter a valid expense. (Ex. 1234.56)");
                 ee_expense_input.Clear();
                 return;
             }
             else if (ee_category_list.Text == "Mileage" && !decimal.TryParse(ee_expense_input.Text, out d))
             {
-                MessageBox.Show("Please enter a valid mileage. (Ex. 1234.5)");
+                errorProvider1.SetError(ee_category_list, "Please enter a valid mileage. (Ex. 25.5)");
+                expense_error_msg.Text = "Please enter a valid mileage. (Ex. 1234.5)";
+                expense_error_msg.Show();
+                //MessageBox.Show("Please enter a valid mileage. (Ex. 1234.5)");
             }
-            /* else if (richTextBox2.Text == "")  // This can be potentially used for cycle 3, making comments mandatory
-            {                                     // when entering data. 
-                MessageBox.Show("You must enter comments for your expense.");
-            }*/
             else if (Convert.ToDecimal(ee_expense_input.Text) == 0)//no 0 values allowed for expense
             {
-                MessageBox.Show("The entry you are trying to enter is Free (Does not need to be recorded).", "Error!");
+                errorProvider1.SetError(ee_expense_input, "Entries of $0.00 are not allowed.");
+                expense_error_msg.Text = "Entries of $0.00 are not allowed.";
+                expense_error_msg.Show();
+                //MessageBox.Show("The entry you are trying to enter is Free (Does not need to be recorded).", "Error!");
             }
             else// convert the contents of the input to the correct formats and pass them to an add transaction function in Control
             {
                 if (!checkExpenseInput(ee_expense_input.Text) && ee_category_list.Text != "Mileage")//added 10/30/2014 checks for decimal and correct formatting if it's not mileage
                 {
-                    MessageBox.Show("Please enter a valid expense (ex. 10.00)");
+                    errorProvider1.SetError(ee_expense_input, "Please enter a valid expense. (Ex. $10.00)");
+                    expense_error_msg.Text = "Please enter a valid expense. (Ex. $100.00)";
+                    expense_error_msg.Show();
+                    //MessageBox.Show("Please enter a valid expense (ex. 10.00)");
                 }
                 else if (ee_category_list.Text == "Mileage" && ee_expense_input.Text.Contains("."))
                 {
-                    MessageBox.Show("Incorrect format. Try again."); //mileage should not have decimal
+                    errorProvider1.SetError(ee_expense_input, "Please enter a valid mileage. (Ex. 25.5)");
+                    expense_error_msg.Text = "Please enter a valid mileage. (Ex. 25.5)";
+                    expense_error_msg.Show();
+                    //MessageBox.Show("Incorrect format. Try again."); //mileage should not have decimal
                 }
-                else if (ee_category_list.Text == "Mileage" && ee_expense_input.TextLength > 6) //mileage should not be over 6 digits added: 11/2/2014
+                else if (ee_category_list.Text == "Mileage" && ee_expense_input.TextLength > 5) //mileage should not be over 5 digits added: 11/2/2014
                 {
-                    MessageBox.Show("Error, expense is too large for a mileage.");
+                    errorProvider1.SetError(ee_expense_input, "Expense is too large for a mileage.");
+                    expense_error_msg.Text = "Expense is too large for a mileage.";
+                    expense_error_msg.Show();
+                    //MessageBox.Show("Error, expense is too large for a mileage.");
                 }
                 else
                 {

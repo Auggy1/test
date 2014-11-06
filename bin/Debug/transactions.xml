@@ -66,9 +66,23 @@
       <Category>Mileage</Category>
       <Date>2014-11-06T00:00:00</Date>
     </Transaction>
+    <Transaction Id="10">
+      <Added_by>admin</Added_by>
+      <Expenditure>12</Expenditure>
+      <Comments></Comments>
+      <Category>Mileage</Category>
+      <Date>2014-11-06T00:00:00</Date>
+    </Transaction>
+    <Transaction Id="11">
+      <Added_by>admin</Added_by>
+      <Expenditure>50000.00</Expenditure>
+      <Comments></Comments>
+      <Category>Automobile</Category>
+      <Date>2014-11-06T00:00:00</Date>
+    </Transaction>
   </All_Transactions>
   <Change_History>
-    <DefaultID>10</DefaultID>
+    <DefaultID>12</DefaultID>
     <Record ChangeID="1">
       <Transaction_Date>2014-11-03T00:00:00</Transaction_Date>
       <Adding_user>admin</Adding_user>
@@ -105,9 +119,17 @@
       <Transaction_Date>2014-11-06T00:00:00</Transaction_Date>
       <Adding_user>jhenry</Adding_user>
     </Record>
+    <Record ChangeID="10">
+      <Transaction_Date>2014-11-06T00:00:00</Transaction_Date>
+      <Adding_user>admin</Adding_user>
+    </Record>
+    <Record ChangeID="11">
+      <Transaction_Date>2014-11-06T00:00:00</Transaction_Date>
+      <Adding_user>admin</Adding_user>
+    </Record>
   </Change_History>
   <Login_History>
-    <Default_login_id>48</Default_login_id>
+    <Default_login_id>50</Default_login_id>
     <Log id="1">
       <User>admin</User>
       <last_login>2014-11-03T00:00:00Z</last_login>
@@ -297,6 +319,14 @@
       <last_login>2014-11-06T00:00:00Z</last_login>
     </Log>
     <Log id="48">
+      <User>admin</User>
+      <last_login>2014-11-06T00:00:00Z</last_login>
+    </Log>
+    <Log id="49">
+      <User>admin</User>
+      <last_login>2014-11-06T00:00:00Z</last_login>
+    </Log>
+    <Log id="50">
       <User>admin</User>
       <last_login>2014-11-06T00:00:00Z</last_login>
     </Log>
