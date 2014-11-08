@@ -104,8 +104,8 @@ namespace Project_Forms
                     Array.Sort<string>(actual);
                     var source = new AutoCompleteStringCollection();
                     source.AddRange(actual);
-                    comboBox1.Items.AddRange(actual);
-                    comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+                    admin_user_dropdown.Items.AddRange(actual);
+                    admin_user_dropdown.DropDownStyle = ComboBoxStyle.DropDownList;
                 }
                 //==========================================================
 
@@ -137,8 +137,8 @@ namespace Project_Forms
                     Array.Sort<string>(actualCats);
                     var source2 = new AutoCompleteStringCollection();
                     source2.AddRange(actualCats);
-                    comboBox2.Items.AddRange(actualCats);
-                    comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
+                    admin_cat_dropdown.Items.AddRange(actualCats);
+                    admin_cat_dropdown.DropDownStyle = ComboBoxStyle.DropDownList;
                 }
             }//end category dropdown 
             //=====================================================================
@@ -155,19 +155,19 @@ namespace Project_Forms
         {
             Data functionCaller = new Data();
 
-            string userToBeEdited = comboBox1.Text;
-            bool admin = checkBox2.Checked; 
-            bool locked = checkBox1.Checked;
+            string userToBeEdited = admin_user_dropdown.Text;
+            bool admin = make_admin_chkbox.Checked; 
+            bool locked = lock_unlock_chkbox.Checked;
                     
             // This is a check to make sure they selected a user to edit. 
-            if (comboBox1.Text == "")
+            if (admin_user_dropdown.Text == "")
             {
                 MessageBox.Show("Please select a user.");
                 return;
             }
-            
+
             // This is to check that the user selected one of the options. 
-            else if (checkBox1.Checked == false && checkBox2.Checked == false && checkBox3.Checked == false)
+            else if (lock_unlock_chkbox.Checked == false && make_admin_chkbox.Checked == false && delete_chkbox.Checked == false)
             {
                 MessageBox.Show("No changes were made.");
                 return;
@@ -175,42 +175,43 @@ namespace Project_Forms
 
             // A user cannot lock an admin, so this is a check if both the 
             // "make admin" and "lock" boxes are not checked at the same time. 
-            else if (checkBox1.Checked == true && checkBox2.Checked == true)
+            else if (lock_unlock_chkbox.Checked == true && make_admin_chkbox.Checked == true)
             {
                 MessageBox.Show("An administrator account cannot be locked.");
-                checkBox1.Checked = false;
-                checkBox2.Checked = false; 
+                lock_unlock_chkbox.Checked = false;
+                make_admin_chkbox.Checked = false;
                 return;
             }
 
             // This check is for when the adminstrator wants to make the
             // the select user an admin. It prompts the user for a yes or no
             // and then proceeds. 
-            else if ((comboBox1.Text != "")  && (checkBox2.Checked == true))
+            else if ((admin_user_dropdown.Text != "") && (make_admin_chkbox.Checked == true))
             {
 
                 DialogResult dialog = MessageBox.Show("Are you sure you want to make '" + userToBeEdited + "' an admin?", "Confirm", MessageBoxButtons.YesNo);
                 if (dialog == DialogResult.Yes)
                 {
-                    functionCaller.editUser(userToBeEdited, admin, locked);
-                    checkBox2.Checked = false; 
+                    functionCaller.changeStatus(userToBeEdited, true);
+                    //functionCaller.editUser(userToBeEdited, admin, locked);
+                    make_admin_chkbox.Checked = false;
                     return;
                 }
             }
-            
+
             // This is a check to see if the administrator wants to delete a user. 
-            else if((comboBox1.Text != "") && (checkBox3.Checked == true))
+            else if ((admin_user_dropdown.Text != "") && (delete_chkbox.Checked == true))
             {
                 functionCaller.deleteUser(userToBeEdited);
-                checkBox3.Checked = false;
-            }   
+                delete_chkbox.Checked = false;
+            }
 
             // This is a check to see if the administrator wants to lock/unlock
             // a user. 
-            else if ((comboBox1.Text != "") && (checkBox1.Checked == true))
+            else if ((admin_user_dropdown.Text != "") && (lock_unlock_chkbox.Checked == true))
             {
                 functionCaller.lockUnlockUser(userToBeEdited, locked);
-                checkBox1.Checked = false;  
+                lock_unlock_chkbox.Checked = false;
             }
         }//end button1_Click 
         //=====================================================================
@@ -227,23 +228,23 @@ namespace Project_Forms
         {
             Data checkCat = new Data();
             bool exists = false;
-            if (textBox2.Text == "")
+            if (admin_new_cat_input.Text == "")
             {
                 MessageBox.Show("Please enter a category name.", "ERROR");
             }
             else
             {
-                exists = checkCat.checkDuplicateCategory(textBox2.Text);
+                exists = checkCat.checkDuplicateCategory(admin_new_cat_input.Text);
                 if (exists == false)
                 {
                     Data functionCall = new Data();
-                    string catToAdd = textBox2.Text;
+                    string catToAdd = admin_new_cat_input.Text;
                     functionCall.addNewCategory(catToAdd);
                     this.Refresh();
                 }
                 else if (exists == true)
                 {
-                    MessageBox.Show("The category '" + textBox2.Text + "' already exists.");
+                    MessageBox.Show("The category '" + admin_new_cat_input.Text + "' already exists.");
                     return;
                 }
             }
@@ -257,7 +258,7 @@ namespace Project_Forms
         //=====================================================================
         private void button4_Click(object sender, EventArgs e)
         {
-            if (comboBox2.Text == "")
+            if (admin_cat_dropdown.Text == "")
             {
                 MessageBox.Show("Please select a category to delete from the list.", "ERROR");
             }
@@ -267,7 +268,7 @@ namespace Project_Forms
                 if (dialog == DialogResult.Yes)
                 {
                     Data functionCall = new Data();
-                    string catToDelete = comboBox2.Text;
+                    string catToDelete = admin_cat_dropdown.Text;
                     functionCall.deleteCategory(catToDelete);
                     this.Refresh();
                 }
@@ -283,7 +284,7 @@ namespace Project_Forms
         //=====================================================================
         private void button3_Click(object sender, EventArgs e)
         {
-            if (comboBox2.Text == "")
+            if (admin_cat_dropdown.Text == "")
             {
                 MessageBox.Show("ERROR. Please select a category name.");
             }
@@ -310,7 +311,7 @@ namespace Project_Forms
             else
             {
                 Data functionCall = new Data();
-                string catToRename = comboBox2.Text;
+                string catToRename = admin_cat_dropdown.Text;
                 functionCall.renameCategory(catToRename, textBox1.Text);
                 this.Refresh();
                 return;
@@ -324,6 +325,20 @@ namespace Project_Forms
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        //=====================================================================
+        // If the admin selects a user from the dropdown list, we need to check
+        // if that user is an admin, so we can tick the Admin box or Locked box.
+        //=====================================================================
+        private void admin_user_dropdown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Data functionCall = new Data();
+            if (functionCall.checkAdmin(admin_user_dropdown.Text))
+                make_admin_chkbox.Checked = true;
+            else
+                make_admin_chkbox.Checked = false;
+
         }// end 
         //=====================================================================
     }

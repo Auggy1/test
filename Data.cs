@@ -634,24 +634,110 @@ namespace Project_Forms
         //=====================================================================
 
         //=====================================================================
+        // AUTHOR:      Jeff Henry
+        // PURPOSE:     If an administrator chooses to change a user to admin 
+        //              or vice versa, this function transfers the user to the
+        //              appropriate xml file and removes them from the original.
+        // PARAMETERS:  User to transfer and if the change is to the admin xml,
+        //              Otherwise it will be moving an admin to the users.xml.
+        // UPDATED:     11/7/2014 - Added by Jeff Henry
+        //=====================================================================
+        public void changeStatus(string user, bool toAdmin)
+        {
+            string username = user;
+            string password = "";
+            string first_name = "";
+            string last_name = "";
+            string email = "";
+            string last_login = "";
+            bool locked = false;
+
+            Data checkExists = new Data();
+            if (checkExists.xmlcheck())
+            {
+                // If being transferred to admin.xml, open the users.xml and save
+                // the info to transfer then delete the user from the users.xml
+                if (toAdmin)
+                {
+                    XDocument users_xml = XDocument.Load(@"users.xml");
+
+                    // Parse through the xml for the user:
+                    foreach (var User in users_xml.Document.Descendants("User"))
+                    {
+                        if (User.Element("Username").Value == user)
+                        {
+                            password = User.Element("password").Value;
+                            first_name = User.Element("firstName").Value;
+                            last_name = User.Element("lastName").Value;
+                            email = User.Element("email").Value;
+                            last_login = User.Element("lastLogin").Value;
+                            MessageBox.Show("User data grabbed from users.xml." +
+                                            "\nPassword: " + password +
+                                            "\nFirst Name: " + first_name +
+                                            "\nLast Name: " + last_name +
+                                            "\nEmail: " + email +
+                                            "\nLast Login: " + last_login);
+                            addNewUser(user, password, toAdmin, first_name, last_name, email, last_login, locked);
+                            User.Remove();
+                            users_xml.Save(@"users.xml");
+                            return;
+                        }
+                    }//end foreach
+                }
+                else
+                {
+                    XDocument admins_xml = XDocument.Load(@"user_admin.xml");
+
+                    // Parse through the xml for the user:
+                    foreach (var User in admins_xml.Document.Descendants("User"))
+                    {
+                        if (User.Element("Username").Value == user)
+                        {
+                            password = User.Element("password").Value;
+                            first_name = User.Element("firstName").Value;
+                            last_name = User.Element("lastName").Value;
+                            email = User.Element("email").Value;
+                            last_login = User.Element("lastLogin").Value;
+                            MessageBox.Show("User data grabbed from users.xml." +
+                                            "\nPassword: " + password +
+                                            "\nFirst Name: " + first_name +
+                                            "\nLast Name: " + last_name +
+                                            "\nEmail: " + email +
+                                            "\nLast Login: " + last_login);
+                            addNewUser(user, password, toAdmin, first_name, last_name, email, last_login, locked);
+                            User.Remove();
+                            admins_xml.Save(@"user_admin.xml");
+                            return;
+                        }
+                    }//end foreach
+                }
+            }
+        }
+
+        //=====================================================================
         // AUTHOR:      Maxwell Partington & Ranier Limpiado 
         // PURPOSE:     This function is designed to add a new user to the
         //              userXml or the userAdminXml. 
         // PARAMETERS:  The usersname to add, their new passowrd, if they will
         //              be an admin or not, their first name, last name, 
-        //              and email. 
-        // UPDATED: 11/7/2014 - Jeff Henry (Refactoring)
+        //              and email, last login date. 
+        // UPDATED:     11/7/2014 - Jeff Henry - Modified parameters to allow 
+        //                          more function use.
         //=====================================================================
-        public void addNewUser(string userToAdd, string userPassword, bool userAdmin, string firstName, string lastName, string email)
+        public void addNewUser(string userToAdd, string userPassword, bool userAdmin, string firstName, string lastName, string email, string login, bool isLocked)
         {
             string password = userPassword;
             string user = userToAdd;
             bool admin = userAdmin;
-            bool locked = false;
+            bool locked = isLocked;
             string fname = firstName;
             string lname = lastName;
             string uEmail = email;
-            string lastLogin = "Hello! This is your first login!"; 
+            string lastLogin;
+            if (login == "ignore")
+                lastLogin = "Hello! This is your first login!";
+            else
+                lastLogin = login;
 
             // Load the XML document
             var docu = XDocument.Load(@"users.xml");
@@ -664,7 +750,7 @@ namespace Project_Forms
        
             }//end foreach
            
-            if (userAdmin) //add to normal users xml
+            if (!userAdmin) //add to normal users xml
             {
                 var doc = XDocument.Load("users.xml");
                 doc.Element("Users").Add(new XElement("User",
@@ -680,7 +766,7 @@ namespace Project_Forms
                 doc.Save(@"users.xml");
                 MessageBox.Show("User saved.");
             }
-            else if (userAdmin == true) //add to admin users xml
+            else if (userAdmin) //add to admin users xml
             {
                 var doc = XDocument.Load("user_admin");
                 doc.Element("Users").Add(new XElement("User",

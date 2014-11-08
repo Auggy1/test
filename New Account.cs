@@ -50,11 +50,19 @@ namespace Project_Forms
             string error = "Incorrect Login Information"; // error meessage
             if (string.IsNullOrWhiteSpace(na_username.Text) || checkInput(na_username.Text) || na_username.Text.Length < 5) // make sure format is correct for username
             {
-                MessageBox.Show("Please enter a user name containing the following characters: [a-z][A-Z][0-9] or […]");
+                MessageBox.Show("Please enter a user name containing the following characters: [a-z][A-Z][0-9] or [_]");
             }
-            else if (string.IsNullOrWhiteSpace(na_password.Text) || checkInput(na_firstname.Text) || na_password.Text.Length < 6) // make sure format is correct for password
+            else if (string.IsNullOrWhiteSpace(na_password.Text))
             {
-                MessageBox.Show(error);
+                MessageBox.Show("Please enter a password");
+            }
+            else if (checkInput(na_firstname.Text))
+            {
+                MessageBox.Show("Please enter a valid username");
+            }
+            else if (na_password.Text.Length < 6) // make sure format is correct for password
+            {
+                MessageBox.Show("Please enter a password that is at least 6 characters long.");
             }
             else if (!na_verifyemail.Text.Equals(na_email.Text))
             {
@@ -76,7 +84,7 @@ namespace Project_Forms
                 else 
                 {
                     string encryptedPass = newUser.Encrypt(na_password.Text, "password");// encrypt the password, need to decrypt it later 10/27/2014
-                    newUser.addNewUser(na_username.Text, encryptedPass, admin_chkbox.Checked, na_firstname.Text, na_lastname.Text, na_email.Text);
+                    newUser.addNewUser(na_username.Text, encryptedPass, admin_chkbox.Checked, na_firstname.Text, na_lastname.Text, na_email.Text,"ignore",false);
                 }
                 this.Refresh();
                 this.Close();

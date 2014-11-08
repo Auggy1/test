@@ -3,34 +3,13 @@
 <!--This user information will be stored under Username-->
 <Users>
   <User>
-    <Username>maxwell</Username>
+    <Username>newuse</Username>
     <password>IsDFmROP25SA8xtsATQhPg==</password>
-    <firstName>maxwell</firstName>
-    <lastName>partington</lastName>
-    <email>mcpartington@gmail.com</email>
+    <firstName>qweqw</firstName>
+    <lastName>qweqwe</lastName>
+    <email></email>
     <admin>false</admin>
     <locked>false</locked>
-    <lastLogin>11/3/2014 4:53:39 PM</lastLogin>
-  </User>
-  <User>
-    <Username>jhenry</Username>
-    <password>IsDFmROP25SA8xtsATQhPg==</password>
-    <firstName>jeff</firstName>
-    <lastName>henry</lastName>
-    <email>we@gmail.com</email>
-    <admin>false</admin>
-    <locked>false</locked>
-    <lastLogin>11/6/2014 2:26:34 AM</lastLogin>
-  </User>
-  <User>
-    <Username>henry020</Username>
-    <password>IsDFmROP25SA8xtsATQhPg==</password>
-    <firstName>jeff</firstName>
-    <lastName>henry</lastName>
-    <email>
-    </email>
-    <admin>false</admin>
-    <locked>false</locked>
-    <lastLogin>11/7/2014 11:26:51 PM</lastLogin>
+    <lastLogin>Hello! This is your first login!</lastLogin>
   </User>
 </Users>
