@@ -2,6 +2,7 @@
 // AUTHORS: 
 //          Cycle 1: Karan Singh & Michelle Jaro
 //          Cycle 2: Maxwell Partington & Ranier Limpiado 
+//          Cycle 3: Jeff Henry & Augustin Garcia
 // PURPOSE: This .cs file holds most of the functions that do the 
 //          heavy lifting for the forms. It produces unique user data,
 //          data checks, data processing and general information fetching.  
@@ -42,11 +43,11 @@ namespace Project_Forms
     //=========================================================================
     public class DetailedTransaction
     {
-        public DateTime DDate { get; set; }
-        public string DCategory { get; set; }
-        public string DExpense { get; set; }
-        public string DUser { get; set; }
-        public string DComments { get; set; }
+        public DateTime Date { get; set; }
+        public string Category { get; set; }
+        public string Expense { get; set; }
+        public string User { get; set; }
+        public string Comments { get; set; }
     }//end transaction class
     //=========================================================================
 
@@ -188,7 +189,7 @@ namespace Project_Forms
                                          new XElement("admin", true),
                                          new XElement("locked", false),
                                          new XElement("lastLogin", DateTime.Now.ToString()))));
-            Database.Save(@"userAdminXml.xml");
+            Database.Save(@"user_admin");
         }//end userAmdminXml
         //=====================================================================
 
@@ -201,7 +202,7 @@ namespace Project_Forms
         public bool xmlcheck()
         {
             //edited 10/24/14
-            if (File.Exists(@"transactions.xml") && File.Exists(@"users.xml") && File.Exists(@"categories.xml") && File.Exists(@"detailed_transaction.xml") && File.Exists(@"userAdminXml.xml"))
+            if (File.Exists(@"transactions.xml") && File.Exists(@"users.xml") && File.Exists(@"categories.xml") && File.Exists(@"detailed_transaction.xml") && File.Exists(@"user_admin"))
             {
                 return true;
             }
@@ -468,30 +469,56 @@ namespace Project_Forms
         // PURPOSE: Opens the XML file to look for and display the transactions that match the 
         //          time frame and category specified by the user. It also calculates the total 
         //          expenses in that time frame and category and displays it.
-        // UPDATED: 11/2/2014
+        // UPDATED: 11/7/2014   - Jeff Henry (Refactoring)
         //=====================================================================
-        public void loadExpenses(DateTime start, DateTime end, string category, ref List<Transaction> expenseReport, ref decimal total, string addedBy)
+        public void loadExpenses(DateTime start, DateTime end, string category, ref List<Transaction> expenseReport, ref decimal total, ref decimal totalMil, string addedBy)
         {
             XDocument xmlDoc = XDocument.Load(@"transactions.xml");
-
-            //Search through XML files to retrieve the necessary information based on user input
-            if (category == "All Categories")//Transactions for all categories in specified time frame
+            // Search through XML files to retrieve the necessary information based on user input
+            // Transactions for all  in specified time frame (ADMIN)
+            if (category == "All Categories" && checkAdmin(addedBy))  
             {
                 var all = from exp in xmlDoc.Descendants("Transaction")
-                          where ((DateTime)exp.Element("Date") >= start && (DateTime)exp.Element("Date") <= end && exp.Element("Added_by").Value == addedBy)//edited: Karan Singh(&& instead of ||)
+                          where ((DateTime)exp.Element("Date") >= start && (DateTime)exp.Element("Date") <= end)
                           select new Transaction
                           {
                               Date = (DateTime)exp.Element("Date"),
                               Category = exp.Element("Category").Value,
                               Expense = exp.Element("Expenditure").Value                            
                           };
-            
                 expenseReport = all.ToList();
             }
-            else//Transactions with one specific category in specified time frame
+            // Transactions for all  in specified time frame (Employee)
+            else if(category == "All Categories" && !checkAdmin(addedBy))
+            {
+                var all = from exp in xmlDoc.Descendants("Transaction")
+                          where ((DateTime)exp.Element("Date") >= start && (DateTime)exp.Element("Date") <= end && exp.Element("Added_by").Value == addedBy)
+                          select new Transaction
+                          {
+                              Date = (DateTime)exp.Element("Date"),
+                              Category = exp.Element("Category").Value,
+                              Expense = exp.Element("Expenditure").Value
+                          };
+                expenseReport = all.ToList();
+            }
+            //Transactions with one specific category in specified time frame (ADMIN)
+            else if(category != "All Categories" && checkAdmin(addedBy))
             {
                 var one = from e in xmlDoc.Descendants("Transaction")
-                          where ((e.Element("Category").Value == category) && (((DateTime)e.Element("Date") >= start) && (DateTime)e.Element("Date") <= end) && e.Element("Added_by").Value == addedBy)//edited: Karan Singh(&& instead of ||)
+                          where ((e.Element("Category").Value == category) && (((DateTime)e.Element("Date") >= start) && (DateTime)e.Element("Date") <= end))
+                          select new Transaction
+                          {
+                              Date = (DateTime)e.Element("Date"),
+                              Category = e.Element("Category").Value,
+                              Expense = e.Element("Expenditure").Value
+                          };
+                expenseReport = one.ToList();
+            }
+            //Transactions with one specific category in specified time frame (Employee)
+            else
+            {
+                var one = from e in xmlDoc.Descendants("Transaction")
+                          where ((e.Element("Category").Value == category) && (((DateTime)e.Element("Date") >= start) && (DateTime)e.Element("Date") <= end))
                           select new Transaction
                           {
                               Date = (DateTime)e.Element("Date"),
@@ -501,14 +528,16 @@ namespace Project_Forms
                 expenseReport = one.ToList();
             }
 
-            decimal expenseTotal;// convert the strings to decimal so you can add them all up
-
-            for (int i = 0; i < expenseReport.Count; i++)//Prints out the list of the results with the total expense
+            // Prints out the list of the results with the total expense
+            for (int i = 0; i < expenseReport.Count; i++)   
             {
                 if (expenseReport[i].Category != "Mileage")
                 {
-                    expenseTotal = System.Convert.ToDecimal(expenseReport[i].Expense);
-                    total = total + expenseTotal;
+                    total += Convert.ToDecimal(expenseReport[i].Expense);
+                }
+                else
+                {
+                    totalMil += Convert.ToDecimal(expenseReport[i].Expense);
                 }
             }//end for 
         }//end loadExpenses
@@ -519,79 +548,86 @@ namespace Project_Forms
         // PURPOSE: Opens the XML file to look for and display the detailed transactions that match the 
         //          time frame and category specified by the user. It also calculates the total 
         //          expenses in that time frame and category and displays it.
-        // UPDATED: 11/2/2014
+        // UPDATED: 11/7/2014 - Jeff Henry - Fixed misprint of reports
         //=====================================================================
-        public void loadDetailedExpenses(DateTime start, DateTime end, string category, ref List<DetailedTransaction> expenseReport, ref decimal total, string addedBy)
+        public void loadDetailedExpenses(DateTime start, DateTime end, string category, ref List<DetailedTransaction> expenseReport, ref decimal total, ref decimal totalMil, string addedBy)
         {
            
             XDocument xmlDoc = XDocument.Load(@"transactions.xml");
-            //Search through XML files to retrieve the necessary information based on user input
-            if (category == "All Categories" && checkAdmin(addedBy)) //user is an admin and picked all categories so display every user and the expenses theyve entered
+            // Search through XML files to retrieve the necessary information based on user input
+            // Transactions fr all categories in a specified time frame. (ADMIN)
+            if (category == "All Categories" && checkAdmin(addedBy)) 
             {
                 var all = from exp in xmlDoc.Descendants("Transaction")
-                          where ((DateTime)exp.Element("Date") >= start && (DateTime)exp.Element("Date") <= end)//edited: Karan Singh(&& instead of ||)
+                          where ((DateTime)exp.Element("Date") >= start && (DateTime)exp.Element("Date") <= end)
                           select new DetailedTransaction
                           {
-                              DDate = (DateTime)exp.Element("Date"),
-                              DCategory = exp.Element("Category").Value,
-                              DExpense = exp.Element("Expenditure").Value,
-                              DUser = exp.Element("Added_by").Value,
-                              DComments = exp.Element("Comments").Value
+                              Date = (DateTime)exp.Element("Date"),
+                              Category = exp.Element("Category").Value,
+                              Expense = exp.Element("Expenditure").Value,
+                              User = exp.Element("Added_by").Value,
+                              Comments = exp.Element("Comments").Value
                           };
                 expenseReport = all.ToList();
             }
-            else if (category == "All Categories" && !checkAdmin(addedBy))//Transactions for all categories in specified time frame and not admin so display only the information related to the user logged in
+            // Transactions fr all categories in a specified time frame.
+            else if (category == "All Categories" && !checkAdmin(addedBy))
             {
                 var all = from exp in xmlDoc.Descendants("Transaction")
-                          where ((DateTime)exp.Element("Date") >= start && (DateTime)exp.Element("Date") <= end && exp.Element("Added_by").Value == addedBy)//edited: Karan Singh(&& instead of ||)
+                          where ((DateTime)exp.Element("Date") >= start && (DateTime)exp.Element("Date") <= end && exp.Element("Added_by").Value == addedBy)
                           select new DetailedTransaction
                           {
-                              DDate = (DateTime)exp.Element("Date"),
-                              DCategory = exp.Element("Category").Value,
-                              DExpense = exp.Element("Expenditure").Value,
-                              DUser = exp.Element("Added_by").Value,
-                              DComments = exp.Element("Comments").Value
+                              Date = (DateTime)exp.Element("Date"),
+                              Category = exp.Element("Category").Value,
+                              Expense = exp.Element("Expenditure").Value,
+                              User = exp.Element("Added_by").Value,
+                              Comments = exp.Element("Comments").Value
                           };
-
                 expenseReport = all.ToList();
             }
-            else if (category != "All Categories" && !checkAdmin(addedBy))//Transactions with one specific category in specified time frame for the user currently logged in
+            //Transactions with one specific category in specified time frame (ADMIN)
+            else if (category != "All Categories" && checkAdmin(addedBy))
             {
                 var one = from e in xmlDoc.Descendants("Transaction")
-                          where ((e.Element("Category").Value == category) && (((DateTime)e.Element("Date") >= start) && (DateTime)e.Element("Date") <= end) && e.Element("Added_by").Value == addedBy)//edited: Karan Singh(&& instead of ||)
+                          where ((e.Element("Category").Value == category) && (((DateTime)e.Element("Date") >= start) && (DateTime)e.Element("Date") <= end))
                           select new DetailedTransaction
                           {
-                              DDate = (DateTime)e.Element("Date"),
-                              DCategory = e.Element("Category").Value,
-                              DExpense = e.Element("Expenditure").Value,
-                              DUser = e.Element("Added_by").Value,
-                              DComments = e.Element("Comments").Value
+                              Date = (DateTime)e.Element("Date"),
+                              Category = e.Element("Category").Value,
+                              Expense = e.Element("Expenditure").Value,
+                              User = e.Element("Added_by").Value,
+                              Comments = e.Element("Comments").Value
                           };
 
                 expenseReport = one.ToList();
             }
-            else  //user is an admin and wants to view all users expenditures for the category chosen
-           {
-               var one = from e in xmlDoc.Descendants("Transaction")
-                         where ((e.Element("Category").Value == category) && (((DateTime)e.Element("Date") >= start) && (DateTime)e.Element("Date") <= end))//edited: Karan Singh(&& instead of ||)
-                         select new DetailedTransaction
-                         {
-                             DDate = (DateTime)e.Element("Date"),
-                             DCategory = e.Element("Category").Value,
-                             DExpense = e.Element("Expenditure").Value,
-                             DUser = e.Element("Added_by").Value,
-                             DComments = e.Element("Comments").Value
-                         };
-               expenseReport = one.ToList();
-            }//end of else
-            decimal expenseTotal;// convert the strings to decimal so you can add them all up
-
-            for (int i = 0; i < expenseReport.Count; i++)//Prints out the list of the results with the totla expense
+            //Transactions with one specific category in specified time frame (Employee)
+            else
             {
-                if (expenseReport[i].DCategory != "Mileage")
+                var one = from e in xmlDoc.Descendants("Transaction")
+                          where ((e.Element("Category").Value == category) && (((DateTime)e.Element("Date") >= start) && (DateTime)e.Element("Date") <= end) && e.Element("Added_by").Value == addedBy)
+                          select new DetailedTransaction
+                          {
+                              Date = (DateTime)e.Element("Date"),
+                              Category = e.Element("Category").Value,
+                              Expense = e.Element("Expenditure").Value,
+                              User = e.Element("Added_by").Value,
+                              Comments = e.Element("Comments").Value
+                          };
+
+                expenseReport = one.ToList();
+            }
+
+            //Prints out the list of the results with the total expense
+            for (int i = 0; i < expenseReport.Count; i++)
+            {
+                if (expenseReport[i].Category != "Mileage")
                 {                
-                    expenseTotal = System.Convert.ToDecimal(expenseReport[i].DExpense);
-                    total = total + expenseTotal;//expenseReport[i].Expense;
+                    total += System.Convert.ToDecimal(expenseReport[i].Expense);
+                }
+                else
+                {
+                    totalMil += Convert.ToDecimal(expenseReport[i].Expense);
                 }
             }//end for 
         }//end loadExpenses
@@ -604,7 +640,7 @@ namespace Project_Forms
         // PARAMETERS:  The usersname to add, their new passowrd, if they will
         //              be an admin or not, their first name, last name, 
         //              and email. 
-        // UPDATED: 11/3/2014
+        // UPDATED: 11/7/2014 - Jeff Henry (Refactoring)
         //=====================================================================
         public void addNewUser(string userToAdd, string userPassword, bool userAdmin, string firstName, string lastName, string email)
         {
@@ -628,7 +664,7 @@ namespace Project_Forms
        
             }//end foreach
            
-            if (userAdmin == false) //add to normal users xml
+            if (userAdmin) //add to normal users xml
             {
                 var doc = XDocument.Load("users.xml");
                 doc.Element("Users").Add(new XElement("User",
@@ -646,7 +682,7 @@ namespace Project_Forms
             }
             else if (userAdmin == true) //add to admin users xml
             {
-                var doc = XDocument.Load("userAdminXml.xml");
+                var doc = XDocument.Load("user_admin");
                 doc.Element("Users").Add(new XElement("User",
                                          new XElement("Username", user), 
                                          new XElement("password", password), 
@@ -656,7 +692,7 @@ namespace Project_Forms
                                          new XElement("admin", admin),
                                          new XElement("locked", locked),
                                          new XElement("lastLogin", lastLogin)));
-                doc.Save(@"userAdminXml.xml");
+                doc.Save(@"user_admin");
                 MessageBox.Show("User saved.");
             }
         }//end addNewUser
@@ -715,7 +751,7 @@ namespace Project_Forms
             if (exists == true)
             {
                 XDocument userDoc = XDocument.Load(@"users.xml");
-                XDocument adminDoc = XDocument.Load(@"userAdminXml.xml");
+                XDocument adminDoc = XDocument.Load(@"user_admin");
                 
                 foreach (var User in userDoc.Descendants("User"))
                 {
@@ -737,7 +773,7 @@ namespace Project_Forms
                         if (userName == userToDelete)
                         {
                             User.Remove();
-                            adminDoc.Save(@"userAdminXml.xml");
+                            adminDoc.Save(@"user_admin");
                             MessageBox.Show("User deleted.");
                             deleted = true;
                             return;
@@ -768,7 +804,7 @@ namespace Project_Forms
             if (exists == true)
             {
                 XDocument userDoc = XDocument.Load(@"users.xml");
-                XDocument adminDoc = XDocument.Load(@"userAdminXml.xml");
+                XDocument adminDoc = XDocument.Load(@"user_admin");
 
                 foreach (var User in userDoc.Descendants("User"))
                 {
@@ -790,7 +826,7 @@ namespace Project_Forms
                         if (userName == userToLockUnlock)
                         {
                             User.Element("locked").Value = userLock;
-                            adminDoc.Save(@"userAdminXml.xml");
+                            adminDoc.Save(@"user_admin");
                             finished = true;
                             MessageBox.Show("User 'locked' value updated.");
                             return;
@@ -971,7 +1007,7 @@ namespace Project_Forms
                 if (adminUser)
                 {
                     XmlDocument xml = new XmlDocument();
-                    xml.Load("userAdminXml.xml");
+                    xml.Load("user_admin");
                     XmlNodeList list = xml.SelectNodes("/Users/User");
                     foreach (XmlNode xn in list)
                     {
@@ -1055,7 +1091,7 @@ namespace Project_Forms
                 string admin =  "";
                 string adminCheck = ""; 
                 bool found = false; 
-                xml.Load("userAdminXml.xml");
+                xml.Load("user_admin");
                 XmlNodeList list = xml.SelectNodes("/Users/User");
                 foreach (XmlNode xn in list)
                 {
@@ -1104,7 +1140,7 @@ namespace Project_Forms
             listOfUsers[0] = "All Users"; // first item should be All Users
             
             XmlDocument xml = new XmlDocument();
-            xml.Load("userAdminXml.xml");
+            xml.Load("user_admin");
             XmlNodeList list = xml.SelectNodes("/Users/User");
             foreach (XmlNode xn in list)
             {
@@ -1165,7 +1201,7 @@ namespace Project_Forms
             if (adminUser)
             {
                 XmlDocument xml = new XmlDocument();
-                xml.Load("userAdminXml.xml");
+                xml.Load("user_admin");
                 XmlNodeList list = xml.SelectNodes("/Users/User");
                 foreach (XmlNode xn in list)
                 {
@@ -1370,8 +1406,7 @@ namespace Project_Forms
             List<string> expenses = new List<string>();
             List<string> cats = new List<string>();
             List<DateTime> date = new List<DateTime>();
-            List<string> totals = new List<string>();
-            int total; 
+            int total = 0; 
 
             var xDoc = XDocument.Load(@"transactions.xml");
             var count = xDoc.Descendants("Transaction").Count();
@@ -1382,7 +1417,6 @@ namespace Project_Forms
 
             foreach (XmlNode xn in list)
             {
-                //string userInXml = xn["Added_by"].InnerText;
                 string dates = xn["Date"].InnerText;
                 DateTime listDates = Convert.ToDateTime(dates);
                 date.Add(listDates);
@@ -1394,11 +1428,9 @@ namespace Project_Forms
             {            
                 if (date[i] >= start && date[i] <= end && cats[i] == "Mileage")
                 {
-                    totals.Add(expenses[i]);                   
+                    total += Convert.ToInt32(expenses[i]);
                 }
-            }//end for 
-
-            total = totals.Sum(x => Convert.ToInt32(x));
+            }//end for
             return total;
         }//end getMileage
         //==========================================================================
@@ -1499,7 +1531,7 @@ namespace Project_Forms
             if (adminUser)
             {
                 XmlDocument xml = new XmlDocument();
-                xml.Load("userAdminXml.xml");
+                xml.Load("user_admin");
                 XmlNodeList list = xml.SelectNodes("/Users/User");
                 foreach (XmlNode xn in list)
                 {
@@ -1570,7 +1602,7 @@ namespace Project_Forms
             if (adminUser)
             {
                 XmlDocument xml = new XmlDocument();
-                xml.Load("userAdminXml.xml");
+                xml.Load("user_admin");
                 XmlNodeList list = xml.SelectNodes("/Users/User");
                 foreach (XmlNode xn in list)
                 {
@@ -1578,7 +1610,7 @@ namespace Project_Forms
                     if (userName.Equals(user))
                     {
                         xn["lastLogin"].InnerText = DateTime.Now.ToString();
-                        xml.Save(@"userAdminXml.xml");
+                        xml.Save(@"user_admin");
                     }
                     else
                     {
@@ -1624,61 +1656,77 @@ namespace Project_Forms
         //=======================================================
         // AUTHOR: Maxwell Partington & Ranier Limpiado 
         // PURPOSE: Exports the report into excel. 
-        // UPDATED: 11/2/2014 
+        // UPDATED: 11/7/2014   - Jeff Henry (Added SaveFileDialog) 
         //=======================================================
         public void exportExcel(DataGridView dataGrid, string total, string mileage)
         {
-            Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
-            Microsoft.Office.Interop.Excel._Workbook ExcelBook;
-            Microsoft.Office.Interop.Excel._Worksheet ExcelSheet;
-            int i = 0;
-            int j = 0;
-            var totalHeader = 0;// go to the very right of the columns
-            //create object of excel
-            ExcelBook = (Microsoft.Office.Interop.Excel._Workbook)ExcelApp.Workbooks.Add(1);
-            ExcelSheet = (Microsoft.Office.Interop.Excel._Worksheet)ExcelBook.ActiveSheet;
-            //Create the header
-            for (i = 1; i <= dataGrid.Columns.Count; i++)
+            // Prompt the User where to save the file.
+            Stream myStream;
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Excel File | *xls";
+            saveFileDialog1.Title = "Save as Excel File";
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                ExcelSheet.Cells[1, i] = dataGrid.Columns[i - 1].HeaderText;
-                totalHeader = i + 1;
-            }
-            ExcelSheet.Cells[1, totalHeader] = "Total"; //Add this to the right of the headers
-            ExcelSheet.Cells[1, totalHeader + 1] = "Total Mileage";//Add to the right of the headers
-
-            var totalRow = 0;
-            var totalCol = 0;
-            //export the data to excel
-            for (i = 1; i <= dataGrid.RowCount; i++)
-            {
-                for (j = 1; j <= dataGrid.Columns.Count; j++)
+                if ((myStream = saveFileDialog1.OpenFile()) != null)
                 {
-                    ExcelSheet.Cells[i + 1, j] = dataGrid.Rows[i - 1].Cells[j - 1].Value;
-                    totalCol = j + 1;
+                    Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
+                    Microsoft.Office.Interop.Excel._Workbook ExcelBook;
+                    Microsoft.Office.Interop.Excel._Worksheet ExcelSheet;
+                    int i = 0;
+                    int j = 0;
+                    var totalHeader = 0;// go to the very right of the columns
+                    
+                    // Create the Excel Object:
+                    ExcelBook = (Microsoft.Office.Interop.Excel._Workbook)ExcelApp.Workbooks.Add(1);
+                    ExcelSheet = (Microsoft.Office.Interop.Excel._Worksheet)ExcelBook.ActiveSheet; 
+
+                    // Create the header
+                    for (i = 1; i <= dataGrid.Columns.Count; i++)
+                    {
+                        ExcelSheet.Cells[1, i] = dataGrid.Columns[i - 1].HeaderText;
+                        totalHeader = i + 1;
+                    }
+                    
+                    var totalRow = 0;
+                    var totalCol = 0;
+
+                    //export the data to excel
+                    for (i = 1; i <= dataGrid.RowCount; i++)
+                    {
+                        for (j = 1; j <= dataGrid.Columns.Count; j++)
+                        {
+                            ExcelSheet.Cells[i + 1, j] = dataGrid.Rows[i - 1].Cells[j - 1].Value;
+                            totalCol = j + 1;
+                        }
+                        totalRow = i + 1;
+                    }
+                    ExcelSheet.Cells[totalRow + 2, 1] = "Expense Total:";           // Display the expense total after all the expense
+                    ExcelSheet.Cells[totalRow + 3, 1] = "Mileage Total:";           // Display the mileage total after all the expense
+                    ExcelSheet.Cells[totalRow + 2, totalCol-1] = total;       //Show the total in the correct cell
+                    ExcelSheet.Cells[totalRow + 3, totalCol-1] = mileage;   //Show the total mileage in the correct cell
+                    ExcelApp.Visible = true;
+
+                    //set the font detailed
+                    Microsoft.Office.Interop.Excel.Range myRange = ExcelSheet.Range[ExcelSheet.Cells[1, 1], ExcelSheet.Cells[dataGrid.RowCount + 1, dataGrid.Columns.Count]];
+                    Microsoft.Office.Interop.Excel.Font x = myRange.Font;
+                    x.Name = "Arial";
+                    x.Size = 10;
+                    
+                    //Bold the header row
+                    myRange = ExcelSheet.Range[ExcelSheet.Cells[1, 1], ExcelSheet.Cells[1, dataGrid.Columns.Count + 2]];
+                    myRange.Interior.Color = System.Drawing.Color.SlateGray;
+                    x = myRange.Font;
+                    x.Bold = true;
+
+                    //autofit everything
+                    myRange.EntireColumn.AutoFit();
+
+                    //
+                    ExcelSheet = null;
+                    ExcelBook = null;
+                    ExcelApp = null;
                 }
-                totalRow = i + 1;
             }
-            ExcelSheet.Cells[totalRow, totalCol] = total; //Show the total in the correct cell
-            ExcelSheet.Cells[totalRow, totalCol + 1] = mileage; //Show the total mileage in the correct cell
-            ExcelApp.Visible = true;
-
-            //set the font detailed
-            Microsoft.Office.Interop.Excel.Range myRange = ExcelSheet.Range[ExcelSheet.Cells[1, 1], ExcelSheet.Cells[dataGrid.RowCount + 1, dataGrid.Columns.Count]];
-            Microsoft.Office.Interop.Excel.Font x = myRange.Font;
-            x.Name = "Arial";
-            x.Size = 10;
-
-            //Bold the header row
-            myRange = ExcelSheet.Range[ExcelSheet.Cells[1, 1], ExcelSheet.Cells[1, dataGrid.Columns.Count + 2]];
-            x = myRange.Font;
-            x.Bold = true;
-            //autofit everything
-            myRange.EntireColumn.AutoFit();
-
-            //
-            ExcelSheet = null;
-            ExcelBook = null;
-            ExcelApp = null;
         }//end 
         //=====================================================================
 

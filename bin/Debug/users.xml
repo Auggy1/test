@@ -27,9 +27,10 @@
     <password>IsDFmROP25SA8xtsATQhPg==</password>
     <firstName>jeff</firstName>
     <lastName>henry</lastName>
-    <email></email>
+    <email>
+    </email>
     <admin>false</admin>
     <locked>false</locked>
-    <lastLogin>Hello! This is your first login!</lastLogin>
+    <lastLogin>11/7/2014 11:26:51 PM</lastLogin>
   </User>
 </Users>

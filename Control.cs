@@ -10,8 +10,8 @@ namespace Project_Forms
     // PURPOSE: This class is meant to do a lot of the thinking in small functions. 
     //          However its main function is to act as a barrier between data and 
     //          the forms. The class contains multiple functions and methods that
-    //          transfer data between class data and forms. Some methods are calle din a specific order from 
-    //          the data class in order to give a certain effect.
+    //          transfer data between class data and forms. Some methods are called
+    //          in a specific order from the data class in order to give a certain effect.
     // PARAMS: None
     // UPDATED: 11/3/2014
     // ========================================================================
@@ -55,7 +55,8 @@ namespace Project_Forms
 
         //=====================================================================
         // AUTHOR: Karan Singh
-        // PURPOSE: This calls the xmlcreate function in the data IF the xml check call returns a false
+        // PURPOSE: This calls the xmlcreate function in the data IF the xml 
+        //          check call returns false.
         // PARAMS: None
         //=====================================================================
         public void createxmlfile()
@@ -108,7 +109,8 @@ namespace Project_Forms
 
         //========================================================================
         // AUTHOR:  Karan Singh
-        // PURPOSE: Serves as a messenger to the Data class to tell it to log the current login activity 
+        // PURPOSE: Serves as a messenger to the Data class to tell it to log the 
+        //          current login activity 
         // PARAMS:  Name, Date 
         //========================================================================
         public void add_history(string name, DateTime date)
@@ -127,12 +129,16 @@ namespace Project_Forms
         public void load_records(DateTime start, DateTime end, string category, string name)
         {
             Data report = new Data();
-            report.load_name(start, end, category, name);//load name function gets all the data from the xml
+
+            //load name function gets all the data from the xml
+            report.load_name(start, end, category, name);
+            
             //readin the data lists as are created by data into declared lists
             List<DateTime> temp = report.trans;
             List<string> check = report.lists;
             List<string> names = report.trans1;
             List<string> categories = report.trans2;
+            
             //set the lists to appropriate public list for use by forms
             this.expenses = check;
             this.datedata = temp;
@@ -146,10 +152,10 @@ namespace Project_Forms
         // PURPOSE: Load records loads all the records that are needed to generate the Expense Reports
         // PARAMS: Start and end dates, category, Reference List of Transactions, Ref decimal
         //========================================================================
-        public void loadExpenseReport(DateTime start, DateTime end, string category, ref List<Transaction> expenseReport, ref decimal totalExpense, string addBy)
+        public void loadExpenseReport(DateTime start, DateTime end, string category, ref List<Transaction> expenseReport, ref decimal totalExpense, ref decimal totalMileage, string addBy)
         {
             Data expenses = new Data();
-            expenses.loadExpenses(start, end, category, ref expenseReport, ref totalExpense, addBy);
+            expenses.loadExpenses(start, end, category, ref expenseReport, ref totalExpense, ref totalMileage, addBy);
         }//end loadExpenseReport 
         //========================================================================
 
@@ -158,11 +164,11 @@ namespace Project_Forms
         // PURPOSE Load records loads all the records that are needed to generate the Expense Reports
         // PARAMS: Start and end dates, category, Reference List of Transactions, Ref decimal
         //========================================================================
-        public void loadDetailedExpenseReport(DateTime start, DateTime end, string category, ref List<DetailedTransaction> expenseReport, ref decimal totalExpense, string addBy)
+        public void loadDetailedExpenseReport(DateTime start, DateTime end, string category, ref List<DetailedTransaction> expenseReport, ref decimal totalExpense, ref decimal totalMileage, string addBy)
         {
             //call the loadExpenses function in data
             Data expenses = new Data();
-            expenses.loadDetailedExpenses(start, end, category, ref expenseReport, ref totalExpense, addBy);
+            expenses.loadDetailedExpenses(start, end, category, ref expenseReport, ref totalExpense, ref totalMileage, addBy);
         }//end loadDetailedExpenseReport 
         //========================================================================
 
@@ -216,7 +222,7 @@ namespace Project_Forms
         public int mileage(DateTime start, DateTime end)
         {
             Data miles = new Data();
-           return miles.getMileage(start, end);
+            return miles.getMileage(start, end);
         }//end 
         //========================================================================
 

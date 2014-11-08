@@ -79,4 +79,11 @@
     <Category>Automobile</Category>
     <Date>2014-11-06T00:00:00</Date>
   </Transaction>
+  <Transaction>
+    <Added_by>henry020</Added_by>
+    <Expenditure>123.00</Expenditure>
+    <Comments></Comments>
+    <Category>Automobile</Category>
+    <Date>2014-11-07T00:00:00</Date>
+  </Transaction>
 </All_Transactions>

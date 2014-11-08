@@ -42,6 +42,7 @@ namespace Project_Forms
         public Home()
         {
             InitializeComponent();
+            
             vr_report_label.Hide();
             //get rid of the * on the history table
             dataGridView2.AllowUserToAddRows = false;
@@ -289,9 +290,6 @@ namespace Project_Forms
             logOutToolStripMenuItem.Visible = false;            // Hide 'Logout' Option
             administrationToolStripMenuItem.Visible = false;    // Hide 'Administration'
 
-            // Clear our the view reports data grid:
-            
-
             // Hide all tabs:
             tab_control.Appearance = TabAppearance.FlatButtons;
             tab_control.ItemSize = new Size(0, 1);
@@ -449,12 +447,13 @@ namespace Project_Forms
             {
                 List<Transaction> expenseReport = new List<Transaction>();      // List to be used for the transactions.
                 decimal totalExp = 0;                                           // Total expenses
+                decimal totalMil = 0;                                           // Total mileage
                 DateTime startDate = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());    // Grab the start date
                 DateTime endDate = Convert.ToDateTime(vr_end_date_picker.Value.ToShortDateString());        // Grab the end date
                 Control loadData = new Control();
 
                 // Call the control function to load data. Pass the values.
-                loadData.loadExpenseReport(startDate, endDate, vr_category_list.Text, ref expenseReport, ref totalExp, username_box.Text);
+                loadData.loadExpenseReport(startDate, endDate, vr_category_list.Text, ref expenseReport, ref totalExp, ref totalMil, username_box.Text);
                
                 dataGridView1.DataSource = expenseReport;                       //Display in text field (date, expense, total expense)
                 vr_report_label.Text = vr_category_list.Text + " Report";       // Display the appropriate title for the report.
@@ -506,11 +505,12 @@ namespace Project_Forms
 
             List<Transaction> expenseReport = new List<Transaction>();
             decimal totalExp = 0;
+            decimal totalMil = 0;
             DateTime startDate = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());
             DateTime endDate = Convert.ToDateTime(vr_end_date_picker.Value.ToShortDateString());
             Control loadData = new Control();
             //call the control function to load data. Pass the values.
-            loadData.loadExpenseReport(startDate, endDate, vr_category_list.Text, ref expenseReport, ref totalExp, username_box.Text);//Use start date, end date, and category
+            loadData.loadExpenseReport(startDate, endDate, vr_category_list.Text, ref expenseReport, ref totalExp, ref totalMil, username_box.Text);//Use start date, end date, and category
 
             //make sure that ALL the fields are filled in and also that the user does not pick an end date earlier than the start date
             if (vh_user_list.Text == "" || vh_category_list.Text == "") 
@@ -571,11 +571,13 @@ namespace Project_Forms
             {
                 List<DetailedTransaction> expenseReports = new List<DetailedTransaction>();
                 decimal totalExp = 0;
+                decimal totalMil = 0;
                 DateTime startDate = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());
                 DateTime endDate = Convert.ToDateTime(vr_end_date_picker.Value.ToShortDateString());
                 Control loadData = new Control();
+                
                 //call the control function to load data. Pass the values.
-                loadData.loadDetailedExpenseReport(startDate, endDate, vr_category_list.Text, ref expenseReports, ref totalExp, username_box.Text);//Use start date, end date, and category
+                loadData.loadDetailedExpenseReport(startDate, endDate, vr_category_list.Text, ref expenseReports, ref totalExp, ref totalMil, username_box.Text);//Use start date, end date, and category
                 dataGridView1.DataSource = expenseReports;//Display in text field (date, expense, total expense)
                 if (endDate < startDate)
                 {
