@@ -20,26 +20,16 @@ namespace Project_Forms
 {
     public partial class Adminstration : Form
     {
+        // Used to handle if a user ticks and reticks a checkbox:
+        bool original_admin_attr = false;       
+        bool original_locked_attr = false;
+
         public Adminstration()
         {
             InitializeComponent();
-
-            // These are our local variables that will hold
-            // our list of users, categories, usernames,
-            // categories, as well as various counts that will
-            // check to make sure we are only adding valid
-            // users and categories to our lists. 
-            string[] users = new string[100];
-            string[] categories = new string[100];
-            string userName;
-            string adminName; 
-            string catName;
-            int i = 0;
-            int x = 0;
-            int count = 0;
-            int count2 = 0; 
-            bool exists;
-
+            List<string> users_list = new List<string>();       // List to be used as Data Source for user dropdown
+            List<string> cats_list = new List<string>();        // List to be used as Data Source for category dropdown
+    
             // These buttons will be hidden until the user
             // requests to enter a new name for a category,
             // and then we will show them for them to enter
@@ -50,13 +40,12 @@ namespace Project_Forms
 
             // We check that the appropriate XML's exist. 
             Data checkExists = new Data();
-            exists = checkExists.xmlcheck();
-
-            if (exists == true)
+            
+            if (checkExists.xmlcheck())
             {
                 // Load in all XML documents to edit. 
                 XDocument userDoc = XDocument.Load(@"users.xml");
-                XDocument adminDoc = XDocument.Load(@"userAdminXml.xml");
+                XDocument adminDoc = XDocument.Load(@"user_admin.xml");
                 XDocument catDoc = XDocument.Load(@"categories.xml");
 
                 //=============================================================
@@ -71,42 +60,18 @@ namespace Project_Forms
                 //=============================================================
                 foreach (var User in userDoc.Descendants("User"))
                 {
-                    userName = User.Element("Username").Value;
-                    if (userName != "admin")
-                    {
-                        users[i++] = userName;
-                        count++;
-                    }
+                    users_list.Add(User.Element("Username").Value);
                 }
                 foreach (var User in adminDoc.Descendants("User"))
                 {
-                    adminName = User.Element("Username").Value;
-                    if (adminName != "admin")
-                    {
-                        users[i++] = adminName;
-                        count++;
-                    }
+                    users_list.Add(User.Element("Username").Value);
                 }
 
-                // We declare a new array based on the actual number of users in the xml. 
-                string[] actual = new string[count];
+                // Sort the list and make it the data source of the dropdown:
+                users_list.Sort();
+                admin_user_dropdown.DataSource = users_list;
+                admin_user_dropdown.SelectedIndex = 0;
 
-                // Save the non-null users to the new array. 
-                for (int j = 0; j < 100; j++)
-                {
-                    if (users[j] != null )
-                        actual[j] = users[j];
-                }
-
-                // If the array isn't empty, we add it to comboBox1 as a dropdown. 
-                if (actual != null)
-                {
-                    Array.Sort<string>(actual);
-                    var source = new AutoCompleteStringCollection();
-                    source.AddRange(actual);
-                    admin_user_dropdown.Items.AddRange(actual);
-                    admin_user_dropdown.DropDownStyle = ComboBoxStyle.DropDownList;
-                }
                 //==========================================================
 
                 //=====================================================================
@@ -117,29 +82,14 @@ namespace Project_Forms
                 //=====================================================================
                 foreach (var Category in catDoc.Descendants("Category"))
                 {
-                    catName = Category.Element("categoryName").Value;
-                    categories[x++] = catName;
-                    count2++;
+                    cats_list.Add(Category.Element("categoryName").Value);
                 }
+                
+                // Sort the category list and make it the data source of the dropdown:
+                cats_list.Sort();
+                admin_cat_dropdown.DataSource = cats_list;
+                admin_cat_dropdown.SelectedIndex = 0;
 
-                string[] actualCats = new string[count2];
-
-                for (int k = 0; k < 100; k++)
-                {
-                    if (categories[k] != null)
-                    {
-                        actualCats[k] = categories[k];
-                    }
-                }
-
-                if (actualCats != null)
-                {
-                    Array.Sort<string>(actualCats);
-                    var source2 = new AutoCompleteStringCollection();
-                    source2.AddRange(actualCats);
-                    admin_cat_dropdown.Items.AddRange(actualCats);
-                    admin_cat_dropdown.DropDownStyle = ComboBoxStyle.DropDownList;
-                }
             }//end category dropdown 
             //=====================================================================
         }
@@ -156,62 +106,81 @@ namespace Project_Forms
             Data functionCaller = new Data();
 
             string userToBeEdited = admin_user_dropdown.Text;
-            bool admin = make_admin_chkbox.Checked; 
-            bool locked = lock_unlock_chkbox.Checked;
-                    
+            user_admin_err_msg.Visible = false;
+            MessageBox.Show("Original lock value " + original_locked_attr + "\nCheckbox valud " + lock_unlock_chkbox);
             // This is a check to make sure they selected a user to edit. 
             if (admin_user_dropdown.Text == "")
             {
-                MessageBox.Show("Please select a user.");
+                user_admin_err_msg.Text = "Please select a user.";
+                user_admin_err_msg.Visible = true;
                 return;
             }
 
             // This is to check that the user selected one of the options. 
             else if (lock_unlock_chkbox.Checked == false && make_admin_chkbox.Checked == false && delete_chkbox.Checked == false)
             {
-                MessageBox.Show("No changes were made.");
+                user_admin_err_msg.Text = "No changes were made.";
+                user_admin_err_msg.Visible = true;
                 return;
             }
 
             // A user cannot lock an admin, so this is a check if both the 
             // "make admin" and "lock" boxes are not checked at the same time. 
-            else if (lock_unlock_chkbox.Checked == true && make_admin_chkbox.Checked == true)
+            else if ((lock_unlock_chkbox.Checked) && (make_admin_chkbox.Checked))
             {
-                MessageBox.Show("An administrator account cannot be locked.");
-                lock_unlock_chkbox.Checked = false;
-                make_admin_chkbox.Checked = false;
+                user_admin_err_msg.Text = "An administrator account can't be locked.";
+                user_admin_err_msg.Visible = true;
+                lock_unlock_chkbox.Checked = original_locked_attr;
+                make_admin_chkbox.Checked = original_admin_attr;
                 return;
             }
 
             // This check is for when the adminstrator wants to make the
             // the select user an admin. It prompts the user for a yes or no
             // and then proceeds. 
-            else if ((admin_user_dropdown.Text != "") && (make_admin_chkbox.Checked == true))
+            else if ((admin_user_dropdown.Text != "") && (make_admin_chkbox.Checked) && (!original_admin_attr))
             {
 
                 DialogResult dialog = MessageBox.Show("Are you sure you want to make '" + userToBeEdited + "' an admin?", "Confirm", MessageBoxButtons.YesNo);
                 if (dialog == DialogResult.Yes)
                 {
                     functionCaller.changeStatus(userToBeEdited, true);
-                    //functionCaller.editUser(userToBeEdited, admin, locked);
                     make_admin_chkbox.Checked = false;
                     return;
                 }
             }
 
             // This is a check to see if the administrator wants to delete a user. 
-            else if ((admin_user_dropdown.Text != "") && (delete_chkbox.Checked == true))
+            else if ((admin_user_dropdown.Text != "") && (delete_chkbox.Checked))
             {
                 functionCaller.deleteUser(userToBeEdited);
                 delete_chkbox.Checked = false;
+                user_admin_err_msg.Text = userToBeEdited + " has been deleted.";
+                user_admin_err_msg.Show();
             }
 
-            // This is a check to see if the administrator wants to lock/unlock
-            // a user. 
-            else if ((admin_user_dropdown.Text != "") && (lock_unlock_chkbox.Checked == true))
+            // This is a check to see if the administrator wants to lock a user:
+            else if ((admin_user_dropdown.Text != "") && (lock_unlock_chkbox.Checked) && (!original_locked_attr))
             {
-                functionCaller.lockUnlockUser(userToBeEdited, locked);
+                functionCaller.lockUnlockUser(userToBeEdited, original_locked_attr);
+                lock_unlock_chkbox.Checked = true;
+                user_admin_err_msg.Text = userToBeEdited + " has been locked.";
+                user_admin_err_msg.Visible = true;
+            }
+
+            // This is a check to see if the administrator wants to unlock a user:
+            else if ((admin_user_dropdown.Text != "") && (!lock_unlock_chkbox.Checked) && (original_locked_attr))
+            {
+                MessageBox.Show("Attempting to unlock User");
+                functionCaller.lockUnlockUser(userToBeEdited, original_locked_attr);
                 lock_unlock_chkbox.Checked = false;
+                user_admin_err_msg.Text = userToBeEdited + " has been unlocked.";
+                user_admin_err_msg.Visible = true;
+            }
+            else
+            {
+                user_admin_err_msg.Text = "No changes were made.";
+                user_admin_err_msg.Visible = true;
             }
         }//end button1_Click 
         //=====================================================================
@@ -334,11 +303,29 @@ namespace Project_Forms
         private void admin_user_dropdown_SelectedIndexChanged(object sender, EventArgs e)
         {
             Data functionCall = new Data();
+            // Update the admin checkbox.
             if (functionCall.checkAdmin(admin_user_dropdown.Text))
+            {
                 make_admin_chkbox.Checked = true;
+                original_admin_attr = true;
+            }
             else
+            {
                 make_admin_chkbox.Checked = false;
+                original_admin_attr = false;
+            }   
 
+            // Update the locked checkbox.
+            if (functionCall.checkLocked(admin_user_dropdown.Text))
+            {
+                lock_unlock_chkbox.Checked = true;
+                original_locked_attr = true;
+            }
+            else
+            {
+                lock_unlock_chkbox.Checked = false;
+                original_locked_attr = false;
+            }
         }// end 
         //=====================================================================
     }

@@ -47,7 +47,6 @@ namespace Project_Forms
         //=====================================================================
         private void button2_Click(object sender, EventArgs e)
         {
-            string error = "Incorrect Login Information"; // error meessage
             if (string.IsNullOrWhiteSpace(na_username.Text) || checkInput(na_username.Text) || na_username.Text.Length < 5) // make sure format is correct for username
             {
                 MessageBox.Show("Please enter a user name containing the following characters: [a-z][A-Z][0-9] or [_]");

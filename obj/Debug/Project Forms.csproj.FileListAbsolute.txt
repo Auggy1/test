@@ -214,7 +214,6 @@ C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\P
 C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\obj\Debug\Venture Business Management.pdb
 C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\bin\Debug\Venture Business Management.exe
 C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\bin\Debug\Venture Business Management.pdb
-C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\obj\Debug\Project Forms.csprojResolveAssemblyReference.cache
 C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\obj\Debug\Project_Forms.AboutBox1.resources
 C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\obj\Debug\Project_Forms.Adminstration.resources
 C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\obj\Debug\Project_Forms.Home.resources

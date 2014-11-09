@@ -45,7 +45,7 @@ namespace Project_Forms
             
             vr_report_label.Hide();
             //get rid of the * on the history table
-            dataGridView2.AllowUserToAddRows = false;
+            vh_grid.AllowUserToAddRows = false;
             //comboBox2.Items.AddRange(types);//removed because getting information from XML after user logs in 10/29/2014
             ee_category_list.DropDownStyle = ComboBoxStyle.DropDownList;//set the format to dropdownlist 
             //comboBox3.Items.AddRange(types); //removed because getting information from XML after user logs in 10/29/2014
@@ -75,11 +75,15 @@ namespace Project_Forms
 
             /****************************************** Hidden labels/tabs ********************************************/
             welcome_msg.Hide();                                     // Hide the welcome message
-            login_error_msg.Hide();
-            expense_error_msg.Hide();
-            label13.Hide();   
+            login_error_msg.Hide();                                 // Hide the login error message
+            expense_error_msg.Hide();                               // Hide the expense error message.
             administrationToolStripMenuItem.Visible = false;        // Hide the administration menu
             tab_control.Controls.Remove(vh_tab);                    // Remove the view history tab
+            this.vh_grid.RowHeadersWidth = 4;                       // Hides the arrow on the data grid.
+            this.vr_grid.RowHeadersWidth = 4;                       // Hides the arrow on the data grid.
+            this.vh_grid.Rows.Clear();                              // Clears the vh grid
+            this.vr_grid.Rows.Clear();                              // Clears the vr grid
+
             // Hide the tabs so that only the home tab is useable:
             tab_control.Appearance = TabAppearance.FlatButtons;
             tab_control.ItemSize = new Size(0, 1); 
@@ -429,59 +433,57 @@ namespace Project_Forms
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
         // PURPOSE: This function is the button click event when a user wants to
         //          view their own reports that they have previous entered into
-        //          the xml data file. 
+        //          the xml data file. (Summary)
         // PARAMS:  None. 
-        // UPDATED: 11/5/14 - Refactoring Jeff Henry
+        // UPDATED: 11/7/14 - Refactoring Jeff Henry
         //=====================================================================
         private void button2_Click(object sender, EventArgs e)
         {
+            // Clear the Data Grid in the case of refreshing:
+            this.vr_grid.DataSource = null;
+            this.vr_grid.Rows.Clear();
+
             CultureInfo ci = new CultureInfo("en-us");  // Used to display the totals in the correct format added 11/2/2014
             vr_mon_total.Text = "$0.00";                // Clear text so it doesn't show old values
             vr_mileage_total.Text = "0 mi";             // Clear text so it doesn't show old values
             errorProvider1.Clear();                     // Clears the errorProvider1
-            errorProvider2.Clear();                     // Clears the errorProvider2
-
-
-            if (vr_category_list.Text == ""){errorProvider1.SetError(vr_category_list, "Please select a category.");}
+            vr_error_msg.Visible = false;               // Hide the error message
+            if (vr_category_list.Text == "")
+            {
+                errorProvider1.SetError(vr_category_list, "Please select a category.");
+                vr_error_msg.Text = "Please select a category.";
+                vr_error_msg.Visible = true;
+            }
             else
             {
                 List<Transaction> expenseReport = new List<Transaction>();      // List to be used for the transactions.
-                decimal totalExp = 0;                                           // Total expenses
-                decimal totalMil = 0;                                           // Total mileage
+                decimal exp_total = 0;                                          // Total expenses
+                decimal mil_total = 0;                                          // Total mileage
                 DateTime startDate = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());    // Grab the start date
                 DateTime endDate = Convert.ToDateTime(vr_end_date_picker.Value.ToShortDateString());        // Grab the end date
+                Data reports = new Data();
                 Control loadData = new Control();
 
-                // Call the control function to load data. Pass the values.
-                loadData.loadExpenseReport(startDate, endDate, vr_category_list.Text, ref expenseReport, ref totalExp, ref totalMil, username_box.Text);
-               
-                dataGridView1.DataSource = expenseReport;                       //Display in text field (date, expense, total expense)
+                // Fill the grid view with summary report:
+                reports.fillGridSummary(this.vr_grid, vr_category_list.Text, ref exp_total, ref mil_total, startDate, endDate);
+                
                 vr_report_label.Text = vr_category_list.Text + " Report";       // Display the appropriate title for the report.
                 vr_report_label.Show();                                         // Show the new title.
 
-                // Verify the user entered an appropriate date range.
-                if (endDate < startDate) 
-                {
-                    errorProvider1.SetError(vr_start_date_picker, "Start date must be before end date.");
-                    errorProvider2.SetError(vr_end_date_picker, "End date must be after start date.");
-                    return;
-                }
-                else if (vr_category_list.Text == "Mileage")
+                if (vr_category_list.Text == "Mileage")
                 {                
                     vr_mileage_total.Text = loadData.mileage(startDate, endDate).ToString() + " mi"; //display total for mileage only
                 }
                 else if (vr_category_list.Text == "All Categories")
                 {
-                    vr_mon_total.Text = "$" + totalExp.ToString("N02", ci);//Display the total correct format with commas
+                    vr_mon_total.Text = "$" + exp_total.ToString("N02", ci);//Display the total correct format with commas
                     vr_mileage_total.Text = loadData.mileage(startDate, endDate).ToString("N0", ci) + " mi"; //display total for mileage only
                 }
                 else
                 {
-                    vr_mon_total.Text = "$" + totalExp.ToString("N02", ci);//Display the total correct format with commas
+                    vr_mon_total.Text = "$" + exp_total.ToString("N02", ci);//Display the total correct format with commas
                 }
-
-                this.dataGridView1.Columns["Expense"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                this.dataGridView1.RowHeadersWidth = 5;         // Hides the arrow.
+                //this.vr_grid.Columns["Expense"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
              }
         }//end button2_Click 
 
@@ -490,49 +492,55 @@ namespace Project_Forms
         // PURPOSE: This function is used to for the admin to view the entire
         //          history of data entries from their employees. 
         // PARAMS:  None. 
-        // UPDATED: 11/3/14
+        // UPDATED: 11/7/14     - Jeff Henry (Refactoring)
         //=====================================================================
         private void button6_Click(object sender, EventArgs e)
         {
-            dataGridView2.Rows.Clear();//clear the rows when ever the button is clicked so the entries stay fresh
+            vh_error_msg.Visible = false;   // Hide the error messages
 
-            string startstring = ee_date_picker.Value.ToShortDateString();//get the start date
-            DateTime start = Convert.ToDateTime(startstring);
+            errorProvider1.Clear();         // Clear all errorProvider notifications
+            errorProvider2.Clear();         // Clear all errorPrvoider notifications
 
-            string endstring = vr_end_date_picker.Value.ToShortDateString();//get the end date
-            DateTime end = Convert.ToDateTime(endstring);
-            Data history = new Data();
-
-            List<Transaction> expenseReport = new List<Transaction>();
-            decimal totalExp = 0;
-            decimal totalMil = 0;
+            // Grab Date information from the form:
             DateTime startDate = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());
             DateTime endDate = Convert.ToDateTime(vr_end_date_picker.Value.ToShortDateString());
+
+            Data history = new Data();
             Control loadData = new Control();
-            //call the control function to load data. Pass the values.
+            
+            List<Transaction> expenseReport = new List<Transaction>();
+            decimal totalExp = 0;             // Used to hold the total of all monetary expenses
+            decimal totalMil = 0;             // Used to hold the total of all mileage
+            
+            // Call the control function to load data. Pass the values.
             loadData.loadExpenseReport(startDate, endDate, vr_category_list.Text, ref expenseReport, ref totalExp, ref totalMil, username_box.Text);//Use start date, end date, and category
 
             //make sure that ALL the fields are filled in and also that the user does not pick an end date earlier than the start date
             if (vh_user_list.Text == "" || vh_category_list.Text == "") 
-            { 
-                MessageBox.Show("You have not provided a USER or CATEGORY with which to process your request. Please try again.", "Error!"); 
+            {
+                errorProvider1.SetError(vh_user_list, "Select a user or category.");
+                errorProvider2.SetError(vh_category_list, "Select a user or category.");
+                vh_error_msg.Text = "Select a user or category.";
+                vh_error_msg.Visible = true;
             }
             else if (vh_user_list.Text == "") 
             {
-                MessageBox.Show("Please select a user.", "ERROR"); 
+                errorProvider1.SetError(vh_user_list, "Please select a user.");
+                vh_error_msg.Text = "Please select a user.";
+                vh_error_msg.Visible = true;
             }
             else if (vh_category_list.Text == "") 
             {
-                MessageBox.Show("Please select a category.", "ERROR"); 
-            }
-            else if (end < start) 
-            { 
-                MessageBox.Show("Your end date is higher than your start date, please correct this and try again.", "Error!"); 
+                errorProvider1.SetError(vh_category_list, "Please select a category.");
+                vh_error_msg.Text = "Please select a category.";
+                vh_error_msg.Visible = true;
             }
             else
             {
-                history.getTransCount(this.dataGridView2, vh_user_list.Text, vh_category_list.Text, start, end);
+                history.getTransCount(this.vh_grid, vh_user_list.Text, vh_category_list.Text, startDate, endDate);
             }
+
+            
         }//end button6_Click
 
         //=======================================================
@@ -542,12 +550,12 @@ namespace Project_Forms
         //=======================================================
         private void export_Click_1(object sender, EventArgs e)
         {
-            if (dataGridView1.Rows.Count == 0)
+            if (vr_grid.Rows.Count == 0)
                 MessageBox.Show("Cannot export an empty report. Please generate a report first.");
             else
             {
                 Control excel = new Control();
-                excel.export(this.dataGridView1, vr_mon_total.Text, vr_mileage_total.Text);
+                excel.export(this.vr_grid, vr_mon_total.Text, vr_mileage_total.Text);
             }
         }//end 
 
@@ -556,46 +564,54 @@ namespace Project_Forms
         // PURPOSE: This function is called when the user wants to view more
         //          detailed data from their xml data file. 
         // PARAMS:  None. 
-        // UPDATED: 11/3/14
+        // UPDATED: 11/8/14 Jeff Henry (Refactoring)
         //=====================================================================
         private void detailedRe_Click(object sender, EventArgs e)
-        {       
-            CultureInfo ci = new CultureInfo("en-us");//used to display the totals in the correct format added 11/2/2014
-            vr_mon_total.Text = "0"; //clear text so it doesn't show old values
-            vr_mileage_total.Text = "0"; //clear text so it doesn't show old values
+        {
+            this.vr_grid.DataSource = null;
+            this.vr_grid.Rows.Clear();
+            
+            CultureInfo ci = new CultureInfo("en-us");  // Display the totals in the correct format
+            vr_mon_total.Text = "0";        // Clear text so it doesn't show old values
+            vr_mileage_total.Text = "0";    // Clear text so it doesn't show old values
+            errorProvider1.Clear();
+            vr_error_msg.Visible = false;
+
             if (vr_category_list.Text == "")
             {
-                MessageBox.Show("Please select a category.", "ERROR");
+                errorProvider1.SetError(vr_category_list, "Please select a category.");
+                vr_error_msg.Text = "Please select a categoy.";
+                vr_error_msg.Visible = true;
             }
             else
             {
                 List<DetailedTransaction> expenseReports = new List<DetailedTransaction>();
-                decimal totalExp = 0;
-                decimal totalMil = 0;
+                decimal exp_total = 0;
+                decimal mil_total = 0;
                 DateTime startDate = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());
                 DateTime endDate = Convert.ToDateTime(vr_end_date_picker.Value.ToShortDateString());
+
+                Data reports = new Data();
                 Control loadData = new Control();
-                
+
+                reports.fillGridDetailed(this.vr_grid, vr_category_list.Text, ref exp_total, ref mil_total, startDate, endDate);
+
                 //call the control function to load data. Pass the values.
-                loadData.loadDetailedExpenseReport(startDate, endDate, vr_category_list.Text, ref expenseReports, ref totalExp, ref totalMil, username_box.Text);//Use start date, end date, and category
-                dataGridView1.DataSource = expenseReports;//Display in text field (date, expense, total expense)
-                if (endDate < startDate)
-                {
-                    MessageBox.Show("Your end date is higher than your start date, please correct this and try again.", "Error!");
-                    return;
-                }
-                else if (vr_category_list.Text == "Mileage")
+                //loadData.loadDetailedExpenseReport(startDate, endDate, vr_category_list.Text, ref expenseReports, ref totalExp, ref totalMil, username_box.Text);//Use start date, end date, and category
+                //vr_grid.DataSource = expenseReports;//Display in text field (date, expense, total expense)
+                
+                if (vr_category_list.Text == "Mileage")
                 {
                     vr_mileage_total.Text = loadData.mileage(startDate, endDate).ToString(); //display total for mileage only
                 }
                 else if (vr_category_list.Text == "All Categories")
                 {
-                    vr_mon_total.Text = "$" + totalExp.ToString("N02", ci);//Display the total correct format with commas
+                    vr_mon_total.Text = "$" + exp_total.ToString("N02", ci);//Display the total correct format with commas
                     vr_mileage_total.Text = loadData.mileage(startDate, endDate).ToString("N0", ci) + " mi"; //display total for mileage only
                 }
                 else
                 {
-                    vr_mon_total.Text = totalExp.ToString("N02", ci);//Display the total correct format with commas
+                    vr_mon_total.Text = exp_total.ToString("N02", ci);//Display the total correct format with commas
                 }
             }
         }//end detailedRe_Click 
@@ -678,7 +694,30 @@ namespace Project_Forms
             if (length != 2){return false;}
             else if (!userInput.Contains(".")){return false;}
             else return true;
-        }//end checkExpenseInput
-        //=====================================================================
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This will update the minimum date on the second calendar so 
+        //          the user can't select an end date that comes before the start
+        //          date.
+        // UPDATED: 11/7/2014
+        //========================================================================
+        private void vh_start_date_picker_ValueChanged(object sender, EventArgs e)
+        {
+            vh_end_date_picker.MinDate = vh_start_date_picker.Value;
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This will update the minimum date on the second calendar so 
+        //          the user can't select an end date that comes before the start
+        //          date.
+        // UPDATED: 11/7/2014
+        //========================================================================
+        private void vr_end_date_picker_ValueChanged(object sender, EventArgs e)
+        {
+            vr_end_date_picker.MinDate = vr_start_date_picker.Value;
+        }
     }
 }

@@ -3,13 +3,14 @@
 <!--This user information will be stored under Username-->
 <Users>
   <User>
-    <Username>newuse</Username>
+    <Username>reguser</Username>
     <password>IsDFmROP25SA8xtsATQhPg==</password>
-    <firstName>qweqw</firstName>
-    <lastName>qweqwe</lastName>
-    <email></email>
+    <firstName>teast</firstName>
+    <lastName>teast</lastName>
+    <email>
+    </email>
     <admin>false</admin>
     <locked>false</locked>
-    <lastLogin>Hello! This is your first login!</lastLogin>
+    <lastLogin>11/8/2014 3:13:33 PM</lastLogin>
   </User>
 </Users>

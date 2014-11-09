@@ -31,13 +31,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Adminstration));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label10 = new System.Windows.Forms.Label();
+            this.delete_user_label = new System.Windows.Forms.Label();
             this.delete_chkbox = new System.Windows.Forms.CheckBox();
             this.admin_user_dropdown = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.admin_users_label = new System.Windows.Forms.Label();
             this.admin_user_submit_btm = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lock_unlock_label = new System.Windows.Forms.Label();
+            this.admin_label = new System.Windows.Forms.Label();
             this.make_admin_chkbox = new System.Windows.Forms.CheckBox();
             this.lock_unlock_chkbox = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -57,6 +57,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fIleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.user_admin_err_msg = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -75,13 +76,14 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.label10);
+            this.tabPage1.Controls.Add(this.user_admin_err_msg);
+            this.tabPage1.Controls.Add(this.delete_user_label);
             this.tabPage1.Controls.Add(this.delete_chkbox);
             this.tabPage1.Controls.Add(this.admin_user_dropdown);
-            this.tabPage1.Controls.Add(this.label5);
+            this.tabPage1.Controls.Add(this.admin_users_label);
             this.tabPage1.Controls.Add(this.admin_user_submit_btm);
-            this.tabPage1.Controls.Add(this.label4);
-            this.tabPage1.Controls.Add(this.label3);
+            this.tabPage1.Controls.Add(this.lock_unlock_label);
+            this.tabPage1.Controls.Add(this.admin_label);
             this.tabPage1.Controls.Add(this.make_admin_chkbox);
             this.tabPage1.Controls.Add(this.lock_unlock_chkbox);
             this.tabPage1.Controls.Add(this.label2);
@@ -94,19 +96,19 @@
             this.tabPage1.Text = "Users";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // label10
+            // delete_user_label
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(192, 235);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(63, 13);
-            this.label10.TabIndex = 17;
-            this.label10.Text = "Delete User";
+            this.delete_user_label.AutoSize = true;
+            this.delete_user_label.Location = new System.Drawing.Point(342, 115);
+            this.delete_user_label.Name = "delete_user_label";
+            this.delete_user_label.Size = new System.Drawing.Size(63, 13);
+            this.delete_user_label.TabIndex = 17;
+            this.delete_user_label.Text = "Delete User";
             // 
             // delete_chkbox
             // 
             this.delete_chkbox.AutoSize = true;
-            this.delete_chkbox.Location = new System.Drawing.Point(345, 235);
+            this.delete_chkbox.Location = new System.Drawing.Point(495, 115);
             this.delete_chkbox.Name = "delete_chkbox";
             this.delete_chkbox.Size = new System.Drawing.Size(15, 14);
             this.delete_chkbox.TabIndex = 16;
@@ -115,24 +117,24 @@
             // admin_user_dropdown
             // 
             this.admin_user_dropdown.FormattingEnabled = true;
-            this.admin_user_dropdown.Location = new System.Drawing.Point(238, 79);
+            this.admin_user_dropdown.Location = new System.Drawing.Point(87, 71);
             this.admin_user_dropdown.Name = "admin_user_dropdown";
             this.admin_user_dropdown.Size = new System.Drawing.Size(121, 21);
             this.admin_user_dropdown.TabIndex = 9;
             this.admin_user_dropdown.SelectedIndexChanged += new System.EventHandler(this.admin_user_dropdown_SelectedIndexChanged);
             // 
-            // label5
+            // admin_users_label
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(183, 79);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(34, 13);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "Users";
+            this.admin_users_label.AutoSize = true;
+            this.admin_users_label.Location = new System.Drawing.Point(32, 71);
+            this.admin_users_label.Name = "admin_users_label";
+            this.admin_users_label.Size = new System.Drawing.Size(34, 13);
+            this.admin_users_label.TabIndex = 8;
+            this.admin_users_label.Text = "Users";
             // 
             // admin_user_submit_btm
             // 
-            this.admin_user_submit_btm.Location = new System.Drawing.Point(230, 259);
+            this.admin_user_submit_btm.Location = new System.Drawing.Point(380, 139);
             this.admin_user_submit_btm.Name = "admin_user_submit_btm";
             this.admin_user_submit_btm.Size = new System.Drawing.Size(100, 23);
             this.admin_user_submit_btm.TabIndex = 6;
@@ -140,28 +142,28 @@
             this.admin_user_submit_btm.UseVisualStyleBackColor = true;
             this.admin_user_submit_btm.Click += new System.EventHandler(this.button1_Click);
             // 
-            // label4
+            // lock_unlock_label
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(193, 208);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(113, 13);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Lock/Unlock Account";
+            this.lock_unlock_label.AutoSize = true;
+            this.lock_unlock_label.Location = new System.Drawing.Point(343, 88);
+            this.lock_unlock_label.Name = "lock_unlock_label";
+            this.lock_unlock_label.Size = new System.Drawing.Size(113, 13);
+            this.lock_unlock_label.TabIndex = 5;
+            this.lock_unlock_label.Text = "Lock/Unlock Account";
             // 
-            // label3
+            // admin_label
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(192, 182);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(97, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Make Administrator";
+            this.admin_label.AutoSize = true;
+            this.admin_label.Location = new System.Drawing.Point(342, 62);
+            this.admin_label.Name = "admin_label";
+            this.admin_label.Size = new System.Drawing.Size(67, 13);
+            this.admin_label.TabIndex = 4;
+            this.admin_label.Text = "Administrator";
             // 
             // make_admin_chkbox
             // 
             this.make_admin_chkbox.AutoSize = true;
-            this.make_admin_chkbox.Location = new System.Drawing.Point(344, 181);
+            this.make_admin_chkbox.Location = new System.Drawing.Point(494, 61);
             this.make_admin_chkbox.Name = "make_admin_chkbox";
             this.make_admin_chkbox.Size = new System.Drawing.Size(15, 14);
             this.make_admin_chkbox.TabIndex = 3;
@@ -170,7 +172,7 @@
             // lock_unlock_chkbox
             // 
             this.lock_unlock_chkbox.AutoSize = true;
-            this.lock_unlock_chkbox.Location = new System.Drawing.Point(345, 208);
+            this.lock_unlock_chkbox.Location = new System.Drawing.Point(495, 88);
             this.lock_unlock_chkbox.Name = "lock_unlock_chkbox";
             this.lock_unlock_chkbox.Size = new System.Drawing.Size(15, 14);
             this.lock_unlock_chkbox.TabIndex = 2;
@@ -181,7 +183,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(192, 156);
+            this.label2.Location = new System.Drawing.Point(342, 36);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(114, 20);
             this.label2.TabIndex = 1;
@@ -191,7 +193,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(183, 44);
+            this.label1.Location = new System.Drawing.Point(32, 36);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(176, 20);
             this.label1.TabIndex = 0;
@@ -343,6 +345,17 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // user_admin_err_msg
+            // 
+            this.user_admin_err_msg.AutoSize = true;
+            this.user_admin_err_msg.ForeColor = System.Drawing.Color.Red;
+            this.user_admin_err_msg.Location = new System.Drawing.Point(33, 123);
+            this.user_admin_err_msg.Name = "user_admin_err_msg";
+            this.user_admin_err_msg.Size = new System.Drawing.Size(35, 13);
+            this.user_admin_err_msg.TabIndex = 18;
+            this.user_admin_err_msg.Text = "label3";
+            this.user_admin_err_msg.Visible = false;
+            // 
             // Adminstration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -375,10 +388,10 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fIleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label admin_users_label;
         private System.Windows.Forms.Button admin_user_submit_btm;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lock_unlock_label;
+        private System.Windows.Forms.Label admin_label;
         private System.Windows.Forms.CheckBox make_admin_chkbox;
         private System.Windows.Forms.CheckBox lock_unlock_chkbox;
         private System.Windows.Forms.Label label2;
@@ -389,7 +402,7 @@
         private System.Windows.Forms.Button admin_cat_rename_btn;
         private System.Windows.Forms.Button admin_cat_add_btn;
         private System.Windows.Forms.ComboBox admin_user_dropdown;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label delete_user_label;
         private System.Windows.Forms.CheckBox delete_chkbox;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox textBox1;
@@ -397,5 +410,6 @@
         private System.Windows.Forms.ComboBox admin_cat_dropdown;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox admin_new_cat_input;
+        private System.Windows.Forms.Label user_admin_err_msg;
     }
 }

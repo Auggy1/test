@@ -66,6 +66,7 @@
             this.ee_label = new System.Windows.Forms.Label();
             this.ee_category_label = new System.Windows.Forms.Label();
             this.vr_tab = new System.Windows.Forms.TabPage();
+            this.vr_error_msg = new System.Windows.Forms.Label();
             this.vr_mileage_total = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.vr_report_label = new System.Windows.Forms.Label();
@@ -73,7 +74,7 @@
             this.export_btn = new System.Windows.Forms.Button();
             this.vr_mon_total = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.vr_grid = new System.Windows.Forms.DataGridView();
             this.vr_end_date_picker = new System.Windows.Forms.DateTimePicker();
             this.vr_start_date_picker = new System.Windows.Forms.DateTimePicker();
             this.view_reports_btn = new System.Windows.Forms.Button();
@@ -82,13 +83,9 @@
             this.vr_end_date = new System.Windows.Forms.Label();
             this.vr_categories = new System.Windows.Forms.Label();
             this.vh_tab = new System.Windows.Forms.TabPage();
-            this.label13 = new System.Windows.Forms.Label();
+            this.vh_error_msg = new System.Windows.Forms.Label();
             this.vh_start_date_picker = new System.Windows.Forms.DateTimePicker();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Expense = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.vh_grid = new System.Windows.Forms.DataGridView();
             this.label17 = new System.Windows.Forms.Label();
             this.vh_user_list = new System.Windows.Forms.ComboBox();
             this.vh_end_date_picker = new System.Windows.Forms.DateTimePicker();
@@ -101,15 +98,24 @@
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider3 = new System.Windows.Forms.ErrorProvider(this.components);
             this.eventLog1 = new System.Diagnostics.EventLog();
+            this.Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expense = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dateHeader = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.expenseHeader = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.categoryHeader = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.usersHeader = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.commentsHeader = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.tab_control.SuspendLayout();
             this.home_tab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.home_logo)).BeginInit();
             this.ee_tab.SuspendLayout();
             this.vr_tab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vr_grid)).BeginInit();
             this.vh_tab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vh_grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider3)).BeginInit();
@@ -449,6 +455,7 @@
             // 
             // vr_tab
             // 
+            this.vr_tab.Controls.Add(this.vr_error_msg);
             this.vr_tab.Controls.Add(this.vr_mileage_total);
             this.vr_tab.Controls.Add(this.label22);
             this.vr_tab.Controls.Add(this.vr_report_label);
@@ -456,7 +463,7 @@
             this.vr_tab.Controls.Add(this.export_btn);
             this.vr_tab.Controls.Add(this.vr_mon_total);
             this.vr_tab.Controls.Add(this.label11);
-            this.vr_tab.Controls.Add(this.dataGridView1);
+            this.vr_tab.Controls.Add(this.vr_grid);
             this.vr_tab.Controls.Add(this.vr_end_date_picker);
             this.vr_tab.Controls.Add(this.vr_start_date_picker);
             this.vr_tab.Controls.Add(this.view_reports_btn);
@@ -471,6 +478,17 @@
             this.vr_tab.TabIndex = 2;
             this.vr_tab.Text = "View Reports";
             this.vr_tab.UseVisualStyleBackColor = true;
+            // 
+            // vr_error_msg
+            // 
+            this.vr_error_msg.AutoSize = true;
+            this.vr_error_msg.ForeColor = System.Drawing.Color.Red;
+            this.vr_error_msg.Location = new System.Drawing.Point(25, 192);
+            this.vr_error_msg.Name = "vr_error_msg";
+            this.vr_error_msg.Size = new System.Drawing.Size(35, 13);
+            this.vr_error_msg.TabIndex = 36;
+            this.vr_error_msg.Text = "label1";
+            this.vr_error_msg.Visible = false;
             // 
             // vr_mileage_total
             // 
@@ -493,7 +511,7 @@
             // vr_report_label
             // 
             this.vr_report_label.AutoSize = true;
-            this.vr_report_label.Location = new System.Drawing.Point(240, 3);
+            this.vr_report_label.Location = new System.Drawing.Point(388, 3);
             this.vr_report_label.Name = "vr_report_label";
             this.vr_report_label.Size = new System.Drawing.Size(62, 13);
             this.vr_report_label.TabIndex = 33;
@@ -501,7 +519,7 @@
             // 
             // detailed_report_btn
             // 
-            this.detailed_report_btn.Location = new System.Drawing.Point(130, 273);
+            this.detailed_report_btn.Location = new System.Drawing.Point(60, 254);
             this.detailed_report_btn.Name = "detailed_report_btn";
             this.detailed_report_btn.Size = new System.Drawing.Size(95, 23);
             this.detailed_report_btn.TabIndex = 32;
@@ -511,7 +529,7 @@
             // 
             // export_btn
             // 
-            this.export_btn.Location = new System.Drawing.Point(130, 302);
+            this.export_btn.Location = new System.Drawing.Point(60, 283);
             this.export_btn.Name = "export_btn";
             this.export_btn.Size = new System.Drawing.Size(95, 23);
             this.export_btn.TabIndex = 31;
@@ -537,39 +555,45 @@
             this.label11.TabIndex = 29;
             this.label11.Text = "Total:";
             // 
-            // dataGridView1
+            // vr_grid
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToOrderColumns = true;
-            this.dataGridView1.AllowUserToResizeColumns = false;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(243, 19);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(452, 325);
-            this.dataGridView1.TabIndex = 28;
+            this.vr_grid.AllowUserToAddRows = false;
+            this.vr_grid.AllowUserToDeleteRows = false;
+            this.vr_grid.AllowUserToResizeColumns = false;
+            this.vr_grid.AllowUserToResizeRows = false;
+            this.vr_grid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.vr_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.vr_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dateHeader,
+            this.expenseHeader,
+            this.categoryHeader,
+            this.usersHeader,
+            this.commentsHeader});
+            this.vr_grid.Location = new System.Drawing.Point(190, 19);
+            this.vr_grid.Name = "vr_grid";
+            this.vr_grid.Size = new System.Drawing.Size(505, 325);
+            this.vr_grid.TabIndex = 28;
             // 
             // vr_end_date_picker
             // 
             this.vr_end_date_picker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.vr_end_date_picker.Location = new System.Drawing.Point(75, 119);
+            this.vr_end_date_picker.Location = new System.Drawing.Point(28, 108);
             this.vr_end_date_picker.Name = "vr_end_date_picker";
-            this.vr_end_date_picker.Size = new System.Drawing.Size(150, 20);
+            this.vr_end_date_picker.Size = new System.Drawing.Size(127, 20);
             this.vr_end_date_picker.TabIndex = 27;
+            this.vr_end_date_picker.ValueChanged += new System.EventHandler(this.vr_end_date_picker_ValueChanged);
             // 
             // vr_start_date_picker
             // 
             this.vr_start_date_picker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.vr_start_date_picker.Location = new System.Drawing.Point(75, 65);
+            this.vr_start_date_picker.Location = new System.Drawing.Point(28, 57);
             this.vr_start_date_picker.Name = "vr_start_date_picker";
-            this.vr_start_date_picker.Size = new System.Drawing.Size(150, 20);
+            this.vr_start_date_picker.Size = new System.Drawing.Size(127, 20);
             this.vr_start_date_picker.TabIndex = 26;
             // 
             // view_reports_btn
             // 
-            this.view_reports_btn.Location = new System.Drawing.Point(130, 244);
+            this.view_reports_btn.Location = new System.Drawing.Point(60, 225);
             this.view_reports_btn.Name = "view_reports_btn";
             this.view_reports_btn.Size = new System.Drawing.Size(95, 23);
             this.view_reports_btn.TabIndex = 24;
@@ -580,15 +604,15 @@
             // vr_category_list
             // 
             this.vr_category_list.FormattingEnabled = true;
-            this.vr_category_list.Location = new System.Drawing.Point(75, 173);
+            this.vr_category_list.Location = new System.Drawing.Point(28, 158);
             this.vr_category_list.Name = "vr_category_list";
-            this.vr_category_list.Size = new System.Drawing.Size(150, 21);
+            this.vr_category_list.Size = new System.Drawing.Size(127, 21);
             this.vr_category_list.TabIndex = 23;
             // 
             // vr_start_date
             // 
             this.vr_start_date.AutoSize = true;
-            this.vr_start_date.Location = new System.Drawing.Point(9, 71);
+            this.vr_start_date.Location = new System.Drawing.Point(25, 41);
             this.vr_start_date.Name = "vr_start_date";
             this.vr_start_date.Size = new System.Drawing.Size(55, 13);
             this.vr_start_date.TabIndex = 21;
@@ -597,7 +621,7 @@
             // vr_end_date
             // 
             this.vr_end_date.AutoSize = true;
-            this.vr_end_date.Location = new System.Drawing.Point(9, 125);
+            this.vr_end_date.Location = new System.Drawing.Point(25, 92);
             this.vr_end_date.Name = "vr_end_date";
             this.vr_end_date.Size = new System.Drawing.Size(52, 13);
             this.vr_end_date.TabIndex = 20;
@@ -606,7 +630,7 @@
             // vr_categories
             // 
             this.vr_categories.AutoSize = true;
-            this.vr_categories.Location = new System.Drawing.Point(9, 176);
+            this.vr_categories.Location = new System.Drawing.Point(25, 142);
             this.vr_categories.Name = "vr_categories";
             this.vr_categories.Size = new System.Drawing.Size(57, 13);
             this.vr_categories.TabIndex = 19;
@@ -614,9 +638,9 @@
             // 
             // vh_tab
             // 
-            this.vh_tab.Controls.Add(this.label13);
+            this.vh_tab.Controls.Add(this.vh_error_msg);
             this.vh_tab.Controls.Add(this.vh_start_date_picker);
-            this.vh_tab.Controls.Add(this.dataGridView2);
+            this.vh_tab.Controls.Add(this.vh_grid);
             this.vh_tab.Controls.Add(this.label17);
             this.vh_tab.Controls.Add(this.vh_user_list);
             this.vh_tab.Controls.Add(this.vh_end_date_picker);
@@ -633,66 +657,48 @@
             this.vh_tab.Text = "View History";
             this.vh_tab.UseVisualStyleBackColor = true;
             // 
-            // label13
+            // vh_error_msg
             // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(109, 312);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(484, 39);
-            this.label13.TabIndex = 45;
-            this.label13.Text = "This tab reserved for admins.";
+            this.vh_error_msg.AutoSize = true;
+            this.vh_error_msg.ForeColor = System.Drawing.Color.Red;
+            this.vh_error_msg.Location = new System.Drawing.Point(7, 283);
+            this.vh_error_msg.Name = "vh_error_msg";
+            this.vh_error_msg.Size = new System.Drawing.Size(35, 13);
+            this.vh_error_msg.TabIndex = 45;
+            this.vh_error_msg.Text = "label1";
+            this.vh_error_msg.Visible = false;
             // 
             // vh_start_date_picker
             // 
             this.vh_start_date_picker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.vh_start_date_picker.Location = new System.Drawing.Point(68, 117);
+            this.vh_start_date_picker.Location = new System.Drawing.Point(68, 85);
             this.vh_start_date_picker.Name = "vh_start_date_picker";
-            this.vh_start_date_picker.Size = new System.Drawing.Size(182, 20);
+            this.vh_start_date_picker.Size = new System.Drawing.Size(101, 20);
             this.vh_start_date_picker.TabIndex = 44;
+            this.vh_start_date_picker.ValueChanged += new System.EventHandler(this.vh_start_date_picker_ValueChanged);
             // 
-            // dataGridView2
+            // vh_grid
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.vh_grid.AllowUserToAddRows = false;
+            this.vh_grid.AllowUserToDeleteRows = false;
+            this.vh_grid.AllowUserToResizeColumns = false;
+            this.vh_grid.AllowUserToResizeRows = false;
+            this.vh_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.vh_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Category,
             this.Expense,
             this.name,
             this.User});
-            this.dataGridView2.Location = new System.Drawing.Point(266, 6);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.ReadOnly = true;
-            this.dataGridView2.Size = new System.Drawing.Size(445, 303);
-            this.dataGridView2.TabIndex = 43;
-            // 
-            // Category
-            // 
-            this.Category.HeaderText = "Date";
-            this.Category.Name = "Category";
-            this.Category.ReadOnly = true;
-            // 
-            // Expense
-            // 
-            this.Expense.HeaderText = "Expense";
-            this.Expense.Name = "Expense";
-            this.Expense.ReadOnly = true;
-            // 
-            // name
-            // 
-            this.name.HeaderText = "Category";
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            // 
-            // User
-            // 
-            this.User.HeaderText = "Added By";
-            this.User.Name = "User";
-            this.User.ReadOnly = true;
+            this.vh_grid.Location = new System.Drawing.Point(267, 10);
+            this.vh_grid.Name = "vh_grid";
+            this.vh_grid.ReadOnly = true;
+            this.vh_grid.Size = new System.Drawing.Size(443, 303);
+            this.vh_grid.TabIndex = 43;
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(6, 190);
+            this.label17.Location = new System.Drawing.Point(7, 169);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(29, 13);
             this.label17.TabIndex = 42;
@@ -703,24 +709,24 @@
             this.vh_user_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.vh_user_list.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.vh_user_list.FormattingEnabled = true;
-            this.vh_user_list.Location = new System.Drawing.Point(68, 190);
+            this.vh_user_list.Location = new System.Drawing.Point(71, 166);
             this.vh_user_list.Name = "vh_user_list";
-            this.vh_user_list.Size = new System.Drawing.Size(182, 21);
+            this.vh_user_list.Size = new System.Drawing.Size(98, 21);
             this.vh_user_list.TabIndex = 41;
             // 
             // vh_end_date_picker
             // 
             this.vh_end_date_picker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.vh_end_date_picker.Location = new System.Drawing.Point(68, 155);
+            this.vh_end_date_picker.Location = new System.Drawing.Point(68, 124);
             this.vh_end_date_picker.Name = "vh_end_date_picker";
-            this.vh_end_date_picker.Size = new System.Drawing.Size(182, 20);
+            this.vh_end_date_picker.Size = new System.Drawing.Size(101, 20);
             this.vh_end_date_picker.TabIndex = 40;
             // 
             // vh_search_btn
             // 
-            this.vh_search_btn.Location = new System.Drawing.Point(156, 284);
+            this.vh_search_btn.Location = new System.Drawing.Point(71, 235);
             this.vh_search_btn.Name = "vh_search_btn";
-            this.vh_search_btn.Size = new System.Drawing.Size(94, 25);
+            this.vh_search_btn.Size = new System.Drawing.Size(98, 25);
             this.vh_search_btn.TabIndex = 38;
             this.vh_search_btn.Text = "Search";
             this.vh_search_btn.UseVisualStyleBackColor = true;
@@ -731,15 +737,15 @@
             this.vh_category_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.vh_category_list.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.vh_category_list.FormattingEnabled = true;
-            this.vh_category_list.Location = new System.Drawing.Point(68, 227);
+            this.vh_category_list.Location = new System.Drawing.Point(71, 199);
             this.vh_category_list.Name = "vh_category_list";
-            this.vh_category_list.Size = new System.Drawing.Size(181, 21);
+            this.vh_category_list.Size = new System.Drawing.Size(98, 21);
             this.vh_category_list.TabIndex = 37;
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(6, 117);
+            this.label19.Location = new System.Drawing.Point(7, 91);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(55, 13);
             this.label19.TabIndex = 35;
@@ -748,7 +754,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(6, 155);
+            this.label20.Location = new System.Drawing.Point(6, 130);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(52, 13);
             this.label20.TabIndex = 34;
@@ -757,7 +763,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(5, 230);
+            this.label21.Location = new System.Drawing.Point(7, 202);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(57, 13);
             this.label21.TabIndex = 33;
@@ -778,6 +784,69 @@
             // eventLog1
             // 
             this.eventLog1.SynchronizingObject = this;
+            // 
+            // Category
+            // 
+            this.Category.HeaderText = "Date";
+            this.Category.Name = "Category";
+            this.Category.ReadOnly = true;
+            this.Category.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // Expense
+            // 
+            this.Expense.HeaderText = "Expense";
+            this.Expense.Name = "Expense";
+            this.Expense.ReadOnly = true;
+            this.Expense.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // name
+            // 
+            this.name.HeaderText = "Category";
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            this.name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // User
+            // 
+            this.User.HeaderText = "Added By";
+            this.User.Name = "User";
+            this.User.ReadOnly = true;
+            this.User.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // dateHeader
+            // 
+            this.dateHeader.HeaderText = "Date";
+            this.dateHeader.Name = "dateHeader";
+            this.dateHeader.ReadOnly = true;
+            this.dateHeader.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // expenseHeader
+            // 
+            this.expenseHeader.HeaderText = "Expenese";
+            this.expenseHeader.Name = "expenseHeader";
+            this.expenseHeader.ReadOnly = true;
+            this.expenseHeader.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // categoryHeader
+            // 
+            this.categoryHeader.HeaderText = "Catergory";
+            this.categoryHeader.Name = "categoryHeader";
+            this.categoryHeader.ReadOnly = true;
+            this.categoryHeader.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // usersHeader
+            // 
+            this.usersHeader.HeaderText = "Submitted By:";
+            this.usersHeader.Name = "usersHeader";
+            this.usersHeader.ReadOnly = true;
+            this.usersHeader.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // commentsHeader
+            // 
+            this.commentsHeader.HeaderText = "Comments";
+            this.commentsHeader.Name = "commentsHeader";
+            this.commentsHeader.ReadOnly = true;
+            this.commentsHeader.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // Home
             // 
@@ -808,10 +877,10 @@
             this.ee_tab.PerformLayout();
             this.vr_tab.ResumeLayout(false);
             this.vr_tab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vr_grid)).EndInit();
             this.vh_tab.ResumeLayout(false);
             this.vh_tab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vh_grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider3)).EndInit();
@@ -861,7 +930,7 @@
         private System.Windows.Forms.Button save_expense_btn;
         private System.Windows.Forms.Label vr_mon_total;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView vr_grid;
         private System.Windows.Forms.DateTimePicker vr_end_date_picker;
         private System.Windows.Forms.DateTimePicker vr_start_date_picker;
         private System.Windows.Forms.Button view_reports_btn;
@@ -882,17 +951,23 @@
         private System.Windows.Forms.Button detailed_report_btn;
         private System.Windows.Forms.ToolStripMenuItem applicationInfoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem applicationHelpToolStripMenuItem;
-        private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Category;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Expense;
-        private System.Windows.Forms.DataGridViewTextBoxColumn name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn User;
-        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.DataGridView vh_grid;
         private System.Windows.Forms.Label vr_report_label;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label vr_mileage_total;
         public System.Windows.Forms.Label time_stamp;
         private System.Windows.Forms.Label login_error_msg;
         private System.Windows.Forms.Label expense_error_msg;
+        private System.Windows.Forms.Label vr_error_msg;
+        private System.Windows.Forms.Label vh_error_msg;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Category;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Expense;
+        private System.Windows.Forms.DataGridViewTextBoxColumn name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn User;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dateHeader;
+        private System.Windows.Forms.DataGridViewTextBoxColumn expenseHeader;
+        private System.Windows.Forms.DataGridViewTextBoxColumn categoryHeader;
+        private System.Windows.Forms.DataGridViewTextBoxColumn usersHeader;
+        private System.Windows.Forms.DataGridViewTextBoxColumn commentsHeader;
     }
 }

@@ -1,4 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <!--This database will store transactions under <Detailed_Transaction> label-->
 <!--This transaction history will be stored under History_Username-->
-<All_Transactions />
+<All_Transactions>
+  <Transaction>
+    <Added_by>admin</Added_by>
+    <Expenditure>145.50</Expenditure>
+    <Comments>Sample Advertising Expense</Comments>
+    <Category>Advertising</Category>
+    <Date>2014-11-08T00:00:00</Date>
+  </Transaction>
+  <Transaction>
+    <Added_by>admin</Added_by>
+    <Expenditure>150</Expenditure>
+    <Comments>Sample Mileage Expense</Comments>
+    <Category>Mileage</Category>
+    <Date>2014-11-08T00:00:00</Date>
+  </Transaction>
+  <Transaction>
+    <Added_by>reguser</Added_by>
+    <Expenditure>2000.00</Expenditure>
+    <Comments>Constuction</Comments>
+    <Category>Contract labor</Category>
+    <Date>2014-11-08T00:00:00</Date>
+  </Transaction>
+</All_Transactions>
