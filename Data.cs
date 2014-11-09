@@ -1013,95 +1013,45 @@ namespace Project_Forms
         //          and make sure they are using the correct password.  
         // PARAMS:  The username of the potential user, and the password of 
         //          the potential user. 
-        // UPDATED: 11/3/2014
+        // UPDATED: 11/7/2014   Jeff Henry - Refactoring
         //=====================================================================
         public bool checkUserPassword(string username, string password)
         {
-            string user = username;
-            string xmlUser = ""; 
-            string userPass = password;
-            string xmlPassword = "";
-            string deCryptedPass = "";
-            bool adminUser;
-            bool found = false; 
-                
-            adminUser = checkAdmin(user);
-
-            if (user == "admin" && password == "admin")
+            if (username == "admin" && password == "admin"){updateLastLogin("admin", true);return true;}
+            else if (username == "admin" && password != "admin"){MessageBox.Show("Incorrect login information.");return false;}
+            else if (username != "admin")
             {
-                updateLastLogin("admin", true); 
-                return true;  
-            }
-            else if (user == "admin" && password != "admin")
-            {
-                MessageBox.Show("Incorrect login information.");
-                return false;
-            }
-            else if (user != "admin")
-            {
-                if (adminUser)
+                XmlDocument xml = new XmlDocument();
+                XmlDocument userXml = new XmlDocument();
+                xml.Load(@"user_admin.xml");
+                userXml.Load(@"users.xml");
+                if (checkAdmin(username))
                 {
-                    XmlDocument xml = new XmlDocument();
-                    xml.Load("user_admin.xml");
                     XmlNodeList list = xml.SelectNodes("/Users/User");
                     foreach (XmlNode xn in list)
                     {
-                        xmlUser = xn["Username"].InnerText;
-                        if (xmlUser.Equals(user))
+                        if (xn["Username"].InnerText == username)
                         {
-                            xmlPassword = xn["password"].InnerText;
-                            deCryptedPass = Decrypt(xmlPassword, "password");
-
-                            if (deCryptedPass.Equals(userPass))
-                            {
-                                found = true; 
-                                return true;
-                            }
-                            else
-                            {
-                                found = false; 
-                            }
+                            if (Decrypt(xn["password"].InnerText, "password") == password){return true;}
                         }
                     }//end foreach
-                    if (found == false)
+                    XmlNodeList userList = userXml.SelectNodes("/Users/User");
+                    foreach (XmlNode xn in userList)
                     {
-                        XmlDocument userXml = new XmlDocument();
-                        userXml.Load("users.xml");
-                        XmlNodeList userList = userXml.SelectNodes("/Users/User");
-                        foreach (XmlNode xn in userList)
+                        if (xn["Username"].InnerText == username)
                         {
-                            xmlUser = xn["Username"].InnerText;
-                            if (xmlUser.Equals(user))
-                            {
-                                xmlPassword = xn["password"].InnerText;
-                                deCryptedPass = Decrypt(xmlPassword, "password");
-
-                                if (deCryptedPass.Equals(userPass))
-                                {
-                                    //found = true;
-                                    return true;
-                                }
-                            }
-                        }//end foreach 
-                    }
+                            if (Decrypt(xn["password"].InnerText, "password") == password){return true;}
+                        }
+                    }//end foreach 
                 }
-                else if (!adminUser)
+                else if (!checkAdmin(username))
                 {
-                    XmlDocument nonAdminXml = new XmlDocument();
-                    nonAdminXml.Load("users.xml");
-                    XmlNodeList nonAdminList = nonAdminXml.SelectNodes("/Users/User");
+                    XmlNodeList nonAdminList = userXml.SelectNodes("/Users/User");
                     foreach (XmlNode xn in nonAdminList)
                     {
-                        xmlUser = xn["Username"].InnerText;
-                        if (xmlUser.Equals(user))
+                        if (xn["Username"].InnerText == username)
                         {
-                            xmlPassword = xn["password"].InnerText;
-                            deCryptedPass = Decrypt(xmlPassword, "password");
-
-                            if (deCryptedPass.Equals(userPass))
-                            {
-                                return true;
-                            }
+                            if (Decrypt(xn["password"].InnerText, "password") == password) { return true; }
                         }
                     }//end foreach
                 }
