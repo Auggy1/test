@@ -90,7 +90,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(12, 103);
+            this.label4.Location = new System.Drawing.Point(16, 103);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(165, 18);
             this.label4.TabIndex = 3;
@@ -164,6 +164,7 @@
             this.na_firstname.Name = "na_firstname";
             this.na_firstname.Size = new System.Drawing.Size(100, 20);
             this.na_firstname.TabIndex = 2;
+            this.na_firstname.TextChanged += new System.EventHandler(this.na_firstname_TextChanged);
             // 
             // na_password
             // 
@@ -180,6 +181,7 @@
             this.na_lastname.Name = "na_lastname";
             this.na_lastname.Size = new System.Drawing.Size(100, 20);
             this.na_lastname.TabIndex = 3;
+            this.na_lastname.TextChanged += new System.EventHandler(this.na_lastname_TextChanged);
             // 
             // na_email
             // 
@@ -197,7 +199,7 @@
             // 
             // na_cancel_btn
             // 
-            this.na_cancel_btn.Location = new System.Drawing.Point(185, 232);
+            this.na_cancel_btn.Location = new System.Drawing.Point(248, 232);
             this.na_cancel_btn.Name = "na_cancel_btn";
             this.na_cancel_btn.Size = new System.Drawing.Size(75, 23);
             this.na_cancel_btn.TabIndex = 7;
@@ -226,7 +228,7 @@
             // admin_chkbox
             // 
             this.admin_chkbox.AutoSize = true;
-            this.admin_chkbox.Location = new System.Drawing.Point(296, 124);
+            this.admin_chkbox.Location = new System.Drawing.Point(308, 124);
             this.admin_chkbox.Name = "admin_chkbox";
             this.admin_chkbox.Size = new System.Drawing.Size(15, 14);
             this.admin_chkbox.TabIndex = 10;
@@ -235,7 +237,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(195, 124);
+            this.label11.Location = new System.Drawing.Point(207, 124);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(95, 13);
             this.label11.TabIndex = 11;

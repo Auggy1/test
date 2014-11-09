@@ -30,6 +30,7 @@ namespace Project_Forms
     public partial class Home : Form
     {
         DateTime date;// public datetime variable to transfer date between functions
+        string current_user = "";
 
         //==========================================================
         // PURPOSE: This is the main function of the program. It
@@ -41,7 +42,10 @@ namespace Project_Forms
         //==========================================================
         public Home()
         {
+
             InitializeComponent();
+            Data initialization = new Data();
+            
             
             //The already initialized logout button under file is not visible to the user initially
             logOutToolStripMenuItem.Visible = false;
@@ -164,6 +168,7 @@ namespace Project_Forms
             errorProvider1.Clear();                     // Reset errorProvider1
             errorProvider2.Clear();                     // Reset errorProvider2
 
+            current_user = username_box.Text;
             // The following if/else statements perform the proper
             // checks of the user's input to make sure they actually exist
             // in the system, they have the proper username and password,
@@ -221,24 +226,6 @@ namespace Project_Forms
 
                     // Update all the drop-down lists:
                     refresh_dropdowns();  
-                    // This call loads the categories after logging in so there needs to be a user logged in to do anything. 
-                    // This list does not contain "All Categories". 
-                    ee_category_list.Items.Clear();
-                    ee_category_list.DataSource = userChecks.addCategories();
-                    //ee_category_list.Items.AddRange(userChecks.addCategories().ToArray());
-            
-                    // This call loads the categories after logging in so there needs to be a user logged in to do anything.
-                    vh_category_list.Items.Clear();//no duplicates
-                    vh_category_list.DataSource = userChecks.addCategories();
-                    //vh_category_list.Items.AddRange(login.loadCategoryList().ToArray());
-                      
-                    // This call loads the list of users into the comboBox on the view history tab.
-                    vh_user_list.Items.Clear();//no duplicates
-                    vh_user_list.Items.AddRange(login.loadUserList().ToArray());
-                      
-                    // This call loads the categories after logging in so there needs to be a user logged in to do anything.
-                    vr_category_list.Items.Clear(); //no duplicates
-                    vr_category_list.Items.AddRange(login.loadCategoryList().ToArray());
                     
                     // This adds the login history of the user. 
                     login.add_history(username_box.Text, date);
@@ -314,6 +301,7 @@ namespace Project_Forms
         //=====================================================================
         private void addUserToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            
             New_Account form = new New_Account();
             form.ShowDialog();
         }
@@ -410,7 +398,6 @@ namespace Project_Forms
                     Control newdata = new Control();
                     Data dataCaller = new Data();
 
-                    dataCaller.add_detailed(expense, ee_category_list.Text, date, username_box.Text, ee_comment_box.Text);
                     newdata.addatransaction(expense, ee_category_list.Text, date, username_box.Text, ee_comment_box.Text);
                     ee_category_list.SelectedIndex = -1;
                     ee_date_picker.Value = DateTime.Today;
@@ -449,7 +436,6 @@ namespace Project_Forms
             }
             else
             {
-                List<Transaction> expenseReport = new List<Transaction>();      // List to be used for the transactions.
                 decimal exp_total = 0;                                          // Total expenses
                 decimal mil_total = 0;                                          // Total mileage
                 DateTime startDate = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());    // Grab the start date
@@ -464,7 +450,7 @@ namespace Project_Forms
                 vr_report_label.Show();                                         // Show the new title.
 
                 if (vr_category_list.Text == "Mileage")
-                {                
+                {
                     vr_mileage_total.Text = loadData.mileage(startDate, endDate).ToString() + " mi"; //display total for mileage only
                 }
                 else if (vr_category_list.Text == "All Categories")
@@ -481,7 +467,7 @@ namespace Project_Forms
         }//end button2_Click 
 
         //=====================================================================
-        // AUTHOR:  Maxwell Partington & Ranier Limpiado 
+        // AUfTHOR:  Maxwell Partington & Ranier Limpiado 
         // PURPOSE: This function is used to for the admin to view the entire
         //          history of data entries from their employees. 
         // PARAMS:  None. 
@@ -489,6 +475,9 @@ namespace Project_Forms
         //=====================================================================
         private void button6_Click(object sender, EventArgs e)
         {
+            vh_grid.DataSource = null;
+            vh_grid.Rows.Clear();
+            
             vh_error_msg.Visible = false;   // Hide the error messages
 
             errorProvider1.Clear();         // Clear all errorProvider notifications
@@ -499,14 +488,6 @@ namespace Project_Forms
             DateTime endDate = Convert.ToDateTime(vr_end_date_picker.Value.ToShortDateString());
 
             Data history = new Data();
-            Control loadData = new Control();
-            
-            List<Transaction> expenseReport = new List<Transaction>();
-            decimal totalExp = 0;             // Used to hold the total of all monetary expenses
-            decimal totalMil = 0;             // Used to hold the total of all mileage
-            
-            // Call the control function to load data. Pass the values.
-            loadData.loadExpenseReport(startDate, endDate, vr_category_list.Text, ref expenseReport, ref totalExp, ref totalMil, username_box.Text);//Use start date, end date, and category
 
             //make sure that ALL the fields are filled in and also that the user does not pick an end date earlier than the start date
             if (vh_user_list.Text == "" || vh_category_list.Text == "") 
@@ -547,8 +528,14 @@ namespace Project_Forms
                 MessageBox.Show("Cannot export an empty report. Please generate a report first.");
             else
             {
+                string start = this.vr_grid.Rows[0].Cells[0].Value.ToString();
+                string end = this.vr_grid.Rows[vr_grid.Rows.Count - 1].Cells[0].Value.ToString();
+                string user = current_user;
+
+                MessageBox.Show(start + "\n" + end  + "\n" + user);
+
                 Control excel = new Control();
-                excel.export(this.vr_grid, vr_mon_total.Text, vr_mileage_total.Text);
+                excel.export(this.vr_grid, vr_mon_total.Text, vr_mileage_total.Text,start,end,user);
             }
         }//end 
 
@@ -565,8 +552,8 @@ namespace Project_Forms
             this.vr_grid.Rows.Clear();
             
             CultureInfo ci = new CultureInfo("en-us");  // Display the totals in the correct format
-            vr_mon_total.Text = "0";        // Clear text so it doesn't show old values
-            vr_mileage_total.Text = "0";    // Clear text so it doesn't show old values
+            vr_mon_total.Text = "$0.00";        // Clear text so it doesn't show old values
+            vr_mileage_total.Text = "0 mi";    // Clear text so it doesn't show old values
             errorProvider1.Clear();
             vr_error_msg.Visible = false;
 
@@ -578,7 +565,6 @@ namespace Project_Forms
             }
             else
             {
-                List<DetailedTransaction> expenseReports = new List<DetailedTransaction>();
                 decimal exp_total = 0;
                 decimal mil_total = 0;
                 DateTime startDate = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());
@@ -587,12 +573,9 @@ namespace Project_Forms
                 Data reports = new Data();
                 Control loadData = new Control();
 
+                // Fill the data grid with detailed info:
                 reports.fillGridDetailed(this.vr_grid, vr_category_list.Text, ref exp_total, ref mil_total, startDate, endDate);
 
-                //call the control function to load data. Pass the values.
-                //loadData.loadDetailedExpenseReport(startDate, endDate, vr_category_list.Text, ref expenseReports, ref totalExp, ref totalMil, username_box.Text);//Use start date, end date, and category
-                //vr_grid.DataSource = expenseReports;//Display in text field (date, expense, total expense)
-                
                 if (vr_category_list.Text == "Mileage")
                 {
                     vr_mileage_total.Text = loadData.mileage(startDate, endDate).ToString(); //display total for mileage only
@@ -604,7 +587,7 @@ namespace Project_Forms
                 }
                 else
                 {
-                    vr_mon_total.Text = exp_total.ToString("N02", ci);//Display the total correct format with commas
+                    vr_mon_total.Text = "$" + exp_total.ToString("N02", ci);//Display the total correct format with commas
                 }
             }
         }//end detailedRe_Click 
@@ -723,11 +706,17 @@ namespace Project_Forms
         private void refresh_dropdowns()
         {
             Data updates = new Data();
-            
+            // Clear all the lists first:
+            ee_category_list.DataSource = null;
+            vr_category_list.DataSource = null;
+            vh_category_list.DataSource = null;
+            vh_user_list.DataSource = null;
+
+            // Update the lists:
             ee_category_list.DataSource = updates.addCategories();
-            vr_category_list.DataSource = updates.addCategories();
-            vh_category_list.DataSource = updates.addCategories();
-            
+            vr_category_list.DataSource = updates.addAllCategories();
+            vh_category_list.DataSource = updates.addAllCategories();
+            vh_user_list.DataSource = updates.loadUsers();
         }
     }
 }

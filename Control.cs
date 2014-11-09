@@ -67,7 +67,6 @@ namespace Project_Forms
                 xmlcreation.xmlcreate();//create a new xml file based on the template in Data class
                 xmlcreation.userXml();
                 xmlcreation.categoriesXml(); //added 10/24/14
-                xmlcreation.detailed_transaction();
                 xmlcreation.userAdminXml(); //added 10/26/2014
             }
         }//end createxmlfile
@@ -234,10 +233,10 @@ namespace Project_Forms
         //          expenditures, as well as the milage.  
         // DATE:    10/29/14
         //========================================================================
-        public void export(DataGridView gridview, string total, string mileage)
+        public void export(DataGridView gridview, string total, string mileage, string start, string end, string user)
         {
             Data excel = new Data();
-            excel.exportExcel(gridview, total, mileage);
+            excel.exportExcel(gridview, total, mileage, start, end, user);
         }//end
         //========================================================================
     }

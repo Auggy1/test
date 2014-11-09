@@ -84,14 +84,14 @@ namespace Project_Forms
         public void xmlcreate()
         {
             XDocument Database =
-            new XDocument(
-            new XDeclaration("1.0", "utf-8", "yes"),
-            new XComment("This database will store transactions under <Transaction> label"),
-            new XComment("This transaction history will be stored under History_Username"),
-            new XElement("App_Records",
-            new XElement("All_Transactions"),
-            new XElement("Change_History", new XElement("DefaultID", 1)), new XElement("Login_History", new XElement("Default_login_id", 0))));
-            Database.Save(@"transactions.xml");
+                new XDocument(
+                new XDeclaration("1.0", "utf-8", "yes"),
+                new XComment("This database will store transactions under <Transaction> label"),
+                new XComment("This transaction history will be stored under History_Username"),
+                new XElement("App_Records",
+                new XElement("All_Transactions"),
+                new XElement("Change_History", new XElement("DefaultID", 1)), new XElement("Login_History", new XElement("Default_login_id", 0))));
+                Database.Save(@"transactions.xml");
         }//end xmlCreate
         //=====================================================================
 
@@ -103,13 +103,13 @@ namespace Project_Forms
         public void detailed_transaction()
         {
             XDocument Database =
-            new XDocument(
-            new XDeclaration("1.0", "utf-8", "yes"),
-            new XComment("This database will store transactions under <Detailed_Transaction> label"),
-            new XComment("This transaction history will be stored under History_Username"),
-            //new XElement("App_Records",
-            new XElement("All_Transactions"));
-            Database.Save(@"detailed_transaction.xml");
+                new XDocument(
+                new XDeclaration("1.0", "utf-8", "yes"),
+                new XComment("This database will store transactions under <Detailed_Transaction> label"),
+                new XComment("This transaction history will be stored under History_Username"),
+                //new XElement("App_Records",
+                new XElement("All_Transactions"));
+                Database.Save(@"detailed_transaction.xml");
         }//end detailed_Transaction
         //=====================================================================
 
@@ -202,8 +202,8 @@ namespace Project_Forms
         public bool xmlcheck()
         {
             if (File.Exists(@"transactions.xml") && File.Exists(@"users.xml") 
-                && File.Exists(@"categories.xml") && File.Exists(@"detailed_transaction.xml") 
-                && File.Exists(@"user_admin.xml")){return true;}
+                && File.Exists(@"categories.xml") && File.Exists(@"user_admin.xml"))
+                {return true;}
             else
                 return false;
         }//end xmlCheck
@@ -221,7 +221,6 @@ namespace Project_Forms
         public void add_transaction(decimal expenditure, string category, DateTime date, string name, string comments)
         {
             int id = 1;
-            
             XDocument get_id = XDocument.Load("transactions.xml");
 
             var ids = from id1 in get_id.Descendants("Change_History")
@@ -234,7 +233,7 @@ namespace Project_Forms
 
             var doc = XDocument.Load("transactions.xml");
             doc.Element("App_Records").Element("All_Transactions").Add(new XElement("Transaction",
-                                      new XElement("Added_by", name),
+                                      new XElement("Added_By", name),
                                       new XAttribute("Id", id),
                                       new XElement("Expenditure", expenditure),
                                       new XElement("Comments", comments), 
@@ -256,7 +255,7 @@ namespace Project_Forms
         {
             var doc = XDocument.Load("detailed_transaction.xml");
             doc.Element("All_Transactions").Add(new XElement("Transaction",
-                                     new XElement("Added_by", name),
+                                     new XElement("Added_By", name),
                                      new XElement("Expenditure", expenditure),
                                      new XElement("Comments", comments), 
                                      new XElement("Category", category),
@@ -521,9 +520,10 @@ namespace Project_Forms
 
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
-        // PURPOSE: Opens the XML file to look for and display the detailed transactions that match the 
-        //          time frame and category specified by the user. It also calculates the total 
-        //          expenses in that time frame and category and displays it.
+        // PURPOSE: Opens the XML file to look for and display the detailed 
+        //          transactions that match the time frame and category specified 
+        //          by the user. It also calculates the total expenses in that 
+        //          time frame and category and displays it.
         // UPDATED: 11/7/2014 - Jeff Henry - Fixed misprint of reports
         //=====================================================================
         public void loadDetailedExpenses(DateTime start, DateTime end, string category, ref List<DetailedTransaction> expenseReport, ref decimal total, ref decimal totalMil, string addedBy)
@@ -1317,24 +1317,28 @@ namespace Project_Forms
             {
                 for(int i = 0; i < trans_count; i++)
                 {
-                    if(dates[i] >= start && dates[i] <= end)
+                    if (dates[i] >= start && dates[i] <= end)
+                    {
                         datagrid.Rows.Add(dates[i], expenses[i], cats[i]);
-                    if (cats[i] == "Mileage")
-                        mil_total += Convert.ToDecimal(expenses[i]);
-                    else
-                        exp_total += Convert.ToDecimal(expenses[i]);
+                        if (cats[i] == "Mileage")
+                            mil_total += Convert.ToDecimal(expenses[i]);
+                        else
+                            exp_total += Convert.ToDecimal(expenses[i]);
+                    }
                 }
             }
             else if(category != "All Categories")
             {
                 for(int i = 0; i < trans_count; i++)
                 {
-                    if(dates[i] >= start && dates[i] <= end && cats[i] == category)
+                    if (dates[i] >= start && dates[i] <= end && cats[i] == category)
+                    {
                         datagrid.Rows.Add(dates[i], expenses[i], cats[i]);
-                    if (category == "Mileage")
-                        mil_total += Convert.ToDecimal(expenses[i]);
-                    else
-                        exp_total += Convert.ToDecimal(expenses[i]);
+                        if (category == "Mileage")
+                            mil_total += Convert.ToDecimal(expenses[i]);
+                        else
+                            exp_total += Convert.ToDecimal(expenses[i]);
+                    }
                 }
             }
         }
@@ -1354,8 +1358,8 @@ namespace Project_Forms
             List<string> comments = new List<string>();
 
             XmlDocument xml = new XmlDocument();
-            xml.Load("detailed_transaction.xml");
-            XmlNodeList list = xml.SelectNodes("/App_Records/All_Transactions/Transaction");
+            xml.Load("transactions.xml");
+            XmlNodeList list = xml.SelectNodes("App_Records/All_Transactions/Transaction");
 
             foreach (XmlNode node in list)
             {
@@ -1366,18 +1370,20 @@ namespace Project_Forms
                 comments.Add(node["Comments"].InnerText);
             }
 
-            var trans_xml = XDocument.Load(@"detailed_transaction.xml");
+            var trans_xml = XDocument.Load(@"transactions.xml");
             var trans_count = trans_xml.Descendants("Transaction").Count();
             if (category == "All Categories")
             {
                 for (int i = 0; i < trans_count; i++)
                 {
                     if (dates[i] >= start && dates[i] <= end)
+                    {
                         datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i], comments[i]);
-                    if (cats[i] == "Mileage")
-                        mil_total += Convert.ToDecimal(expenses[i]);
-                    else
-                        exp_total += Convert.ToDecimal(expenses[i]);
+                        if (cats[i] == "Mileage")
+                            mil_total += Convert.ToDecimal(expenses[i]);
+                        else
+                            exp_total += Convert.ToDecimal(expenses[i]);
+                    }
                 }
             }
             else if (category != "All Categories")
@@ -1385,11 +1391,13 @@ namespace Project_Forms
                 for (int i = 0; i < trans_count; i++)
                 {
                     if (dates[i] >= start && dates[i] <= end && cats[i] == category)
+                    {
                         datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i], comments[i]);
-                    if (cats[i] == "Mileage")
-                        mil_total += Convert.ToDecimal(expenses[i]);
-                    else
-                        exp_total += Convert.ToDecimal(expenses[i]);
+                        if (cats[i] == "Mileage")
+                            mil_total += Convert.ToDecimal(expenses[i]);
+                        else
+                            exp_total += Convert.ToDecimal(expenses[i]);
+                    }
                 }
             }
         }
@@ -1407,7 +1415,7 @@ namespace Project_Forms
             List<string> users = new List<string>();
             List<string> expenses = new List<string>();
             List<string> cats = new List<string>();
-            List<DateTime> date = new List<DateTime>();
+            List<DateTime> dates = new List<DateTime>();
 
             XmlDocument xml = new XmlDocument();
             xml.Load("transactions.xml");
@@ -1415,15 +1423,9 @@ namespace Project_Forms
 
             foreach (XmlNode xn in list)
             {
-                //string userInXml = xn["Added_by"].InnerText;
-                string dates = xn["Date"].InnerText;
-                DateTime listDates = Convert.ToDateTime(dates);
-                date.Add(listDates);
-
-                users.Add(xn["Added_by"].InnerText);
-
+                dates.Add(Convert.ToDateTime(xn["Date"].InnerText));
+                users.Add(xn["Added_By"].InnerText);
                 expenses.Add(xn["Expenditure"].InnerText);
-
                 cats.Add(xn["Category"].InnerText);
             }//end foreach
 
@@ -1433,32 +1435,32 @@ namespace Project_Forms
             {
                 for (int i = 0; i < count; i++)
                 {
-                    if (date[i] >= start && date[i] <= end)// && users[i] == user)
-                        datagrid.Rows.Add(date[i], expenses[i], cats[i], users[i]);
+                    if (dates[i] >= start && dates[i] <= end)// && users[i] == user)
+                        datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i]);
                 }//end for 
             }
             else if (category == "All Categories" && user != "All Users")
             {
                 for (int i = 0; i < count; i++)
                 {
-                    if (date[i] >= start && date[i] <= end && users[i] == user)
-                        datagrid.Rows.Add(date[i], expenses[i], cats[i], users[i]);
+                    if (dates[i] >= start && dates[i] <= end && users[i] == user)
+                        datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i]);
                 }//end for 
             }
             else if (category != "All Categories" && user == "All Users")
             {
                 for (int i = 0; i < count; i++)
                 {
-                    if (date[i] >= start && date[i] <= end && cats[i] == category)
-                        datagrid.Rows.Add(date[i], expenses[i], cats[i], users[i]);
+                    if (dates[i] >= start && dates[i] <= end && cats[i] == category)
+                        datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i]);
                 }//end for 
             }
             else
             {
                 for (int i = 0; i < count; i++)
                 {
-                    if (date[i] >= start && date[i] <= end && cats[i] == category && users[i] == user)
-                        datagrid.Rows.Add(date[i], expenses[i], cats[i], users[i]);
+                    if (dates[i] >= start && dates[i] <= end && cats[i] == category && users[i] == user)
+                        datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i]);
                 }//end for 
             }
         }//end getTransCount
@@ -1702,17 +1704,22 @@ namespace Project_Forms
         // PURPOSE: Exports the report into excel. 
         // UPDATED: 11/7/2014   - Jeff Henry (Added SaveFileDialog) 
         //=======================================================
-        public void exportExcel(DataGridView dataGrid, string total, string mileage)
+        public void exportExcel(DataGridView dataGrid, string total, string mileage, string start_date, string end_date, string user)
         {
+
             // Prompt the User where to save the file.
             Stream myStream;
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.Filter = "Excel File | *xls";
             saveFileDialog1.Title = "Save as Excel File";
+
+            // If the user choose a directory and gave the file a name, save the excel:
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 if ((myStream = saveFileDialog1.OpenFile()) != null)
                 {
+                    var current_date = DateTime.Now.ToShortDateString();
+
                     Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
                     Microsoft.Office.Interop.Excel._Workbook ExcelBook;
                     Microsoft.Office.Interop.Excel._Worksheet ExcelSheet;
@@ -1722,12 +1729,17 @@ namespace Project_Forms
                     
                     // Create the Excel Object:
                     ExcelBook = (Microsoft.Office.Interop.Excel._Workbook)ExcelApp.Workbooks.Add(1);
-                    ExcelSheet = (Microsoft.Office.Interop.Excel._Worksheet)ExcelBook.ActiveSheet; 
-
+                    ExcelSheet = (Microsoft.Office.Interop.Excel._Worksheet)ExcelBook.ActiveSheet;
+                    ExcelSheet.Cells[1, 3] = "Business Name Here.\n " +
+                                            "Date Processed: " + current_date +
+                                            "Processed by: " + user +
+                                            "\nDate Range: " + start_date +
+                                            " - " + end_date;
+                                            
                     // Create the header
                     for (i = 1; i <= dataGrid.Columns.Count; i++)
                     {
-                        ExcelSheet.Cells[1, i] = dataGrid.Columns[i - 1].HeaderText;
+                        ExcelSheet.Cells[3, i] = dataGrid.Columns[i - 1].HeaderText;
                         totalHeader = i + 1;
                     }
                     
@@ -1792,16 +1804,43 @@ namespace Project_Forms
             {
                 foreach (var Category in catDoc.Descendants("Category"))
                 {
-                    if (Category.Element("categoryName").Value != "All Categories")
-                    {
-                        cats.Add(Category.Element("categoryName").Value);
-                    }
+                   cats.Add(Category.Element("categoryName").Value);
                 }
                 cats.Sort();
-            }
+            } 
+
             return cats;
          }//end addCategories
         //=====================================================================
+
+        //=====================================================================
+        // AUTHOR:  Jeff Henry 
+        // PURPOSE: This function was written to add the list of categories
+        //          to the first combobox on form1. This was written because 
+        //          it will contain the "All Categories" name. 
+        // PARAMS:  None.  
+        // UPDATED: 11/9/2014   
+        //=====================================================================
+        public List<string> addAllCategories()
+        {
+            List<string> cats = new List<string>();
+            Data checkExists = new Data();
+            XDocument catDoc = XDocument.Load(@"categories.xml");
+
+            if (checkExists.xmlcheck())
+            {
+                foreach (var Category in catDoc.Descendants("Category"))
+                {
+                    cats.Add(Category.Element("categoryName").Value);
+                }
+                cats.Sort();
+            }
+            cats.Insert(0, "All Categories");
+
+            return cats;
+        }//end addCategories
+        //=====================================================================
+
     }//end class: Data
     //=====================================================================
 

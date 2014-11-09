@@ -209,6 +209,7 @@ namespace Project_Forms
                     Data functionCall = new Data();
                     string catToAdd = admin_new_cat_input.Text;
                     functionCall.addNewCategory(catToAdd);
+                    refresh_dropdowns();
                     this.Refresh();
                     admin_new_cat_input.Text = "";
                 }
@@ -240,6 +241,7 @@ namespace Project_Forms
                     Data functionCall = new Data();
                     string catToDelete = admin_cat_dropdown.Text;
                     functionCall.deleteCategory(catToDelete);
+                    refresh_dropdowns();
                     this.Refresh();
                 }
             }
@@ -283,6 +285,7 @@ namespace Project_Forms
                 Data functionCall = new Data();
                 string catToRename = admin_cat_dropdown.Text;
                 functionCall.renameCategory(catToRename, textBox1.Text);
+                refresh_dropdowns();
                 this.Refresh();
                 return;
             }
@@ -329,5 +332,25 @@ namespace Project_Forms
             }
         }// end 
         //=====================================================================
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This will "refresh" or basically reload all the drop down lists
+        //          so that the user always has an updated list of users and 
+        //          categories.
+        // UPDATED: 11/9/2014   Jeff Henry -    Initial creation
+        //========================================================================
+        private void refresh_dropdowns()
+        {
+            Data updates = new Data();
+            // Clear all the lists first:
+            admin_cat_dropdown.DataSource = null;
+            admin_user_dropdown.DataSource = null;
+
+            // Update the dropdowns with the new data:
+            admin_cat_dropdown.DataSource = updates.addCategories();
+            admin_user_dropdown.DataSource = updates.loadUsers();
+        }
+
     }
 }

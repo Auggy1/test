@@ -75,6 +75,11 @@
             this.vr_mon_total = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.vr_grid = new System.Windows.Forms.DataGridView();
+            this.dateHeader = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.expenseHeader = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.categoryHeader = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.usersHeader = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.commentsHeader = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.vr_end_date_picker = new System.Windows.Forms.DateTimePicker();
             this.vr_start_date_picker = new System.Windows.Forms.DateTimePicker();
             this.view_reports_btn = new System.Windows.Forms.Button();
@@ -86,6 +91,10 @@
             this.vh_error_msg = new System.Windows.Forms.Label();
             this.vh_start_date_picker = new System.Windows.Forms.DateTimePicker();
             this.vh_grid = new System.Windows.Forms.DataGridView();
+            this.Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expense = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label17 = new System.Windows.Forms.Label();
             this.vh_user_list = new System.Windows.Forms.ComboBox();
             this.vh_end_date_picker = new System.Windows.Forms.DateTimePicker();
@@ -98,15 +107,6 @@
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider3 = new System.Windows.Forms.ErrorProvider(this.components);
             this.eventLog1 = new System.Diagnostics.EventLog();
-            this.Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Expense = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dateHeader = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.expenseHeader = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.categoryHeader = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.usersHeader = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.commentsHeader = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.tab_control.SuspendLayout();
             this.home_tab.SuspendLayout();
@@ -386,10 +386,12 @@
             // 
             // ee_category_list
             // 
+            this.ee_category_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ee_category_list.FormattingEnabled = true;
             this.ee_category_list.Location = new System.Drawing.Point(202, 60);
             this.ee_category_list.Name = "ee_category_list";
             this.ee_category_list.Size = new System.Drawing.Size(187, 21);
+            this.ee_category_list.Sorted = true;
             this.ee_category_list.TabIndex = 0;
             // 
             // ee_expense_input
@@ -511,7 +513,7 @@
             // vr_report_label
             // 
             this.vr_report_label.AutoSize = true;
-            this.vr_report_label.Location = new System.Drawing.Point(388, 3);
+            this.vr_report_label.Location = new System.Drawing.Point(411, 3);
             this.vr_report_label.Name = "vr_report_label";
             this.vr_report_label.Size = new System.Drawing.Size(62, 13);
             this.vr_report_label.TabIndex = 33;
@@ -569,10 +571,45 @@
             this.categoryHeader,
             this.usersHeader,
             this.commentsHeader});
-            this.vr_grid.Location = new System.Drawing.Point(190, 19);
+            this.vr_grid.Location = new System.Drawing.Point(197, 18);
             this.vr_grid.Name = "vr_grid";
             this.vr_grid.Size = new System.Drawing.Size(505, 325);
             this.vr_grid.TabIndex = 28;
+            // 
+            // dateHeader
+            // 
+            this.dateHeader.HeaderText = "Date";
+            this.dateHeader.Name = "dateHeader";
+            this.dateHeader.ReadOnly = true;
+            this.dateHeader.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // expenseHeader
+            // 
+            this.expenseHeader.HeaderText = "Expenese";
+            this.expenseHeader.Name = "expenseHeader";
+            this.expenseHeader.ReadOnly = true;
+            this.expenseHeader.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // categoryHeader
+            // 
+            this.categoryHeader.HeaderText = "Catergory";
+            this.categoryHeader.Name = "categoryHeader";
+            this.categoryHeader.ReadOnly = true;
+            this.categoryHeader.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // usersHeader
+            // 
+            this.usersHeader.HeaderText = "Submitted By:";
+            this.usersHeader.Name = "usersHeader";
+            this.usersHeader.ReadOnly = true;
+            this.usersHeader.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // commentsHeader
+            // 
+            this.commentsHeader.HeaderText = "Comments";
+            this.commentsHeader.Name = "commentsHeader";
+            this.commentsHeader.ReadOnly = true;
+            this.commentsHeader.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // vr_end_date_picker
             // 
@@ -661,7 +698,7 @@
             // 
             this.vh_error_msg.AutoSize = true;
             this.vh_error_msg.ForeColor = System.Drawing.Color.Red;
-            this.vh_error_msg.Location = new System.Drawing.Point(7, 283);
+            this.vh_error_msg.Location = new System.Drawing.Point(42, 302);
             this.vh_error_msg.Name = "vh_error_msg";
             this.vh_error_msg.Size = new System.Drawing.Size(35, 13);
             this.vh_error_msg.TabIndex = 45;
@@ -671,7 +708,7 @@
             // vh_start_date_picker
             // 
             this.vh_start_date_picker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.vh_start_date_picker.Location = new System.Drawing.Point(68, 85);
+            this.vh_start_date_picker.Location = new System.Drawing.Point(103, 104);
             this.vh_start_date_picker.Name = "vh_start_date_picker";
             this.vh_start_date_picker.Size = new System.Drawing.Size(101, 20);
             this.vh_start_date_picker.TabIndex = 44;
@@ -689,101 +726,11 @@
             this.Expense,
             this.name,
             this.User});
-            this.vh_grid.Location = new System.Drawing.Point(267, 10);
+            this.vh_grid.Location = new System.Drawing.Point(260, 15);
             this.vh_grid.Name = "vh_grid";
             this.vh_grid.ReadOnly = true;
-            this.vh_grid.Size = new System.Drawing.Size(443, 303);
+            this.vh_grid.Size = new System.Drawing.Size(443, 337);
             this.vh_grid.TabIndex = 43;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(7, 169);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(29, 13);
-            this.label17.TabIndex = 42;
-            this.label17.Text = "User";
-            // 
-            // vh_user_list
-            // 
-            this.vh_user_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.vh_user_list.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.vh_user_list.FormattingEnabled = true;
-            this.vh_user_list.Location = new System.Drawing.Point(71, 166);
-            this.vh_user_list.Name = "vh_user_list";
-            this.vh_user_list.Size = new System.Drawing.Size(98, 21);
-            this.vh_user_list.TabIndex = 41;
-            // 
-            // vh_end_date_picker
-            // 
-            this.vh_end_date_picker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.vh_end_date_picker.Location = new System.Drawing.Point(68, 124);
-            this.vh_end_date_picker.Name = "vh_end_date_picker";
-            this.vh_end_date_picker.Size = new System.Drawing.Size(101, 20);
-            this.vh_end_date_picker.TabIndex = 40;
-            // 
-            // vh_search_btn
-            // 
-            this.vh_search_btn.Location = new System.Drawing.Point(71, 235);
-            this.vh_search_btn.Name = "vh_search_btn";
-            this.vh_search_btn.Size = new System.Drawing.Size(98, 25);
-            this.vh_search_btn.TabIndex = 38;
-            this.vh_search_btn.Text = "Search";
-            this.vh_search_btn.UseVisualStyleBackColor = true;
-            this.vh_search_btn.Click += new System.EventHandler(this.button6_Click);
-            // 
-            // vh_category_list
-            // 
-            this.vh_category_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.vh_category_list.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.vh_category_list.FormattingEnabled = true;
-            this.vh_category_list.Location = new System.Drawing.Point(71, 199);
-            this.vh_category_list.Name = "vh_category_list";
-            this.vh_category_list.Size = new System.Drawing.Size(98, 21);
-            this.vh_category_list.TabIndex = 37;
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(7, 91);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(55, 13);
-            this.label19.TabIndex = 35;
-            this.label19.Text = "Start Date";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(6, 130);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(52, 13);
-            this.label20.TabIndex = 34;
-            this.label20.Text = "End Date";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(7, 202);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(57, 13);
-            this.label21.TabIndex = 33;
-            this.label21.Text = "Categories";
-            // 
-            // errorProvider1
-            // 
-            this.errorProvider1.ContainerControl = this;
-            // 
-            // errorProvider2
-            // 
-            this.errorProvider2.ContainerControl = this;
-            // 
-            // errorProvider3
-            // 
-            this.errorProvider3.ContainerControl = this;
-            // 
-            // eventLog1
-            // 
-            this.eventLog1.SynchronizingObject = this;
             // 
             // Category
             // 
@@ -813,40 +760,95 @@
             this.User.ReadOnly = true;
             this.User.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
-            // dateHeader
+            // label17
             // 
-            this.dateHeader.HeaderText = "Date";
-            this.dateHeader.Name = "dateHeader";
-            this.dateHeader.ReadOnly = true;
-            this.dateHeader.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(42, 188);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(29, 13);
+            this.label17.TabIndex = 42;
+            this.label17.Text = "User";
             // 
-            // expenseHeader
+            // vh_user_list
             // 
-            this.expenseHeader.HeaderText = "Expenese";
-            this.expenseHeader.Name = "expenseHeader";
-            this.expenseHeader.ReadOnly = true;
-            this.expenseHeader.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.vh_user_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.vh_user_list.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.vh_user_list.FormattingEnabled = true;
+            this.vh_user_list.Location = new System.Drawing.Point(106, 185);
+            this.vh_user_list.Name = "vh_user_list";
+            this.vh_user_list.Size = new System.Drawing.Size(98, 21);
+            this.vh_user_list.TabIndex = 41;
             // 
-            // categoryHeader
+            // vh_end_date_picker
             // 
-            this.categoryHeader.HeaderText = "Catergory";
-            this.categoryHeader.Name = "categoryHeader";
-            this.categoryHeader.ReadOnly = true;
-            this.categoryHeader.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.vh_end_date_picker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.vh_end_date_picker.Location = new System.Drawing.Point(103, 143);
+            this.vh_end_date_picker.Name = "vh_end_date_picker";
+            this.vh_end_date_picker.Size = new System.Drawing.Size(101, 20);
+            this.vh_end_date_picker.TabIndex = 40;
             // 
-            // usersHeader
+            // vh_search_btn
             // 
-            this.usersHeader.HeaderText = "Submitted By:";
-            this.usersHeader.Name = "usersHeader";
-            this.usersHeader.ReadOnly = true;
-            this.usersHeader.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.vh_search_btn.Location = new System.Drawing.Point(106, 254);
+            this.vh_search_btn.Name = "vh_search_btn";
+            this.vh_search_btn.Size = new System.Drawing.Size(98, 25);
+            this.vh_search_btn.TabIndex = 38;
+            this.vh_search_btn.Text = "Search";
+            this.vh_search_btn.UseVisualStyleBackColor = true;
+            this.vh_search_btn.Click += new System.EventHandler(this.button6_Click);
             // 
-            // commentsHeader
+            // vh_category_list
             // 
-            this.commentsHeader.HeaderText = "Comments";
-            this.commentsHeader.Name = "commentsHeader";
-            this.commentsHeader.ReadOnly = true;
-            this.commentsHeader.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.vh_category_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.vh_category_list.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.vh_category_list.FormattingEnabled = true;
+            this.vh_category_list.Location = new System.Drawing.Point(106, 218);
+            this.vh_category_list.Name = "vh_category_list";
+            this.vh_category_list.Size = new System.Drawing.Size(98, 21);
+            this.vh_category_list.TabIndex = 37;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(42, 110);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(55, 13);
+            this.label19.TabIndex = 35;
+            this.label19.Text = "Start Date";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(41, 149);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(52, 13);
+            this.label20.TabIndex = 34;
+            this.label20.Text = "End Date";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(42, 221);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(57, 13);
+            this.label21.TabIndex = 33;
+            this.label21.Text = "Categories";
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
+            // errorProvider2
+            // 
+            this.errorProvider2.ContainerControl = this;
+            // 
+            // errorProvider3
+            // 
+            this.errorProvider3.ContainerControl = this;
+            // 
+            // eventLog1
+            // 
+            this.eventLog1.SynchronizingObject = this;
             // 
             // Home
             // 

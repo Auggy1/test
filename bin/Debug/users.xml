@@ -1,16 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <!--This database will all users under <User> label-->
 <!--This user information will be stored under Username-->
-<Users>
-  <User>
-    <Username>reguser</Username>
-    <password>IsDFmROP25SA8xtsATQhPg==</password>
-    <firstName>teast</firstName>
-    <lastName>teast</lastName>
-    <email>
-    </email>
-    <admin>false</admin>
-    <locked>false</locked>
-    <lastLogin>11/9/2014 12:12:31 PM</lastLogin>
-  </User>
-</Users>
+<Users />
