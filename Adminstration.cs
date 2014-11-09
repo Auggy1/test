@@ -210,6 +210,7 @@ namespace Project_Forms
                     string catToAdd = admin_new_cat_input.Text;
                     functionCall.addNewCategory(catToAdd);
                     this.Refresh();
+                    admin_new_cat_input.Text = "";
                 }
                 else if (exists == true)
                 {

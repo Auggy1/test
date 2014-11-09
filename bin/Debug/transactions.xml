@@ -41,7 +41,7 @@
     </Record>
   </Change_History>
   <Login_History>
-    <Default_login_id>23</Default_login_id>
+    <Default_login_id>31</Default_login_id>
     <Log id="1">
       <User>admin</User>
       <last_login>2014-11-08T00:00:00Z</last_login>
@@ -132,6 +132,38 @@
     </Log>
     <Log id="23">
       <User>reguser</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="24">
+      <User>admin</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="25">
+      <User>admin</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="26">
+      <User>admin</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="27">
+      <User>admin</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="28">
+      <User>henry</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="29">
+      <User>reguser</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="30">
+      <User>admin</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="31">
+      <User>admin</User>
       <last_login>2014-11-09T00:00:00Z</last_login>
     </Log>
   </Login_History>

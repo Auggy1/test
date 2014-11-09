@@ -67,4 +67,7 @@
   <Category>
     <categoryName>Wages</categoryName>
   </Category>
+  <Category>
+    <categoryName>Bonuses</categoryName>
+  </Category>
 </All_Categories>

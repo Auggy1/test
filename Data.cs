@@ -1134,9 +1134,10 @@ namespace Project_Forms
 
         //=====================================================================
         // AUTHOR:      Maxwell Partington & Ranier Limpiado 
-        // PURPOSE:     This function is designed to load the users from the xml into a list
+        // PURPOSE:     This function is designed to load the users from the 
+        //              xml into a list
         // PARAMETERS:  none
-        // UPDATED: 11/3/2014
+        // UPDATED: 11/9/2014   Jeff Henry  - Refactoring
         //=====================================================================
         public List<string> loadUsers()
         {
@@ -1144,27 +1145,18 @@ namespace Project_Forms
             listOfUsers.Add(null);
             listOfUsers[0] = "All Users"; // first item should be All Users
             
-            XmlDocument xml = new XmlDocument();
-            xml.Load("user_admin.xml");
-            XmlNodeList list = xml.SelectNodes("/Users/User");
-            foreach (XmlNode xn in list)
+            XmlDocument admin_xml = new XmlDocument();
+            XmlDocument user_xml = new XmlDocument();
+            admin_xml.Load("user_admin.xml");
+            user_xml.Load("users.xml");
+
+            XmlNodeList list = admin_xml.SelectNodes("/Users/User");
+            foreach (XmlNode xn in list){listOfUsers.Add(xn["Username"].InnerText);}      
+            XmlNodeList list2 = user_xml.SelectNodes("/Users/User");
+            foreach (XmlNode xn in list2)
             {
-                string user = xn["Username"].InnerText;
-                listOfUsers.Add(xn["Username"].InnerText);
-            }      
-                XmlDocument xml2 = new XmlDocument();
-                xml2.Load("users.xml");
-                XmlNodeList list2 = xml2.SelectNodes("/Users/User");
-                foreach (XmlNode xn in list2)
-                {
-                    if (xn["Username"].InnerText != "")
-                    {
-                        string user = xn["Username"].InnerText;
-                        listOfUsers.Add(xn["Username"].InnerText);
-                    }
-                }
-            
-            //listOfUsers.Sort();
+                if (xn["Username"].InnerText != ""){listOfUsers.Add(xn["Username"].InnerText);}
+            }
             return listOfUsers;
         }//end loadUsers
         //=====================================================================
@@ -1196,13 +1188,13 @@ namespace Project_Forms
 
 		//=====================================================================
         // AUTHOR:      Maxwell Partington & Ranier Limpiado 
-        // PURPOSE:     This function is designed to check if a user exists already in the xml
+        // PURPOSE:     This function is designed to check if a user exists 
+        //              already in the xml
         // PARAMETERS:  The newUser to be checked
-        // UPDATED: 11/3/2014
+        // UPDATED:     11/9/2014   Jeff Henry - Refactoring
         //=========================================================================
         public bool userExists(string newUser, bool adminUser)
         {
-            bool found = true;
             if (adminUser)
             {
                 XmlDocument xml = new XmlDocument();
@@ -1210,31 +1202,16 @@ namespace Project_Forms
                 XmlNodeList list = xml.SelectNodes("/Users/User");
                 foreach (XmlNode xn in list)
                 {
-                    string userName = xn["Username"].InnerText;
-                    if (userName.Equals(newUser))
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        found = false; 
-                    }
+                    if (xn["Username"].InnerText == newUser){return true;}
                 }
-
-                if (found == false)
+                XmlDocument userXml = new XmlDocument();
+                userXml.Load("users.xml");
+                XmlNodeList userList = userXml.SelectNodes("/Users/User");
+                foreach (XmlNode xn in userList)
                 {
-                    XmlDocument userXml = new XmlDocument();
-                    userXml.Load("users.xml");
-                    XmlNodeList userList = userXml.SelectNodes("/Users/User");
-                    foreach (XmlNode xn in userList)
-                    {
-                        string userName = xn["Username"].InnerText;
-                        if (userName.Equals(newUser))
-                        {
-                            return true;
-                        }
-                    }//end foreach 
-                }
+                    if (xn["Username"].InnerText == newUser){return true;}
+                }//end foreach 
+                
             }
             else if (!adminUser)
             {
@@ -1243,11 +1220,7 @@ namespace Project_Forms
                 XmlNodeList list = xml.SelectNodes("/Users/User");
                 foreach (XmlNode xn in list)
                 {
-                    string userName = xn["Username"].InnerText;
-                    if (userName.Equals(newUser))
-                    {
-                        return true;
-                    }
+                    if (xn["Username"].InnerText == newUser){return true;}
                 }//end foreach  
             }
             return false;
@@ -1260,71 +1233,57 @@ namespace Project_Forms
         //          that is required for the application to help the user utilize all
         //          of the functionality. 
         // PARAMS:  The name of the help node the user is currently looking at.
-        // UPDATED: 11/3/2014
+        // UPDATED: 11/7/2014   Jeff Henry - Refactoring
         //==========================================================================
         public string displayHelpInfo(string node)
         {
-            string helpInfo;
-
             if (node == "Welcome!")
             {
-                helpInfo = "Venture Business Management is a comprehensive tool to store, manage, and report various expenses.This help menu gives you a set of comprehensive instructions that you need to perform the operations on any particular form. Pick the form you need more information about from the menu to the left.";
-                return helpInfo;
+                return "Venture Business Management is a comprehensive tool to store, manage, and report various expenses.This help menu gives you a set of comprehensive instructions that you need to perform the operations on any particular form. Pick the form you need more information about from the menu to the left.";
             }
             else if(node == "Login")
             {
-                helpInfo = "The USERNAME and PASSWORD fields need to be filled correctly and then submitted for you to be able to log in. All fields must be filled in. If this is your first time using the program and your user is not being recognized by the application, it is probably because the administrator has not added your profile into the system. Please ask the administrator to do so and try again.";
-                return helpInfo; 
+                return "The USERNAME and PASSWORD fields need to be filled correctly and then submitted for you to be able to log in. All fields must be filled in. If this is your first time using the program and your user is not being recognized by the application, it is probably because the administrator has not added your profile into the system. Please ask the administrator to do so and try again.";
             }
             else if(node == "Enter Expense")
             {
-	            helpInfo = "The enter expense page allows you to add expenses for storage into your system but with these preconditions:\n\t1)	The expense value cannot be zero. In other words, free expenses cannot be stored because there is no need for them to be stored. \n\t2)	There needs to be a date and category picked for the corresponding expense to allow for well maintained system of records.\n\tOnce all fields are filled, click the button at the bottom of the page to insert and store your expense record.";
-                return helpInfo;
+	            return "The enter expense page allows you to add expenses for storage into your system but with these preconditions:\n\t1)	The expense value cannot be zero. In other words, free expenses cannot be stored because there is no need for them to be stored. \n\t2)	There needs to be a date and category picked for the corresponding expense to allow for well maintained system of records.\n\tOnce all fields are filled, click the button at the bottom of the page to insert and store your expense record.";
             }
             else if(node == "View Reports")
             {
-                helpInfo = "The view reports page allows you to view all the expenses that you have entered but increases the capability of reporting by adding multiple filtering options before the report is generated. The filters include a date range and category (or All categories).";
-                return helpInfo; 
+                return "The view reports page allows you to view all the expenses that you have entered but increases the capability of reporting by adding multiple filtering options before the report is generated. The filters include a date range and category (or All categories).";
             }
             else if(node == "View History")
             {
-	            helpInfo = "This is an Administrative Privilege only.\n\n\tThe administrator can view the history of all changes made to the system by providing a start date, end date, category, and name of the employee that added the particular expense.\n\n\tEven though all fields have to be filled, it doesn’t mean that there is no way to view all user activities as the administrator. Using the ALL CATEGORY and ALL USER options under the “Category” and “User” field respectively, the administrator can generate reports for which even given time frame they choose.";
-                return helpInfo; 
+	            return "This is an Administrative Privilege only.\n\n\tThe administrator can view the history of all changes made to the system by providing a start date, end date, category, and name of the employee that added the particular expense.\n\n\tEven though all fields have to be filled, it doesn’t mean that there is no way to view all user activities as the administrator. Using the ALL CATEGORY and ALL USER options under the “Category” and “User” field respectively, the administrator can generate reports for which even given time frame they choose.";
             }
             else if(node == "Add User") 
             {
-	            helpInfo = "This is an Administrative Capability.\n\n\tThe add user capability requires the administrator to fill the fields provided on the page to create a new user profile. Any administrator account is capable of creating a new user. All fields need to be completed in order to add the user so that the system can have comprehensive information of the user being admitted into it."; 
-                return helpInfo;    
+	            return "This is an Administrative Capability.\n\n\tThe add user capability requires the administrator to fill the fields provided on the page to create a new user profile. Any administrator account is capable of creating a new user. All fields need to be completed in order to add the user so that the system can have comprehensive information of the user being admitted into it."; 
             }
             else if(node == "Edit User")
             {
-	            helpInfo = "This is an Administrative Capability.\n\n\tThe edit user capabilities of the administrator allows him or her to reset an existing account in case of a lost password or even delete a user if they so wish. The administrator needs to once again provide his or her credentials for security purposes.";
-                return helpInfo;
+	            return "This is an Administrative Capability.\n\n\tThe edit user capabilities of the administrator allows him or her to reset an existing account in case of a lost password or even delete a user if they so wish. The administrator needs to once again provide his or her credentials for security purposes.";
             }
             else if(node == "Add Category")
             {
-                helpInfo = "This is an Administrative Capability.\n\n\tThe \"Add category\" capability requires the administrator to fill the fields provided on the page to create a new category field. Any administrator account is capable of creating a new category. All fields need to be completed in order to add the user so that the system can make the category available for Employees to use."; 
-                return helpInfo;
+                return "This is an Administrative Capability.\n\n\tThe \"Add category\" capability requires the administrator to fill the fields provided on the page to create a new category field. Any administrator account is capable of creating a new category. All fields need to be completed in order to add the user so that the system can make the category available for Employees to use."; 
             }
             else if(node =="Edit Category")
             {
-                helpInfo = "This is an Administrative Capability.\n\n\tThe \"Edit category\" capabilities of the administrator allows him or her to edit the name of a category so that it can be updated in the system and allow the user to pick the edited version of the category when inserting a new expense.";
-                return helpInfo;
+                return "This is an Administrative Capability.\n\n\tThe \"Edit category\" capabilities of the administrator allows him or her to edit the name of a category so that it can be updated in the system and allow the user to pick the edited version of the category when inserting a new expense.";
             }
             else if (node == "Rename Category")
             {
-                helpInfo = "More info soon.";
-                return helpInfo;
+                return "More info soon.";
             }
             else if(node == "Delete Category")
             {
-                helpInfo = 	"This is an Administrative Capability.\n\n\tThe \"Delete category\" ability allows the administrator to omit any category he or she chooses from the system to disallow the Employees from entering expenses under that particular field of category.";
-                return helpInfo;
+                return "This is an Administrative Capability.\n\n\tThe \"Delete category\" ability allows the administrator to omit any category he or she chooses from the system to disallow the Employees from entering expenses under that particular field of category.";
             }
             else
             {
-                helpInfo = "More information coming soon!";
-                return helpInfo;
+                return "More information coming soon!";
             }
         }//end displayHelpInfo
         //=====================================================================
@@ -1633,12 +1592,10 @@ namespace Project_Forms
         //          the first screen.  
         // PARAMS:  The name of the user, and whether or not they are an admin
         //          user.  
-        // UPDATED: 11/3/2014
+        // UPDATED: 11/9/2014   Jeff Henry  - Refactoring
         //=====================================================================
         public string fillInLoginInfo(string user, bool adminUser)
         {
-            string loginInfo = "";
-            bool found = true; 
             if (adminUser)
             {
                 XmlDocument xml = new XmlDocument();
@@ -1646,105 +1603,27 @@ namespace Project_Forms
                 XmlNodeList list = xml.SelectNodes("/Users/User");
                 foreach (XmlNode xn in list)
                 {
-                    string userName = xn["Username"].InnerText;
-                    if (userName.Equals(user))
+                    if (xn["Username"].InnerText == user)
                     {
-                        loginInfo = ("User: " + xn["firstName"].InnerText + " " + 
+                        return ("User: " + xn["firstName"].InnerText + " " + 
                                                 xn["lastName"].InnerText + "\nLast login: "+ 
                                                 xn["lastLogin"].InnerText + 
                                                 "\nAuthority level: Administrator");
-                        return loginInfo;
-                    }
-                    else
+                    }              
+                }//end foreach  
+                XmlDocument newAdxml = new XmlDocument();
+                newAdxml.Load("users.xml");
+                XmlNodeList newAdlist = newAdxml.SelectNodes("/Users/User");
+                foreach (XmlNode xn in newAdlist)
+                {
+                    if (xn["Username"].InnerText == user)
                     {
-                        found = false;
+                        return ("User: " + xn["firstName"].InnerText + " " +
+                                                xn["lastName"].InnerText + "\nLast login: " +
+                                                xn["lastLogin"].InnerText +
+                                                "\nAuthority level: Administrator");
                     }
                 }//end foreach  
-                if (found == false)
-                {
-                    XmlDocument newAdxml = new XmlDocument();
-                    newAdxml.Load("users.xml");
-                    XmlNodeList newAdlist = newAdxml.SelectNodes("/Users/User");
-                    foreach (XmlNode xn in newAdlist)
-                    {
-                        string userName2 = xn["Username"].InnerText;
-                        if (userName2.Equals(user))
-                        {
-                            loginInfo = ("User: " + xn["firstName"].InnerText + " " +
-                                                    xn["lastName"].InnerText + "\nLast login: " +
-                                                    xn["lastLogin"].InnerText +
-                                                    "\nAuthority level: Administrator");
-                            return loginInfo;
-                        }
-                    }//end foreach  
-                }
-            }
-                    else if (!adminUser)
-                    {
-                        XmlDocument xml = new XmlDocument();
-                        xml.Load("users.xml");
-                        XmlNodeList list = xml.SelectNodes("/Users/User");
-                        foreach (XmlNode xn in list)
-                        {
-                            string userName = xn["Username"].InnerText;
-                            if (userName.Equals(user))
-                            {
-                                loginInfo = ("User: " + xn["firstName"].InnerText + " " + 
-                                                        xn["lastName"].InnerText + "\nLast login: " + 
-                                                        xn["lastLogin"].InnerText + 
-                                                        "\nAuthority Level: Employee"); 
-                                return loginInfo;
-                            }
-                        }//end foreach 
-                    }
-            return loginInfo; 
-        }//end fillInLoginInfo
-        //=====================================================================
-
-        //=====================================================================
-        // AUTHOR:  Maxwell Partington & Ranier Limpiado
-        // PURPOSE: This function updates the last login of the user. 
-        // PARAMS:  The name of the user, and whether or not they are an admin.  
-        // UPDATED: 11/3/2014
-        //=====================================================================
-        public void updateLastLogin(string user, bool adminUser)
-        {
-            bool found = true; 
-            if (adminUser)
-            {
-                XmlDocument xml = new XmlDocument();
-                xml.Load("user_admin.xml");
-                XmlNodeList list = xml.SelectNodes("/Users/User");
-                foreach (XmlNode xn in list)
-                {
-                    string userName = xn["Username"].InnerText;
-                    if (userName.Equals(user))
-                    {
-                        xn["lastLogin"].InnerText = DateTime.Now.ToString();
-                        xml.Save(@"user_admin.xml");
-                    }
-                    else
-                    {
-                        found = false; 
-                    }
-                }//end foreach 
-
-                if (found == false)
-                {
-                    XmlDocument userXml = new XmlDocument();
-                    userXml.Load("users.xml");
-                    XmlNodeList userlist = userXml.SelectNodes("/Users/User");
-                    foreach (XmlNode xn in userlist)
-                    {
-                        string userName = xn["Username"].InnerText;
-                        if (userName.Equals(user))
-                        {
-                            xn["lastLogin"].InnerText = DateTime.Now.ToString();
-                            userXml.Save(@"users.xml");
-                        }
-                    }//end foreach 
-                }
-            
             }
             else if (!adminUser)
             {
@@ -1753,8 +1632,62 @@ namespace Project_Forms
                 XmlNodeList list = xml.SelectNodes("/Users/User");
                 foreach (XmlNode xn in list)
                 {
-                    string userName = xn["Username"].InnerText;
-                    if (userName.Equals(user))
+                    if (xn["Username"].InnerText == user)
+                    {
+                        return ("User: " + xn["firstName"].InnerText + " " + 
+                                                xn["lastName"].InnerText + "\nLast login: " + 
+                                                xn["lastLogin"].InnerText + 
+                                                "\nAuthority Level: Employee"); 
+                    }
+                }//end foreach 
+            }
+            return "Venture Business Management";
+        }//end fillInLoginInfo
+        //=====================================================================
+
+        //=====================================================================
+        // AUTHOR:  Maxwell Partington & Ranier Limpiado
+        // PURPOSE: This function updates the last login of the user. 
+        // PARAMS:  The name of the user, and whether or not they are an admin.  
+        // UPDATED: 11/9/2014 Jeff Henry - Refactoring
+        //=====================================================================
+        public void updateLastLogin(string user, bool adminUser)
+        {
+            if (adminUser)
+            {
+                XmlDocument xml = new XmlDocument();
+                xml.Load("user_admin.xml");
+                XmlNodeList list = xml.SelectNodes("/Users/User");
+                foreach (XmlNode xn in list)
+                {
+                    if (xn["Username"].InnerText == user)
+                    {
+                        xn["lastLogin"].InnerText = DateTime.Now.ToString();
+                        xml.Save(@"user_admin.xml");
+                    }
+                    
+                }//end foreach 
+                
+                XmlDocument userXml = new XmlDocument();
+                userXml.Load("users.xml");
+                XmlNodeList userlist = userXml.SelectNodes("/Users/User");
+                foreach (XmlNode xn in userlist)
+                {
+                    if (xn["Username"].InnerText == user)
+                    {
+                        xn["lastLogin"].InnerText = DateTime.Now.ToString();
+                        userXml.Save(@"users.xml");
+                    }
+                }//end foreach 
+            }
+            else if (!adminUser)
+            {
+                XmlDocument xml = new XmlDocument();
+                xml.Load("users.xml");
+                XmlNodeList list = xml.SelectNodes("/Users/User");
+                foreach (XmlNode xn in list)
+                {
+                    if (xn["Username"].InnerText == user)
                     {
                         xn["lastLogin"].InnerText = DateTime.Now.ToString();
                         xml.Save(@"users.xml"); 
@@ -1847,54 +1780,26 @@ namespace Project_Forms
         //          to the first combobox on form1. This was written because 
         //          it will not contain the "All Categories" name. 
         // PARAMS:  None.  
-        // UPDATED: 11/3/2014
+        // UPDATED: 11/9/2014   Jeff Henry - Refactored
         //=====================================================================
-        public string[] addCategories()
+        public List<string> addCategories()
         {
-            string[] categories = new string[100];
-            string catName;
+            List<string> cats = new List<string>();
             Data checkExists = new Data();
-            bool exists = checkExists.xmlcheck();
-            int x = 0; 
-            //int count = 0;
-            int count2 = 0;
+            XDocument catDoc = XDocument.Load(@"categories.xml");
 
-            if (exists == true)
+            if (checkExists.xmlcheck())
             {
-                XDocument catDoc = XDocument.Load(@"categories.xml");
-
                 foreach (var Category in catDoc.Descendants("Category"))
                 {
-                    catName = Category.Element("categoryName").Value;
-                    if (catName != "All Categories")
+                    if (Category.Element("categoryName").Value != "All Categories")
                     {
-                        categories[x++] = catName;
-                        count2++;
+                        cats.Add(Category.Element("categoryName").Value);
                     }
                 }
-
-                string[] actualCats = new string[count2];
-
-                for (int k = 0; k < 100; k++)
-                {
-                    if (categories[k] != null)
-                    {
-                        actualCats[k] = categories[k];
-                    }
-                }
-
-                if (actualCats != null)
-                {
-                    Array.Sort<string>(actualCats);
-                    //var source2 = new AutoCompleteStringCollection();
-                    //source2.AddRange(actualCats);
-                    //comboBox2.Items.AddRange(actualCats);
-                    //comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
-                    
-                }
-                return actualCats;
+                cats.Sort();
             }
-            return categories;
+            return cats;
          }//end addCategories
         //=====================================================================
     }//end class: Data

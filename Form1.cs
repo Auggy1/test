@@ -43,20 +43,8 @@ namespace Project_Forms
         {
             InitializeComponent();
             
-            vr_report_label.Hide();
-            //get rid of the * on the history table
-            vh_grid.AllowUserToAddRows = false;
-            //comboBox2.Items.AddRange(types);//removed because getting information from XML after user logs in 10/29/2014
-            ee_category_list.DropDownStyle = ComboBoxStyle.DropDownList;//set the format to dropdownlist 
-            //comboBox3.Items.AddRange(types); //removed because getting information from XML after user logs in 10/29/2014
-            vr_category_list.DropDownStyle = ComboBoxStyle.DropDownList;
-            //comboBox5.Items.AddRange(types);//removed because getting information from XML after user logs in 10/29/2014
-            vh_category_list.DropDownStyle = ComboBoxStyle.DropDownList;
-
             //The already initialized logout button under file is not visible to the user initially
             logOutToolStripMenuItem.Visible = false;
-
-            //ee_expense_input.MaxLength = 6;                         // Max length for an expense to be when entered
 
             /*************************************** Date and Time Displays *******************************************/
             ee_date_picker.MaxDate = DateTime.Now;                  // Enter Expense date picker
@@ -79,6 +67,7 @@ namespace Project_Forms
             expense_error_msg.Hide();                               // Hide the expense error message.
             administrationToolStripMenuItem.Visible = false;        // Hide the administration menu
             tab_control.Controls.Remove(vh_tab);                    // Remove the view history tab
+            vr_report_label.Hide();                                 // Hides the view report label
             this.vh_grid.RowHeadersWidth = 4;                       // Hides the arrow on the data grid.
             this.vr_grid.RowHeadersWidth = 4;                       // Hides the arrow on the data grid.
             this.vh_grid.Rows.Clear();                              // Clears the vh grid
@@ -165,7 +154,8 @@ namespace Project_Forms
             Control login = new Control();
             Data userChecks = new Data();
             var source = new AutoCompleteStringCollection();
-            login.createxmlfile();              
+            login.createxmlfile();
+            login_error_msg.Text = "";  
                       
             bool exists;                                // Check if user exists
             bool validPassword;                         // Check if the password is valid
@@ -228,16 +218,19 @@ namespace Project_Forms
                         HideLogin(username_box.Text);
                         tab_control.Controls.Remove(vh_tab);
                     }
-           
-                      
+
+                    // Update all the drop-down lists:
+                    refresh_dropdowns();  
                     // This call loads the categories after logging in so there needs to be a user logged in to do anything. 
                     // This list does not contain "All Categories". 
                     ee_category_list.Items.Clear();
-                    ee_category_list.Items.AddRange(userChecks.addCategories().ToArray());
+                    ee_category_list.DataSource = userChecks.addCategories();
+                    //ee_category_list.Items.AddRange(userChecks.addCategories().ToArray());
             
                     // This call loads the categories after logging in so there needs to be a user logged in to do anything.
                     vh_category_list.Items.Clear();//no duplicates
-                    vh_category_list.Items.AddRange(login.loadCategoryList().ToArray());
+                    vh_category_list.DataSource = userChecks.addCategories();
+                    //vh_category_list.Items.AddRange(login.loadCategoryList().ToArray());
                       
                     // This call loads the list of users into the comboBox on the view history tab.
                     vh_user_list.Items.Clear();//no duplicates
@@ -718,6 +711,23 @@ namespace Project_Forms
         private void vr_end_date_picker_ValueChanged(object sender, EventArgs e)
         {
             vr_end_date_picker.MinDate = vr_start_date_picker.Value;
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This will "refresh" or basically reload all the drop down lists
+        //          so that the user always has an updated list of users and 
+        //          categories.
+        // UPDATED: 11/9/2014   Jeff Henry -    Initial creation
+        //========================================================================
+        private void refresh_dropdowns()
+        {
+            Data updates = new Data();
+            
+            ee_category_list.DataSource = updates.addCategories();
+            vr_category_list.DataSource = updates.addCategories();
+            vh_category_list.DataSource = updates.addCategories();
+            
         }
     }
 }
