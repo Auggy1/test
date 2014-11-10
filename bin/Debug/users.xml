@@ -13,4 +13,15 @@
     <locked>false</locked>
     <lastLogin>11/9/2014 4:44:11 PM</lastLogin>
   </User>
+  <User>
+    <Username>admin</Username>
+    <password>IsDFmROP25SA8xtsATQhPg==</password>
+    <firstName>Jeff</firstName>
+    <lastName>Henry</lastName>
+    <email>
+    </email>
+    <admin>false</admin>
+    <locked>false</locked>
+    <lastLogin>11/10/2014 10:44:43 AM</lastLogin>
+  </User>
 </Users>

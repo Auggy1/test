@@ -51,9 +51,13 @@
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             this.admin_chkbox = new System.Windows.Forms.CheckBox();
-            this.label11 = new System.Windows.Forms.Label();
+            this.make_admin_label = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
+            this.optional_label = new System.Windows.Forms.Label();
+            this.optional_label_2 = new System.Windows.Forms.Label();
+            this.na_error_msg_1 = new System.Windows.Forms.Label();
+            this.na_error_msg_2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
             this.SuspendLayout();
@@ -90,7 +94,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(16, 103);
+            this.label4.Location = new System.Drawing.Point(16, 116);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(165, 18);
             this.label4.TabIndex = 3;
@@ -99,7 +103,7 @@
             // firstname_label
             // 
             this.firstname_label.AutoSize = true;
-            this.firstname_label.Location = new System.Drawing.Point(16, 124);
+            this.firstname_label.Location = new System.Drawing.Point(16, 137);
             this.firstname_label.Name = "firstname_label";
             this.firstname_label.Size = new System.Drawing.Size(60, 13);
             this.firstname_label.TabIndex = 4;
@@ -108,7 +112,7 @@
             // lastname_label
             // 
             this.lastname_label.AutoSize = true;
-            this.lastname_label.Location = new System.Drawing.Point(16, 150);
+            this.lastname_label.Location = new System.Drawing.Point(16, 163);
             this.lastname_label.Name = "lastname_label";
             this.lastname_label.Size = new System.Drawing.Size(61, 13);
             this.lastname_label.TabIndex = 5;
@@ -117,7 +121,7 @@
             // email_label
             // 
             this.email_label.AutoSize = true;
-            this.email_label.Location = new System.Drawing.Point(16, 176);
+            this.email_label.Location = new System.Drawing.Point(16, 189);
             this.email_label.Name = "email_label";
             this.email_label.Size = new System.Drawing.Size(35, 13);
             this.email_label.TabIndex = 6;
@@ -126,7 +130,7 @@
             // vemail_label
             // 
             this.vemail_label.AutoSize = true;
-            this.vemail_label.Location = new System.Drawing.Point(16, 202);
+            this.vemail_label.Location = new System.Drawing.Point(16, 215);
             this.vemail_label.Name = "vemail_label";
             this.vemail_label.Size = new System.Drawing.Size(67, 13);
             this.vemail_label.TabIndex = 7;
@@ -160,7 +164,7 @@
             // 
             // na_firstname
             // 
-            this.na_firstname.Location = new System.Drawing.Point(82, 124);
+            this.na_firstname.Location = new System.Drawing.Point(82, 137);
             this.na_firstname.Name = "na_firstname";
             this.na_firstname.Size = new System.Drawing.Size(100, 20);
             this.na_firstname.TabIndex = 2;
@@ -177,7 +181,7 @@
             // 
             // na_lastname
             // 
-            this.na_lastname.Location = new System.Drawing.Point(83, 150);
+            this.na_lastname.Location = new System.Drawing.Point(83, 163);
             this.na_lastname.Name = "na_lastname";
             this.na_lastname.Size = new System.Drawing.Size(100, 20);
             this.na_lastname.TabIndex = 3;
@@ -185,21 +189,21 @@
             // 
             // na_email
             // 
-            this.na_email.Location = new System.Drawing.Point(83, 176);
+            this.na_email.Location = new System.Drawing.Point(83, 189);
             this.na_email.Name = "na_email";
-            this.na_email.Size = new System.Drawing.Size(188, 20);
+            this.na_email.Size = new System.Drawing.Size(167, 20);
             this.na_email.TabIndex = 4;
             // 
             // na_verifyemail
             // 
-            this.na_verifyemail.Location = new System.Drawing.Point(83, 202);
+            this.na_verifyemail.Location = new System.Drawing.Point(83, 215);
             this.na_verifyemail.Name = "na_verifyemail";
-            this.na_verifyemail.Size = new System.Drawing.Size(188, 20);
+            this.na_verifyemail.Size = new System.Drawing.Size(167, 20);
             this.na_verifyemail.TabIndex = 5;
             // 
             // na_cancel_btn
             // 
-            this.na_cancel_btn.Location = new System.Drawing.Point(248, 232);
+            this.na_cancel_btn.Location = new System.Drawing.Point(248, 262);
             this.na_cancel_btn.Name = "na_cancel_btn";
             this.na_cancel_btn.Size = new System.Drawing.Size(75, 23);
             this.na_cancel_btn.TabIndex = 7;
@@ -209,7 +213,7 @@
             // 
             // na_submit_btn
             // 
-            this.na_submit_btn.Location = new System.Drawing.Point(12, 232);
+            this.na_submit_btn.Location = new System.Drawing.Point(12, 262);
             this.na_submit_btn.Name = "na_submit_btn";
             this.na_submit_btn.Size = new System.Drawing.Size(75, 23);
             this.na_submit_btn.TabIndex = 6;
@@ -228,28 +232,72 @@
             // admin_chkbox
             // 
             this.admin_chkbox.AutoSize = true;
-            this.admin_chkbox.Location = new System.Drawing.Point(308, 124);
+            this.admin_chkbox.Location = new System.Drawing.Point(308, 137);
             this.admin_chkbox.Name = "admin_chkbox";
             this.admin_chkbox.Size = new System.Drawing.Size(15, 14);
             this.admin_chkbox.TabIndex = 10;
             this.admin_chkbox.UseVisualStyleBackColor = true;
             // 
-            // label11
+            // make_admin_label
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(207, 124);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(95, 13);
-            this.label11.TabIndex = 11;
-            this.label11.Text = "Make user Admin?";
+            this.make_admin_label.AutoSize = true;
+            this.make_admin_label.Location = new System.Drawing.Point(256, 137);
+            this.make_admin_label.Name = "make_admin_label";
+            this.make_admin_label.Size = new System.Drawing.Size(42, 13);
+            this.make_admin_label.TabIndex = 11;
+            this.make_admin_label.Text = "Admin?";
+            // 
+            // optional_label
+            // 
+            this.optional_label.AutoSize = true;
+            this.optional_label.Location = new System.Drawing.Point(256, 192);
+            this.optional_label.Name = "optional_label";
+            this.optional_label.Size = new System.Drawing.Size(52, 13);
+            this.optional_label.TabIndex = 12;
+            this.optional_label.Text = "(Optional)";
+            // 
+            // optional_label_2
+            // 
+            this.optional_label_2.AutoSize = true;
+            this.optional_label_2.Location = new System.Drawing.Point(256, 218);
+            this.optional_label_2.Name = "optional_label_2";
+            this.optional_label_2.Size = new System.Drawing.Size(52, 13);
+            this.optional_label_2.TabIndex = 13;
+            this.optional_label_2.Text = "(Optional)";
+            // 
+            // na_error_msg_1
+            // 
+            this.na_error_msg_1.AutoSize = true;
+            this.na_error_msg_1.ForeColor = System.Drawing.Color.Red;
+            this.na_error_msg_1.Location = new System.Drawing.Point(16, 94);
+            this.na_error_msg_1.Name = "na_error_msg_1";
+            this.na_error_msg_1.Size = new System.Drawing.Size(137, 13);
+            this.na_error_msg_1.TabIndex = 14;
+            this.na_error_msg_1.Text = "username or password error";
+            this.na_error_msg_1.Visible = false;
+            // 
+            // na_error_msg_2
+            // 
+            this.na_error_msg_2.AutoSize = true;
+            this.na_error_msg_2.ForeColor = System.Drawing.Color.Red;
+            this.na_error_msg_2.Location = new System.Drawing.Point(16, 237);
+            this.na_error_msg_2.Name = "na_error_msg_2";
+            this.na_error_msg_2.Size = new System.Drawing.Size(169, 13);
+            this.na_error_msg_2.TabIndex = 15;
+            this.na_error_msg_2.Text = "first name, last name, or email error";
+            this.na_error_msg_2.Visible = false;
             // 
             // New_Account
             // 
             this.AcceptButton = this.na_submit_btn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(333, 263);
-            this.Controls.Add(this.label11);
+            this.ClientSize = new System.Drawing.Size(333, 297);
+            this.Controls.Add(this.na_error_msg_2);
+            this.Controls.Add(this.na_error_msg_1);
+            this.Controls.Add(this.optional_label_2);
+            this.Controls.Add(this.optional_label);
+            this.Controls.Add(this.make_admin_label);
             this.Controls.Add(this.admin_chkbox);
             this.Controls.Add(this.na_submit_btn);
             this.Controls.Add(this.na_cancel_btn);
@@ -304,9 +352,13 @@
         private System.Windows.Forms.Button na_submit_btn;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.ErrorProvider errorProvider2;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label make_admin_label;
         private System.Windows.Forms.CheckBox admin_chkbox;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolTip toolTip2;
+        private System.Windows.Forms.Label optional_label_2;
+        private System.Windows.Forms.Label optional_label;
+        private System.Windows.Forms.Label na_error_msg_2;
+        private System.Windows.Forms.Label na_error_msg_1;
     }
 }

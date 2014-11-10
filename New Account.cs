@@ -48,29 +48,48 @@ namespace Project_Forms
         //=====================================================================
         private void button2_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(na_username.Text) || checkInput(na_username.Text) || na_username.Text.Length < 5) // make sure format is correct for username
+            // Clear the error messages and error providers:
+            na_error_msg_1.Text = "";
+            na_error_msg_2.Text = "";
+            errorProvider1.Clear();
+            errorProvider2.Clear();
+
+            // make sure format is correct for username
+            if (string.IsNullOrWhiteSpace(na_username.Text) || checkInput(na_username.Text) || na_username.Text.Length < 5) 
             {
-                MessageBox.Show("Please enter a user name containing the following characters: [a-z][A-Z][0-9] or [_]");
+                na_error_msg_1.Text = "Username must contain the following: [a-z][A-Z][0-9][_]";
+                na_error_msg_1.Visible = true;
+                //MessageBox.Show("Please enter a user name containing the following characters: [a-z][A-Z][0-9] or [_]");
             }
             else if (string.IsNullOrWhiteSpace(na_password.Text))
             {
-                MessageBox.Show("Please enter a password");
+                na_error_msg_1.Text = "Please enter a password";
+                na_error_msg_1.Visible = true;
+                //MessageBox.Show("Please enter a password");
             }
             else if (checkInput(na_firstname.Text))
             {
-                MessageBox.Show("Please enter a valid username");
+                na_error_msg_1.Text = "Username not allowed. Please try again.";
+                na_error_msg_1.Visible = true;
+                //MessageBox.Show("Please enter a valid username");
             }
             else if (na_password.Text.Length < 6) // make sure format is correct for password
             {
-                MessageBox.Show("Please enter a password that is at least 6 characters long.");
+                na_error_msg_1.Text = "Password must be at least 6 characters long.";
+                na_error_msg_1.Visible = true;
+                //MessageBox.Show("Please enter a password that is at least 6 characters long.");
             }
             else if (!na_verifyemail.Text.Equals(na_email.Text))
             {
-                MessageBox.Show("Emails do not match. Try Again.");
+                na_error_msg_2.Text = "Emails do not match. Try Again.";
+                na_error_msg_2.Visible = true;
+                //MessageBox.Show("Emails do not match. Try Again.");
             }
             else if (!string.IsNullOrWhiteSpace(na_email.Text) && !IsValidEmail(na_email.Text))
             {
-                MessageBox.Show("Please enter a valid email address (johndoe@aol.com).");
+                na_error_msg_2.Text = "Please enter a valid email address. (Ex. johndoe@aol.com)";
+                na_error_msg_2.Visible = true;
+               //MessageBox.Show("Please enter a valid email address (johndoe@aol.com).");
             }
             else // if everything is filled correctly, 
             {
@@ -78,8 +97,12 @@ namespace Project_Forms
                 
                 if (newUser.userExists(na_username.Text,admin_chkbox.Checked))
                 {
-                    MessageBox.Show("User exists already.");
-                    this.Close();
+                    na_error_msg_2.Text = "Username is taken, try again.";
+                    na_error_msg_2.Visible = true;
+                    na_username.Text = "";
+                    return;
+                    //MessageBox.Show("User exists already.");
+                    //this.Close();
                 }
                 else 
                 {
@@ -87,25 +110,27 @@ namespace Project_Forms
                     newUser.addNewUser(na_username.Text, encryptedPass, admin_chkbox.Checked, na_firstname.Text, na_lastname.Text, na_email.Text,"ignore",false);
                 }
                 this.Refresh();
-                this.Close();
+                //this.Close();
             }
         }//end 
         //=====================================================================
         
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
-        // PURPOSE: To check if the correct format is entered into the password and username
+        // PURPOSE: To check if the correct format is entered into the password 
+        //          and username
         // PARAMS:  The userName from the textboxes.
         // UPDATED: 11/5/14     Refactored      Jeff Henry
         //=====================================================================
         private bool checkInput(string userName)
         {
-            string regex = @"^[a-zA-Z0-9_]*$"; // for the username only letters, numbers, and underscores
-            Match m = Regex.Match(userName, regex, RegexOptions.IgnoreCase);
-            if (!m.Success){return true;}
+            // For the username only letters, numbers, and underscores
+            Match match = Regex.Match(userName,@"^[a-zA-Z0-9_]*$", RegexOptions.IgnoreCase);
+            if (!match.Success){return true;}
             else
             {
-                for (int i = 0; i < userName.Length; i++) // check for spaces between the string and return true 
+                // check for spaces between the string and return true
+                for (int i = 0; i < userName.Length; i++)  
                 {
                     if (char.IsWhiteSpace(userName, i)){return true;}
                     //else{return false;}
@@ -116,40 +141,32 @@ namespace Project_Forms
 
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
-        // PURPOSE: To check if the correct format is entered into the password and username
+        // PURPOSE: To check if the correct format is entered into the password 
+        //          and username
         // PARAMS:  None. 
-        // UPDATED: 11/3/14
+        // UPDATED: 11/10/14    Jeff Henry  -   Refactored
         //=====================================================================
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            int stringSize = na_username.Text.Length;
-            if (stringSize < 5)
-            {
+            if (na_username.Text.Length < 5)
                 errorProvider1.SetError(na_username, "Needs to be at least 5 characters."); 
-            }
             else
-            {
                 errorProvider1.Clear();
-            }
         }//end
 
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
-        // PURPOSE: To check if the correct format is entered into the password and username
+        // PURPOSE: To check if the correct format is entered into the password
+        //          and username
         // PARAMS:  None. 
-        // UPDATED: 11/3/14
+        // UPDATED: 11/10/14    Jeff Henry  - Refactored
         //=====================================================================
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
-            var stringSize = na_password.Text.Length;
-            if (stringSize < 6)
-            {
+            if (na_password.Text.Length < 6)
                 errorProvider2.SetError(na_password, "Needs to be at least 6 characters."); 
-            }
             else
-            {
                 errorProvider2.Clear();
-            }
         }//end
 
         //=====================================================================
