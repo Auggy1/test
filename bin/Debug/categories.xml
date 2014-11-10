@@ -67,4 +67,10 @@
   <Category>
     <categoryName>Wages</categoryName>
   </Category>
+  <Category>
+    <categoryName>Holiday Pay</categoryName>
+  </Category>
+  <Category>
+    <categoryName>Vacation Pay</categoryName>
+  </Category>
 </All_Categories>

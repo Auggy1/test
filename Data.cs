@@ -1058,14 +1058,13 @@ namespace Project_Forms
         // PURPOSE:     This function searches through the user xml to see if
         //              the user is locked.
         // PARAMETERS:  username to search for
+        // UPDATED:     11/9/2014   Jeff Henry - Initial Creation
         //=====================================================================
         public bool checkLocked(string username)
         {
             XDocument user_xml = XDocument.Load(@"users.xml");
-            foreach (var User in user_xml.Descendants("User"))
-            {
-                if (User.Element("Username").Value == username)
-                {
+            foreach (var User in user_xml.Descendants("User")){
+                if (User.Element("Username").Value == username){
                     if (User.Element("locked").Value == "True")
                         return true;
                 }
@@ -1094,10 +1093,9 @@ namespace Project_Forms
             XmlNodeList list = admin_xml.SelectNodes("/Users/User");
             foreach (XmlNode xn in list){listOfUsers.Add(xn["Username"].InnerText);}      
             XmlNodeList list2 = user_xml.SelectNodes("/Users/User");
-            foreach (XmlNode xn in list2)
-            {
+            foreach (XmlNode xn in list2){
                 if (xn["Username"].InnerText != ""){listOfUsers.Add(xn["Username"].InnerText);}
-            }
+            }//end foreach
             return listOfUsers;
         }//end loadUsers
         //=====================================================================
@@ -1105,9 +1103,10 @@ namespace Project_Forms
         //=====================================================================
         //=====================================================================
         // AUTHOR:      Maxwell Partington & Ranier Limpiado 
-        // PURPOSE:     This function is designed to load the users from the xml into a list
+        // PURPOSE:     This function is designed to load the users from the 
+        //              xml into a list
         // PARAMETERS:  none
-        // UPDATED: 11/3/2014
+        // UPDATED:     11/3/2014
         //=====================================================================
         public List<string> loadCat()
         {
@@ -1115,15 +1114,13 @@ namespace Project_Forms
             XmlDocument xml = new XmlDocument();
             xml.Load("categories.xml");
             XmlNodeList list = xml.SelectNodes("/All_Categories/Category");
-            foreach (XmlNode xn in list)
-            {
-                string user = xn["categoryName"].InnerText;  
+            foreach (XmlNode xn in list){
                 listOfCat.Add(xn["categoryName"].InnerText);
             }
 
-                listOfCat.Sort();
-                listOfCat.Insert(0, "All Categories");
-                return listOfCat;
+            listOfCat.Sort();
+            listOfCat.Insert(0, "All Categories");
+            return listOfCat;
         }//end loadCat
         //=====================================================================
 
@@ -1141,15 +1138,14 @@ namespace Project_Forms
                 XmlDocument xml = new XmlDocument();
                 xml.Load("user_admin.xml");
                 XmlNodeList list = xml.SelectNodes("/Users/User");
-                foreach (XmlNode xn in list)
-                {
+                foreach (XmlNode xn in list){
                     if (xn["Username"].InnerText == newUser){return true;}
-                }
+                }//end foreach
+
                 XmlDocument userXml = new XmlDocument();
                 userXml.Load("users.xml");
                 XmlNodeList userList = userXml.SelectNodes("/Users/User");
-                foreach (XmlNode xn in userList)
-                {
+                foreach (XmlNode xn in userList){
                     if (xn["Username"].InnerText == newUser){return true;}
                 }//end foreach 
                 
@@ -1159,8 +1155,7 @@ namespace Project_Forms
                 XmlDocument xml = new XmlDocument();
                 xml.Load("users.xml");
                 XmlNodeList list = xml.SelectNodes("/Users/User");
-                foreach (XmlNode xn in list)
-                {
+                foreach (XmlNode xn in list){
                     if (xn["Username"].InnerText == newUser){return true;}
                 }//end foreach  
             }
@@ -1257,14 +1252,13 @@ namespace Project_Forms
 
             var trans_xml = XDocument.Load(@"transactions.xml");
             var trans_count = trans_xml.Descendants("Transaction").Count();
-            if (checkAdmin(user))
-            {
-                if (category == "All Categories")
-                {
-                    for (int i = 0; i < trans_count; i++)
-                    {
-                        if (dates[i] >= start && dates[i] <= end)
-                        {
+
+            // Administrator:
+            if (checkAdmin(user)){
+                // All Categories
+                if (category == "All Categories"){
+                    for (int i = 0; i < trans_count; i++){
+                        if (dates[i] >= start && dates[i] <= end){
                             datagrid.Rows.Add(dates[i], expenses[i], cats[i]);
                             if (cats[i] == "Mileage")
                                 mil_total += Convert.ToDecimal(expenses[i]);
@@ -1273,12 +1267,10 @@ namespace Project_Forms
                         }
                     }
                 }
-                else if (category != "All Categories")
-                {
-                    for (int i = 0; i < trans_count; i++)
-                    {
-                        if (dates[i] >= start && dates[i] <= end && cats[i] == category)
-                        {
+                // One Category:
+                else if (category != "All Categories"){
+                    for (int i = 0; i < trans_count; i++){
+                        if (dates[i] >= start && dates[i] <= end && cats[i] == category){
                             datagrid.Rows.Add(dates[i], expenses[i], cats[i]);
                             if (category == "Mileage")
                                 mil_total += Convert.ToDecimal(expenses[i]);
@@ -1288,16 +1280,14 @@ namespace Project_Forms
                     }
                 }
             }
-            else if(!checkAdmin(user))
-            {
-                if (category == "All Categories")
-                {
-                    for (int i = 0; i < trans_count; i++)
-                    {
-                        if (dates[i] >= start && dates[i] <= end)
-                        {
-                            if (users[i] == user)
-                            {
+
+            // Employee:
+            else if(!checkAdmin(user)){
+                // All Categories:
+                if (category == "All Categories"){
+                    for (int i = 0; i < trans_count; i++){
+                        if (dates[i] >= start && dates[i] <= end){
+                            if (users[i] == user){
                                 datagrid.Rows.Add(dates[i], expenses[i], cats[i]);
                                 if (cats[i] == "Mileage")
                                     mil_total += Convert.ToDecimal(expenses[i]);
@@ -1307,14 +1297,11 @@ namespace Project_Forms
                         }
                     }
                 }
-                else if (category != "All Categories")
-                {
-                    for (int i = 0; i < trans_count; i++)
-                    {
-                        if (dates[i] >= start && dates[i] <= end && cats[i] == category)
-                        {
-                            if (users[i] == user)
-                            {
+                // One Category:
+                else if (category != "All Categories"){
+                    for (int i = 0; i < trans_count; i++){
+                        if (dates[i] >= start && dates[i] <= end && cats[i] == category){
+                            if (users[i] == user){
                                 datagrid.Rows.Add(dates[i], expenses[i], cats[i]);
                                 if (category == "Mileage")
                                     mil_total += Convert.ToDecimal(expenses[i]);
@@ -1356,14 +1343,13 @@ namespace Project_Forms
 
             var trans_xml = XDocument.Load(@"transactions.xml");
             var trans_count = trans_xml.Descendants("Transaction").Count();
-            if (checkAdmin(user))
-            {
-                if (category == "All Categories")
-                {
-                    for (int i = 0; i < trans_count; i++)
-                    {
-                        if (dates[i] >= start && dates[i] <= end)
-                        {
+            
+            // Administrator:
+            if (checkAdmin(user)){
+                // All Categories:
+                if (category == "All Categories"){
+                    for (int i = 0; i < trans_count; i++){
+                        if (dates[i] >= start && dates[i] <= end){
                             datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i], comments[i]);
                             if (cats[i] == "Mileage")
                                 mil_total += Convert.ToDecimal(expenses[i]);
@@ -1372,12 +1358,10 @@ namespace Project_Forms
                         }
                     }
                 }
-                else if (category != "All Categories")
-                {
-                    for (int i = 0; i < trans_count; i++)
-                    {
-                        if (dates[i] >= start && dates[i] <= end && cats[i] == category)
-                        {
+                // One Category:
+                else if (category != "All Categories"){
+                    for (int i = 0; i < trans_count; i++){
+                        if (dates[i] >= start && dates[i] <= end && cats[i] == category){
                             datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i], comments[i]);
                             if (cats[i] == "Mileage")
                                 mil_total += Convert.ToDecimal(expenses[i]);
@@ -1387,16 +1371,13 @@ namespace Project_Forms
                     }
                 }
             }
-            else if (!checkAdmin(user))
-            {
-                if (category == "All Categories")
-                {
-                    for (int i = 0; i < trans_count; i++)
-                    {
-                        if (dates[i] >= start && dates[i] <= end)
-                        {
-                            if (users[i] == user)
-                            {
+            // Employee:
+            else if (!checkAdmin(user)){
+                // All Categories:
+                if (category == "All Categories"){
+                    for (int i = 0; i < trans_count; i++){
+                        if (dates[i] >= start && dates[i] <= end){
+                            if (users[i] == user){
                                 datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i], comments[i]);
                                 if (cats[i] == "Mileage")
                                     mil_total += Convert.ToDecimal(expenses[i]);
@@ -1406,14 +1387,11 @@ namespace Project_Forms
                         }
                     }
                 }
-                else if (category != "All Categories")
-                {
-                    for (int i = 0; i < trans_count; i++)
-                    {
-                        if (dates[i] >= start && dates[i] <= end && cats[i] == category)
-                        {
-                            if (users[i] == user)
-                            {
+                // One Category:
+                else if (category != "All Categories"){
+                    for (int i = 0; i < trans_count; i++){
+                        if (dates[i] >= start && dates[i] <= end && cats[i] == category){
+                            if (users[i] == user){
                                 datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i], comments[i]);
                                 if (cats[i] == "Mileage")
                                     mil_total += Convert.ToDecimal(expenses[i]);
@@ -1429,7 +1407,8 @@ namespace Project_Forms
         //=====================================================================
         // AUTHOR:      Maxwell Partington & Ranier Limpiado 
         // LAST UPDATE: 10/30/14
-        // PURPOSE:     This function is designed to load each list with the different nodes in the transaction xml
+        // PURPOSE:     This function is designed to load each list with the 
+        //              different nodes in the transaction xml
         //              used for the view history tab
         // PARAMETERS:  datagrid, user, category, start date, end date
         // UPDATED: 11/3/2014
@@ -1520,12 +1499,9 @@ namespace Project_Forms
                 cats.Add(xn["Category"].InnerText);             
             }//end foreach
 
-            for (int i = 0; i < count; i++)
-            {            
+            for (int i = 0; i < count; i++){            
                 if (date[i] >= start && date[i] <= end && cats[i] == "Mileage")
-                {
                     total += Convert.ToInt32(expenses[i]);
-                }
             }//end for
             return total;
         }//end getMileage
@@ -1618,12 +1594,12 @@ namespace Project_Forms
         //          the first screen.  
         // PARAMS:  The name of the user, and whether or not they are an admin
         //          user.  
-        // UPDATED: 11/9/2014   Jeff Henry  - Refactoring
+        // UPDATED: 11/10/2014   Jeff Henry  - Refactoring
         //=====================================================================
         public string fillInLoginInfo(string user, bool adminUser)
         {
-            if (adminUser)
-            {
+            // Administrator:
+            if (adminUser){
                 XmlDocument xml = new XmlDocument();
                 xml.Load("user_admin.xml");
                 XmlNodeList list = xml.SelectNodes("/Users/User");
@@ -1632,38 +1608,24 @@ namespace Project_Forms
                     if (xn["Username"].InnerText == user)
                     {
                         return ("User: " + xn["firstName"].InnerText + " " + 
-                                                xn["lastName"].InnerText + "\nLast login: "+ 
-                                                xn["lastLogin"].InnerText + 
-                                                "\nAuthority level: Administrator");
+                                           xn["lastName"].InnerText + "\nLast login: "+ 
+                                           xn["lastLogin"].InnerText + 
+                                           "\nAuthority level: Administrator");
                     }              
-                }//end foreach  
-                XmlDocument newAdxml = new XmlDocument();
-                newAdxml.Load("users.xml");
-                XmlNodeList newAdlist = newAdxml.SelectNodes("/Users/User");
-                foreach (XmlNode xn in newAdlist)
-                {
-                    if (xn["Username"].InnerText == user)
-                    {
-                        return ("User: " + xn["firstName"].InnerText + " " +
-                                                xn["lastName"].InnerText + "\nLast login: " +
-                                                xn["lastLogin"].InnerText +
-                                                "\nAuthority level: Administrator");
-                    }
-                }//end foreach  
+                }//end foreach    
             }
+            // Employee:
             else if (!adminUser)
             {
                 XmlDocument xml = new XmlDocument();
                 xml.Load("users.xml");
                 XmlNodeList list = xml.SelectNodes("/Users/User");
-                foreach (XmlNode xn in list)
-                {
-                    if (xn["Username"].InnerText == user)
-                    {
+                foreach (XmlNode xn in list){
+                    if (xn["Username"].InnerText == user){
                         return ("User: " + xn["firstName"].InnerText + " " + 
-                                                xn["lastName"].InnerText + "\nLast login: " + 
-                                                xn["lastLogin"].InnerText + 
-                                                "\nAuthority Level: Employee"); 
+                                           xn["lastName"].InnerText + "\nLast login: " + 
+                                           xn["lastLogin"].InnerText + 
+                                           "\nAuthority Level: Employee"); 
                     }
                 }//end foreach 
             }
@@ -1675,46 +1637,32 @@ namespace Project_Forms
         // AUTHOR:  Maxwell Partington & Ranier Limpiado
         // PURPOSE: This function updates the last login of the user. 
         // PARAMS:  The name of the user, and whether or not they are an admin.  
-        // UPDATED: 11/9/2014 Jeff Henry - Refactoring
+        // UPDATED: 11/10/2014 Jeff Henry - Refactoring
         //=====================================================================
         public void updateLastLogin(string user, bool adminUser)
         {
+            // Administrator:
             if (adminUser)
             {
                 XmlDocument xml = new XmlDocument();
                 xml.Load("user_admin.xml");
                 XmlNodeList list = xml.SelectNodes("/Users/User");
-                foreach (XmlNode xn in list)
-                {
-                    if (xn["Username"].InnerText == user)
-                    {
+                foreach (XmlNode xn in list){
+                    if (xn["Username"].InnerText == user){
                         xn["lastLogin"].InnerText = DateTime.Now.ToString();
                         xml.Save(@"user_admin.xml");
                     }
                     
                 }//end foreach 
-                
-                XmlDocument userXml = new XmlDocument();
-                userXml.Load("users.xml");
-                XmlNodeList userlist = userXml.SelectNodes("/Users/User");
-                foreach (XmlNode xn in userlist)
-                {
-                    if (xn["Username"].InnerText == user)
-                    {
-                        xn["lastLogin"].InnerText = DateTime.Now.ToString();
-                        userXml.Save(@"users.xml");
-                    }
-                }//end foreach 
             }
+            // Employee:
             else if (!adminUser)
             {
                 XmlDocument xml = new XmlDocument();
                 xml.Load("users.xml");
                 XmlNodeList list = xml.SelectNodes("/Users/User");
-                foreach (XmlNode xn in list)
-                {
-                    if (xn["Username"].InnerText == user)
-                    {
+                foreach (XmlNode xn in list){
+                    if (xn["Username"].InnerText == user){
                         xn["lastLogin"].InnerText = DateTime.Now.ToString();
                         xml.Save(@"users.xml"); 
                     }
@@ -1818,24 +1766,22 @@ namespace Project_Forms
         //          to the first combobox on form1. This was written because 
         //          it will not contain the "All Categories" name. 
         // PARAMS:  None.  
-        // UPDATED: 11/9/2014   Jeff Henry - Refactored
+        // UPDATED: 11/10/2014   Jeff Henry - Refactored
         //=====================================================================
         public List<string> addCategories()
         {
-            List<string> cats = new List<string>();
+            List<string> categories = new List<string>();
             Data checkExists = new Data();
             XDocument catDoc = XDocument.Load(@"categories.xml");
 
-            if (checkExists.xmlcheck())
-            {
-                foreach (var Category in catDoc.Descendants("Category"))
-                {
-                   cats.Add(Category.Element("categoryName").Value);
+            if (checkExists.xmlcheck()){
+                foreach (var Category in catDoc.Descendants("Category")){
+                   categories.Add(Category.Element("categoryName").Value);
                 }
-                cats.Sort();
+                categories.Sort();
             } 
 
-            return cats;
+            return categories;
          }//end addCategories
         //=====================================================================
 

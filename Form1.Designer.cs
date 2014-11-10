@@ -618,7 +618,6 @@
             this.vr_end_date_picker.Name = "vr_end_date_picker";
             this.vr_end_date_picker.Size = new System.Drawing.Size(127, 20);
             this.vr_end_date_picker.TabIndex = 27;
-            this.vr_end_date_picker.ValueChanged += new System.EventHandler(this.vr_end_date_picker_ValueChanged);
             // 
             // vr_start_date_picker
             // 
@@ -627,6 +626,7 @@
             this.vr_start_date_picker.Name = "vr_start_date_picker";
             this.vr_start_date_picker.Size = new System.Drawing.Size(127, 20);
             this.vr_start_date_picker.TabIndex = 26;
+            this.vr_start_date_picker.ValueChanged += new System.EventHandler(this.vr_start_date_picker_ValueChanged);
             // 
             // view_reports_btn
             // 

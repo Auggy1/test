@@ -470,7 +470,7 @@ namespace Project_Forms
         }//end button2_Click 
 
         //=====================================================================
-        // AUfTHOR:  Maxwell Partington & Ranier Limpiado 
+        // AUfTHOR: Maxwell Partington & Ranier Limpiado 
         // PURPOSE: This function is used to for the admin to view the entire
         //          history of data entries from their employees. 
         // PARAMS:  None. 
@@ -685,6 +685,7 @@ namespace Project_Forms
             vh_end_date_picker.MinDate = vh_start_date_picker.Value;
         }
 
+
         //========================================================================
         // AUTHOR:  Jeff Henry
         // PURPOSE: This will update the minimum date on the second calendar so 
@@ -692,7 +693,7 @@ namespace Project_Forms
         //          date.
         // UPDATED: 11/7/2014
         //========================================================================
-        private void vr_end_date_picker_ValueChanged(object sender, EventArgs e)
+        private void vr_start_date_picker_ValueChanged(object sender, EventArgs e)
         {
             vr_end_date_picker.MinDate = vr_start_date_picker.Value;
         }
@@ -725,5 +726,6 @@ namespace Project_Forms
             vh_category_list.SelectedIndex = -1;
             vh_user_list.SelectedIndex = -1;
         }
+        
     }
 }
