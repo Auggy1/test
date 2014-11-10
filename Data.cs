@@ -614,9 +614,9 @@ namespace Project_Forms
         //=====================================================================
         public void changeStatus(string user, bool toAdmin)
         {
-            bool locked = false;
-
+            bool locked = false; 
             Data checkExists = new Data();
+
             if (checkExists.xmlcheck())
             {
                 // If being transferred to admin.xml, open the users.xml and save
@@ -831,21 +831,18 @@ namespace Project_Forms
         // PURPOSE:     This function is designed to lock or unlock a user. 
         // PARAMETERS:  The username that will be locked or unlocked, and the boolean
         //              that will say whether to lock or unlock them. 
-        // UPDATED: 11/7/2014
+        // UPDATED:     11/7/2014   Jeff Henry - Refactoring
         //=========================================================================
         public void lockUnlockUser(string userToLockUnlock, bool toBeLocked)
         {
             Data checkExists = new Data();
             
-            if (checkExists.xmlcheck())
-            {
+            if (checkExists.xmlcheck()){
                 XDocument userDoc = XDocument.Load(@"users.xml");
                 
                 // Handle if the user is being locked:
-                if (toBeLocked)
-                {
-                    foreach (var User in userDoc.Descendants("User"))
-                    {
+                if (toBeLocked){
+                    foreach (var User in userDoc.Descendants("User")){
                         if (User.Element("Username").Value == userToLockUnlock)
                         {
                             User.Element("locked").Value = "True";
@@ -856,10 +853,8 @@ namespace Project_Forms
                 }
                 
                 // Handle if the user to be unlocked:
-                if (!toBeLocked)
-                {
-                    foreach (var User in userDoc.Descendants("User"))
-                    {
+                if (!toBeLocked){
+                    foreach (var User in userDoc.Descendants("User")){
                         if (User.Element("Username").Value == userToLockUnlock)
                         {
                             User.Element("locked").Value = "False";
@@ -878,15 +873,13 @@ namespace Project_Forms
         //              xml. It first checks that the category doesn't exist, and if
         //              not, it adds it. 
         // PARAMETERS:  The category name that will be added to the XML. 
-        // UPDATED: 11/3/2014
+        // UPDATED:     11/10/2014  Jeff Henry  -   Refactoring
         //=========================================================================
         public void addNewCategory(string newCategory)
         {
-            string cat = newCategory;
             Data checkExists = new Data();
-            bool exists = checkExists.xmlcheck();
 
-            if (exists == true)
+            if (checkExists.xmlcheck())
             {
                 XDocument userDoc = XDocument.Load(@"categories.xml");
                 userDoc.Element("All_Categories").Add(new XElement("Category", new XElement("categoryName", newCategory)));
@@ -903,23 +896,18 @@ namespace Project_Forms
         // PURPOSE:     This function is designed to delete a category from the 
         //              category XML. 
         // PARAMETERS:  The category that will be deleted.  
-        // UPDATED: 11/3/2014
+        // UPDATED:     11/10/2014  Jeff Henry - Refactoring
         //=========================================================================
         public void deleteCategory(string delCategory)
         {
-            string cat = delCategory;
-            string catName; 
             Data checkExists = new Data();
             bool exists = checkExists.xmlcheck();
 
-            if (exists == true)
-            {
+            if (exists == true){
                 XDocument userDoc = XDocument.Load(@"categories.xml");
 
-                foreach (var Category in userDoc.Descendants("Category"))
-                {
-                    catName = Category.Element("categoryName").Value;
-                    if (catName == delCategory)
+                foreach (var Category in userDoc.Descendants("Category")){
+                    if (Category.Element("categoryName").Value == delCategory)
                     {
                         Category.Remove();
                         userDoc.Save(@"categories.xml");
@@ -937,29 +925,20 @@ namespace Project_Forms
         // PURPOSE:     This function is designed to rename a category that already
         //              exists in the category.xml file. 
         // PARAMETERS:  The category to be renamed, and the new name for that category. 
-        // UPDATED: 11/3/2014
+        // UPDATED:     11/10/2014  Jeff Henry - Refactoring
         //=========================================================================
         public void renameCategory(string catToRename, string newName)
         {
-            string cat = catToRename;
-            string newCat = newName;
-            string catName;
             Data checkExists = new Data();
-            bool exists = checkExists.xmlcheck();
 
-            if (exists == true)
-            {
+            if (checkExists.xmlcheck()){
                 XDocument userDoc = XDocument.Load(@"categories.xml");
 
-                foreach (var Category in userDoc.Descendants("Category"))
-                {
-                    if (Category.Element("categoryName").Value != null)
-                    {
-                        catName = Category.Element("categoryName").Value;
-
-                        if (catName == cat)
+                foreach (var Category in userDoc.Descendants("Category")){
+                    if (Category.Element("categoryName").Value != null){
+                       if (Category.Element("categoryName").Value == catToRename)
                         {
-                            Category.Element("categoryName").Value = newCat;
+                            Category.Element("categoryName").Value = newName;
                             userDoc.Save(@"categories.xml");
                             MessageBox.Show("Category renamed.");
                             break;
@@ -975,30 +954,20 @@ namespace Project_Forms
         // PURPOSE: This function will be called by addNewCategory, to determine
         //          whether or not the new desired category exists already or not. 
         //          If it doesn't it returns false, else it returns true.  
-        // PARAMS: The name of the category to check in the category.xml
-        // UPDATED: 11/3/2014
+        // PARAMS:  The name of the category to check in the category.xml
+        // UPDATED: 11/10/2014  Jeff Henry -    Refactoring
         //=====================================================================
         public bool checkDuplicateCategory(string catToCheck)
         {
-            string cat = catToCheck;
-            string catName;
             Data checkExists = new Data();
-            bool exists = checkExists.xmlcheck();
 
-            if (exists == true)
-            {
+            if (checkExists.xmlcheck()){
                 XDocument userDoc = XDocument.Load(@"categories.xml");
 
-                foreach (var Category in userDoc.Descendants("Category"))
-                {
-                    if (Category.Element("categoryName").Value != null)
-                    {
-                        catName = Category.Element("categoryName").Value;
-
-                        if (catName == cat)
-                        {
+                foreach (var Category in userDoc.Descendants("Category")){
+                    if (Category.Element("categoryName").Value != null){
+                        if (Category.Element("categoryName").Value == catToCheck)
                             return true; 
-                        }
                     }
                 }//end foreach
             }
@@ -1013,7 +982,7 @@ namespace Project_Forms
         //          and make sure they are using the correct password.  
         // PARAMS:  The username of the potential user, and the password of 
         //          the potential user. 
-        // UPDATED: 11/7/2014   Jeff Henry - Refactoring
+        // UPDATED: 11/10/2014   Jeff Henry - Refactoring
         //=====================================================================
         public bool checkUserPassword(string username, string password)
         {
@@ -1025,34 +994,25 @@ namespace Project_Forms
                 XmlDocument userXml = new XmlDocument();
                 xml.Load(@"user_admin.xml");
                 userXml.Load(@"users.xml");
-                if (checkAdmin(username))
-                {
+                if (checkAdmin(username)){
                     XmlNodeList list = xml.SelectNodes("/Users/User");
-                    foreach (XmlNode xn in list)
-                    {
+                    foreach (XmlNode xn in list){
                         if (xn["Username"].InnerText == username)
-                        {
                             if (Decrypt(xn["password"].InnerText, "password") == password){return true;}
-                        }
                     }//end foreach
+
                     XmlNodeList userList = userXml.SelectNodes("/Users/User");
-                    foreach (XmlNode xn in userList)
-                    {
+                    foreach (XmlNode xn in userList){
                         if (xn["Username"].InnerText == username)
-                        {
                             if (Decrypt(xn["password"].InnerText, "password") == password){return true;}
-                        }
                     }//end foreach 
-                }
-                else if (!checkAdmin(username))
-                {
+                }//end if admin
+
+                else if (!checkAdmin(username)){
                     XmlNodeList nonAdminList = userXml.SelectNodes("/Users/User");
-                    foreach (XmlNode xn in nonAdminList)
-                    {
+                    foreach (XmlNode xn in nonAdminList){
                         if (xn["Username"].InnerText == username)
-                        {
                             if (Decrypt(xn["password"].InnerText, "password") == password) { return true; }
-                        }
                     }//end foreach
                 }
             }
@@ -1065,47 +1025,28 @@ namespace Project_Forms
         // PURPOSE: This function was written to check whether or not a user is 
         //          an and admin. 
         // PARAMS:  The username to be checked.  
-        // UPDATED: 11/3/2014
+        // UPDATED: 11/10/2014  Jeff Henry - Refactoring
         //=====================================================================
         public bool checkAdmin(string userName)
         { 
                 XmlDocument xml = new XmlDocument();
-                XmlDocument userXml = new XmlDocument();
-                string user = "";
-                string nonAdUser = "";
-                string admin =  "";
-                string adminCheck = ""; 
-                bool found = false; 
+                
                 xml.Load("user_admin.xml");
                 XmlNodeList list = xml.SelectNodes("/Users/User");
-                foreach (XmlNode xn in list)
-                {
-                    user = xn["Username"].InnerText;
-                    if (user == userName)
-                    {
-                        admin = xn["admin"].InnerText;
-                        if (admin == "true")
-                        {
-                            found = true; 
+                foreach (XmlNode xn in list){
+                    if (xn["Username"].InnerText == userName){
+                        if (xn["admin"].InnerText == "true")
                             return true;
-                        }
                     }
-                }
-                if (found == false)
-                {
-                    userXml.Load("users.xml");
-                    XmlNodeList userList = userXml.SelectNodes("/Users/User");
-                    foreach (XmlNode xnode in userList)
-                    {
-                        nonAdUser = xnode["Username"].InnerText;
-                        if (nonAdUser == userName)
-                        {
-                            adminCheck = xnode["admin"].InnerText;
-                            if (adminCheck == "True")
-                            {
-                                return true;
-                            }
-                        }
+                }//end foreach
+
+                XmlDocument userXml = new XmlDocument();
+                userXml.Load("users.xml");
+                XmlNodeList userList = userXml.SelectNodes("/Users/User");
+                foreach (XmlNode xnode in userList){
+                    if (xnode["Username"].InnerText == userName){
+                        if (xnode["admin"].InnerText == "True")
+                            return true;
                     }
                 }
                 return false;
