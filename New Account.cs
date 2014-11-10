@@ -20,6 +20,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Net.Mail;
+using System.Globalization;
 
 namespace Project_Forms
 { 
@@ -240,15 +241,17 @@ namespace Project_Forms
         //=====================================================================
         private void na_firstname_TextChanged(object sender, EventArgs e)
         {
-            // Converts to character array then updates the first char.
-            char[] letters = na_firstname.Text.ToCharArray();
-            string name = letters[0].ToString().ToUpper();
-            for (int i = 1; i < letters.Length; i++)
-                name += letters[i].ToString().ToLower();
-            na_firstname.Text = name;
-            // Need to move to next character otherwise only one char can be entered.
-            na_firstname.Select(na_firstname.Text.Length, 0);
-
+            if (!string.IsNullOrWhiteSpace(na_firstname.Text))
+            {
+                // Converts to character array then updates the first char.
+                char[] letters = na_firstname.Text.ToCharArray();
+                string name = letters[0].ToString().ToUpper();
+                for (int i = 1; i < letters.Length; i++)
+                    name += letters[i].ToString().ToLower();
+                na_firstname.Text = name;
+                // Need to move to next character otherwise only one char can be entered.
+                na_firstname.Select(na_firstname.Text.Length, 0);
+            }
         }
 
         //=====================================================================
@@ -258,14 +261,17 @@ namespace Project_Forms
         //=====================================================================
         private void na_lastname_TextChanged(object sender, EventArgs e)
         {
-            // Converts to character array then updates the first char.
-            char[] letters = na_lastname.Text.ToCharArray();
-            string name = letters[0].ToString().ToUpper();
-            for (int i = 1; i < letters.Length; i++)
-                name += letters[i].ToString().ToLower();
-            na_lastname.Text = name;
-            // Need to move to next character otherwise only one char can be entered.
-            na_lastname.Select(na_firstname.Text.Length, 0);
+            if (!string.IsNullOrWhiteSpace(na_lastname.Text))
+            {
+                // Converts to character array then updates the first char.
+                char[] letters = na_lastname.Text.ToCharArray();
+                string name = letters[0].ToString().ToUpper();
+                for (int i = 1; i < letters.Length; i++)
+                    name += letters[i].ToString().ToLower();
+                na_lastname.Text = name;
+                // Need to move to next character otherwise only one char can be entered.
+                na_lastname.Select(na_lastname.Text.Length, 0);
+            }
         }//end 
     }
 }

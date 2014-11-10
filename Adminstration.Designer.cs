@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Adminstration));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.user_admin_err_msg = new System.Windows.Forms.Label();
             this.delete_user_label = new System.Windows.Forms.Label();
             this.delete_chkbox = new System.Windows.Forms.CheckBox();
             this.admin_user_dropdown = new System.Windows.Forms.ComboBox();
@@ -57,7 +58,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fIleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.user_admin_err_msg = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -95,6 +95,17 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Users";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // user_admin_err_msg
+            // 
+            this.user_admin_err_msg.AutoSize = true;
+            this.user_admin_err_msg.ForeColor = System.Drawing.Color.Red;
+            this.user_admin_err_msg.Location = new System.Drawing.Point(33, 123);
+            this.user_admin_err_msg.Name = "user_admin_err_msg";
+            this.user_admin_err_msg.Size = new System.Drawing.Size(35, 13);
+            this.user_admin_err_msg.TabIndex = 18;
+            this.user_admin_err_msg.Text = "label3";
+            this.user_admin_err_msg.Visible = false;
             // 
             // delete_user_label
             // 
@@ -345,17 +356,6 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // user_admin_err_msg
-            // 
-            this.user_admin_err_msg.AutoSize = true;
-            this.user_admin_err_msg.ForeColor = System.Drawing.Color.Red;
-            this.user_admin_err_msg.Location = new System.Drawing.Point(33, 123);
-            this.user_admin_err_msg.Name = "user_admin_err_msg";
-            this.user_admin_err_msg.Size = new System.Drawing.Size(35, 13);
-            this.user_admin_err_msg.TabIndex = 18;
-            this.user_admin_err_msg.Text = "label3";
-            this.user_admin_err_msg.Visible = false;
-            // 
             // Adminstration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -366,7 +366,10 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Adminstration";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Adminstration Options";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);

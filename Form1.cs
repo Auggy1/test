@@ -49,6 +49,9 @@ namespace Project_Forms
             
             //The already initialized logout button under file is not visible to the user initially
             logOutToolStripMenuItem.Visible = false;
+            ee_category_list.SelectedIndex = -1;
+            vr_category_list.SelectedIndex = -1;
+            vh_category_list.SelectedIndex = -1;
 
             /*************************************** Date and Time Displays *******************************************/
             ee_date_picker.MaxDate = DateTime.Now;                  // Enter Expense date picker
@@ -168,7 +171,6 @@ namespace Project_Forms
             errorProvider1.Clear();                     // Reset errorProvider1
             errorProvider2.Clear();                     // Reset errorProvider2
 
-            current_user = username_box.Text;
             // The following if/else statements perform the proper
             // checks of the user's input to make sure they actually exist
             // in the system, they have the proper username and password,
@@ -198,6 +200,11 @@ namespace Project_Forms
                 // data and buttons/labels for the specific users. 
                 if (exists && validPassword)
                 {
+                    // Update all the drop-down lists:
+                    refresh_dropdowns(); 
+
+                    current_user = username_box.Text;
+                    
                     //welcome_msg.Text = "Welcome " + user + "!"; 
                     //welcome_msg.Show();
                     home_user_details.Text = userChecks.fillInLoginInfo(username_box.Text, isAdmin);
@@ -222,10 +229,7 @@ namespace Project_Forms
                         tab_control.SelectedTab = ee_tab;
                         HideLogin(username_box.Text);
                         tab_control.Controls.Remove(vh_tab);
-                    }
-
-                    // Update all the drop-down lists:
-                    refresh_dropdowns();  
+                    } 
                     
                     // This adds the login history of the user. 
                     login.add_history(username_box.Text, date);
@@ -281,6 +285,13 @@ namespace Project_Forms
             
             // Reset the user details box:
             home_user_details.Text = "Venture Business Management";
+
+            // Reset all the data grids:
+            vr_grid.DataSource = null;
+            vr_grid.Rows.Clear();
+            vh_grid.DataSource = null;
+            vh_grid.Rows.Clear();
+
         }//end logOutToolStripMenuItem
 
         //=====================================================================
@@ -330,43 +341,39 @@ namespace Project_Forms
         private void button5_Click(object sender, EventArgs e)
         {
             decimal d;
+            CultureInfo ci = new CultureInfo("en-us");  // Used to display the totals in the correct format added 11/2/2014
             errorProvider1.Clear();
-            if (ee_category_list.Text == "")                            //Is a Cateogory chosen?
+            if (ee_category_list.Text == "")           //Is a Cateogory chosen?
             {
                 errorProvider1.SetError(ee_category_list, "Please select a category.");
                 expense_error_msg.Text = "Please select a category.";
                 expense_error_msg.Show();
-                //MessageBox.Show("Please select a category.", "ERROR");
             }
-            else if (ee_expense_input.Text == "")                       //Is an Expense entered?
+            else if (ee_expense_input.Text == "")      //Is an Expense entered?
             {
                 errorProvider1.SetError(ee_expense_input, "Please enter an expense.");
                 expense_error_msg.Text = "Please enter an expense.";
                 expense_error_msg.Show();
-                //MessageBox.Show("Error: You forgot to enter an expense", "Error!");
             }
-            else if (!decimal.TryParse(ee_expense_input.Text, out d))
+            else if (!decimal.TryParse(ee_expense_input.Text, NumberStyles.Currency | NumberStyles.AllowCurrencySymbol, ci, out d))
             {
                 errorProvider1.SetError(ee_expense_input, "Please enter a valid expense. (Ex. $100.00)");
                 expense_error_msg.Text = "Please enter a valid expense (Ex. $100.00)";
                 expense_error_msg.Show();
-                //MessageBox.Show("Please enter a valid expense. (Ex. 1234.56)");
                 ee_expense_input.Clear();
                 return;
             }
             else if (ee_category_list.Text == "Mileage" && !decimal.TryParse(ee_expense_input.Text, out d))
             {
-                errorProvider1.SetError(ee_category_list, "Please enter a valid mileage. (Ex. 25.5)");
-                expense_error_msg.Text = "Please enter a valid mileage. (Ex. 1234.5)";
+                errorProvider1.SetError(ee_category_list, "Please enter a valid mileage. (Ex. 25)");
+                expense_error_msg.Text = "Please enter a valid mileage. (Ex. 25)";
                 expense_error_msg.Show();
-                //MessageBox.Show("Please enter a valid mileage. (Ex. 1234.5)");
             }
             else if (Convert.ToDecimal(ee_expense_input.Text) == 0)//no 0 values allowed for expense
             {
                 errorProvider1.SetError(ee_expense_input, "Entries of $0.00 are not allowed.");
                 expense_error_msg.Text = "Entries of $0.00 are not allowed.";
                 expense_error_msg.Show();
-                //MessageBox.Show("The entry you are trying to enter is Free (Does not need to be recorded).", "Error!");
             }
             else// convert the contents of the input to the correct formats and pass them to an add transaction function in Control
             {
@@ -375,28 +382,24 @@ namespace Project_Forms
                     errorProvider1.SetError(ee_expense_input, "Please enter a valid expense. (Ex. $10.00)");
                     expense_error_msg.Text = "Please enter a valid expense. (Ex. $100.00)";
                     expense_error_msg.Show();
-                    //MessageBox.Show("Please enter a valid expense (ex. 10.00)");
                 }
                 else if (ee_category_list.Text == "Mileage" && ee_expense_input.Text.Contains("."))
                 {
-                    errorProvider1.SetError(ee_expense_input, "Please enter a valid mileage. (Ex. 25.5)");
-                    expense_error_msg.Text = "Please enter a valid mileage. (Ex. 25.5)";
+                    errorProvider1.SetError(ee_expense_input, "Please enter a valid mileage (Ex. 125)");
+                    expense_error_msg.Text = "Please enter a valid mileage (Ex. 125)";
                     expense_error_msg.Show();
-                    //MessageBox.Show("Incorrect format. Try again."); //mileage should not have decimal
                 }
-                else if (ee_category_list.Text == "Mileage" && ee_expense_input.TextLength > 5) //mileage should not be over 5 digits added: 11/2/2014
+                else if (ee_category_list.Text == "Mileage" && ee_expense_input.TextLength > 5)
                 {
                     errorProvider1.SetError(ee_expense_input, "Expense is too large for a mileage.");
                     expense_error_msg.Text = "Expense is too large for a mileage.";
                     expense_error_msg.Show();
-                    //MessageBox.Show("Error, expense is too large for a mileage.");
                 }
                 else
                 {
                     decimal expense = Convert.ToDecimal(ee_expense_input.Text);
                     DateTime date = Convert.ToDateTime(ee_date_picker.Value.ToShortDateString());
                     Control newdata = new Control();
-                    Data dataCaller = new Data();
 
                     newdata.addatransaction(expense, ee_category_list.Text, date, username_box.Text, ee_comment_box.Text);
                     ee_category_list.SelectedIndex = -1;
@@ -444,7 +447,7 @@ namespace Project_Forms
                 Control loadData = new Control();
 
                 // Fill the grid view with summary report:
-                reports.fillGridSummary(this.vr_grid, vr_category_list.Text, ref exp_total, ref mil_total, startDate, endDate);
+                reports.fillGridSummary(this.vr_grid, vr_category_list.Text, ref exp_total, ref mil_total, startDate, endDate, current_user);
                 
                 vr_report_label.Text = vr_category_list.Text + " Report";       // Display the appropriate title for the report.
                 vr_report_label.Show();                                         // Show the new title.
@@ -532,8 +535,6 @@ namespace Project_Forms
                 string end = this.vr_grid.Rows[vr_grid.Rows.Count - 1].Cells[0].Value.ToString();
                 string user = current_user;
 
-                MessageBox.Show(start + "\n" + end  + "\n" + user);
-
                 Control excel = new Control();
                 excel.export(this.vr_grid, vr_mon_total.Text, vr_mileage_total.Text,start,end,user);
             }
@@ -574,7 +575,7 @@ namespace Project_Forms
                 Control loadData = new Control();
 
                 // Fill the data grid with detailed info:
-                reports.fillGridDetailed(this.vr_grid, vr_category_list.Text, ref exp_total, ref mil_total, startDate, endDate);
+                reports.fillGridDetailed(this.vr_grid, vr_category_list.Text, ref exp_total, ref mil_total, startDate, endDate, current_user);
 
                 if (vr_category_list.Text == "Mileage")
                 {
@@ -717,6 +718,12 @@ namespace Project_Forms
             vr_category_list.DataSource = updates.addAllCategories();
             vh_category_list.DataSource = updates.addAllCategories();
             vh_user_list.DataSource = updates.loadUsers();
+            
+            // Reset the indices:
+            ee_category_list.SelectedIndex = -1;
+            vr_category_list.SelectedIndex = -1;
+            vh_category_list.SelectedIndex = -1;
+            vh_user_list.SelectedIndex = -1;
         }
     }
 }

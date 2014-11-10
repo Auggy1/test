@@ -315,7 +315,7 @@
             // 
             // home_user_details
             // 
-            this.home_user_details.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.home_user_details.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.home_user_details.Location = new System.Drawing.Point(6, 256);
             this.home_user_details.Name = "home_user_details";
             this.home_user_details.ReadOnly = true;
@@ -585,14 +585,14 @@
             // 
             // expenseHeader
             // 
-            this.expenseHeader.HeaderText = "Expenese";
+            this.expenseHeader.HeaderText = "Expense";
             this.expenseHeader.Name = "expenseHeader";
             this.expenseHeader.ReadOnly = true;
             this.expenseHeader.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // categoryHeader
             // 
-            this.categoryHeader.HeaderText = "Catergory";
+            this.categoryHeader.HeaderText = "Category";
             this.categoryHeader.Name = "categoryHeader";
             this.categoryHeader.ReadOnly = true;
             this.categoryHeader.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -640,6 +640,7 @@
             // 
             // vr_category_list
             // 
+            this.vr_category_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.vr_category_list.FormattingEnabled = true;
             this.vr_category_list.Location = new System.Drawing.Point(28, 158);
             this.vr_category_list.Name = "vr_category_list";

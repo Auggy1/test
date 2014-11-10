@@ -1293,12 +1293,14 @@ namespace Project_Forms
         // PURPOSE:     This functions fills the data grid in the view reports
         //              form. (Summary View)
         // PARAMETERS:  datagrid, category, start date, end date
+        // UPDATED:     11/9/2014 Jeff Henry - Users can only see their reports.
         //=====================================================================
-        public void fillGridSummary(DataGridView datagrid, string category, ref decimal exp_total, ref decimal mil_total, DateTime start, DateTime end)
+        public void fillGridSummary(DataGridView datagrid, string category, ref decimal exp_total, ref decimal mil_total, DateTime start, DateTime end, string user)
         {
             List<string> expenses = new List<string>();
             List<string> cats = new List<string>();
             List<DateTime> dates = new List<DateTime>();
+            List<string> users = new List<string>();
 
             XmlDocument xml = new XmlDocument();
             xml.Load("transactions.xml");
@@ -1309,35 +1311,76 @@ namespace Project_Forms
                 dates.Add(Convert.ToDateTime(node["Date"].InnerText));
                 expenses.Add(node["Expenditure"].InnerText);
                 cats.Add(node["Category"].InnerText);
+                users.Add(node["Added_By"].InnerText);
             }
 
             var trans_xml = XDocument.Load(@"transactions.xml");
             var trans_count = trans_xml.Descendants("Transaction").Count();
-            if(category == "All Categories")
+            if (checkAdmin(user))
             {
-                for(int i = 0; i < trans_count; i++)
+                if (category == "All Categories")
                 {
-                    if (dates[i] >= start && dates[i] <= end)
+                    for (int i = 0; i < trans_count; i++)
                     {
-                        datagrid.Rows.Add(dates[i], expenses[i], cats[i]);
-                        if (cats[i] == "Mileage")
-                            mil_total += Convert.ToDecimal(expenses[i]);
-                        else
-                            exp_total += Convert.ToDecimal(expenses[i]);
+                        if (dates[i] >= start && dates[i] <= end)
+                        {
+                            datagrid.Rows.Add(dates[i], expenses[i], cats[i]);
+                            if (cats[i] == "Mileage")
+                                mil_total += Convert.ToDecimal(expenses[i]);
+                            else
+                                exp_total += Convert.ToDecimal(expenses[i]);
+                        }
+                    }
+                }
+                else if (category != "All Categories")
+                {
+                    for (int i = 0; i < trans_count; i++)
+                    {
+                        if (dates[i] >= start && dates[i] <= end && cats[i] == category)
+                        {
+                            datagrid.Rows.Add(dates[i], expenses[i], cats[i]);
+                            if (category == "Mileage")
+                                mil_total += Convert.ToDecimal(expenses[i]);
+                            else
+                                exp_total += Convert.ToDecimal(expenses[i]);
+                        }
                     }
                 }
             }
-            else if(category != "All Categories")
+            else if(!checkAdmin(user))
             {
-                for(int i = 0; i < trans_count; i++)
+                if (category == "All Categories")
                 {
-                    if (dates[i] >= start && dates[i] <= end && cats[i] == category)
+                    for (int i = 0; i < trans_count; i++)
                     {
-                        datagrid.Rows.Add(dates[i], expenses[i], cats[i]);
-                        if (category == "Mileage")
-                            mil_total += Convert.ToDecimal(expenses[i]);
-                        else
-                            exp_total += Convert.ToDecimal(expenses[i]);
+                        if (dates[i] >= start && dates[i] <= end)
+                        {
+                            if (users[i] == user)
+                            {
+                                datagrid.Rows.Add(dates[i], expenses[i], cats[i]);
+                                if (cats[i] == "Mileage")
+                                    mil_total += Convert.ToDecimal(expenses[i]);
+                                else
+                                    exp_total += Convert.ToDecimal(expenses[i]);
+                            }
+                        }
+                    }
+                }
+                else if (category != "All Categories")
+                {
+                    for (int i = 0; i < trans_count; i++)
+                    {
+                        if (dates[i] >= start && dates[i] <= end && cats[i] == category)
+                        {
+                            if (users[i] == user)
+                            {
+                                datagrid.Rows.Add(dates[i], expenses[i], cats[i]);
+                                if (category == "Mileage")
+                                    mil_total += Convert.ToDecimal(expenses[i]);
+                                else
+                                    exp_total += Convert.ToDecimal(expenses[i]);
+                            }
+                        }
                     }
                 }
             }
@@ -1349,7 +1392,7 @@ namespace Project_Forms
         //              form. (Detail View)
         // PARAMETERS:  datagrid, category, start date, end date
         //=====================================================================
-        public void fillGridDetailed(DataGridView datagrid, string category, ref decimal exp_total, ref decimal mil_total, DateTime start, DateTime end)
+        public void fillGridDetailed(DataGridView datagrid, string category, ref decimal exp_total, ref decimal mil_total, DateTime start, DateTime end, string user)
         {
             List<string> expenses = new List<string>();
             List<string> cats = new List<string>();
@@ -1372,31 +1415,71 @@ namespace Project_Forms
 
             var trans_xml = XDocument.Load(@"transactions.xml");
             var trans_count = trans_xml.Descendants("Transaction").Count();
-            if (category == "All Categories")
+            if (checkAdmin(user))
             {
-                for (int i = 0; i < trans_count; i++)
+                if (category == "All Categories")
                 {
-                    if (dates[i] >= start && dates[i] <= end)
+                    for (int i = 0; i < trans_count; i++)
                     {
-                        datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i], comments[i]);
-                        if (cats[i] == "Mileage")
-                            mil_total += Convert.ToDecimal(expenses[i]);
-                        else
-                            exp_total += Convert.ToDecimal(expenses[i]);
+                        if (dates[i] >= start && dates[i] <= end)
+                        {
+                            datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i], comments[i]);
+                            if (cats[i] == "Mileage")
+                                mil_total += Convert.ToDecimal(expenses[i]);
+                            else
+                                exp_total += Convert.ToDecimal(expenses[i]);
+                        }
+                    }
+                }
+                else if (category != "All Categories")
+                {
+                    for (int i = 0; i < trans_count; i++)
+                    {
+                        if (dates[i] >= start && dates[i] <= end && cats[i] == category)
+                        {
+                            datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i], comments[i]);
+                            if (cats[i] == "Mileage")
+                                mil_total += Convert.ToDecimal(expenses[i]);
+                            else
+                                exp_total += Convert.ToDecimal(expenses[i]);
+                        }
                     }
                 }
             }
-            else if (category != "All Categories")
+            else if (!checkAdmin(user))
             {
-                for (int i = 0; i < trans_count; i++)
+                if (category == "All Categories")
                 {
-                    if (dates[i] >= start && dates[i] <= end && cats[i] == category)
+                    for (int i = 0; i < trans_count; i++)
                     {
-                        datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i], comments[i]);
-                        if (cats[i] == "Mileage")
-                            mil_total += Convert.ToDecimal(expenses[i]);
-                        else
-                            exp_total += Convert.ToDecimal(expenses[i]);
+                        if (dates[i] >= start && dates[i] <= end)
+                        {
+                            if (users[i] == user)
+                            {
+                                datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i], comments[i]);
+                                if (cats[i] == "Mileage")
+                                    mil_total += Convert.ToDecimal(expenses[i]);
+                                else
+                                    exp_total += Convert.ToDecimal(expenses[i]);
+                            }
+                        }
+                    }
+                }
+                else if (category != "All Categories")
+                {
+                    for (int i = 0; i < trans_count; i++)
+                    {
+                        if (dates[i] >= start && dates[i] <= end && cats[i] == category)
+                        {
+                            if (users[i] == user)
+                            {
+                                datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i], comments[i]);
+                                if (cats[i] == "Mileage")
+                                    mil_total += Convert.ToDecimal(expenses[i]);
+                                else
+                                    exp_total += Convert.ToDecimal(expenses[i]);
+                            }
+                        }
                     }
                 }
             }
@@ -1706,7 +1789,6 @@ namespace Project_Forms
         //=======================================================
         public void exportExcel(DataGridView dataGrid, string total, string mileage, string start_date, string end_date, string user)
         {
-
             // Prompt the User where to save the file.
             Stream myStream;
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
@@ -1730,16 +1812,20 @@ namespace Project_Forms
                     // Create the Excel Object:
                     ExcelBook = (Microsoft.Office.Interop.Excel._Workbook)ExcelApp.Workbooks.Add(1);
                     ExcelSheet = (Microsoft.Office.Interop.Excel._Worksheet)ExcelBook.ActiveSheet;
-                    ExcelSheet.Cells[1, 3] = "Business Name Here.\n " +
-                                            "Date Processed: " + current_date +
-                                            "Processed by: " + user +
-                                            "\nDate Range: " + start_date +
+                    
+                    // Create the header:
+                    ExcelSheet.Cells[1, 1] = "Business Name Here." +
+                                            "\nDate Processed:\t" + current_date +
+                                            "\nProcessed by:\t" + user +
+                                            "\nDate Range:\t" + start_date +
                                             " - " + end_date;
-                                            
-                    // Create the header
+                    Microsoft.Office.Interop.Excel.Range Title = ExcelSheet.get_Range("A1:G1", Type.Missing);
+                    Title.Merge(Type.Missing);
+                    Title.RowHeight = 80;
+
                     for (i = 1; i <= dataGrid.Columns.Count; i++)
                     {
-                        ExcelSheet.Cells[3, i] = dataGrid.Columns[i - 1].HeaderText;
+                        ExcelSheet.Cells[2, i] = dataGrid.Columns[i - 1].HeaderText;
                         totalHeader = i + 1;
                     }
                     
@@ -1751,15 +1837,15 @@ namespace Project_Forms
                     {
                         for (j = 1; j <= dataGrid.Columns.Count; j++)
                         {
-                            ExcelSheet.Cells[i + 1, j] = dataGrid.Rows[i - 1].Cells[j - 1].Value;
+                            ExcelSheet.Cells[i + 2, j] = dataGrid.Rows[i - 1].Cells[j - 1].Value;
                             totalCol = j + 1;
                         }
                         totalRow = i + 1;
                     }
-                    ExcelSheet.Cells[totalRow + 2, 1] = "Expense Total:";           // Display the expense total after all the expense
-                    ExcelSheet.Cells[totalRow + 3, 1] = "Mileage Total:";           // Display the mileage total after all the expense
-                    ExcelSheet.Cells[totalRow + 2, totalCol-1] = total;       //Show the total in the correct cell
-                    ExcelSheet.Cells[totalRow + 3, totalCol-1] = mileage;   //Show the total mileage in the correct cell
+                    ExcelSheet.Cells[totalRow + 5, 1] = "Expense Total:";           // Display the expense total after all the expense
+                    ExcelSheet.Cells[totalRow + 6, 1] = "Mileage Total:";           // Display the mileage total after all the expense
+                    ExcelSheet.Cells[totalRow + 5, totalCol-1] = total;       //Show the total in the correct cell
+                    ExcelSheet.Cells[totalRow + 6, totalCol-1] = mileage;   //Show the total mileage in the correct cell
                     ExcelApp.Visible = true;
 
                     //set the font detailed
@@ -1770,7 +1856,6 @@ namespace Project_Forms
                     
                     //Bold the header row
                     myRange = ExcelSheet.Range[ExcelSheet.Cells[1, 1], ExcelSheet.Cells[1, dataGrid.Columns.Count + 2]];
-                    myRange.Interior.Color = System.Drawing.Color.SlateGray;
                     x = myRange.Font;
                     x.Bold = true;
 

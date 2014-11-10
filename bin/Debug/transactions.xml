@@ -17,6 +17,27 @@
       <Category>Insurance (health)</Category>
       <Date>2014-11-09T00:00:00</Date>
     </Transaction>
+    <Transaction Id="1">
+      <Added_By>admin</Added_By>
+      <Expenditure>2000.00</Expenditure>
+      <Comments>Expensive mother fuckers.</Comments>
+      <Category>Contract labor</Category>
+      <Date>2014-11-05T00:00:00</Date>
+    </Transaction>
+    <Transaction Id="1">
+      <Added_By>admin</Added_By>
+      <Expenditure>12.99</Expenditure>
+      <Comments></Comments>
+      <Category>Advertising</Category>
+      <Date>2014-11-09T00:00:00</Date>
+    </Transaction>
+    <Transaction Id="1">
+      <Added_By>henry</Added_By>
+      <Expenditure>200.00</Expenditure>
+      <Comments>Maintenance</Comments>
+      <Category>Automobile</Category>
+      <Date>2014-11-09T00:00:00</Date>
+    </Transaction>
   </All_Transactions>
   <Change_History>
     <DefaultID>1</DefaultID>
@@ -28,9 +49,33 @@
       <Transaction_Date>2014-11-09T00:00:00</Transaction_Date>
       <Adding_user>admin</Adding_user>
     </Record>
+    <Record ChangeID="1">
+      <Transaction_Date>2014-11-05T00:00:00</Transaction_Date>
+      <Adding_user>admin</Adding_user>
+    </Record>
+    <Record ChangeID="1">
+      <Transaction_Date>2014-11-09T00:00:00</Transaction_Date>
+      <Adding_user>admin</Adding_user>
+    </Record>
+    <Record ChangeID="1">
+      <Transaction_Date>2014-11-09T00:00:00</Transaction_Date>
+      <Adding_user>admin</Adding_user>
+    </Record>
+    <Record ChangeID="1">
+      <Transaction_Date>2014-11-09T00:00:00</Transaction_Date>
+      <Adding_user>admin</Adding_user>
+    </Record>
+    <Record ChangeID="1">
+      <Transaction_Date>2014-11-09T00:00:00</Transaction_Date>
+      <Adding_user>admin</Adding_user>
+    </Record>
+    <Record ChangeID="1">
+      <Transaction_Date>2014-11-09T00:00:00</Transaction_Date>
+      <Adding_user>henry</Adding_user>
+    </Record>
   </Change_History>
   <Login_History>
-    <Default_login_id>5</Default_login_id>
+    <Default_login_id>36</Default_login_id>
     <Log id="1">
       <User>admin</User>
       <last_login>2014-11-09T00:00:00Z</last_login>
@@ -50,6 +95,130 @@
     <Log id="5">
       <User>admin</User>
       <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="6">
+      <User>admin</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="7">
+      <User>admin</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="8">
+      <User>admin</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="9">
+      <User>admin</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="10">
+      <User>admin</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="11">
+      <User>admin</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="12">
+      <User>admin</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="13">
+      <User>admin</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="14">
+      <User>admin</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="15">
+      <User>admin</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="16">
+      <User>admin</User>
+      <last_login>2014-11-09T00:00:00Z</last_login>
+    </Log>
+    <Log id="17">
+      <User>admin</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="18">
+      <User>admin</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="19">
+      <User>admin</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="20">
+      <User>admin</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="21">
+      <User>admin</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="22">
+      <User>admin</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="23">
+      <User>admin</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="24">
+      <User>henry</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="25">
+      <User>henry</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="26">
+      <User>henry</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="27">
+      <User>admin</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="28">
+      <User>henry</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="29">
+      <User>admin</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="30">
+      <User>admin</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="31">
+      <User>henry</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="32">
+      <User>admin</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="33">
+      <User>admin</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="34">
+      <User>admin</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="35">
+      <User>admin</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
+    </Log>
+    <Log id="36">
+      <User>admin</User>
+      <last_login>2014-11-10T00:00:00Z</last_login>
     </Log>
   </Login_History>
 </App_Records>
