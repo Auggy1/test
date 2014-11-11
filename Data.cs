@@ -32,22 +32,7 @@ namespace Project_Forms
         public DateTime Date { get; set; }
         public string Category { get; set; }
         public string Expense { get; set; }
-    }//end transaction class
-    //=========================================================================
-
-    //=========================================================================
-    // AUTHOR:  Maxwell Partington & Ranier Limpiado 
-    // PURPOSE: This new class was added for detailed reports. 
-    // PARAMS:  None.
-    // DATE:    11/1/14
-    //=========================================================================
-    public class DetailedTransaction
-    {
-        public DateTime Date { get; set; }
-        public string Category { get; set; }
-        public string Expense { get; set; }
-        public string User { get; set; }
-        public string Comments { get; set; }
+        public string AddedBy { get; set; }
     }//end transaction class
     //=========================================================================
 
@@ -62,8 +47,7 @@ namespace Project_Forms
     class Data
     {
         int idnum = 0;  //global idnum so that all functions can see it
-        int lognum = 0; //global lognum so that all functions can see it
-
+      
         //=====================================================================
         // AUTHOR:  Karan Singh
         // PURPOSE: Various lists that are used to story the values recieved from reading the XML in the
@@ -81,7 +65,7 @@ namespace Project_Forms
         // PURPOSE: Provides a generate template with which the xml should be initially created
         // PARAMS:  None
         //=====================================================================
-        public void xmlcreate()
+        public void CreateTransactionXML()
         {
             XDocument Database =
                 new XDocument(
@@ -96,29 +80,11 @@ namespace Project_Forms
         //=====================================================================
 
         //=====================================================================
-        // AUTHOR: Maxwell Partington & Ranier Limpiado 
-        // Date: 10/24/2014
-        // PURPOSE: To create an xml only for transactions
-        //=====================================================================
-        public void detailed_transaction()
-        {
-            XDocument Database =
-                new XDocument(
-                new XDeclaration("1.0", "utf-8", "yes"),
-                new XComment("This database will store transactions under <Detailed_Transaction> label"),
-                new XComment("This transaction history will be stored under History_Username"),
-                //new XElement("App_Records",
-                new XElement("All_Transactions"));
-                Database.Save(@"detailed_transaction.xml");
-        }//end detailed_Transaction
-        //=====================================================================
-
-        //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
         // PURPOSE: This creates the default categories.xml
         // DATE:    10/24/14
         //=====================================================================
-        public void categoriesXml()
+        public void CreateCategoriesXML()
         {
             XDocument Database =
             new XDocument(
@@ -156,7 +122,7 @@ namespace Project_Forms
         // DATE:    10/24/14
         // PURPOSE: Added a default admin account for the first creation of the xml. 
         //=====================================================================
-        public void userXml()
+        public void CreateUserXML()
         {
             XDocument Database =
             new XDocument(
@@ -173,7 +139,7 @@ namespace Project_Forms
         // DATE:   10/24/14
         // EDIT:   Added a default admin account for the first creation of the xml. 
         //=====================================================================
-        public void userAdminXml()
+        public void CreateAdminXML()
         {
             XDocument Database =
             new XDocument(
@@ -199,7 +165,7 @@ namespace Project_Forms
         // OUTPUT:  true : if the file exists
         // PARAMS:  None
         //=====================================================================
-        public bool xmlcheck()
+        public bool CheckXMLExistence()
         {
             if (File.Exists(@"transactions.xml") && File.Exists(@"users.xml") 
                 && File.Exists(@"categories.xml") && File.Exists(@"user_admin.xml"))
@@ -218,7 +184,7 @@ namespace Project_Forms
         // PARAMS:  Expense, category, date, name
         // UPDATED: Ranier Limpiado - Added comments for transactions
         //=====================================================================
-        public void add_transaction(decimal expenditure, string category, DateTime date, string name, string comments)
+        public void AddTransaction(decimal expenditure, string category, DateTime date, string name, string comments)
         {
             int id = 1;
             XDocument get_id = XDocument.Load("transactions.xml");
@@ -270,7 +236,7 @@ namespace Project_Forms
         //          changes made to the "database". 
         // PARAMS:  Date, name
         //=====================================================================
-        public void add_history(DateTime date, string user)
+        public void UpdateTransactionHistory(DateTime date, string user)
         {
             var doc = XDocument.Load("transactions.xml");
             doc.Element("App_Records").Element("Change_History").Add(new XElement("Record", new XAttribute("ChangeID", idnum),
@@ -285,7 +251,7 @@ namespace Project_Forms
         //          date is easier to access 
         // PARAMS:  Date, username
         //=====================================================================
-        public void add_login_history(string username, DateTime date)
+        public void SetLoginHistory(string username, DateTime date)
         {
             int id = 1;
             XDocument get_id = XDocument.Load("transactions.xml");
@@ -318,91 +284,7 @@ namespace Project_Forms
             idnum = id;
         }//end getdefaultid
         //=====================================================================
-
-        //=====================================================================
-        // AUTHOR:  Karan Singh
-        // PURPOSE: Public variables for use of the loadname method. To be used 
-        //          to store one read value from the xml at a time while it is 
-        //          parsed into lists.
-        // PARAMS:  None
-        //=====================================================================
-        public DateTime datedata;
-        public string namedata;
-        public string catdata;
-        //=====================================================================
-
-        //=====================================================================
-        // AUTHOR:  Karan Singh
-        // PURPOSE: It uses the default id to parse through the entire xml and 
-        //          get all the information in the form of lists that are then 
-        //          set to public string functions that the Control class can 
-        //          access as long as its in the same instance in which they 
-        //          called this function.
-        // PARAMS:  Start and end dates, username, category
-        //=====================================================================
-        public void load_name(DateTime start, DateTime end, string category, string name)
-        {
-            this.getdefaultid();
-
-            //go through the entire file
-            for (int i = 1; i < idnum; i++)
-            {
-                XDocument get_id = XDocument.Load("transactions.xml");
-                var ids = from id1 in get_id.Descendants("Transaction")
-                          where ((int)id1.Attribute("Id") == i)
-                          select new
-                          {
-                              expense = id1.Element("Expenditure").Value,
-                              date = id1.Element("Date").Value,
-                              name = id1.Element("Added_by").Value,
-                              category = id1.Element("Category").Value
-                          };
-
-                foreach (var id1 in ids)
-                {
-                    //convert the values appropriately and pass them onto a list for storage (using add--aka to the end)
-                    newnames.Add(Convert.ToString(id1.name));
-                    newcat.Add(Convert.ToString(id1.category));
-                    names.Add(Convert.ToString(id1.expense));
-                    newdates.Add(Convert.ToDateTime(id1.date));
-                }//end foreach
-            }// end for
-            //Now that the lists are filled, assign them to public strings to let Control reference them
-            this.trans = newdates;
-            this.lists = names;
-            this.trans1 = newnames;
-            this.trans2 = newcat;
-        }//end load_name
-        //=====================================================================
-
-        //=====================================================================
-        // AUTHOR:  Karan Singh
-        // PURPOSE: Public list functions, meant to transfer data between Data 
-        //          class and Control class. 
-        // PARAMS:  None
-        //=====================================================================
-        public List<string> trans1 { get; set; }
-        public List<string> trans2 { get; set; }
-        public List<DateTime> trans { get; set; }
-        public List<string> lists { get; set; }
-
-        //=====================================================================
-        // AUTHOR:  Karan Singh
-        // PURPOSE: Simply gets the default_login_id of the login_history for 
-        //          the use of a function or another method. 
-        // PARAMS:  None
-        //=====================================================================
-        public void getDefaultLoginId()
-        {
-            int id = 1;
-            XDocument get_id = XDocument.Load("transactions.xml");
-            var ids = from id1 in get_id.Descendants("Login_History")
-                select new{id = id1.Element("Default_login_id").Value};
-            foreach (var id1 in ids){id = Convert.ToInt32(id1.id);}
-            lognum = id;//update lognum accordingly
-        }//end getDefaultLoginId
-        //=====================================================================
-
+        
         //=====================================================================
         // AUTHOR:  Karan Singh
         // PURPOSE: List and list function of datetime that allows for the login
@@ -414,196 +296,6 @@ namespace Project_Forms
         public List<DateTime> login { get; set; }
 
         //=====================================================================
-        // AUTHOR:  Karan Singh 
-        // PURPOSE: This function finds the login history of the user.  
-        // PARAMS:  The username of the person whos login history you request. 
-        // This is deprecated and needs to be removed in cycle 3. 11/3/14
-        //=====================================================================
-        public void login_history(string name)
-        {
-            this.getDefaultLoginId();
-            for (int i = 1; i <= lognum; i++)
-            {
-                XDocument get_id = XDocument.Load("transactions.xml");
-                var ids = from id1 in get_id.Descendants("Log")//go to the node
-                          where (int)id1.Attribute("id") == i && (string)id1.Element("User").Value == name
-                          select new
-                          {
-                              date = id1.Element("last_login").Value,
-                              name = id1.Element("User").Value
-                          };
-                foreach (var id1 in ids)
-                {
-                    DateTime date = Convert.ToDateTime(id1.date).AddDays(1);
-                    dates.Add(date);
-                }
-            }//end for loop
-
-            // Put the entire dates list in login for transfer to control.
-            login = dates;
-        }//end login_history
-        //=====================================================================
-
-        //=====================================================================
-        // AUTHOR:  Michelle Jaro
-        // PURPOSE: Opens the XML file to look for and display the transactions 
-        //          that match the time frame and category specified by the 
-        //          user. It also calculates the total expenses in that time 
-        //          frame and category and displays it.
-        // UPDATED: 11/7/2014   - Jeff Henry (Refactoring)
-        //=====================================================================
-        public void loadExpenses(DateTime start, DateTime end, string category, ref List<Transaction> expenseReport, ref decimal total, ref decimal totalMil, string addedBy)
-        {
-            XDocument xmlDoc = XDocument.Load(@"transactions.xml");
-            // Search through XML files to retrieve the necessary information based on user input
-            // Transactions for all  in specified time frame (ADMIN)
-            if (category == "All Categories" && checkAdmin(addedBy))  
-            {
-                var all = from exp in xmlDoc.Descendants("Transaction")
-                          where ((DateTime)exp.Element("Date") >= start && (DateTime)exp.Element("Date") <= end)
-                          select new Transaction
-                          {
-                              Date = (DateTime)exp.Element("Date"),
-                              Category = exp.Element("Category").Value,
-                              Expense = exp.Element("Expenditure").Value                            
-                          };
-                expenseReport = all.ToList();
-            }
-            // Transactions for all  in specified time frame (Employee)
-            else if(category == "All Categories" && !checkAdmin(addedBy))
-            {
-                var all = from exp in xmlDoc.Descendants("Transaction")
-                          where ((DateTime)exp.Element("Date") >= start && (DateTime)exp.Element("Date") <= end && exp.Element("Added_by").Value == addedBy)
-                          select new Transaction
-                          {
-                              Date = (DateTime)exp.Element("Date"),
-                              Category = exp.Element("Category").Value,
-                              Expense = exp.Element("Expenditure").Value
-                          };
-                expenseReport = all.ToList();
-            }
-            //Transactions with one specific category in specified time frame (ADMIN)
-            else if(category != "All Categories" && checkAdmin(addedBy))
-            {
-                var one = from e in xmlDoc.Descendants("Transaction")
-                          where ((e.Element("Category").Value == category) && (((DateTime)e.Element("Date") >= start) && (DateTime)e.Element("Date") <= end))
-                          select new Transaction
-                          {
-                              Date = (DateTime)e.Element("Date"),
-                              Category = e.Element("Category").Value,
-                              Expense = e.Element("Expenditure").Value
-                          };
-                expenseReport = one.ToList();
-            }
-            //Transactions with one specific category in specified time frame (Employee)
-            else
-            {
-                var one = from e in xmlDoc.Descendants("Transaction")
-                          where ((e.Element("Category").Value == category) && (((DateTime)e.Element("Date") >= start) && (DateTime)e.Element("Date") <= end))
-                          select new Transaction
-                          {
-                              Date = (DateTime)e.Element("Date"),
-                              Category = e.Element("Category").Value,
-                              Expense = e.Element("Expenditure").Value
-                          };
-                expenseReport = one.ToList();
-            }
-
-            // Prints out the list of the results with the total expense
-            for (int i = 0; i < expenseReport.Count; i++)   
-            {
-                if (expenseReport[i].Category != "Mileage"){total += Convert.ToDecimal(expenseReport[i].Expense);}
-                else{totalMil += Convert.ToDecimal(expenseReport[i].Expense);}
-            }//end for 
-        }//end loadExpenses
-        //=====================================================================
-
-        //=====================================================================
-        // AUTHOR:  Maxwell Partington & Ranier Limpiado 
-        // PURPOSE: Opens the XML file to look for and display the detailed 
-        //          transactions that match the time frame and category specified 
-        //          by the user. It also calculates the total expenses in that 
-        //          time frame and category and displays it.
-        // UPDATED: 11/7/2014 - Jeff Henry - Fixed misprint of reports
-        //=====================================================================
-        public void loadDetailedExpenses(DateTime start, DateTime end, string category, ref List<DetailedTransaction> expenseReport, ref decimal total, ref decimal totalMil, string addedBy)
-        {
-           
-            XDocument xmlDoc = XDocument.Load(@"transactions.xml");
-            // Search through XML files to retrieve the necessary information based on user input
-            // Transactions fr all categories in a specified time frame. (ADMIN)
-            if (category == "All Categories" && checkAdmin(addedBy)) 
-            {
-                var all = from exp in xmlDoc.Descendants("Transaction")
-                          where ((DateTime)exp.Element("Date") >= start && (DateTime)exp.Element("Date") <= end)
-                          select new DetailedTransaction
-                          {
-                              Date = (DateTime)exp.Element("Date"),
-                              Category = exp.Element("Category").Value,
-                              Expense = exp.Element("Expenditure").Value,
-                              User = exp.Element("Added_by").Value,
-                              Comments = exp.Element("Comments").Value
-                          };
-                expenseReport = all.ToList();
-            }
-            // Transactions fr all categories in a specified time frame.
-            else if (category == "All Categories" && !checkAdmin(addedBy))
-            {
-                var all = from exp in xmlDoc.Descendants("Transaction")
-                          where ((DateTime)exp.Element("Date") >= start && (DateTime)exp.Element("Date") <= end && exp.Element("Added_by").Value == addedBy)
-                          select new DetailedTransaction
-                          {
-                              Date = (DateTime)exp.Element("Date"),
-                              Category = exp.Element("Category").Value,
-                              Expense = exp.Element("Expenditure").Value,
-                              User = exp.Element("Added_by").Value,
-                              Comments = exp.Element("Comments").Value
-                          };
-                expenseReport = all.ToList();
-            }
-            //Transactions with one specific category in specified time frame (ADMIN)
-            else if (category != "All Categories" && checkAdmin(addedBy))
-            {
-                var one = from e in xmlDoc.Descendants("Transaction")
-                          where ((e.Element("Category").Value == category) && (((DateTime)e.Element("Date") >= start) && (DateTime)e.Element("Date") <= end))
-                          select new DetailedTransaction
-                          {
-                              Date = (DateTime)e.Element("Date"),
-                              Category = e.Element("Category").Value,
-                              Expense = e.Element("Expenditure").Value,
-                              User = e.Element("Added_by").Value,
-                              Comments = e.Element("Comments").Value
-                          };
-
-                expenseReport = one.ToList();
-            }
-            //Transactions with one specific category in specified time frame (Employee)
-            else
-            {
-                var one = from e in xmlDoc.Descendants("Transaction")
-                          where ((e.Element("Category").Value == category) && (((DateTime)e.Element("Date") >= start) && (DateTime)e.Element("Date") <= end) && e.Element("Added_by").Value == addedBy)
-                          select new DetailedTransaction
-                          {
-                              Date = (DateTime)e.Element("Date"),
-                              Category = e.Element("Category").Value,
-                              Expense = e.Element("Expenditure").Value,
-                              User = e.Element("Added_by").Value,
-                              Comments = e.Element("Comments").Value
-                          };
-
-                expenseReport = one.ToList();
-            }
-
-            //Prints out the list of the results with the total expense
-            for (int i = 0; i < expenseReport.Count; i++)
-            {
-                if (expenseReport[i].Category != "Mileage"){total += System.Convert.ToDecimal(expenseReport[i].Expense);}
-                else{totalMil += Convert.ToDecimal(expenseReport[i].Expense);}
-            }//end for 
-        }//end loadExpenses
-        //=====================================================================
-
-        //=====================================================================
         // AUTHOR:      Jeff Henry
         // PURPOSE:     If an administrator chooses to change a user to admin 
         //              or vice versa, this function transfers the user to the
@@ -612,12 +304,12 @@ namespace Project_Forms
         //              Otherwise it will be moving an admin to the users.xml.
         // UPDATED:     11/7/2014 - Added by Jeff Henry
         //=====================================================================
-        public void changeStatus(string user, bool toAdmin)
+        public void ChangeAuthorization(string user, bool toAdmin)
         {
             bool locked = false; 
             Data checkExists = new Data();
 
-            if (checkExists.xmlcheck())
+            if (checkExists.CheckXMLExistence())
             {
                 // If being transferred to admin.xml, open the users.xml and save
                 // the info to transfer then delete the user from the users.xml
@@ -633,7 +325,7 @@ namespace Project_Forms
                             if (User.Element("locked").Value == "True")
                                 locked = true;
                             // Move the user over to the users.xml
-                            addNewUser(user, User.Element("password").Value,
+                            AddNewUser(user, User.Element("password").Value,
                                        toAdmin, User.Element("firstName").Value,
                                        User.Element("lastName").Value,
                                        User.Element("email").Value, 
@@ -656,7 +348,7 @@ namespace Project_Forms
                             if (User.Element("locked").Value == "True")
                                 locked = true;
                             // Move the user over to the admin.xml
-                            addNewUser(user, User.Element("password").Value,
+                            AddNewUser(user, User.Element("password").Value,
                                        toAdmin, User.Element("firstName").Value,
                                        User.Element("lastName").Value,
                                        User.Element("email").Value,
@@ -680,7 +372,7 @@ namespace Project_Forms
         // UPDATED:     11/7/2014 - Jeff Henry - Modified parameters to allow 
         //                          more function use.
         //=====================================================================
-        public void addNewUser(string userToAdd, string userPassword, bool userAdmin, string firstName, string lastName, string email, string login, bool isLocked)
+        public void AddNewUser(string userToAdd, string userPassword, bool userAdmin, string firstName, string lastName, string email, string login, bool isLocked)
         {
             string password = userPassword;
             string user = userToAdd;
@@ -748,7 +440,7 @@ namespace Project_Forms
         //              boolean locked key. 
         // UPDATED: 11/3/2014
         //=========================================================================
-        public void editUser(string userToEdit, bool admin, bool locked)
+        public void EditUser(string userToEdit, bool admin, bool locked)
         {
             string userName;
             bool exists;
@@ -756,7 +448,7 @@ namespace Project_Forms
             string userAdmin = admin.ToString();
 
             Data checkExists = new Data();
-            exists = checkExists.xmlcheck();
+            exists = checkExists.CheckXMLExistence();
 
             if (exists == true)
             {
@@ -783,13 +475,13 @@ namespace Project_Forms
         // PARAMETERS:  The username that will be 
         // UPDATED: 11/3/2014
         //=========================================================================
-        public void deleteUser(string userToDelete)
+        public void DeleteUser(string userToDelete)
         {
             string userName;
             bool exists;
             bool deleted = false; 
             Data checkExists = new Data();
-            exists = checkExists.xmlcheck();
+            exists = checkExists.CheckXMLExistence();
             if (exists == true)
             {
                 XDocument userDoc = XDocument.Load(@"users.xml");
@@ -833,11 +525,11 @@ namespace Project_Forms
         //              that will say whether to lock or unlock them. 
         // UPDATED:     11/7/2014   Jeff Henry - Refactoring
         //=========================================================================
-        public void lockUnlockUser(string userToLockUnlock, bool toBeLocked)
+        public void LockUnlockUser(string userToLockUnlock, bool toBeLocked)
         {
             Data checkExists = new Data();
             
-            if (checkExists.xmlcheck()){
+            if (checkExists.CheckXMLExistence()){
                 XDocument userDoc = XDocument.Load(@"users.xml");
                 
                 // Handle if the user is being locked:
@@ -875,11 +567,11 @@ namespace Project_Forms
         // PARAMETERS:  The category name that will be added to the XML. 
         // UPDATED:     11/10/2014  Jeff Henry  -   Refactoring
         //=========================================================================
-        public void addNewCategory(string newCategory)
+        public void AddCategory(string newCategory)
         {
             Data checkExists = new Data();
 
-            if (checkExists.xmlcheck())
+            if (checkExists.CheckXMLExistence())
             {
                 XDocument userDoc = XDocument.Load(@"categories.xml");
                 userDoc.Element("All_Categories").Add(new XElement("Category", new XElement("categoryName", newCategory)));
@@ -898,10 +590,10 @@ namespace Project_Forms
         // PARAMETERS:  The category that will be deleted.  
         // UPDATED:     11/10/2014  Jeff Henry - Refactoring
         //=========================================================================
-        public void deleteCategory(string delCategory)
+        public void DeleteCategory(string delCategory)
         {
             Data checkExists = new Data();
-            bool exists = checkExists.xmlcheck();
+            bool exists = checkExists.CheckXMLExistence();
 
             if (exists == true){
                 XDocument userDoc = XDocument.Load(@"categories.xml");
@@ -927,11 +619,11 @@ namespace Project_Forms
         // PARAMETERS:  The category to be renamed, and the new name for that category. 
         // UPDATED:     11/10/2014  Jeff Henry - Refactoring
         //=========================================================================
-        public void renameCategory(string catToRename, string newName)
+        public void RenameCategory(string catToRename, string newName)
         {
             Data checkExists = new Data();
 
-            if (checkExists.xmlcheck()){
+            if (checkExists.CheckXMLExistence()){
                 XDocument userDoc = XDocument.Load(@"categories.xml");
 
                 foreach (var Category in userDoc.Descendants("Category")){
@@ -957,11 +649,11 @@ namespace Project_Forms
         // PARAMS:  The name of the category to check in the category.xml
         // UPDATED: 11/10/2014  Jeff Henry -    Refactoring
         //=====================================================================
-        public bool checkDuplicateCategory(string catToCheck)
+        public bool CheckCategoryExistence(string catToCheck)
         {
             Data checkExists = new Data();
 
-            if (checkExists.xmlcheck()){
+            if (checkExists.CheckXMLExistence()){
                 XDocument userDoc = XDocument.Load(@"categories.xml");
 
                 foreach (var Category in userDoc.Descendants("Category")){
@@ -984,9 +676,9 @@ namespace Project_Forms
         //          the potential user. 
         // UPDATED: 11/10/2014   Jeff Henry - Refactoring
         //=====================================================================
-        public bool checkUserPassword(string username, string password)
+        public bool VerifyPassword(string username, string password)
         {
-            if (username == "admin" && password == "admin"){updateLastLogin("admin", true);return true;}
+            if (username == "admin" && password == "admin"){UpdateLastLogin("admin", true);return true;}
             else if (username == "admin" && password != "admin"){MessageBox.Show("Incorrect login information.");return false;}
             else if (username != "admin")
             {
@@ -994,7 +686,7 @@ namespace Project_Forms
                 XmlDocument userXml = new XmlDocument();
                 xml.Load(@"user_admin.xml");
                 userXml.Load(@"users.xml");
-                if (checkAdmin(username)){
+                if (CheckIfAdmin(username)){
                     XmlNodeList list = xml.SelectNodes("/Users/User");
                     foreach (XmlNode xn in list){
                         if (xn["Username"].InnerText == username)
@@ -1008,7 +700,7 @@ namespace Project_Forms
                     }//end foreach 
                 }//end if admin
 
-                else if (!checkAdmin(username)){
+                else if (!CheckIfAdmin(username)){
                     XmlNodeList nonAdminList = userXml.SelectNodes("/Users/User");
                     foreach (XmlNode xn in nonAdminList){
                         if (xn["Username"].InnerText == username)
@@ -1027,7 +719,7 @@ namespace Project_Forms
         // PARAMS:  The username to be checked.  
         // UPDATED: 11/10/2014  Jeff Henry - Refactoring
         //=====================================================================
-        public bool checkAdmin(string userName)
+        public bool CheckIfAdmin(string userName)
         { 
                 XmlDocument xml = new XmlDocument();
                 
@@ -1060,7 +752,7 @@ namespace Project_Forms
         // PARAMETERS:  username to search for
         // UPDATED:     11/9/2014   Jeff Henry - Initial Creation
         //=====================================================================
-        public bool checkLocked(string username)
+        public bool CheckIfLocked(string username)
         {
             XDocument user_xml = XDocument.Load(@"users.xml");
             foreach (var User in user_xml.Descendants("User")){
@@ -1079,7 +771,7 @@ namespace Project_Forms
         // PARAMETERS:  none
         // UPDATED: 11/9/2014   Jeff Henry  - Refactoring
         //=====================================================================
-        public List<string> loadUsers()
+        public List<string> GetUsers()
         {
             List<string> listOfUsers = new List<string>();
             listOfUsers.Add(null);
@@ -1108,7 +800,7 @@ namespace Project_Forms
         // PARAMETERS:  none
         // UPDATED:     11/3/2014
         //=====================================================================
-        public List<string> loadCat()
+        public List<string> GetCategories()
         {
             List<string> listOfCat = new List<string>();      
             XmlDocument xml = new XmlDocument();
@@ -1131,7 +823,7 @@ namespace Project_Forms
         // PARAMETERS:  The newUser to be checked
         // UPDATED:     11/9/2014   Jeff Henry - Refactoring
         //=========================================================================
-        public bool userExists(string newUser, bool adminUser)
+        public bool CheckUserExistence(string newUser, bool adminUser)
         {
             if (adminUser)
             {
@@ -1171,7 +863,7 @@ namespace Project_Forms
         // PARAMS:  The name of the help node the user is currently looking at.
         // UPDATED: 11/7/2014   Jeff Henry - Refactoring
         //==========================================================================
-        public string displayHelpInfo(string node)
+        public string GrabHelpInfo(string node)
         {
             if (node == "Welcome!")
             {
@@ -1231,7 +923,7 @@ namespace Project_Forms
         // PARAMETERS:  datagrid, category, start date, end date
         // UPDATED:     11/9/2014 Jeff Henry - Users can only see their reports.
         //=====================================================================
-        public void fillGridSummary(DataGridView datagrid, string category, ref decimal exp_total, ref decimal mil_total, DateTime start, DateTime end, string user)
+        public void FillGridSummaryView(DataGridView datagrid, string category, ref decimal exp_total, ref decimal mil_total, DateTime start, DateTime end, string user)
         {
             List<string> expenses = new List<string>();
             List<string> cats = new List<string>();
@@ -1254,7 +946,7 @@ namespace Project_Forms
             var trans_count = trans_xml.Descendants("Transaction").Count();
 
             // Administrator:
-            if (checkAdmin(user)){
+            if (CheckIfAdmin(user)){
                 // All Categories
                 if (category == "All Categories"){
                     for (int i = 0; i < trans_count; i++){
@@ -1282,7 +974,7 @@ namespace Project_Forms
             }
 
             // Employee:
-            else if(!checkAdmin(user)){
+            else if(!CheckIfAdmin(user)){
                 // All Categories:
                 if (category == "All Categories"){
                     for (int i = 0; i < trans_count; i++){
@@ -1320,7 +1012,7 @@ namespace Project_Forms
         //              form. (Detail View)
         // PARAMETERS:  datagrid, category, start date, end date
         //=====================================================================
-        public void fillGridDetailed(DataGridView datagrid, string category, ref decimal exp_total, ref decimal mil_total, DateTime start, DateTime end, string user)
+        public void FillGridDetailView(DataGridView datagrid, string category, ref decimal exp_total, ref decimal mil_total, DateTime start, DateTime end, string user)
         {
             List<string> expenses = new List<string>();
             List<string> cats = new List<string>();
@@ -1345,7 +1037,7 @@ namespace Project_Forms
             var trans_count = trans_xml.Descendants("Transaction").Count();
             
             // Administrator:
-            if (checkAdmin(user)){
+            if (CheckIfAdmin(user)){
                 // All Categories:
                 if (category == "All Categories"){
                     for (int i = 0; i < trans_count; i++){
@@ -1372,7 +1064,7 @@ namespace Project_Forms
                 }
             }
             // Employee:
-            else if (!checkAdmin(user)){
+            else if (!CheckIfAdmin(user)){
                 // All Categories:
                 if (category == "All Categories"){
                     for (int i = 0; i < trans_count; i++){
@@ -1413,7 +1105,7 @@ namespace Project_Forms
         // PARAMETERS:  datagrid, user, category, start date, end date
         // UPDATED: 11/3/2014
         //=====================================================================
-        public void getTransCount(DataGridView datagrid, string user, string category, DateTime start, DateTime end)
+        public void GetTransactionData(DataGridView datagrid, string user, string category, DateTime start, DateTime end)
         {
             List<string> users = new List<string>();
             List<string> expenses = new List<string>();
@@ -1476,7 +1168,7 @@ namespace Project_Forms
         // PARAMS:  The start and end date that the user specified. 
         // UPDATED: 11/3/2014
         //=====================================================================
-        public int getMileage(DateTime start, DateTime end)
+        public int GetMileage(DateTime start, DateTime end)
         {
             List<string> expenses = new List<string>();
             List<string> cats = new List<string>();
@@ -1596,7 +1288,7 @@ namespace Project_Forms
         //          user.  
         // UPDATED: 11/10/2014   Jeff Henry  - Refactoring
         //=====================================================================
-        public string fillInLoginInfo(string user, bool adminUser)
+        public string FillInLoginInfo(string user, bool adminUser)
         {
             // Administrator:
             if (adminUser){
@@ -1639,7 +1331,7 @@ namespace Project_Forms
         // PARAMS:  The name of the user, and whether or not they are an admin.  
         // UPDATED: 11/10/2014 Jeff Henry - Refactoring
         //=====================================================================
-        public void updateLastLogin(string user, bool adminUser)
+        public void UpdateLastLogin(string user, bool adminUser)
         {
             // Administrator:
             if (adminUser)
@@ -1676,7 +1368,7 @@ namespace Project_Forms
         // PURPOSE: Exports the report into excel. 
         // UPDATED: 11/7/2014   - Jeff Henry (Added SaveFileDialog) 
         //=======================================================
-        public void exportExcel(DataGridView dataGrid, string total, string mileage, string start_date, string end_date, string user)
+        public void ExportToExcel(DataGridView dataGrid, string total, string mileage, string start_date, string end_date, string user)
         {
             // Prompt the User where to save the file.
             Stream myStream;
@@ -1768,13 +1460,13 @@ namespace Project_Forms
         // PARAMS:  None.  
         // UPDATED: 11/10/2014   Jeff Henry - Refactored
         //=====================================================================
-        public List<string> addCategories()
+        public List<string> AddCategories()
         {
             List<string> categories = new List<string>();
             Data checkExists = new Data();
             XDocument catDoc = XDocument.Load(@"categories.xml");
 
-            if (checkExists.xmlcheck()){
+            if (checkExists.CheckXMLExistence()){
                 foreach (var Category in catDoc.Descendants("Category")){
                    categories.Add(Category.Element("categoryName").Value);
                 }
@@ -1793,16 +1485,14 @@ namespace Project_Forms
         // PARAMS:  None.  
         // UPDATED: 11/9/2014   
         //=====================================================================
-        public List<string> addAllCategories()
+        public List<string> AddAllCategories()
         {
             List<string> cats = new List<string>();
             Data checkExists = new Data();
             XDocument catDoc = XDocument.Load(@"categories.xml");
 
-            if (checkExists.xmlcheck())
-            {
-                foreach (var Category in catDoc.Descendants("Category"))
-                {
+            if (checkExists.CheckXMLExistence()){
+                foreach (var Category in catDoc.Descendants("Category")){
                     cats.Add(Category.Element("categoryName").Value);
                 }
                 cats.Sort();

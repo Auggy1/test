@@ -55,6 +55,7 @@
             this.welcome_msg = new System.Windows.Forms.Label();
             this.home_logo = new System.Windows.Forms.PictureBox();
             this.ee_tab = new System.Windows.Forms.TabPage();
+            this.ee_success_message = new System.Windows.Forms.Label();
             this.expense_error_msg = new System.Windows.Forms.Label();
             this.save_expense_btn = new System.Windows.Forms.Button();
             this.ee_category_list = new System.Windows.Forms.ComboBox();
@@ -167,14 +168,14 @@
             this.logOutToolStripMenuItem.Name = "logOutToolStripMenuItem";
             this.logOutToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.logOutToolStripMenuItem.Text = "Log Out";
-            this.logOutToolStripMenuItem.Click += new System.EventHandler(this.logOutToolStripMenuItem_Click);
+            this.logOutToolStripMenuItem.Click += new System.EventHandler(this.LogoutClick);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitProgramClick);
             // 
             // administrationToolStripMenuItem
             // 
@@ -190,14 +191,14 @@
             this.addUserToolStripMenuItem.Name = "addUserToolStripMenuItem";
             this.addUserToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.addUserToolStripMenuItem.Text = "Add User";
-            this.addUserToolStripMenuItem.Click += new System.EventHandler(this.addUserToolStripMenuItem_Click);
+            this.addUserToolStripMenuItem.Click += new System.EventHandler(this.AddUserClick);
             // 
             // editUserToolStripMenuItem
             // 
             this.editUserToolStripMenuItem.Name = "editUserToolStripMenuItem";
             this.editUserToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.editUserToolStripMenuItem.Text = "Edit User/Category";
-            this.editUserToolStripMenuItem.Click += new System.EventHandler(this.editUserToolStripMenuItem_Click);
+            this.editUserToolStripMenuItem.Click += new System.EventHandler(this.EditUserCategoryClick);
             // 
             // helpToolStripMenuItem
             // 
@@ -212,7 +213,7 @@
             this.applicationHelpToolStripMenuItem.Name = "applicationHelpToolStripMenuItem";
             this.applicationHelpToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.applicationHelpToolStripMenuItem.Text = "Application Help";
-            this.applicationHelpToolStripMenuItem.Click += new System.EventHandler(this.applicationHelpToolStripMenuItem_Click);
+            this.applicationHelpToolStripMenuItem.Click += new System.EventHandler(this.HelpClick);
             // 
             // aboutToolStripMenuItem
             // 
@@ -227,7 +228,7 @@
             this.applicationInfoToolStripMenuItem.Name = "applicationInfoToolStripMenuItem";
             this.applicationInfoToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.applicationInfoToolStripMenuItem.Text = "Application Info";
-            this.applicationInfoToolStripMenuItem.Click += new System.EventHandler(this.applicationInfoToolStripMenuItem_Click);
+            this.applicationInfoToolStripMenuItem.Click += new System.EventHandler(this.AboutClick);
             // 
             // login_btn
             // 
@@ -237,7 +238,7 @@
             this.login_btn.TabIndex = 4;
             this.login_btn.Text = "Login";
             this.login_btn.UseVisualStyleBackColor = true;
-            this.login_btn.Click += new System.EventHandler(this.button4_Click);
+            this.login_btn.Click += new System.EventHandler(this.LoginClick);
             // 
             // time_stamp
             // 
@@ -346,6 +347,7 @@
             // 
             // ee_tab
             // 
+            this.ee_tab.Controls.Add(this.ee_success_message);
             this.ee_tab.Controls.Add(this.expense_error_msg);
             this.ee_tab.Controls.Add(this.save_expense_btn);
             this.ee_tab.Controls.Add(this.ee_category_list);
@@ -364,15 +366,27 @@
             this.ee_tab.Text = "Enter Expense";
             this.ee_tab.UseVisualStyleBackColor = true;
             // 
+            // ee_success_message
+            // 
+            this.ee_success_message.AutoSize = true;
+            this.ee_success_message.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ee_success_message.ForeColor = System.Drawing.Color.LimeGreen;
+            this.ee_success_message.Location = new System.Drawing.Point(199, 274);
+            this.ee_success_message.Name = "ee_success_message";
+            this.ee_success_message.Size = new System.Drawing.Size(109, 13);
+            this.ee_success_message.TabIndex = 19;
+            this.ee_success_message.Text = "Success Message";
+            this.ee_success_message.Visible = false;
+            // 
             // expense_error_msg
             // 
             this.expense_error_msg.AutoSize = true;
             this.expense_error_msg.ForeColor = System.Drawing.Color.Red;
             this.expense_error_msg.Location = new System.Drawing.Point(199, 251);
             this.expense_error_msg.Name = "expense_error_msg";
-            this.expense_error_msg.Size = new System.Drawing.Size(35, 13);
+            this.expense_error_msg.Size = new System.Drawing.Size(75, 13);
             this.expense_error_msg.TabIndex = 18;
-            this.expense_error_msg.Text = "label1";
+            this.expense_error_msg.Text = "Error Message";
             // 
             // save_expense_btn
             // 
@@ -382,7 +396,7 @@
             this.save_expense_btn.TabIndex = 4;
             this.save_expense_btn.Text = "Save Expense";
             this.save_expense_btn.UseVisualStyleBackColor = true;
-            this.save_expense_btn.Click += new System.EventHandler(this.button5_Click);
+            this.save_expense_btn.Click += new System.EventHandler(this.EnterExpenseClick);
             // 
             // ee_category_list
             // 
@@ -401,7 +415,8 @@
             this.ee_expense_input.Name = "ee_expense_input";
             this.ee_expense_input.Size = new System.Drawing.Size(187, 20);
             this.ee_expense_input.TabIndex = 1;
-            this.ee_expense_input.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress_1);
+            this.ee_expense_input.TextChanged += new System.EventHandler(this.ExpenseEntryTextChanged);
+            this.ee_expense_input.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ExpenseEntryKeyPress);
             // 
             // ee_comment_box
             // 
@@ -497,9 +512,9 @@
             this.vr_mileage_total.AutoSize = true;
             this.vr_mileage_total.Location = new System.Drawing.Point(651, 347);
             this.vr_mileage_total.Name = "vr_mileage_total";
-            this.vr_mileage_total.Size = new System.Drawing.Size(13, 13);
+            this.vr_mileage_total.Size = new System.Drawing.Size(26, 13);
             this.vr_mileage_total.TabIndex = 35;
-            this.vr_mileage_total.Text = "0";
+            this.vr_mileage_total.Text = "0 mi";
             // 
             // label22
             // 
@@ -527,7 +542,7 @@
             this.detailed_report_btn.TabIndex = 32;
             this.detailed_report_btn.Text = "Detailed Report";
             this.detailed_report_btn.UseVisualStyleBackColor = true;
-            this.detailed_report_btn.Click += new System.EventHandler(this.detailedRe_Click);
+            this.detailed_report_btn.Click += new System.EventHandler(this.ViewDetailedClick);
             // 
             // export_btn
             // 
@@ -537,16 +552,16 @@
             this.export_btn.TabIndex = 31;
             this.export_btn.Text = "Export to Excel";
             this.export_btn.UseVisualStyleBackColor = true;
-            this.export_btn.Click += new System.EventHandler(this.export_Click_1);
+            this.export_btn.Click += new System.EventHandler(this.ExportClick);
             // 
             // vr_mon_total
             // 
             this.vr_mon_total.AutoSize = true;
             this.vr_mon_total.Location = new System.Drawing.Point(309, 347);
             this.vr_mon_total.Name = "vr_mon_total";
-            this.vr_mon_total.Size = new System.Drawing.Size(13, 13);
+            this.vr_mon_total.Size = new System.Drawing.Size(34, 13);
             this.vr_mon_total.TabIndex = 30;
-            this.vr_mon_total.Text = "0";
+            this.vr_mon_total.Text = "$0.00";
             // 
             // label11
             // 
@@ -573,6 +588,7 @@
             this.commentsHeader});
             this.vr_grid.Location = new System.Drawing.Point(197, 18);
             this.vr_grid.Name = "vr_grid";
+            this.vr_grid.RowHeadersWidth = 4;
             this.vr_grid.Size = new System.Drawing.Size(505, 325);
             this.vr_grid.TabIndex = 28;
             // 
@@ -626,7 +642,7 @@
             this.vr_start_date_picker.Name = "vr_start_date_picker";
             this.vr_start_date_picker.Size = new System.Drawing.Size(127, 20);
             this.vr_start_date_picker.TabIndex = 26;
-            this.vr_start_date_picker.ValueChanged += new System.EventHandler(this.vr_start_date_picker_ValueChanged);
+            this.vr_start_date_picker.ValueChanged += new System.EventHandler(this.VRStartDateChange);
             // 
             // view_reports_btn
             // 
@@ -636,7 +652,7 @@
             this.view_reports_btn.TabIndex = 24;
             this.view_reports_btn.Text = "View Reports";
             this.view_reports_btn.UseVisualStyleBackColor = true;
-            this.view_reports_btn.Click += new System.EventHandler(this.button2_Click);
+            this.view_reports_btn.Click += new System.EventHandler(this.ViewSummaryClick);
             // 
             // vr_category_list
             // 
@@ -699,7 +715,7 @@
             // 
             this.vh_error_msg.AutoSize = true;
             this.vh_error_msg.ForeColor = System.Drawing.Color.Red;
-            this.vh_error_msg.Location = new System.Drawing.Point(42, 302);
+            this.vh_error_msg.Location = new System.Drawing.Point(53, 280);
             this.vh_error_msg.Name = "vh_error_msg";
             this.vh_error_msg.Size = new System.Drawing.Size(35, 13);
             this.vh_error_msg.TabIndex = 45;
@@ -709,11 +725,11 @@
             // vh_start_date_picker
             // 
             this.vh_start_date_picker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.vh_start_date_picker.Location = new System.Drawing.Point(103, 104);
+            this.vh_start_date_picker.Location = new System.Drawing.Point(114, 82);
             this.vh_start_date_picker.Name = "vh_start_date_picker";
-            this.vh_start_date_picker.Size = new System.Drawing.Size(101, 20);
+            this.vh_start_date_picker.Size = new System.Drawing.Size(135, 20);
             this.vh_start_date_picker.TabIndex = 44;
-            this.vh_start_date_picker.ValueChanged += new System.EventHandler(this.vh_start_date_picker_ValueChanged);
+            this.vh_start_date_picker.ValueChanged += new System.EventHandler(this.VHStartDateChange);
             // 
             // vh_grid
             // 
@@ -727,10 +743,11 @@
             this.Expense,
             this.name,
             this.User});
-            this.vh_grid.Location = new System.Drawing.Point(260, 15);
+            this.vh_grid.Location = new System.Drawing.Point(306, 6);
             this.vh_grid.Name = "vh_grid";
             this.vh_grid.ReadOnly = true;
-            this.vh_grid.Size = new System.Drawing.Size(443, 337);
+            this.vh_grid.RowHeadersWidth = 4;
+            this.vh_grid.Size = new System.Drawing.Size(407, 337);
             this.vh_grid.TabIndex = 43;
             // 
             // Category
@@ -764,7 +781,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(42, 188);
+            this.label17.Location = new System.Drawing.Point(53, 166);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(29, 13);
             this.label17.TabIndex = 42;
@@ -775,7 +792,7 @@
             this.vh_user_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.vh_user_list.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.vh_user_list.FormattingEnabled = true;
-            this.vh_user_list.Location = new System.Drawing.Point(106, 185);
+            this.vh_user_list.Location = new System.Drawing.Point(151, 163);
             this.vh_user_list.Name = "vh_user_list";
             this.vh_user_list.Size = new System.Drawing.Size(98, 21);
             this.vh_user_list.TabIndex = 41;
@@ -783,27 +800,27 @@
             // vh_end_date_picker
             // 
             this.vh_end_date_picker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.vh_end_date_picker.Location = new System.Drawing.Point(103, 143);
+            this.vh_end_date_picker.Location = new System.Drawing.Point(114, 121);
             this.vh_end_date_picker.Name = "vh_end_date_picker";
-            this.vh_end_date_picker.Size = new System.Drawing.Size(101, 20);
+            this.vh_end_date_picker.Size = new System.Drawing.Size(135, 20);
             this.vh_end_date_picker.TabIndex = 40;
             // 
             // vh_search_btn
             // 
-            this.vh_search_btn.Location = new System.Drawing.Point(106, 254);
+            this.vh_search_btn.Location = new System.Drawing.Point(151, 233);
             this.vh_search_btn.Name = "vh_search_btn";
             this.vh_search_btn.Size = new System.Drawing.Size(98, 25);
             this.vh_search_btn.TabIndex = 38;
             this.vh_search_btn.Text = "Search";
             this.vh_search_btn.UseVisualStyleBackColor = true;
-            this.vh_search_btn.Click += new System.EventHandler(this.button6_Click);
+            this.vh_search_btn.Click += new System.EventHandler(this.ViewHistoryClick);
             // 
             // vh_category_list
             // 
             this.vh_category_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.vh_category_list.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.vh_category_list.FormattingEnabled = true;
-            this.vh_category_list.Location = new System.Drawing.Point(106, 218);
+            this.vh_category_list.Location = new System.Drawing.Point(151, 196);
             this.vh_category_list.Name = "vh_category_list";
             this.vh_category_list.Size = new System.Drawing.Size(98, 21);
             this.vh_category_list.TabIndex = 37;
@@ -811,7 +828,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(42, 110);
+            this.label19.Location = new System.Drawing.Point(53, 88);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(55, 13);
             this.label19.TabIndex = 35;
@@ -820,7 +837,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(41, 149);
+            this.label20.Location = new System.Drawing.Point(52, 127);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(52, 13);
             this.label20.TabIndex = 34;
@@ -829,7 +846,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(42, 221);
+            this.label21.Location = new System.Drawing.Point(53, 199);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(57, 13);
             this.label21.TabIndex = 33;
@@ -972,5 +989,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn categoryHeader;
         private System.Windows.Forms.DataGridViewTextBoxColumn usersHeader;
         private System.Windows.Forms.DataGridViewTextBoxColumn commentsHeader;
+        private System.Windows.Forms.Label ee_success_message;
     }
 }

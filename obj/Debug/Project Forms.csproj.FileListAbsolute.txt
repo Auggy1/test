@@ -222,3 +222,4 @@ C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\P
 C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\obj\Debug\Venture_Business_Management.Properties.Resources.resources
 C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\obj\Debug\Project Forms.csproj.GenerateResource.Cache
 C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\obj\Debug\Project Forms.csprojResolveAssemblyReference.cache
+C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\obj\Debug\Venture_Business_Management.Logging_In.resources

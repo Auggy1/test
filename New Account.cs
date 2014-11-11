@@ -95,7 +95,7 @@ namespace Project_Forms
             {
                 Data newUser = new Data();
                 
-                if (newUser.userExists(na_username.Text,admin_chkbox.Checked))
+                if (newUser.CheckUserExistence(na_username.Text,admin_chkbox.Checked))
                 {
                     na_error_msg_2.Text = "Username is taken, try again.";
                     na_error_msg_2.Visible = true;
@@ -107,7 +107,7 @@ namespace Project_Forms
                 else 
                 {
                     string encryptedPass = newUser.Encrypt(na_password.Text, "password");// encrypt the password, need to decrypt it later 10/27/2014
-                    newUser.addNewUser(na_username.Text, encryptedPass, admin_chkbox.Checked, na_firstname.Text, na_lastname.Text, na_email.Text,"ignore",false);
+                    newUser.AddNewUser(na_username.Text, encryptedPass, admin_chkbox.Checked, na_firstname.Text, na_lastname.Text, na_email.Text,"ignore",false);
                 }
                 this.Refresh();
                 //this.Close();

@@ -36,7 +36,7 @@ namespace Project_Forms
         {
             TreeNode node = treeView1.SelectedNode;
             Control helpDisplay = new Control();
-            richTextBox1.Text = helpDisplay.showHelpInfo(node.Text); 
+            richTextBox1.Text = helpDisplay.GrabHelpInfo(node.Text); 
         }//end
         //===========================================================
       

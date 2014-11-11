@@ -90,11 +90,17 @@
     <Compile Include="Adminstration.Designer.cs">
       <DependentUpon>Adminstration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form2.cs">
+    <Compile Include="HelpForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form2.Designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <Compile Include="HelpForm.Designer.cs">
+      <DependentUpon>HelpForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logging In.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logging In.Designer.cs">
+      <DependentUpon>Logging In.cs</DependentUpon>
     </Compile>
     <Compile Include="New Account.cs">
       <SubType>Form</SubType>
@@ -113,8 +119,11 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form2.resx">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <EmbeddedResource Include="HelpForm.resx">
+      <DependentUpon>HelpForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logging In.resx">
+      <DependentUpon>Logging In.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="New Account.resx">
       <DependentUpon>New Account.cs</DependentUpon>

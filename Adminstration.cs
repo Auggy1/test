@@ -41,7 +41,7 @@ namespace Project_Forms
             // We check that the appropriate XML's exist. 
             Data checkExists = new Data();
             
-            if (checkExists.xmlcheck())
+            if (checkExists.CheckXMLExistence())
             {
                 // Load in all XML documents to edit. 
                 XDocument userDoc = XDocument.Load(@"users.xml");
@@ -144,7 +144,7 @@ namespace Project_Forms
                 DialogResult dialog = MessageBox.Show("Are you sure you want to make '" + userToBeEdited + "' an admin?", "Confirm", MessageBoxButtons.YesNo);
                 if (dialog == DialogResult.Yes)
                 {
-                    functionCaller.changeStatus(userToBeEdited, true);
+                    functionCaller.ChangeAuthorization(userToBeEdited, true);
                     make_admin_chkbox.Checked = false;
                     return;
                 }
@@ -153,7 +153,7 @@ namespace Project_Forms
             // This is a check to see if the administrator wants to delete a user. 
             else if ((admin_user_dropdown.Text != "") && (delete_chkbox.Checked))
             {
-                functionCaller.deleteUser(userToBeEdited);
+                functionCaller.DeleteUser(userToBeEdited);
                 delete_chkbox.Checked = false;
                 user_admin_err_msg.Text = userToBeEdited + " has been deleted.";
                 user_admin_err_msg.Show();
@@ -162,7 +162,7 @@ namespace Project_Forms
             // This is a check to see if the administrator wants to lock a user:
             else if ((admin_user_dropdown.Text != "") && (lock_unlock_chkbox.Checked) && (!original_locked_attr))
             {
-                functionCaller.lockUnlockUser(userToBeEdited, original_locked_attr);
+                functionCaller.LockUnlockUser(userToBeEdited, original_locked_attr);
                 lock_unlock_chkbox.Checked = true;
                 user_admin_err_msg.Text = userToBeEdited + " has been locked.";
                 user_admin_err_msg.Visible = true;
@@ -172,7 +172,7 @@ namespace Project_Forms
             else if ((admin_user_dropdown.Text != "") && (!lock_unlock_chkbox.Checked) && (original_locked_attr))
             {
                 MessageBox.Show("Attempting to unlock User");
-                functionCaller.lockUnlockUser(userToBeEdited, original_locked_attr);
+                functionCaller.LockUnlockUser(userToBeEdited, original_locked_attr);
                 lock_unlock_chkbox.Checked = false;
                 user_admin_err_msg.Text = userToBeEdited + " has been unlocked.";
                 user_admin_err_msg.Visible = true;
@@ -203,12 +203,12 @@ namespace Project_Forms
             }
             else
             {
-                exists = checkCat.checkDuplicateCategory(admin_new_cat_input.Text);
+                exists = checkCat.CheckCategoryExistence(admin_new_cat_input.Text);
                 if (exists == false)
                 {
                     Data functionCall = new Data();
                     string catToAdd = admin_new_cat_input.Text;
-                    functionCall.addNewCategory(catToAdd);
+                    functionCall.AddCategory(catToAdd);
                     refresh_dropdowns();
                     this.Refresh();
                     admin_new_cat_input.Text = "";
@@ -240,7 +240,7 @@ namespace Project_Forms
                 {
                     Data functionCall = new Data();
                     string catToDelete = admin_cat_dropdown.Text;
-                    functionCall.deleteCategory(catToDelete);
+                    functionCall.DeleteCategory(catToDelete);
                     refresh_dropdowns();
                     this.Refresh();
                 }
@@ -284,7 +284,7 @@ namespace Project_Forms
             {
                 Data functionCall = new Data();
                 string catToRename = admin_cat_dropdown.Text;
-                functionCall.renameCategory(catToRename, textBox1.Text);
+                functionCall.RenameCategory(catToRename, textBox1.Text);
                 refresh_dropdowns();
                 this.Refresh();
                 return;
@@ -308,7 +308,7 @@ namespace Project_Forms
         {
             Data functionCall = new Data();
             // Update the admin checkbox.
-            if (functionCall.checkAdmin(admin_user_dropdown.Text))
+            if (functionCall.CheckIfAdmin(admin_user_dropdown.Text))
             {
                 make_admin_chkbox.Checked = true;
                 original_admin_attr = true;
@@ -320,7 +320,7 @@ namespace Project_Forms
             }   
 
             // Update the locked checkbox.
-            if (functionCall.checkLocked(admin_user_dropdown.Text))
+            if (functionCall.CheckIfLocked(admin_user_dropdown.Text))
             {
                 lock_unlock_chkbox.Checked = true;
                 original_locked_attr = true;
@@ -348,8 +348,8 @@ namespace Project_Forms
             admin_user_dropdown.DataSource = null;
 
             // Update the dropdowns with the new data:
-            admin_cat_dropdown.DataSource = updates.addCategories();
-            admin_user_dropdown.DataSource = updates.loadUsers();
+            admin_cat_dropdown.DataSource = updates.AddCategories();
+            admin_user_dropdown.DataSource = updates.GetUsers();
         }
 
     }

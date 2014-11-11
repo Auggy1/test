@@ -52,6 +52,7 @@ namespace Project_Forms
             ee_category_list.SelectedIndex = -1;
             vr_category_list.SelectedIndex = -1;
             vh_category_list.SelectedIndex = -1;
+            vh_user_list.SelectedIndex = -1;
 
             /*************************************** Date and Time Displays *******************************************/
             ee_date_picker.MaxDate = DateTime.Now;                  // Enter Expense date picker
@@ -75,8 +76,6 @@ namespace Project_Forms
             administrationToolStripMenuItem.Visible = false;        // Hide the administration menu
             tab_control.Controls.Remove(vh_tab);                    // Remove the view history tab
             vr_report_label.Hide();                                 // Hides the view report label
-            this.vh_grid.RowHeadersWidth = 4;                       // Hides the arrow on the data grid.
-            this.vr_grid.RowHeadersWidth = 4;                       // Hides the arrow on the data grid.
             this.vh_grid.Rows.Clear();                              // Clears the vh grid
             this.vr_grid.Rows.Clear();                              // Clears the vr grid
 
@@ -156,12 +155,12 @@ namespace Project_Forms
         // Inputs:  Label2.text/the selected username by the user or admin, as 
         //          well as current date:date. 
         //=====================================================================
-        private void button4_Click(object sender, EventArgs e)
+        private void LoginClick(object sender, EventArgs e)
         {
             Control login = new Control();
             Data userChecks = new Data();
             var source = new AutoCompleteStringCollection();
-            login.createxmlfile();
+            login.CreateXMLs();
             login_error_msg.Text = "";  
                       
             bool exists;                                // Check if user exists
@@ -191,9 +190,9 @@ namespace Project_Forms
             else if (username_box.Text != "" && pass_box.Text != "")
             {                 
                 // Perform the proper checks of the user. 
-                isAdmin = userChecks.checkAdmin(username_box.Text);
-                exists = userChecks.userExists(username_box.Text, isAdmin);
-                validPassword = userChecks.checkUserPassword(username_box.Text, pass_box.Text);
+                isAdmin = userChecks.CheckIfAdmin(username_box.Text);
+                exists = userChecks.CheckUserExistence(username_box.Text, isAdmin);
+                validPassword = userChecks.VerifyPassword(username_box.Text, pass_box.Text);
 
                 // Once everything is validated, we log the user 
                 // into the program, and show the appropriate
@@ -201,50 +200,46 @@ namespace Project_Forms
                 if (exists && validPassword)
                 {
                     // Update all the drop-down lists:
-                    refresh_dropdowns(); 
-
+                    RefreshDropdowns(); 
                     current_user = username_box.Text;
                     
-                    //welcome_msg.Text = "Welcome " + user + "!"; 
-                    //welcome_msg.Show();
-                    home_user_details.Text = userChecks.fillInLoginInfo(username_box.Text, isAdmin);
-                    userChecks.updateLastLogin(username_box.Text, isAdmin); 
+                    // Update the Home tab and save users Login History:
+                    home_user_details.Text = userChecks.FillInLoginInfo(username_box.Text, isAdmin);
+                    userChecks.UpdateLastLogin(username_box.Text, isAdmin); 
                     
                     // Make the tab controls visible:
                     tab_control.Appearance = TabAppearance.Normal;
                     tab_control.ItemSize =  new Size(20, 20);
                     tab_control.SizeMode = TabSizeMode.Normal;
                     logOutToolStripMenuItem.Visible = true;
- 
-                    // Handle if the user is an admin
+                    HideLogin(username_box.Text);
+                    
+                    // Handle if the user is an admin:
                     if (isAdmin)
                     {
-                        tab_control.SelectedTab = vr_tab;           // Change the tab to View History
-                        HideLogin(username_box.Text);
                         tab_control.Controls.Add(vh_tab);
+                        tab_control.SelectedTab = vr_tab;           // Change the tab to View History
                         administrationToolStripMenuItem.Visible = true;
                     }
+                    // Handle if an employee:
                     else if (!isAdmin)
                     {
                         tab_control.SelectedTab = ee_tab;
-                        HideLogin(username_box.Text);
                         tab_control.Controls.Remove(vh_tab);
                     } 
                     
                     // This adds the login history of the user. 
-                    login.add_history(username_box.Text, date);
+                    login.SetLoginHistory(username_box.Text, date);
                 }
-                else if (exists == false)
+                else if (!exists)
                 {
-                    //MessageBox.Show("Invalid User.", "ERROR");
                     login_error_msg.Text = "User does not exist.";
                     login_error_msg.Show();
                     username_box.Clear();
                     pass_box.Clear();
                 }
-                else if (validPassword == false)
+                else if (!validPassword)
                 {
-                    //MessageBox.Show("Invalid Password.", "ERROR");
                     login_error_msg.Text = "Invalid Password. Try Again.";
                     login_error_msg.Show();
                     pass_box.Clear();
@@ -258,7 +253,7 @@ namespace Project_Forms
         //          software after clicking the 'Exit' menu option.
         // PARAMS:  None
         //===================================================================== 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitProgramClick(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Are you sure you want to exit?", "Exiting...", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes){Application.Exit();}
@@ -271,7 +266,7 @@ namespace Project_Forms
         // PARAMS:  None
         // UPDATED: 11/6/14 By Jeff Henry (Refactoring)
         //=====================================================================
-        private void logOutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void LogoutClick(object sender, EventArgs e)
         {
             ShowLogin();                                        // Show the login page
             tab_control.SelectedTab = home_tab;                 // Return program to home 
@@ -310,7 +305,7 @@ namespace Project_Forms
         // PURPOSE: Allows the admin to create a new account for a user. 
         // UPDATED: 11/3/14
         //=====================================================================
-        private void addUserToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddUserClick(object sender, EventArgs e)
         {
             
             New_Account form = new New_Account();
@@ -323,7 +318,7 @@ namespace Project_Forms
         //          and or category as they choose. 
         // UPDATED: 11/3/14
         //=====================================================================
-        private void editUserToolStripMenuItem_Click(object sender, EventArgs e)
+        private void EditUserCategoryClick(object sender, EventArgs e)
         {
             Adminstration administration = new Adminstration();
             administration.ShowDialog(); 
@@ -338,7 +333,7 @@ namespace Project_Forms
         // PARAMS:  None. 
         // UPDATED: 11/6/14 - errorProviders instead of pop-up errors Jeff Henry
         //=====================================================================
-        private void button5_Click(object sender, EventArgs e)
+        private void EnterExpenseClick(object sender, EventArgs e)
         {
             decimal d;
             CultureInfo ci = new CultureInfo("en-us");  // Used to display the totals in the correct format added 11/2/2014
@@ -377,7 +372,7 @@ namespace Project_Forms
             }
             else// convert the contents of the input to the correct formats and pass them to an add transaction function in Control
             {
-                if (!checkExpenseInput(ee_expense_input.Text) && ee_category_list.Text != "Mileage")//added 10/30/2014 checks for decimal and correct formatting if it's not mileage
+                if (!CheckExpenseInput(ee_expense_input.Text) && ee_category_list.Text != "Mileage")//added 10/30/2014 checks for decimal and correct formatting if it's not mileage
                 {
                     errorProvider1.SetError(ee_expense_input, "Please enter a valid expense. (Ex. $10.00)");
                     expense_error_msg.Text = "Please enter a valid expense. (Ex. $100.00)";
@@ -401,12 +396,13 @@ namespace Project_Forms
                     DateTime date = Convert.ToDateTime(ee_date_picker.Value.ToShortDateString());
                     Control newdata = new Control();
 
-                    newdata.addatransaction(expense, ee_category_list.Text, date, username_box.Text, ee_comment_box.Text);
+                    newdata.AddTransaction(expense, ee_category_list.Text, date, username_box.Text, ee_comment_box.Text);
                     ee_category_list.SelectedIndex = -1;
                     ee_date_picker.Value = DateTime.Today;
                     ee_expense_input.Clear();
                     ee_comment_box.Clear();
-                    MessageBox.Show("The record has been saved.");
+                    ee_success_message.Text = "The expense was successfully saved.";
+                    ee_success_message.Visible = true;
                 }
             }
         }//end button5_click
@@ -420,7 +416,7 @@ namespace Project_Forms
         // PARAMS:  None. 
         // UPDATED: 11/7/14 - Refactoring Jeff Henry
         //=====================================================================
-        private void button2_Click(object sender, EventArgs e)
+        private void ViewSummaryClick(object sender, EventArgs e)
         {
             // Clear the Data Grid in the case of refreshing:
             this.vr_grid.DataSource = null;
@@ -447,27 +443,79 @@ namespace Project_Forms
                 Control loadData = new Control();
 
                 // Fill the grid view with summary report:
-                reports.fillGridSummary(this.vr_grid, vr_category_list.Text, ref exp_total, ref mil_total, startDate, endDate, current_user);
+                reports.FillGridSummaryView(this.vr_grid, vr_category_list.Text, ref exp_total, ref mil_total, startDate, endDate, current_user);
                 
                 vr_report_label.Text = vr_category_list.Text + " Report";       // Display the appropriate title for the report.
                 vr_report_label.Show();                                         // Show the new title.
 
                 if (vr_category_list.Text == "Mileage")
                 {
-                    vr_mileage_total.Text = loadData.mileage(startDate, endDate).ToString() + " mi"; //display total for mileage only
+                    vr_mileage_total.Text = loadData.GetMileage(startDate, endDate).ToString() + " mi"; //display total for mileage only
                 }
                 else if (vr_category_list.Text == "All Categories")
                 {
                     vr_mon_total.Text = "$" + exp_total.ToString("N02", ci);//Display the total correct format with commas
-                    vr_mileage_total.Text = loadData.mileage(startDate, endDate).ToString("N0", ci) + " mi"; //display total for mileage only
+                    vr_mileage_total.Text = loadData.GetMileage(startDate, endDate).ToString("N0", ci) + " mi"; //display total for mileage only
                 }
                 else
                 {
                     vr_mon_total.Text = "$" + exp_total.ToString("N02", ci);//Display the total correct format with commas
                 }
-                //this.vr_grid.Columns["Expense"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
              }
         }//end button2_Click 
+
+        //=====================================================================
+        // AUTHOR:  Maxwell Partington & Ranier Limpiado
+        // PURPOSE: This function is called when the user wants to view more
+        //          detailed data from their xml data file. 
+        // PARAMS:  None. 
+        // UPDATED: 11/8/14 Jeff Henry (Refactoring)
+        //=====================================================================
+        private void ViewDetailedClick(object sender, EventArgs e)
+        {
+            this.vr_grid.DataSource = null;
+            this.vr_grid.Rows.Clear();
+
+            CultureInfo ci = new CultureInfo("en-us");  // Display the totals in the correct format
+            vr_mon_total.Text = "$0.00";        // Clear text so it doesn't show old values
+            vr_mileage_total.Text = "0 mi";    // Clear text so it doesn't show old values
+            errorProvider1.Clear();
+            vr_error_msg.Visible = false;
+
+            if (vr_category_list.Text == "")
+            {
+                errorProvider1.SetError(vr_category_list, "Please select a category.");
+                vr_error_msg.Text = "Please select a categoy.";
+                vr_error_msg.Visible = true;
+            }
+            else
+            {
+                decimal exp_total = 0;
+                decimal mil_total = 0;
+                DateTime startDate = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());
+                DateTime endDate = Convert.ToDateTime(vr_end_date_picker.Value.ToShortDateString());
+
+                Data reports = new Data();
+                Control loadData = new Control();
+
+                // Fill the data grid with detailed info:
+                reports.FillGridDetailView(this.vr_grid, vr_category_list.Text, ref exp_total, ref mil_total, startDate, endDate, current_user);
+
+                if (vr_category_list.Text == "Mileage")
+                {
+                    vr_mileage_total.Text = loadData.GetMileage(startDate, endDate).ToString(); //display total for mileage only
+                }
+                else if (vr_category_list.Text == "All Categories")
+                {
+                    vr_mon_total.Text = "$" + exp_total.ToString("N02", ci);//Display the total correct format with commas
+                    vr_mileage_total.Text = loadData.GetMileage(startDate, endDate).ToString("N0", ci) + " mi"; //display total for mileage only
+                }
+                else
+                {
+                    vr_mon_total.Text = "$" + exp_total.ToString("N02", ci);//Display the total correct format with commas
+                }
+            }
+        } 
 
         //=====================================================================
         // AUfTHOR: Maxwell Partington & Ranier Limpiado 
@@ -476,7 +524,7 @@ namespace Project_Forms
         // PARAMS:  None. 
         // UPDATED: 11/7/14     - Jeff Henry (Refactoring)
         //=====================================================================
-        private void button6_Click(object sender, EventArgs e)
+        private void ViewHistoryClick(object sender, EventArgs e)
         {
             vh_grid.DataSource = null;
             vh_grid.Rows.Clear();
@@ -514,7 +562,7 @@ namespace Project_Forms
             }
             else
             {
-                history.getTransCount(this.vh_grid, vh_user_list.Text, vh_category_list.Text, startDate, endDate);
+                history.GetTransactionData(this.vh_grid, vh_user_list.Text, vh_category_list.Text, startDate, endDate);
             }
 
             
@@ -525,7 +573,7 @@ namespace Project_Forms
         //Purpose: Exports the report into excel.
         //Updated: 11/2/2014 //brandnew
         //=======================================================
-        private void export_Click_1(object sender, EventArgs e)
+        private void ExportClick(object sender, EventArgs e)
         {
             if (vr_grid.Rows.Count == 0)
                 MessageBox.Show("Cannot export an empty report. Please generate a report first.");
@@ -540,59 +588,7 @@ namespace Project_Forms
             }
         }//end 
 
-        //=====================================================================
-        // AUTHOR:  Maxwell Partington & Ranier Limpiado
-        // PURPOSE: This function is called when the user wants to view more
-        //          detailed data from their xml data file. 
-        // PARAMS:  None. 
-        // UPDATED: 11/8/14 Jeff Henry (Refactoring)
-        //=====================================================================
-        private void detailedRe_Click(object sender, EventArgs e)
-        {
-            this.vr_grid.DataSource = null;
-            this.vr_grid.Rows.Clear();
-            
-            CultureInfo ci = new CultureInfo("en-us");  // Display the totals in the correct format
-            vr_mon_total.Text = "$0.00";        // Clear text so it doesn't show old values
-            vr_mileage_total.Text = "0 mi";    // Clear text so it doesn't show old values
-            errorProvider1.Clear();
-            vr_error_msg.Visible = false;
-
-            if (vr_category_list.Text == "")
-            {
-                errorProvider1.SetError(vr_category_list, "Please select a category.");
-                vr_error_msg.Text = "Please select a categoy.";
-                vr_error_msg.Visible = true;
-            }
-            else
-            {
-                decimal exp_total = 0;
-                decimal mil_total = 0;
-                DateTime startDate = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());
-                DateTime endDate = Convert.ToDateTime(vr_end_date_picker.Value.ToShortDateString());
-
-                Data reports = new Data();
-                Control loadData = new Control();
-
-                // Fill the data grid with detailed info:
-                reports.fillGridDetailed(this.vr_grid, vr_category_list.Text, ref exp_total, ref mil_total, startDate, endDate, current_user);
-
-                if (vr_category_list.Text == "Mileage")
-                {
-                    vr_mileage_total.Text = loadData.mileage(startDate, endDate).ToString(); //display total for mileage only
-                }
-                else if (vr_category_list.Text == "All Categories")
-                {
-                    vr_mon_total.Text = "$" + exp_total.ToString("N02", ci);//Display the total correct format with commas
-                    vr_mileage_total.Text = loadData.mileage(startDate, endDate).ToString("N0", ci) + " mi"; //display total for mileage only
-                }
-                else
-                {
-                    vr_mon_total.Text = "$" + exp_total.ToString("N02", ci);//Display the total correct format with commas
-                }
-            }
-        }//end detailedRe_Click 
-
+        
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado
         // PURPOSE: This function is used to call the about window forward that 
@@ -600,7 +596,7 @@ namespace Project_Forms
         // PARAMS:  None
         // UPDATED: 11/3/14
         //=====================================================================
-        private void applicationInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AboutClick(object sender, EventArgs e)
         {
             AboutBox1 about = new AboutBox1();
             about.ShowDialog();
@@ -613,7 +609,7 @@ namespace Project_Forms
         // PARAMS:  None
         // UPDATED: 11/3/14
         //=====================================================================
-        private void applicationHelpToolStripMenuItem_Click(object sender, EventArgs e)
+        private void HelpClick(object sender, EventArgs e)
         {
             Form2 helpForm = new Form2();
             helpForm.Show();
@@ -626,7 +622,7 @@ namespace Project_Forms
         // PARAMS:  None. 
         // UPDATED: 11/3/14
         //=====================================================================
-        private void textBox3_KeyPress_1(object sender, KeyPressEventArgs e)
+        private void ExpenseEntryKeyPress(object sender, KeyPressEventArgs e)
         {
             ee_expense_input.MaxLength = 6;
             TextBox textBox = (TextBox)sender;
@@ -665,7 +661,7 @@ namespace Project_Forms
         //          If not then it is the wrong format.
         // UPDATED: 11/3/2014
         //=====================================================================
-        private bool checkExpenseInput(string userInput)
+        private bool CheckExpenseInput(string userInput)
         {
             int length = userInput.Substring(userInput.IndexOf(".") + 1).Length;
             if (length != 2){return false;}
@@ -680,7 +676,7 @@ namespace Project_Forms
         //          date.
         // UPDATED: 11/7/2014
         //========================================================================
-        private void vh_start_date_picker_ValueChanged(object sender, EventArgs e)
+        private void VHStartDateChange(object sender, EventArgs e)
         {
             vh_end_date_picker.MinDate = vh_start_date_picker.Value;
         }
@@ -693,7 +689,7 @@ namespace Project_Forms
         //          date.
         // UPDATED: 11/7/2014
         //========================================================================
-        private void vr_start_date_picker_ValueChanged(object sender, EventArgs e)
+        private void VRStartDateChange(object sender, EventArgs e)
         {
             vr_end_date_picker.MinDate = vr_start_date_picker.Value;
         }
@@ -705,7 +701,7 @@ namespace Project_Forms
         //          categories.
         // UPDATED: 11/9/2014   Jeff Henry -    Initial creation
         //========================================================================
-        private void refresh_dropdowns()
+        private void RefreshDropdowns()
         {
             Data updates = new Data();
             // Clear all the lists first:
@@ -715,16 +711,26 @@ namespace Project_Forms
             vh_user_list.DataSource = null;
 
             // Update the lists:
-            ee_category_list.DataSource = updates.addCategories();
-            vr_category_list.DataSource = updates.addAllCategories();
-            vh_category_list.DataSource = updates.addAllCategories();
-            vh_user_list.DataSource = updates.loadUsers();
+            ee_category_list.DataSource = updates.AddCategories();
+            vr_category_list.DataSource = updates.AddAllCategories();
+            vh_category_list.DataSource = updates.AddAllCategories();
+            vh_user_list.DataSource = updates.GetUsers();
             
             // Reset the indices:
             ee_category_list.SelectedIndex = -1;
             vr_category_list.SelectedIndex = -1;
             vh_category_list.SelectedIndex = -1;
             vh_user_list.SelectedIndex = -1;
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will hide the message as soon as a user starts 
+        //          entering text. 
+        //========================================================================
+        private void ExpenseEntryTextChanged(object sender, EventArgs e)
+        {
+            ee_success_message.Visible = false;
         }
         
     }

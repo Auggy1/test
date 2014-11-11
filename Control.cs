@@ -12,8 +12,8 @@ namespace Project_Forms
     //          the forms. The class contains multiple functions and methods that
     //          transfer data between class data and forms. Some methods are called
     //          in a specific order from the data class in order to give a certain effect.
-    // PARAMS: None
-    // UPDATED: 11/3/2014
+    // PARAMS:  None
+    // UPDATED: 11/10/2014  Jeff Henry - Refactoring and renamed functions
     // ========================================================================
     class Control
     {
@@ -22,11 +22,7 @@ namespace Project_Forms
         // PURPOSE:Public string that gets a value and sets it so other forms can call it.
         // PARAMS: None
         // ====================================================================
-        public string ReturnValue1 
-        { 
-            get; 
-            set; 
-        }//end 
+        public string ReturnValue1{get;set;} 
         //========================================================================
 
         //========================================================================
@@ -34,11 +30,7 @@ namespace Project_Forms
         // PURPOSE: Public list with which the last date can be determined in multiple forms
         // PARAMS: None
         //========================================================================
-        public List<DateTime> passList
-        { 
-            get; 
-            set; 
-        }//end
+        public List<DateTime> passList{get;set;}
         //========================================================================
                 
         //========================================================================
@@ -47,7 +39,7 @@ namespace Project_Forms
         // PARAMS:  Name, Date
         //========================================================================
         public List<string> expenses { get; set; }
-        public List<DateTime> datedata { get; set; }
+        public List<DateTime> dates { get; set; }
         public List<string> nametrans { get; set; }
         public List<string> catrans { get; set; }
         //========================================================================
@@ -59,15 +51,15 @@ namespace Project_Forms
         //          check call returns false.
         // PARAMS: None
         //=====================================================================
-        public void createxmlfile()
+        public void CreateXMLs()
         {
-            Data xmlcreation = new Data();
-            if (xmlcreation.xmlcheck() == false)//if xml create returns a false
+            Data xml_creation = new Data();
+            if (!xml_creation.CheckXMLExistence())
             {
-                xmlcreation.xmlcreate();//create a new xml file based on the template in Data class
-                xmlcreation.userXml();
-                xmlcreation.categoriesXml(); //added 10/24/14
-                xmlcreation.userAdminXml(); //added 10/26/2014
+                xml_creation.CreateTransactionXML();
+                xml_creation.CreateUserXML();
+                xml_creation.CreateCategoriesXML(); 
+                xml_creation.CreateAdminXML();
             }
         }//end createxmlfile
         //========================================================================
@@ -81,30 +73,13 @@ namespace Project_Forms
         //          Relatable Databases.
         // PARAMS:  Expense, Category, Date, Name
         //=====================================================================
-        public void addatransaction(decimal expenditure, string category, DateTime date, string name, string comments)
+        public void AddTransaction(decimal expenditure, string category, DateTime date, string name, string comments)
         {
             Data newtransaction = new Data();
-            newtransaction.add_transaction(expenditure, category, date, name, comments);
-            newtransaction.add_history(date, name);
+            newtransaction.AddTransaction(expenditure, category, date, name, comments);
+            newtransaction.UpdateTransactionHistory(date, name);
         }//end addatransaction
         //=====================================================================
-
-
-
-        //=======================================================================
-        // AUTHOR:  Karan Singh
-        // PURPOSE: Uses the passList above to store an array of all dates that 
-        //          it gets by calling login_history in the Data class.
-        // PARAMS:  Name
-        //========================================================================
-        public void getHistory(string name)
-        {
-            Data history = new Data();
-            history.login_history(name);
-            List<DateTime> lastdate = history.login;
-            this.passList = lastdate;
-        }
-        //========================================================================
 
         //========================================================================
         // AUTHOR:  Karan Singh
@@ -112,73 +87,21 @@ namespace Project_Forms
         //          current login activity 
         // PARAMS:  Name, Date 
         //========================================================================
-        public void add_history(string name, DateTime date)
+        public void SetLoginHistory(string name, DateTime date)
         {
             Data newtransaction = new Data();
-            newtransaction.add_login_history(name, date);
+            newtransaction.SetLoginHistory(name, date);
         }
-        //========================================================================
-
-
-        //========================================================================
-        // AUTHOR:  Karan Singh
-        // PURPOSE: Load records loads all the records that are needed to generate view history datagrid
-        // PARAMS:  Name, start and end dates, category
-        //========================================================================
-        public void load_records(DateTime start, DateTime end, string category, string name)
-        {
-            Data report = new Data();
-
-            //load name function gets all the data from the xml
-            report.load_name(start, end, category, name);
-            
-            //readin the data lists as are created by data into declared lists
-            List<DateTime> temp = report.trans;
-            List<string> check = report.lists;
-            List<string> names = report.trans1;
-            List<string> categories = report.trans2;
-            
-            //set the lists to appropriate public list for use by forms
-            this.expenses = check;
-            this.datedata = temp;
-            this.nametrans = names;
-            this.catrans = categories;
-        }//end load_records 
-        //========================================================================
-
-        //========================================================================
-        // AUTHOR: Michelle Jaro
-        // PURPOSE: Load records loads all the records that are needed to generate the Expense Reports
-        // PARAMS: Start and end dates, category, Reference List of Transactions, Ref decimal
-        //========================================================================
-        public void loadExpenseReport(DateTime start, DateTime end, string category, ref List<Transaction> expenseReport, ref decimal totalExpense, ref decimal totalMileage, string addBy)
-        {
-            Data expenses = new Data();
-            expenses.loadExpenses(start, end, category, ref expenseReport, ref totalExpense, ref totalMileage, addBy);
-        }//end loadExpenseReport 
-        //========================================================================
-
-        //========================================================================
-        // AUTHOR:  Maxwell Partington & Ranier Limpiado
-        // PURPOSE Load records loads all the records that are needed to generate the Expense Reports
-        // PARAMS: Start and end dates, category, Reference List of Transactions, Ref decimal
-        //========================================================================
-        public void loadDetailedExpenseReport(DateTime start, DateTime end, string category, ref List<DetailedTransaction> expenseReport, ref decimal totalExpense, ref decimal totalMileage, string addBy)
-        {
-            //call the loadExpenses function in data
-            Data expenses = new Data();
-            expenses.loadDetailedExpenses(start, end, category, ref expenseReport, ref totalExpense, ref totalMileage, addBy);
-        }//end loadDetailedExpenseReport 
         //========================================================================
 
         //========================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
         // PURPOSE: Loads all of the users from xml files, after a user logins.  
         //========================================================================
-        public List<string> loadUserList()
+        public List<string> GetUsers()
         {
             Data users = new Data();
-            return users.loadUsers();
+            return users.GetUsers();
         }//end loadUserList
         //========================================================================
 
@@ -187,10 +110,10 @@ namespace Project_Forms
         // PURPOSE: THis function only load lists after a user logs into the application.
         // PARAMS:  10/29/2014
         //========================================================================
-        public List<string> loadCategoryList()
+        public List<string> GetCategories()
         {
             Data categories = new Data();
-            return categories.loadCat();
+            return categories.GetCategories();
         }//end 
         //========================================================================
 
@@ -203,10 +126,10 @@ namespace Project_Forms
         //          function will return a string will all of the appropriate info. 
         // DATE:    10/29/14
         //========================================================================
-        public string showHelpInfo(string nodeName)
+        public string GrabHelpInfo(string nodeName)
         {
             Data helpData = new Data();
-            return (helpData.displayHelpInfo(nodeName)); 
+            return (helpData.GrabHelpInfo(nodeName)); 
         }//end 
         //========================================================================
 
@@ -218,10 +141,10 @@ namespace Project_Forms
         //          that the user specificed in when they requested their data.  
         // DATE:    10/29/14
         //========================================================================
-        public int mileage(DateTime start, DateTime end)
+        public int GetMileage(DateTime start, DateTime end)
         {
             Data miles = new Data();
-            return miles.getMileage(start, end);
+            return miles.GetMileage(start, end);
         }//end 
         //========================================================================
 
@@ -236,7 +159,7 @@ namespace Project_Forms
         public void export(DataGridView gridview, string total, string mileage, string start, string end, string user)
         {
             Data excel = new Data();
-            excel.exportExcel(gridview, total, mileage, start, end, user);
+            excel.ExportToExcel(gridview, total, mileage, start, end, user);
         }//end
         //========================================================================
     }
