@@ -138,7 +138,10 @@ namespace Project_Forms
             tab_control.SizeMode = TabSizeMode.Normal;
             logOutToolStripMenuItem.Visible = true;
 
-
+            if (System.DateTime.Now.Hour > 12)
+                welcome_msg.Text = "Good Afternoon " + user + "!";
+            else
+                welcome_msg.Text = "Good Morning " + user + "!";
             //==================================================================
             // Since we are passing information from the login form, we need to 
             // adjust the main form before we show it to the user:
@@ -215,8 +218,7 @@ namespace Project_Forms
         // UPDATED: 11/3/14
         //=====================================================================
         private void AddUserClick(object sender, EventArgs e)
-        {
-            
+        { 
             New_Account form = new New_Account();
             form.ShowDialog();
         }

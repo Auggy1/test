@@ -49,13 +49,13 @@ namespace Project_Forms
                 login_error_msg.Text = " Username and Password must be provided.";
                 login_error_msg.Show();
             }
-            else if (username_box.TextLength < 5 && username_box.Text != "admin")
+            else if (username_box.TextLength < 5)
             {
                 errorProvider1.SetError(username_box, "Username is too short.");
                 login_error_msg.Text = "Username is too short.";
                 login_error_msg.Show();
             }
-            else if (password_box.TextLength < 6)
+            else if (password_box.TextLength < 6 && username_box.Text != "admin") 
             {
                 errorProvider1.SetError(password_box, "Password is too short.");
                 login_error_msg.Text = "Password is too short.";

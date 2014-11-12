@@ -264,7 +264,7 @@
             // 
             this.welcome_msg.AutoSize = true;
             this.welcome_msg.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.welcome_msg.Location = new System.Drawing.Point(428, 91);
+            this.welcome_msg.Location = new System.Drawing.Point(395, 81);
             this.welcome_msg.Name = "welcome_msg";
             this.welcome_msg.Size = new System.Drawing.Size(188, 24);
             this.welcome_msg.TabIndex = 1;
