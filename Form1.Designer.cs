@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Home));
             this.date_label = new System.Windows.Forms.Label();
-            this.username_label = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,14 +42,9 @@
             this.applicationHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.applicationInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.login_btn = new System.Windows.Forms.Button();
             this.time_stamp = new System.Windows.Forms.Label();
-            this.username_box = new System.Windows.Forms.TextBox();
-            this.pass_box = new System.Windows.Forms.TextBox();
-            this.pass_label = new System.Windows.Forms.Label();
             this.tab_control = new System.Windows.Forms.TabControl();
             this.home_tab = new System.Windows.Forms.TabPage();
-            this.login_error_msg = new System.Windows.Forms.Label();
             this.home_user_details = new System.Windows.Forms.RichTextBox();
             this.welcome_msg = new System.Windows.Forms.Label();
             this.home_logo = new System.Windows.Forms.PictureBox();
@@ -131,15 +125,6 @@
             this.date_label.Size = new System.Drawing.Size(30, 13);
             this.date_label.TabIndex = 0;
             this.date_label.Text = "Date";
-            // 
-            // username_label
-            // 
-            this.username_label.AutoSize = true;
-            this.username_label.Location = new System.Drawing.Point(402, 143);
-            this.username_label.Name = "username_label";
-            this.username_label.Size = new System.Drawing.Size(58, 13);
-            this.username_label.TabIndex = 6;
-            this.username_label.Text = "Username:";
             // 
             // menuStrip1
             // 
@@ -230,16 +215,6 @@
             this.applicationInfoToolStripMenuItem.Text = "Application Info";
             this.applicationInfoToolStripMenuItem.Click += new System.EventHandler(this.AboutClick);
             // 
-            // login_btn
-            // 
-            this.login_btn.Location = new System.Drawing.Point(500, 224);
-            this.login_btn.Name = "login_btn";
-            this.login_btn.Size = new System.Drawing.Size(75, 21);
-            this.login_btn.TabIndex = 4;
-            this.login_btn.Text = "Login";
-            this.login_btn.UseVisualStyleBackColor = true;
-            this.login_btn.Click += new System.EventHandler(this.LoginClick);
-            // 
             // time_stamp
             // 
             this.time_stamp.AutoSize = true;
@@ -248,30 +223,6 @@
             this.time_stamp.Size = new System.Drawing.Size(63, 13);
             this.time_stamp.TabIndex = 11;
             this.time_stamp.Text = "Time Stamp";
-            // 
-            // username_box
-            // 
-            this.username_box.Location = new System.Drawing.Point(464, 143);
-            this.username_box.Name = "username_box";
-            this.username_box.Size = new System.Drawing.Size(152, 20);
-            this.username_box.TabIndex = 2;
-            // 
-            // pass_box
-            // 
-            this.pass_box.Location = new System.Drawing.Point(464, 180);
-            this.pass_box.Name = "pass_box";
-            this.pass_box.PasswordChar = '*';
-            this.pass_box.Size = new System.Drawing.Size(152, 20);
-            this.pass_box.TabIndex = 3;
-            // 
-            // pass_label
-            // 
-            this.pass_label.AutoSize = true;
-            this.pass_label.Location = new System.Drawing.Point(402, 183);
-            this.pass_label.Name = "pass_label";
-            this.pass_label.Size = new System.Drawing.Size(56, 13);
-            this.pass_label.TabIndex = 14;
-            this.pass_label.Text = "Password:";
             // 
             // tab_control
             // 
@@ -287,13 +238,7 @@
             // 
             // home_tab
             // 
-            this.home_tab.Controls.Add(this.login_error_msg);
             this.home_tab.Controls.Add(this.home_user_details);
-            this.home_tab.Controls.Add(this.pass_label);
-            this.home_tab.Controls.Add(this.username_label);
-            this.home_tab.Controls.Add(this.pass_box);
-            this.home_tab.Controls.Add(this.login_btn);
-            this.home_tab.Controls.Add(this.username_box);
             this.home_tab.Controls.Add(this.welcome_msg);
             this.home_tab.Controls.Add(this.home_logo);
             this.home_tab.Location = new System.Drawing.Point(4, 22);
@@ -303,16 +248,6 @@
             this.home_tab.TabIndex = 0;
             this.home_tab.Text = "Home";
             this.home_tab.UseVisualStyleBackColor = true;
-            // 
-            // login_error_msg
-            // 
-            this.login_error_msg.AutoSize = true;
-            this.login_error_msg.ForeColor = System.Drawing.Color.Red;
-            this.login_error_msg.Location = new System.Drawing.Point(461, 256);
-            this.login_error_msg.Name = "login_error_msg";
-            this.login_error_msg.Size = new System.Drawing.Size(35, 13);
-            this.login_error_msg.TabIndex = 16;
-            this.login_error_msg.Text = "label1";
             // 
             // home_user_details
             // 
@@ -334,7 +269,6 @@
             this.welcome_msg.Size = new System.Drawing.Size(188, 24);
             this.welcome_msg.TabIndex = 1;
             this.welcome_msg.Text = "Welcome Message";
-            this.welcome_msg.TextChanged += new System.EventHandler(this.label2_TextChanged);
             // 
             // home_logo
             // 
@@ -870,7 +804,6 @@
             // 
             // Home
             // 
-            this.AcceptButton = this.login_btn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(753, 445);
@@ -913,15 +846,10 @@
         #endregion
 
         private System.Windows.Forms.Label date_label;
-        private System.Windows.Forms.Label username_label;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.Button login_btn;
         private System.Windows.Forms.ToolStripMenuItem logOutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.TextBox username_box;
-        private System.Windows.Forms.TextBox pass_box;
-        private System.Windows.Forms.Label pass_label;
         private System.Windows.Forms.ToolStripMenuItem administrationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
@@ -976,7 +904,6 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label vr_mileage_total;
         public System.Windows.Forms.Label time_stamp;
-        private System.Windows.Forms.Label login_error_msg;
         private System.Windows.Forms.Label expense_error_msg;
         private System.Windows.Forms.Label vr_error_msg;
         private System.Windows.Forms.Label vh_error_msg;

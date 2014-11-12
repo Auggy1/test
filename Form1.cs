@@ -42,10 +42,8 @@ namespace Project_Forms
         //==========================================================
         public Home()
         {
-
             InitializeComponent();
             Data initialization = new Data();
-            
             
             //The already initialized logout button under file is not visible to the user initially
             logOutToolStripMenuItem.Visible = false;
@@ -71,7 +69,6 @@ namespace Project_Forms
 
             /****************************************** Hidden labels/tabs ********************************************/
             welcome_msg.Hide();                                     // Hide the welcome message
-            login_error_msg.Hide();                                 // Hide the login error message
             expense_error_msg.Hide();                               // Hide the expense error message.
             administrationToolStripMenuItem.Visible = false;        // Hide the administration menu
             tab_control.Controls.Remove(vh_tab);                    // Remove the view history tab
@@ -86,6 +83,79 @@ namespace Project_Forms
             var source0 = new AutoCompleteStringCollection();
 
         }// end home
+
+        //=====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This is a second constructor made to handle when the login
+        //          form creates an instance of this main form. It will receive
+        //          the username and administrator boolean form the login form.
+        // PARAMS:  string username, bool isadmin
+        //=====================================================================
+        public Home(string user, bool is_admin)
+        {
+            InitializeComponent();
+            Data userChecks = new Data();
+           
+            ee_category_list.SelectedIndex = -1;
+            vr_category_list.SelectedIndex = -1;
+            vh_category_list.SelectedIndex = -1;
+            vh_user_list.SelectedIndex = -1;
+
+            /*************************************** Date and Time Displays *******************************************/
+            ee_date_picker.MaxDate = DateTime.Now;                  // Enter Expense date picker
+            vr_end_date_picker.MaxDate = DateTime.Now;              // View Reports start date picker
+            vr_start_date_picker.MaxDate = DateTime.Now;            // View Reports end date picker
+            vh_end_date_picker.MaxDate = DateTime.Now;              // View History start date picker
+            vh_start_date_picker.MaxDate = DateTime.Now;            // View History end date picker
+            date_label.Text = DateTime.Now.ToString("MM/dd/yyyy");  // Month/date/year format for program date display
+            time_stamp.Text = DateTime.Now.ToString("HH:mm:ss tt"); // Time stamp
+            date = DateTime.UtcNow.Date;
+
+            System.Timers.Timer clk_timer = new System.Timers.Timer(1);     // Create a new timer
+            clk_timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);     // Call OnTimedEvent with each tick
+            clk_timer.Enabled = true;
+            clk_timer.Start();
+
+            /****************************************** Hidden labels/tabs ********************************************/
+            expense_error_msg.Hide();                               // Hide the expense error message.
+            administrationToolStripMenuItem.Visible = false;        // Hide the administration menu
+            tab_control.Controls.Remove(vh_tab);                    // Remove the view history tab
+            vr_report_label.Hide();                                 // Hides the view report label
+            this.vh_grid.Rows.Clear();                              // Clears the vh grid
+            this.vr_grid.Rows.Clear();                              // Clears the vr grid
+
+            // Update all the drop-down lists:
+            RefreshDropdowns();
+            current_user = user;
+
+            // Update the Home tab and save users Login History:
+            home_user_details.Text = userChecks.FillInLoginInfo(user, is_admin);
+            userChecks.UpdateLastLogin(user, is_admin);
+
+            // Make the tab controls visible:
+            tab_control.Appearance = TabAppearance.Normal;
+            tab_control.ItemSize = new Size(20, 20);
+            tab_control.SizeMode = TabSizeMode.Normal;
+            logOutToolStripMenuItem.Visible = true;
+
+
+            //==================================================================
+            // Since we are passing information from the login form, we need to 
+            // adjust the main form before we show it to the user:
+            //==================================================================
+            if (is_admin)
+            {
+                tab_control.Controls.Add(vh_tab);   // Addd the View History Tab to the form
+                tab_control.SelectedTab = vr_tab;   // Change the tab to View History
+                administrationToolStripMenuItem.Visible = true;
+            }
+            else if (!is_admin)
+            {
+                tab_control.SelectedTab = ee_tab;   // Change the tab to Enter Expense 
+                tab_control.Controls.Remove(vh_tab); // Remove the View History tab
+            }
+        }
+
 
         //=====================================================================
         // Purpose: These functions were required because the OnTimeEvent 
@@ -115,139 +185,6 @@ namespace Project_Forms
         }
 
         //=====================================================================
-        // Purpose: Hide the login page and displays a welcome message
-        // Author:  Jeff Henry
-        //=====================================================================
-        private void HideLogin(string user)
-        {
-            username_label.Hide();
-            pass_label.Hide();
-            login_btn.Hide();
-            username_box.Hide();
-            pass_box.Hide();
-            welcome_msg.Text = "Welcome " + user + "!";
-            welcome_msg.Show();
-        }
-
-        //=====================================================================
-        // Purpose: Shows the login form and hides the welcome message
-        // Author:  Jeff Henry
-        //=====================================================================
-        private void ShowLogin()
-        {
-            username_label.Show();
-            pass_label.Show();
-            login_btn.Show();
-            username_box.Show();
-            pass_box.Show();
-            welcome_msg.Hide();
-            username_box.Clear();
-            pass_box.Clear();
-        }
-
-
-        //===================================================================== 
-        // Purpose: Button4 is the Select button. The event is meant to confirm 
-        //          the users identity by showing the users name in a text box 
-        //          and taking away the ability to change it using the dropdownlist.
-        //          The code also checks if the xml file exists or not by passing 
-        //          a call to the Control file.
-        // Inputs:  Label2.text/the selected username by the user or admin, as 
-        //          well as current date:date. 
-        //=====================================================================
-        private void LoginClick(object sender, EventArgs e)
-        {
-            Control login = new Control();
-            Data userChecks = new Data();
-            var source = new AutoCompleteStringCollection();
-            login.CreateXMLs();
-            login_error_msg.Text = "";  
-                      
-            bool exists;                                // Check if user exists
-            bool validPassword;                         // Check if the password is valid
-            bool isAdmin = false;                       // Check if user is admin
-
-            errorProvider1.Clear();                     // Reset errorProvider1
-            errorProvider2.Clear();                     // Reset errorProvider2
-
-            // The following if/else statements perform the proper
-            // checks of the user's input to make sure they actually exist
-            // in the system, they have the proper username and password,
-            // and if they are an admin or not. 
-            if ((username_box.Text=="") && (pass_box.Text==""))
-            {
-                errorProvider1.SetError(username_box, "Username must be provided.");
-                errorProvider2.SetError(pass_box, "Password must be provided.");
-            }
-            else if ((username_box.Text== "") || (username_box.TextLength < 5))
-            {
-                errorProvider1.SetError(username_box, "Username must be provided.");
-            }
-            else if  ((pass_box.Text=="") || (pass_box.TextLength < 5))
-            {
-                errorProvider1.SetError(pass_box, "Password must be provided.");
-            }
-            else if (username_box.Text != "" && pass_box.Text != "")
-            {                 
-                // Perform the proper checks of the user. 
-                isAdmin = userChecks.CheckIfAdmin(username_box.Text);
-                exists = userChecks.CheckUserExistence(username_box.Text, isAdmin);
-                validPassword = userChecks.VerifyPassword(username_box.Text, pass_box.Text);
-
-                // Once everything is validated, we log the user 
-                // into the program, and show the appropriate
-                // data and buttons/labels for the specific users. 
-                if (exists && validPassword)
-                {
-                    // Update all the drop-down lists:
-                    RefreshDropdowns(); 
-                    current_user = username_box.Text;
-                    
-                    // Update the Home tab and save users Login History:
-                    home_user_details.Text = userChecks.FillInLoginInfo(username_box.Text, isAdmin);
-                    userChecks.UpdateLastLogin(username_box.Text, isAdmin); 
-                    
-                    // Make the tab controls visible:
-                    tab_control.Appearance = TabAppearance.Normal;
-                    tab_control.ItemSize =  new Size(20, 20);
-                    tab_control.SizeMode = TabSizeMode.Normal;
-                    logOutToolStripMenuItem.Visible = true;
-                    HideLogin(username_box.Text);
-                    
-                    // Handle if the user is an admin:
-                    if (isAdmin)
-                    {
-                        tab_control.Controls.Add(vh_tab);
-                        tab_control.SelectedTab = vr_tab;           // Change the tab to View History
-                        administrationToolStripMenuItem.Visible = true;
-                    }
-                    // Handle if an employee:
-                    else if (!isAdmin)
-                    {
-                        tab_control.SelectedTab = ee_tab;
-                        tab_control.Controls.Remove(vh_tab);
-                    } 
-                    
-                    // This adds the login history of the user. 
-                    login.SetLoginHistory(username_box.Text, date);
-                }
-                else if (!exists)
-                {
-                    login_error_msg.Text = "User does not exist.";
-                    login_error_msg.Show();
-                    username_box.Clear();
-                    pass_box.Clear();
-                }
-                else if (!validPassword)
-                {
-                    login_error_msg.Text = "Invalid Password. Try Again.";
-                    login_error_msg.Show();
-                    pass_box.Clear();
-                }
-            }
-        }//end button4_Click
-
-        //=====================================================================
         // AUTHOR:  Karan Singh 
         // PURPOSE: This function confirms that the user wants to exit the 
         //          software after clicking the 'Exit' menu option.
@@ -268,37 +205,9 @@ namespace Project_Forms
         //=====================================================================
         private void LogoutClick(object sender, EventArgs e)
         {
-            ShowLogin();                                        // Show the login page
-            tab_control.SelectedTab = home_tab;                 // Return program to home 
-            logOutToolStripMenuItem.Visible = false;            // Hide 'Logout' Option
-            administrationToolStripMenuItem.Visible = false;    // Hide 'Administration'
-
-            // Hide all tabs:
-            tab_control.Appearance = TabAppearance.FlatButtons;
-            tab_control.ItemSize = new Size(0, 1);
-            tab_control.SizeMode = TabSizeMode.Fixed;
-            
-            // Reset the user details box:
-            home_user_details.Text = "Venture Business Management";
-
-            // Reset all the data grids:
-            vr_grid.DataSource = null;
-            vr_grid.Rows.Clear();
-            vh_grid.DataSource = null;
-            vh_grid.Rows.Clear();
-
+            this.Close();
         }//end logOutToolStripMenuItem
 
-        //=====================================================================
-        // AUTHOR:  Karan Singh 
-        // PURPOSE: To show the log out button only AFTER the user has logged in
-        // PARAMS:  None
-        //=====================================================================
-        private void label2_TextChanged(object sender, EventArgs e)
-        {
-            logOutToolStripMenuItem.Visible = true;             // Deprecated!
-        }
-        
 
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
@@ -396,7 +305,7 @@ namespace Project_Forms
                     DateTime date = Convert.ToDateTime(ee_date_picker.Value.ToShortDateString());
                     Control newdata = new Control();
 
-                    newdata.AddTransaction(expense, ee_category_list.Text, date, username_box.Text, ee_comment_box.Text);
+                    newdata.AddTransaction(expense, ee_category_list.Text, date, current_user, ee_comment_box.Text);
                     ee_category_list.SelectedIndex = -1;
                     ee_date_picker.Value = DateTime.Today;
                     ee_expense_input.Clear();
@@ -732,6 +641,159 @@ namespace Project_Forms
         {
             ee_success_message.Visible = false;
         }
+
+        //========================================================================
+        //                      !! DEPRECATED FUNCTIONS !!
+        //========================================================================
+        /*
         
+        //=====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: Hide the login page and displays a welcome message
+        // UPDATED: 11/12/2014 Deprecated since separate login form added.
+        //=====================================================================
+        private void HideLogin(string user)
+        {
+            username_label.Hide();
+            pass_label.Hide();
+            login_btn.Hide();
+            username_box.Hide();
+            pass_box.Hide();
+            welcome_msg.Text = "Welcome " + user + "!";
+            welcome_msg.Show();
+        }
+
+        //=====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: Shows the login form and hides the welcome message
+        // UPDATED: 11/12/2014 - Deprecated since separate login form was added.
+        //=====================================================================
+        private void ShowLogin()
+        {
+            username_label.Show();
+            pass_label.Show();
+            login_btn.Show();
+            username_box.Show();
+            pass_box.Show();
+            welcome_msg.Hide();
+            username_box.Clear();
+            pass_box.Clear();
+        }
+
+
+        //===================================================================== 
+        // Purpose: Button4 is the Select button. The event is meant to confirm 
+        //          the users identity by showing the users name in a text box 
+        //          and taking away the ability to change it using the dropdownlist.
+        //          The code also checks if the xml file exists or not by passing 
+        //          a call to the Control file.
+        // Inputs:  Label2.text/the selected username by the user or admin, as 
+        //          well as current date:date. 
+        // Updates: 11/12/2014 Deprecated upon adding separate login form. 
+        //=====================================================================
+        private void LoginClick(object sender, EventArgs e)
+        {
+            Control login = new Control();
+            Data userChecks = new Data();
+            var source = new AutoCompleteStringCollection();
+            login.CreateXMLs();
+            login_error_msg.Text = "";  
+                      
+            bool exists;                                // Check if user exists
+            bool validPassword;                         // Check if the password is valid
+            bool isAdmin = false;                       // Check if user is admin
+
+            errorProvider1.Clear();                     // Reset errorProvider1
+            errorProvider2.Clear();                     // Reset errorProvider2
+
+            // The following if/else statements perform the proper
+            // checks of the user's input to make sure they actually exist
+            // in the system, they have the proper username and password,
+            // and if they are an admin or not. 
+            if ((username_box.Text=="") && (pass_box.Text==""))
+            {
+                errorProvider1.SetError(username_box, "Username must be provided.");
+                errorProvider2.SetError(pass_box, "Password must be provided.");
+            }
+            else if ((username_box.Text== "") || (username_box.TextLength < 5))
+            {
+                errorProvider1.SetError(username_box, "Username must be provided.");
+            }
+            else if  ((pass_box.Text=="") || (pass_box.TextLength < 5))
+            {
+                errorProvider1.SetError(pass_box, "Password must be provided.");
+            }
+            else if (username_box.Text != "" && pass_box.Text != "")
+            {                 
+                // Perform the proper checks of the user. 
+                isAdmin = userChecks.CheckIfAdmin(username_box.Text);
+                exists = userChecks.CheckUserExistence(username_box.Text, isAdmin);
+                validPassword = userChecks.VerifyPassword(username_box.Text, pass_box.Text);
+
+                // Once everything is validated, we log the user 
+                // into the program, and show the appropriate
+                // data and buttons/labels for the specific users. 
+                if (exists && validPassword)
+                {
+                    // Update all the drop-down lists:
+                    RefreshDropdowns(); 
+                    current_user = username_box.Text;
+                    
+                    // Update the Home tab and save users Login History:
+                    home_user_details.Text = userChecks.FillInLoginInfo(username_box.Text, isAdmin);
+                    userChecks.UpdateLastLogin(username_box.Text, isAdmin); 
+                    
+                    // Make the tab controls visible:
+                    tab_control.Appearance = TabAppearance.Normal;
+                    tab_control.ItemSize =  new Size(20, 20);
+                    tab_control.SizeMode = TabSizeMode.Normal;
+                    logOutToolStripMenuItem.Visible = true;
+                    HideLogin(username_box.Text);
+                    
+                    // Handle if the user is an admin:
+                    if (isAdmin)
+                    {
+                        tab_control.Controls.Add(vh_tab);
+                        tab_control.SelectedTab = vr_tab;           // Change the tab to View History
+                        administrationToolStripMenuItem.Visible = true;
+                    }
+                    // Handle if an employee:
+                    else if (!isAdmin)
+                    {
+                        tab_control.SelectedTab = ee_tab;
+                        tab_control.Controls.Remove(vh_tab);
+                    } 
+                    
+                    // This adds the login history of the user. 
+                    login.SetLoginHistory(username_box.Text, date);
+                }
+                else if (!exists)
+                {
+                    login_error_msg.Text = "User does not exist.";
+                    login_error_msg.Show();
+                    username_box.Clear();
+                    pass_box.Clear();
+                }
+                else if (!validPassword)
+                {
+                    login_error_msg.Text = "Invalid Password. Try Again.";
+                    login_error_msg.Show();
+                    pass_box.Clear();
+                }
+            }
+        }//end button4_Click
+        
+        //=====================================================================
+        // AUTHOR:  Karan Singh 
+        // PURPOSE: To show the log out button only AFTER the user has logged in
+        // PARAMS:  None
+        //=====================================================================
+        private void label2_TextChanged(object sender, EventArgs e)
+        {
+            logOutToolStripMenuItem.Visible = true;             // Deprecated!
+        }
+        
+        */
+
     }
 }

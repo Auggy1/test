@@ -32,7 +32,7 @@ namespace Project_Forms
     
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Home());
+            Application.Run(new LoginForm());
 
         GC.KeepAlive(m);
     }

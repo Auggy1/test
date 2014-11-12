@@ -3,23 +3,11 @@
 <!--This user information will be stored under Username-->
 <Users>
   <User>
-    <Username>henry</Username>
-    <password>IsDFmROP25SA8xtsATQhPg==</password>
-    <firstName>Jeff</firstName>
-    <lastName>Henry</lastName>
-    <email>
-    </email>
-    <admin>false</admin>
-    <locked>false</locked>
-    <lastLogin>11/10/2014 11:36:25 AM</lastLogin>
-  </User>
-  <User>
     <Username>admin</Username>
     <password>IsDFmROP25SA8xtsATQhPg==</password>
     <firstName>Jeff</firstName>
     <lastName>Henry</lastName>
-    <email>
-    </email>
+    <email></email>
     <admin>false</admin>
     <locked>false</locked>
     <lastLogin>11/10/2014 10:44:43 AM</lastLogin>
