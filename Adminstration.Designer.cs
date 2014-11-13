@@ -132,7 +132,7 @@
             this.admin_user_dropdown.Name = "admin_user_dropdown";
             this.admin_user_dropdown.Size = new System.Drawing.Size(121, 21);
             this.admin_user_dropdown.TabIndex = 9;
-            this.admin_user_dropdown.SelectedIndexChanged += new System.EventHandler(this.admin_user_dropdown_SelectedIndexChanged);
+            this.admin_user_dropdown.SelectedIndexChanged += new System.EventHandler(this.UserSelectedFromDropdown);
             // 
             // admin_users_label
             // 
@@ -151,7 +151,7 @@
             this.admin_user_submit_btm.TabIndex = 6;
             this.admin_user_submit_btm.Text = "Submit Changes";
             this.admin_user_submit_btm.UseVisualStyleBackColor = true;
-            this.admin_user_submit_btm.Click += new System.EventHandler(this.button1_Click);
+            this.admin_user_submit_btm.Click += new System.EventHandler(this.SubmitClick);
             // 
             // lock_unlock_label
             // 
@@ -264,7 +264,7 @@
             this.button5.TabIndex = 9;
             this.button5.Text = "Submit";
             this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button5.Click += new System.EventHandler(this.RenameCategoryClick);
             // 
             // label9
             // 
@@ -309,7 +309,7 @@
             this.admin_cat_delete_btn.TabIndex = 2;
             this.admin_cat_delete_btn.Text = "Delete";
             this.admin_cat_delete_btn.UseVisualStyleBackColor = true;
-            this.admin_cat_delete_btn.Click += new System.EventHandler(this.button4_Click);
+            this.admin_cat_delete_btn.Click += new System.EventHandler(this.DeleteCategoryClick);
             // 
             // admin_cat_rename_btn
             // 
@@ -329,7 +329,7 @@
             this.admin_cat_add_btn.TabIndex = 0;
             this.admin_cat_add_btn.Text = "Add";
             this.admin_cat_add_btn.UseVisualStyleBackColor = true;
-            this.admin_cat_add_btn.Click += new System.EventHandler(this.button2_Click);
+            this.admin_cat_add_btn.Click += new System.EventHandler(this.AddCategoryClick);
             // 
             // menuStrip1
             // 

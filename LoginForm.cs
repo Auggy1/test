@@ -78,6 +78,7 @@ namespace Project_Forms
                     main_app.ShowDialog();
                     reset();
                     this.Show();
+                    username_box.Focus();
                 }
                 else if (!exists)
                 {

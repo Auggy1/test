@@ -23,10 +23,12 @@ namespace Project_Forms
         // Used to handle if a user ticks and reticks a checkbox:
         bool original_admin_attr = false;       
         bool original_locked_attr = false;
+        Control allcontrol;
 
-        public Adminstration()
+        public Adminstration(Control control)
         {
             InitializeComponent();
+            allcontrol = control;
             List<string> users_list = new List<string>();       // List to be used as Data Source for user dropdown
             List<string> cats_list = new List<string>();        // List to be used as Data Source for category dropdown
     
@@ -38,10 +40,7 @@ namespace Project_Forms
             label9.Hide();
             button5.Hide();
 
-            // We check that the appropriate XML's exist. 
-            Data checkExists = new Data();
-            
-            if (checkExists.CheckXMLExistence())
+            if (allcontrol.CheckXMLExistence())
             {
                 // Load in all XML documents to edit. 
                 XDocument userDoc = XDocument.Load(@"users.xml");
@@ -101,13 +100,12 @@ namespace Project_Forms
         // PARAMS:  A proper execution of administration form.  
         // UPDATED: 11/3/2014
         //=====================================================================
-        private void button1_Click(object sender, EventArgs e)
+        private void SubmitClick(object sender, EventArgs e)
         {
             Data functionCaller = new Data();
 
             string userToBeEdited = admin_user_dropdown.Text;
             user_admin_err_msg.Visible = false;
-            MessageBox.Show("Original lock value " + original_locked_attr + "\nCheckbox valud " + lock_unlock_chkbox);
             // This is a check to make sure they selected a user to edit. 
             if (admin_user_dropdown.Text == "")
             {
@@ -193,7 +191,7 @@ namespace Project_Forms
         //          category.xml.  
         // UPDATED: 11/3/2014
         //=====================================================================
-        private void button2_Click(object sender, EventArgs e)
+        private void AddCategoryClick(object sender, EventArgs e)
         {
             Data checkCat = new Data();
             bool exists = false;
@@ -209,7 +207,7 @@ namespace Project_Forms
                     Data functionCall = new Data();
                     string catToAdd = admin_new_cat_input.Text;
                     functionCall.AddCategory(catToAdd);
-                    refresh_dropdowns();
+                    RefreshDropdowns();
                     this.Refresh();
                     admin_new_cat_input.Text = "";
                 }
@@ -227,7 +225,7 @@ namespace Project_Forms
         // PURPOSE: Used to delete a category. 
         // UPDATED: 11/3/2014
         //=====================================================================
-        private void button4_Click(object sender, EventArgs e)
+        private void DeleteCategoryClick(object sender, EventArgs e)
         {
             if (admin_cat_dropdown.Text == "")
             {
@@ -241,7 +239,7 @@ namespace Project_Forms
                     Data functionCall = new Data();
                     string catToDelete = admin_cat_dropdown.Text;
                     functionCall.DeleteCategory(catToDelete);
-                    refresh_dropdowns();
+                    RefreshDropdowns();
                     this.Refresh();
                 }
             }
@@ -274,7 +272,7 @@ namespace Project_Forms
         // PURPOSE: Used to send the category to be renamed to the data.cs file. 
         // UPDATED: 11/3/2014
         //=====================================================================
-        private void button5_Click(object sender, EventArgs e)
+        private void RenameCategoryClick(object sender, EventArgs e)
         {
             if (textBox1.Text == "")
             {
@@ -285,7 +283,7 @@ namespace Project_Forms
                 Data functionCall = new Data();
                 string catToRename = admin_cat_dropdown.Text;
                 functionCall.RenameCategory(catToRename, textBox1.Text);
-                refresh_dropdowns();
+                RefreshDropdowns();
                 this.Refresh();
                 return;
             }
@@ -304,7 +302,7 @@ namespace Project_Forms
         // If the admin selects a user from the dropdown list, we need to check
         // if that user is an admin, so we can tick the Admin box or Locked box.
         //=====================================================================
-        private void admin_user_dropdown_SelectedIndexChanged(object sender, EventArgs e)
+        private void UserSelectedFromDropdown(object sender, EventArgs e)
         {
             Data functionCall = new Data();
             // Update the admin checkbox.
@@ -340,7 +338,7 @@ namespace Project_Forms
         //          categories.
         // UPDATED: 11/9/2014   Jeff Henry -    Initial creation
         //========================================================================
-        private void refresh_dropdowns()
+        private void RefreshDropdowns()
         {
             Data updates = new Data();
             // Clear all the lists first:

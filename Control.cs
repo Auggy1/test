@@ -77,6 +77,15 @@ namespace Project_Forms
 
         //====================================================================
         // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will return whether the XML files exist 
+        //====================================================================
+        public bool CheckXMLExistence()
+        {
+            return alldata.CheckXMLExistence();
+        }
+
+        //====================================================================
+        // AUTHOR:  Jeff Henry
         // PURPOSE: This function will return whether a user is an admin or not.
         //====================================================================
         public bool CheckIfAdmin(string user)

@@ -186,7 +186,7 @@ namespace Project_Forms
         //=====================================================================
         private void EditUserCategoryClick(object sender, EventArgs e)
         {
-            Adminstration administration = new Adminstration();
+            Adminstration administration = new Adminstration(control);
             administration.ShowDialog(); 
         }
 
@@ -313,12 +313,12 @@ namespace Project_Forms
 
                 if (vr_category_list.Text == "Mileage")
                 {
-                    vr_mileage_total.Text = control.GetTotalMileage(startDate, endDate).ToString() + " mi"; //display total for mileage only
+                    vr_mileage_total.Text = control.GetTotalMileage(startDate, endDate).ToString() + " mi"; 
                 }
                 else if (vr_category_list.Text == "All Categories")
                 {
-                    vr_mon_total.Text = "$" + exp_total.ToString("N02", ci);//Display the total correct format with commas
-                    vr_mileage_total.Text = control.GetTotalMileage(startDate, endDate).ToString("N0", ci) + " mi"; //display total for mileage only
+                    vr_mon_total.Text = "$" + exp_total.ToString("N02", ci);
+                    vr_mileage_total.Text = control.GetTotalMileage(startDate, endDate).ToString("N0", ci) + " mi"; 
                 }
                 else
                 {

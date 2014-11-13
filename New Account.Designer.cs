@@ -195,6 +195,7 @@
             this.na_email.Name = "na_email";
             this.na_email.Size = new System.Drawing.Size(167, 20);
             this.na_email.TabIndex = 4;
+            this.na_email.TextChanged += new System.EventHandler(this.EmailTextChange);
             // 
             // na_verifyemail
             // 
@@ -202,6 +203,7 @@
             this.na_verifyemail.Name = "na_verifyemail";
             this.na_verifyemail.Size = new System.Drawing.Size(167, 20);
             this.na_verifyemail.TabIndex = 5;
+            this.na_verifyemail.TextChanged += new System.EventHandler(this.VerifyEmailTextChange);
             // 
             // na_cancel_btn
             // 

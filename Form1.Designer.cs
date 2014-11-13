@@ -102,6 +102,7 @@
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider3 = new System.Windows.Forms.ErrorProvider(this.components);
             this.eventLog1 = new System.Diagnostics.EventLog();
+            this.admin_tab = new System.Windows.Forms.TabPage();
             this.menuStrip1.SuspendLayout();
             this.tab_control.SuspendLayout();
             this.home_tab.SuspendLayout();
@@ -230,6 +231,7 @@
             this.tab_control.Controls.Add(this.ee_tab);
             this.tab_control.Controls.Add(this.vr_tab);
             this.tab_control.Controls.Add(this.vh_tab);
+            this.tab_control.Controls.Add(this.admin_tab);
             this.tab_control.Location = new System.Drawing.Point(12, 27);
             this.tab_control.Name = "tab_control";
             this.tab_control.SelectedIndex = 0;
@@ -802,6 +804,16 @@
             // 
             this.eventLog1.SynchronizingObject = this;
             // 
+            // admin_tab
+            // 
+            this.admin_tab.Location = new System.Drawing.Point(4, 22);
+            this.admin_tab.Name = "admin_tab";
+            this.admin_tab.Padding = new System.Windows.Forms.Padding(3);
+            this.admin_tab.Size = new System.Drawing.Size(719, 367);
+            this.admin_tab.TabIndex = 4;
+            this.admin_tab.Text = "Administration";
+            this.admin_tab.UseVisualStyleBackColor = true;
+            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -917,5 +929,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn usersHeader;
         private System.Windows.Forms.DataGridViewTextBoxColumn commentsHeader;
         private System.Windows.Forms.Label ee_success_message;
+        private System.Windows.Forms.TabPage admin_tab;
     }
 }

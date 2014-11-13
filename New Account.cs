@@ -250,6 +250,36 @@ namespace Project_Forms
                 // Need to move to next character otherwise only one char can be entered.
                 na_lastname.Select(na_lastname.Text.Length, 0);
             }
+        }
+
+        //=====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will ignore whitespaces when a user enters an
+        //          email.
+        //=====================================================================
+        private void EmailTextChange(object sender, EventArgs e)
+        {
+            foreach (char c in na_email.Text.ToCharArray()){
+                if (char.IsWhiteSpace(c)){
+                    na_email.Text = na_email.Text.Remove(na_email.Text.Length - 1);
+                    na_email.Select(na_email.Text.Length, 0);
+                }
+            }
+        }
+
+        //=====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will ignore whitespaces when a user enters a
+        //          verification email.
+        //=====================================================================
+        private void VerifyEmailTextChange(object sender, EventArgs e)
+        {
+            foreach (char c in na_verifyemail.Text.ToCharArray()){
+                if (char.IsWhiteSpace(c)){
+                    na_verifyemail.Text = na_verifyemail.Text.Remove(na_verifyemail.Text.Length - 1);
+                    na_verifyemail.Select(na_verifyemail.Text.Length, 0);
+                }
+            }
         }//end
          
     }
