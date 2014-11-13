@@ -35,9 +35,10 @@ namespace Project_Forms
         //=====================================================================
         private void LoginBtnClick(object sender, EventArgs e)
         {
-            Control login = new Control();
-            Data user_checks = new Data();
-
+            Control allcontrol = new Control();
+            allcontrol.CreateXMLs();
+            allcontrol.LoadLists();
+            
             errorProvider1.Clear();
             errorProvider2.Clear();
             login_error_msg.Visible = false;
@@ -63,16 +64,16 @@ namespace Project_Forms
             }
             else
             {
-                bool admin = user_checks.CheckIfAdmin(username_box.Text);
-                bool exists = user_checks.CheckUserExistence(username_box.Text, admin);
-                bool validPass = user_checks.VerifyPassword(username_box.Text, password_box.Text);
+                bool admin = allcontrol.CheckIfAdmin(username_box.Text);
+                bool exists = allcontrol.CheckUserExistence(username_box.Text, admin);
+                bool validPass = allcontrol.VerifyPassword(username_box.Text, password_box.Text);
 
                 // If the user entered correct login information, we need to call the main 
                 // form and pass information such as who logged in, and if they are an
                 // administrator so we can determine what tabs and information should be shown.
                 if (exists && validPass)
                 {
-                    Home main_app = new Home(username_box.Text, admin);
+                    Home main_app = new Home(username_box.Text, admin, allcontrol);
                     this.Hide();
                     main_app.ShowDialog();
                     reset();

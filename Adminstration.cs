@@ -348,8 +348,8 @@ namespace Project_Forms
             admin_user_dropdown.DataSource = null;
 
             // Update the dropdowns with the new data:
-            admin_cat_dropdown.DataSource = updates.AddCategories();
-            admin_user_dropdown.DataSource = updates.GetUsers();
+            admin_cat_dropdown.DataSource = updates.GetCategories();
+            admin_user_dropdown.DataSource = updates.GetAllUsers();
         }
 
     }

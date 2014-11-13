@@ -15,8 +15,9 @@ namespace Project_Forms
     // PARAMS:  None
     // UPDATED: 11/10/2014  Jeff Henry - Refactoring and renamed functions
     // ========================================================================
-    class Control
+    public class Control
     {
+        public Data alldata = new Data();
         //=====================================================================
         // AUTHOR: Karan Singh
         // PURPOSE:Public string that gets a value and sets it so other forms can call it.
@@ -53,17 +54,135 @@ namespace Project_Forms
         //=====================================================================
         public void CreateXMLs()
         {
-            Data xml_creation = new Data();
-            if (!xml_creation.CheckXMLExistence())
+            if (!alldata.CheckXMLExistence())
             {
-                xml_creation.CreateTransactionXML();
-                xml_creation.CreateUserXML();
-                xml_creation.CreateCategoriesXML(); 
-                xml_creation.CreateAdminXML();
+                alldata.CreateTransactionXML();
+                alldata.CreateUserXML();
+                alldata.CreateCategoriesXML(); 
+                alldata.CreateAdminXML();
             }
         }//end createxmlfile
         //========================================================================
+        
+        //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: Retrieves all the information from the xml files and saves
+        //          it into the data lists.
+        //====================================================================
+        public void LoadLists()
+        {
+            alldata.LoadTransactionsFromXML();
+            alldata.LoadUsersFromXML();
+        }
 
+        //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will return whether a user is an admin or not.
+        //====================================================================
+        public bool CheckIfAdmin(string user)
+        {
+            return alldata.CheckIfAdmin(user);
+        }
+
+        //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will return whether a user exists or not
+        //====================================================================
+        public bool CheckUserExistence(string user, bool isAdmin)
+        {
+            return alldata.CheckUserExistence(user, isAdmin);
+        }
+
+        //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will return whether the password was valid.
+        //====================================================================
+        public bool VerifyPassword(string user, string pass)
+        {
+            return alldata.VerifyPassword(user, pass);
+        }
+        //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will fill in the login info upon a user 
+        //          successfully logging into the program.
+        //====================================================================
+        public string FillLoginInfo(string user, bool isAdmin)
+        {
+           return alldata.FillInLoginInfo(user, isAdmin);
+        }
+
+        //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will update the login of the user 
+        //====================================================================
+        public void UpdateUserLogin(string user, bool isAdmin)
+        {
+            alldata.UpdateLastLogin(user, isAdmin);
+        }
+
+        //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will fill the gridview in the main program
+        //====================================================================
+        public void FillGridSummary(DataGridView grid, string cat, ref decimal exp, ref decimal mil, DateTime start, DateTime end, string user)
+        {
+            alldata.FillGridSummaryView(grid, cat, ref exp, ref mil, start, end, user);
+        }
+
+        //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will fill the gridview in the main program
+        //====================================================================
+        public void FillGridDetailed(DataGridView grid, string cat, ref decimal exp, ref decimal mil, DateTime start, DateTime end, string user)
+        {
+            alldata.FillGridDetailView(grid, cat, ref exp, ref mil, start, end, user);
+        }
+
+        //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This will determine the mileage total within the date 
+        //          range of the calendars.
+        //====================================================================
+        public int GetTotalMileage(DateTime start, DateTime end)
+        {
+            return alldata.GetMileage(start, end);
+        }
+
+        //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will populate the grid view for the history.
+        //====================================================================
+        public void GetTransactionHistory(DataGridView grid, string user, string cat, DateTime start, DateTime end)
+        {
+            alldata.GetTransactionHistory(grid, user, cat, start, end);
+        }
+        
+        //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function returns a list of all the categories.
+        //====================================================================
+        public List<string> GetCategories()
+        {
+            return alldata.GetCategories();
+        }
+
+        //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function returns a list of all the categories.
+        //====================================================================
+        public List<string> GetAllCategories()
+        {
+            return alldata.GetAllCategories();
+        }
+
+        //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function returns a list of all the users.
+        //====================================================================
+        public List<string> GetAllUsers()
+        {
+            return alldata.GetAllUsers();
+        }
 
         //====================================================================
         // AUTHOR:  Karan Singh
@@ -75,46 +194,9 @@ namespace Project_Forms
         //=====================================================================
         public void AddTransaction(decimal expenditure, string category, DateTime date, string name, string comments)
         {
-            Data newtransaction = new Data();
-            newtransaction.AddTransaction(expenditure, category, date, name, comments);
+            alldata.AddTransaction(expenditure, category, date, name, comments);
         }//end addatransaction
         //=====================================================================
-
-        //========================================================================
-        // AUTHOR:  Karan Singh
-        // PURPOSE: Serves as a messenger to the Data class to tell it to log the 
-        //          current login activity 
-        // PARAMS:  Name, Date 
-        //========================================================================
-        public void SetLoginHistory(string name, DateTime date)
-        {
-            Data newtransaction = new Data();
-            //newtransaction.SetLoginHistory(name, date);
-        }
-        //========================================================================
-
-        //========================================================================
-        // AUTHOR:  Maxwell Partington & Ranier Limpiado 
-        // PURPOSE: Loads all of the users from xml files, after a user logins.  
-        //========================================================================
-        public List<string> GetUsers()
-        {
-            Data users = new Data();
-            return users.GetUsers();
-        }//end loadUserList
-        //========================================================================
-
-        //========================================================================
-        // AUTHOR:  Maxwell Partington & Ranier Limpiado 
-        // PURPOSE: THis function only load lists after a user logs into the application.
-        // PARAMS:  10/29/2014
-        //========================================================================
-        public List<string> GetCategories()
-        {
-            Data categories = new Data();
-            return categories.GetCategories();
-        }//end 
-        //========================================================================
 
         //========================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
@@ -127,8 +209,7 @@ namespace Project_Forms
         //========================================================================
         public string GrabHelpInfo(string nodeName)
         {
-            Data helpData = new Data();
-            return (helpData.GrabHelpInfo(nodeName)); 
+            return (alldata.GrabHelpInfo(nodeName)); 
         }//end 
         //========================================================================
 
@@ -142,8 +223,7 @@ namespace Project_Forms
         //========================================================================
         public int GetMileage(DateTime start, DateTime end)
         {
-            Data miles = new Data();
-            return miles.GetMileage(start, end);
+            return alldata.GetMileage(start, end);
         }//end 
         //========================================================================
 
@@ -157,11 +237,49 @@ namespace Project_Forms
         //========================================================================
         public void export(DataGridView gridview, string total, string mileage, string start, string end, string user)
         {
-            Data excel = new Data();
-            excel.ExportToExcel(gridview, total, mileage, start, end, user);
+            alldata.ExportToExcel(gridview, total, mileage, start, end, user);
         }//end
         //========================================================================
     }
     //========================================================================
+    // !! Deprecated Functions !!
+    //========================================================================
+    /*
+    //========================================================================
+    // AUTHOR:  Maxwell Partington & Ranier Limpiado 
+    // PURPOSE: Loads all of the users from xml files, after a user logins.  
+    //========================================================================
+    public List<string> GetUsers()
+    {
+        Data users = new Data();
+        return users.GetUsers();
+    }//end loadUserList
+    //========================================================================
+    
+    //========================================================================
+    // AUTHOR:  Karan Singh
+    // PURPOSE: Serves as a messenger to the Data class to tell it to log the 
+    //          current login activity 
+    // PARAMS:  Name, Date 
+    //========================================================================
+    public void SetLoginHistory(string name, DateTime date)
+    {
+        Data newtransaction = new Data();
+        //newtransaction.SetLoginHistory(name, date);
+    }
+    //========================================================================
+
+    
+    //========================================================================
+    // AUTHOR:  Maxwell Partington & Ranier Limpiado 
+    // PURPOSE: THis function only load lists after a user logs into the application.
+    // PARAMS:  10/29/2014
+    //========================================================================
+    public List<string> GetCategories()
+    {
+        return alldata.GetCategories();
+    }//end 
+    //========================================================================
+     */
 }//end control 
 //========================================================================

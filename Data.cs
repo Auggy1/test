@@ -97,10 +97,8 @@ namespace Project_Forms
     //          entry and pulling. 
     // PARAMS:  None
     //=========================================================================
-    class Data
+    public class Data
     {
-        int idnum = 0;  //global idnum so that all functions can see it
-      
         //=====================================================================
         // AUTHOR:  Jeff Henry
         // PURPOSE: These are the lists that will hold all information for the 
@@ -109,6 +107,78 @@ namespace Project_Forms
         //=====================================================================
         List<Transaction> transactions = new List<Transaction>();
         List<User> users = new List<User>();
+
+        //=====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will return a list of all users to be used for 
+        //          dropdown lists in the main program.
+        //=====================================================================
+        public List<string> GetAllUsers()
+        {
+            List<string> userlist = new List<string>();
+            foreach (var user in users)
+                userlist.Add(user.username);
+            return userlist;
+        }
+
+        //=====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will return a list of regular employees to be
+        //          used for dropdown lists in the main program.
+        //=====================================================================
+        public List<string> GetEmployeesOnly()
+        {
+            List<string> userlist = new List<string>();
+            foreach (var user in users)
+                if (!user.admin)
+                    userlist.Add(user.username);
+            return userlist;
+        }
+
+        //=====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will grab all users from the xml and will save
+        //          them to the users list.
+        //=====================================================================
+        public void LoadUsersFromXML()
+        {
+            if (CheckXMLExistence())
+            {
+                XmlDocument user_xml = new XmlDocument();
+                user_xml.Load("users.xml");
+                XmlNodeList user_list = user_xml.SelectNodes("/Users/User");
+                foreach (XmlNode node in user_list)
+                {
+                    User new_user = new User();
+                    new_user.username = node["username"].InnerText;
+                    new_user.firstname = node["firstName"].InnerText;
+                    new_user.lastname = node["lastName"].InnerText;
+                    new_user.password = node["password"].InnerText;
+                    new_user.email = node["email"].InnerText;
+                    new_user.admin = Convert.ToBoolean(node["admin"].InnerText);
+                    new_user.locked = Convert.ToBoolean(node["locked"].InnerText);
+                    new_user.lastLogin = Convert.ToDateTime(node["lastLogin"].InnerText);
+                    users.Add(new_user);
+                }
+
+                XmlDocument admin_xml = new XmlDocument();
+                admin_xml.Load("user_admin.xml");
+                XmlNodeList admin_list = admin_xml.SelectNodes("/Users/User");
+                foreach (XmlNode node in admin_list)
+                {
+                    User new_user = new User();
+                    new_user.username = node["username"].InnerText;
+                    new_user.firstname = node["firstName"].InnerText;
+                    new_user.lastname = node["lastName"].InnerText;
+                    new_user.password = node["password"].InnerText;
+                    new_user.email = node["email"].InnerText;
+                    new_user.admin = Convert.ToBoolean(node["admin"].InnerText);
+                    new_user.locked = Convert.ToBoolean(node["locked"].InnerText);
+                    new_user.lastLogin = Convert.ToDateTime(node["lastLogin"].InnerText);
+                    users.Add(new_user);
+                }
+            }
+        }
 
         //=====================================================================
         // AUTHOR:  Karan Singh
@@ -122,8 +192,7 @@ namespace Project_Forms
                 new XDeclaration("1.0", "utf-8", "yes"),
                 new XComment("This database will store transactions under <Transaction> label"),
                 new XElement("App_Records",
-                new XElement("All_Transactions"),
-                new XElement("Change_History", new XElement("DefaultID", 1)), new XElement("Login_History", new XElement("Default_login_id", 0))));
+                new XElement("All_Transactions")));
                 Database.Save(@"transactions.xml");
         }//end xmlCreate
         //=====================================================================
@@ -283,7 +352,7 @@ namespace Project_Forms
         //              appropriate xml file and removes them from the original.
         // PARAMETERS:  User to transfer and if the change is to the admin xml,
         //              Otherwise it will be moving an admin to the users.xml.
-        // UPDATED:     11/7/2014 - Added by Jeff Henry
+        // UPDATED:     11/7/2014 - Jeff Henry - Initial Creation
         //=====================================================================
         public void ChangeAuthorization(string user, bool toAdmin)
         {
@@ -299,7 +368,7 @@ namespace Project_Forms
 
                     // Parse through the xml for the user:
                     foreach (var User in users_xml.Document.Descendants("User")){
-                        if (User.Element("Username").Value == user){
+                        if (User.Element("username").Value == user){
                             if (User.Element("locked").Value == "True")
                                 locked = true;
                             // Move the user over to the users.xml
@@ -320,7 +389,7 @@ namespace Project_Forms
 
                     // Parse through the xml for the user:
                     foreach (var User in admins_xml.Document.Descendants("User")){
-                        if (User.Element("Username").Value == user){
+                        if (User.Element("username").Value == user){
                             if (User.Element("locked").Value == "True")
                                 locked = true;
                             // Move the user over to the admin.xml
@@ -362,7 +431,7 @@ namespace Project_Forms
             {
                 var doc = XDocument.Load("users.xml");
                 doc.Element("Users").Add(new XElement("User",
-                                         new XElement("Username", userToAdd), 
+                                         new XElement("username", userToAdd), 
                                          new XElement("password", userPassword), 
                                          new XElement("firstName", firstName), 
                                          new XElement("lastName", lastName), 
@@ -378,7 +447,7 @@ namespace Project_Forms
             {
                 var doc = XDocument.Load("user_admin.xml");
                 doc.Element("Users").Add(new XElement("User",
-                                         new XElement("Username", userToAdd), 
+                                         new XElement("username", userToAdd), 
                                          new XElement("password", userPassword), 
                                          new XElement("firstName", firstName), 
                                          new XElement("lastName", lastName), 
@@ -422,7 +491,7 @@ namespace Project_Forms
                 
                 foreach (var User in userDoc.Descendants("User"))
                 {
-                    if (userToDelete == User.Element("Username").Value)
+                    if (userToDelete == User.Element("username").Value)
                     {
                         User.Remove();
                         userDoc.Save(@"users.xml");
@@ -433,7 +502,7 @@ namespace Project_Forms
                 XDocument adminDoc = XDocument.Load(@"user_admin.xml");
                 foreach (var User in adminDoc.Descendants("User"))
                 {
-                    if (userToDelete == User.Element("Username").Value)
+                    if (userToDelete == User.Element("username").Value)
                     {
                         User.Remove();
                         adminDoc.Save(@"user_admin.xml");
@@ -457,13 +526,13 @@ namespace Project_Forms
         {
             if (CheckXMLExistence()){
                 XDocument userDoc = XDocument.Load(@"users.xml");
-                
                 // Handle if the user is being locked:
                 if (toBeLocked){
+                    users.First(user => user.username == userToLockUnlock).locked = true;
                     foreach (var User in userDoc.Descendants("User")){
-                        if (User.Element("Username").Value == userToLockUnlock)
+                        if (User.Element("username").Value == userToLockUnlock)
                         {
-                            User.Element("locked").Value = "True";
+                            User.Element("locked").Value = "true";
                             userDoc.Save(@"users.xml");
                             return;
                         }
@@ -472,10 +541,11 @@ namespace Project_Forms
                 
                 // Handle if the user to be unlocked:
                 if (!toBeLocked){
+                    users.First(user => user.username == userToLockUnlock).locked = false;
                     foreach (var User in userDoc.Descendants("User")){
-                        if (User.Element("Username").Value == userToLockUnlock)
+                        if (User.Element("username").Value == userToLockUnlock)
                         {
-                            User.Element("locked").Value = "False";
+                            User.Element("locked").Value = "false";
                             userDoc.Save(@"users.xml");
                             return;
                         }
@@ -495,9 +565,7 @@ namespace Project_Forms
         //=========================================================================
         public void AddCategory(string newCategory)
         {
-            Data checkExists = new Data();
-
-            if (checkExists.CheckXMLExistence())
+            if (CheckXMLExistence())
             {
                 XDocument userDoc = XDocument.Load(@"categories.xml");
                 userDoc.Element("All_Categories").Add(new XElement("Category", new XElement("categoryName", newCategory)));
@@ -518,10 +586,7 @@ namespace Project_Forms
         //=========================================================================
         public void DeleteCategory(string delCategory)
         {
-            Data checkExists = new Data();
-            bool exists = checkExists.CheckXMLExistence();
-
-            if (exists == true){
+            if (CheckXMLExistence()){
                 XDocument userDoc = XDocument.Load(@"categories.xml");
 
                 foreach (var Category in userDoc.Descendants("Category")){
@@ -547,9 +612,7 @@ namespace Project_Forms
         //=========================================================================
         public void RenameCategory(string catToRename, string newName)
         {
-            Data checkExists = new Data();
-
-            if (checkExists.CheckXMLExistence()){
+            if (CheckXMLExistence()){
                 XDocument userDoc = XDocument.Load(@"categories.xml");
 
                 foreach (var Category in userDoc.Descendants("Category")){
@@ -577,9 +640,7 @@ namespace Project_Forms
         //=====================================================================
         public bool CheckCategoryExistence(string catToCheck)
         {
-            Data checkExists = new Data();
-
-            if (checkExists.CheckXMLExistence()){
+            if (CheckXMLExistence()){
                 XDocument userDoc = XDocument.Load(@"categories.xml");
 
                 foreach (var Category in userDoc.Descendants("Category")){
@@ -605,31 +666,25 @@ namespace Project_Forms
         public bool VerifyPassword(string username, string password)
         {
             if (username == "admin" && password == "admin"){UpdateLastLogin("admin", true);return true;}
-            else if (username == "admin" && password != "admin"){MessageBox.Show("Incorrect login information.");return false;}
+            else if (username == "admin" && password != "admin"){return false;}
             else if (username != "admin")
             {
-                XmlDocument xml = new XmlDocument();
-                XmlDocument userXml = new XmlDocument();
-                xml.Load(@"user_admin.xml");
-                userXml.Load(@"users.xml");
                 if (CheckIfAdmin(username)){
-                    XmlNodeList list = xml.SelectNodes("/Users/User");
+                    XmlDocument admin_xml = new XmlDocument();
+                    admin_xml.Load(@"user_admin.xml");
+                    XmlNodeList list = admin_xml.SelectNodes("/Users/User");
                     foreach (XmlNode xn in list){
-                        if (xn["Username"].InnerText == username)
+                        if (xn["username"].InnerText == username)
                             if (Decrypt(xn["password"].InnerText, "password") == password){return true;}
                     }//end foreach
-
-                    XmlNodeList userList = userXml.SelectNodes("/Users/User");
-                    foreach (XmlNode xn in userList){
-                        if (xn["Username"].InnerText == username)
-                            if (Decrypt(xn["password"].InnerText, "password") == password){return true;}
-                    }//end foreach 
                 }//end if admin
 
                 else if (!CheckIfAdmin(username)){
+                    XmlDocument userXml = new XmlDocument();
+                    userXml.Load(@"users.xml");
                     XmlNodeList nonAdminList = userXml.SelectNodes("/Users/User");
                     foreach (XmlNode xn in nonAdminList){
-                        if (xn["Username"].InnerText == username)
+                        if (xn["username"].InnerText == username)
                             if (Decrypt(xn["password"].InnerText, "password") == password) { return true; }
                     }//end foreach
                 }
@@ -646,28 +701,12 @@ namespace Project_Forms
         // UPDATED: 11/10/2014  Jeff Henry - Refactoring
         //=====================================================================
         public bool CheckIfAdmin(string userName)
-        { 
-                XmlDocument xml = new XmlDocument();
-                
-                xml.Load("user_admin.xml");
-                XmlNodeList list = xml.SelectNodes("/Users/User");
-                foreach (XmlNode xn in list){
-                    if (xn["Username"].InnerText == userName){
-                        if (xn["admin"].InnerText == "true")
-                            return true;
-                    }
-                }//end foreach
+        {
+            foreach (var user in users)
+                if (user.username == userName)
+                    return (user.admin);
+            return false;
 
-                XmlDocument userXml = new XmlDocument();
-                userXml.Load("users.xml");
-                XmlNodeList userList = userXml.SelectNodes("/Users/User");
-                foreach (XmlNode xnode in userList){
-                    if (xnode["Username"].InnerText == userName){
-                        if (xnode["admin"].InnerText == "True")
-                            return true;
-                    }
-                }
-                return false;
         }//end checkAdmin
         //=====================================================================
 
@@ -680,67 +719,14 @@ namespace Project_Forms
         //=====================================================================
         public bool CheckIfLocked(string username)
         {
-            XDocument user_xml = XDocument.Load(@"users.xml");
-            foreach (var User in user_xml.Descendants("User")){
-                if (User.Element("Username").Value == username){
-                    if (User.Element("locked").Value == "True")
-                        return true;
-                }
-            }
+            foreach (var user in users)
+                if (user.username == username)
+                    return (user.locked);
             return false;
         }
-
+        
         //=====================================================================
-        // AUTHOR:      Maxwell Partington & Ranier Limpiado 
-        // PURPOSE:     This function is designed to load the users from the 
-        //              xml into a list
-        // PARAMETERS:  none
-        // UPDATED: 11/9/2014   Jeff Henry  - Refactoring
-        //=====================================================================
-        public List<string> GetUsers()
-        {
-            List<string> listOfUsers = new List<string>();
-            listOfUsers.Add(null);
-            listOfUsers[0] = "All Users"; // first item should be All Users
-            
-            XmlDocument admin_xml = new XmlDocument();
-            XmlDocument user_xml = new XmlDocument();
-            admin_xml.Load("user_admin.xml");
-            user_xml.Load("users.xml");
-
-            XmlNodeList list = admin_xml.SelectNodes("/Users/User");
-            foreach (XmlNode xn in list){listOfUsers.Add(xn["Username"].InnerText);}      
-            XmlNodeList list2 = user_xml.SelectNodes("/Users/User");
-            foreach (XmlNode xn in list2){
-                if (xn["Username"].InnerText != ""){listOfUsers.Add(xn["Username"].InnerText);}
-            }//end foreach
-            return listOfUsers;
-        }//end loadUsers
-        //=====================================================================
-
-        //=====================================================================
-        //=====================================================================
-        // AUTHOR:      Maxwell Partington & Ranier Limpiado 
-        // PURPOSE:     This function is designed to load the users from the 
-        //              xml into a list
-        // PARAMETERS:  none
-        // UPDATED:     11/3/2014
-        //=====================================================================
-        public List<string> GetCategories()
-        {
-            List<string> listOfCat = new List<string>();      
-            XmlDocument xml = new XmlDocument();
-            xml.Load("categories.xml");
-            XmlNodeList list = xml.SelectNodes("/All_Categories/Category");
-            foreach (XmlNode xn in list){
-                listOfCat.Add(xn["categoryName"].InnerText);
-            }
-
-            listOfCat.Sort();
-            listOfCat.Insert(0, "All Categories");
-            return listOfCat;
-        }//end loadCat
-        //=====================================================================
+        
 
 		//=====================================================================
         // AUTHOR:      Maxwell Partington & Ranier Limpiado 
@@ -751,6 +737,12 @@ namespace Project_Forms
         //=========================================================================
         public bool CheckUserExistence(string newUser, bool adminUser)
         {
+            foreach (var user in users)
+            {
+                if (user.username == newUser)return true;
+            }
+            return false;
+            /*
             if (adminUser)
             {
                 XmlDocument xml = new XmlDocument();
@@ -778,6 +770,7 @@ namespace Project_Forms
                 }//end foreach  
             }
             return false;
+           */
         }//end userExists
         //==========================================================================
 
@@ -1031,7 +1024,7 @@ namespace Project_Forms
         // PARAMETERS:  datagrid, user, category, start date, end date
         // UPDATED: 11/3/2014
         //=====================================================================
-        public void GetTransactionData(DataGridView datagrid, string user, string category, DateTime start, DateTime end)
+        public void GetTransactionHistory(DataGridView datagrid, string user, string category, DateTime start, DateTime end)
         {
             List<string> users = new List<string>();
             List<string> expenses = new List<string>();
@@ -1223,7 +1216,7 @@ namespace Project_Forms
                 XmlNodeList list = xml.SelectNodes("/Users/User");
                 foreach (XmlNode xn in list)
                 {
-                    if (xn["Username"].InnerText == user)
+                    if (xn["username"].InnerText == user)
                     {
                         return ("User: " + xn["firstName"].InnerText + " " + 
                                            xn["lastName"].InnerText + "\nLast login: "+ 
@@ -1239,7 +1232,7 @@ namespace Project_Forms
                 xml.Load("users.xml");
                 XmlNodeList list = xml.SelectNodes("/Users/User");
                 foreach (XmlNode xn in list){
-                    if (xn["Username"].InnerText == user){
+                    if (xn["username"].InnerText == user){
                         return ("User: " + xn["firstName"].InnerText + " " + 
                                            xn["lastName"].InnerText + "\nLast login: " + 
                                            xn["lastLogin"].InnerText + 
@@ -1266,7 +1259,7 @@ namespace Project_Forms
                 xml.Load("user_admin.xml");
                 XmlNodeList list = xml.SelectNodes("/Users/User");
                 foreach (XmlNode xn in list){
-                    if (xn["Username"].InnerText == user){
+                    if (xn["username"].InnerText == user){
                         xn["lastLogin"].InnerText = DateTime.Now.ToString();
                         xml.Save(@"user_admin.xml");
                     }
@@ -1280,7 +1273,7 @@ namespace Project_Forms
                 xml.Load("users.xml");
                 XmlNodeList list = xml.SelectNodes("/Users/User");
                 foreach (XmlNode xn in list){
-                    if (xn["Username"].InnerText == user){
+                    if (xn["username"].InnerText == user){
                         xn["lastLogin"].InnerText = DateTime.Now.ToString();
                         xml.Save(@"users.xml"); 
                     }
@@ -1386,7 +1379,7 @@ namespace Project_Forms
         // PARAMS:  None.  
         // UPDATED: 11/10/2014   Jeff Henry - Refactored
         //=====================================================================
-        public List<string> AddCategories()
+        public List<string> GetCategories()
         {
             List<string> categories = new List<string>();
             Data checkExists = new Data();
@@ -1411,7 +1404,7 @@ namespace Project_Forms
         // PARAMS:  None.  
         // UPDATED: 11/9/2014   
         //=====================================================================
-        public List<string> AddAllCategories()
+        public List<string> GetAllCategories()
         {
             List<string> cats = new List<string>();
             Data checkExists = new Data();
@@ -1547,7 +1540,57 @@ namespace Project_Forms
             }
         }//end editUser5
         //=========================================================================
+     
+        //=====================================================================
+        // AUTHOR:      Maxwell Partington & Ranier Limpiado 
+        // PURPOSE:     This function is designed to load the users from the 
+        //              xml into a list
+        // PARAMETERS:  none
+        // UPDATED: 11/9/2014   Jeff Henry  - Refactoring
+        //=====================================================================
+        public List<string> GetUsers()
+        {
+            List<string> listOfUsers = new List<string>();
+            listOfUsers.Add(null);
+            listOfUsers[0] = "All Users"; // first item should be All Users
+            
+            XmlDocument admin_xml = new XmlDocument();
+            XmlDocument user_xml = new XmlDocument();
+            admin_xml.Load("user_admin.xml");
+            user_xml.Load("users.xml");
 
+            XmlNodeList list = admin_xml.SelectNodes("/Users/User");
+            foreach (XmlNode xn in list){listOfUsers.Add(xn["Username"].InnerText);}      
+            XmlNodeList list2 = user_xml.SelectNodes("/Users/User");
+            foreach (XmlNode xn in list2){
+                if (xn["Username"].InnerText != ""){listOfUsers.Add(xn["Username"].InnerText);}
+            }//end foreach
+            return listOfUsers;
+        }//end loadUsers
+        //=====================================================================
+
+        //=====================================================================
+        // AUTHOR:      Maxwell Partington & Ranier Limpiado 
+        // PURPOSE:     This function is designed to load the categories from the 
+        //              xml into a list
+        // PARAMETERS:  none
+        // UPDATED:     11/3/2014
+        //=====================================================================
+        public List<string> GetCategories()
+        {
+            List<string> listOfCat = new List<string>();      
+            XmlDocument xml = new XmlDocument();
+            xml.Load("categories.xml");
+            XmlNodeList list = xml.SelectNodes("/All_Categories/Category");
+            foreach (XmlNode xn in list){
+                listOfCat.Add(xn["categoryName"].InnerText);
+            }
+
+            listOfCat.Sort();
+            listOfCat.Insert(0, "All Categories");
+            return listOfCat;
+        }//end loadCat
+        //=====================================================================
       
     */
 }//end

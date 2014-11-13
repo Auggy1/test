@@ -31,56 +31,11 @@ namespace Project_Forms
     {
         DateTime date;// public datetime variable to transfer date between functions
         string current_user = "";
-
-        //==========================================================
-        // PURPOSE: This is the main function of the program. It
-        //          is what holds the intialization of the application
-        //          and shows/hides all of the appropriate functions
-        //          upon login/logout of both types of users. 
-        // PARAMS:  None. 
-        // UPDATED: 11/3/14
-        //==========================================================
+        Control control;
+        
         public Home()
         {
             InitializeComponent();
-            Data initialization = new Data();
-            
-            //The already initialized logout button under file is not visible to the user initially
-            logOutToolStripMenuItem.Visible = false;
-            ee_category_list.SelectedIndex = -1;
-            vr_category_list.SelectedIndex = -1;
-            vh_category_list.SelectedIndex = -1;
-            vh_user_list.SelectedIndex = -1;
-
-            /*************************************** Date and Time Displays *******************************************/
-            ee_date_picker.MaxDate = DateTime.Now;                  // Enter Expense date picker
-            vr_end_date_picker.MaxDate = DateTime.Now;              // View Reports start date picker
-            vr_start_date_picker.MaxDate = DateTime.Now;            // View Reports end date picker
-            vh_end_date_picker.MaxDate = DateTime.Now;              // View History start date picker
-            vh_start_date_picker.MaxDate = DateTime.Now;            // View History end date picker
-            date_label.Text = DateTime.Now.ToString("MM/dd/yyyy");  // Month/date/year format for program date display
-            time_stamp.Text = DateTime.Now.ToString("HH:mm:ss tt"); // Time stamp
-            date = DateTime.UtcNow.Date;
-
-            System.Timers.Timer clk_timer = new System.Timers.Timer(1);     // Create a new timer
-            clk_timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);     // Call OnTimedEvent with each tick
-            clk_timer.Enabled = true;
-            clk_timer.Start();
-
-            /****************************************** Hidden labels/tabs ********************************************/
-            welcome_msg.Hide();                                     // Hide the welcome message
-            expense_error_msg.Hide();                               // Hide the expense error message.
-            administrationToolStripMenuItem.Visible = false;        // Hide the administration menu
-            tab_control.Controls.Remove(vh_tab);                    // Remove the view history tab
-            vr_report_label.Hide();                                 // Hides the view report label
-            this.vh_grid.Rows.Clear();                              // Clears the vh grid
-            this.vr_grid.Rows.Clear();                              // Clears the vr grid
-
-            // Hide the tabs so that only the home tab is useable:
-            tab_control.Appearance = TabAppearance.FlatButtons;
-            tab_control.ItemSize = new Size(0, 1); 
-            tab_control.SizeMode = TabSizeMode.Fixed;
-            var source0 = new AutoCompleteStringCollection();
 
         }// end home
 
@@ -91,11 +46,11 @@ namespace Project_Forms
         //          the username and administrator boolean form the login form.
         // PARAMS:  string username, bool isadmin
         //=====================================================================
-        public Home(string user, bool is_admin)
+        public Home(string user, bool is_admin, Control allcontrol)
         {
             InitializeComponent();
-            Data userChecks = new Data();
-           
+            control = allcontrol;
+
             ee_category_list.SelectedIndex = -1;
             vr_category_list.SelectedIndex = -1;
             vh_category_list.SelectedIndex = -1;
@@ -129,8 +84,8 @@ namespace Project_Forms
             current_user = user;
 
             // Update the Home tab and save users Login History:
-            home_user_details.Text = userChecks.FillInLoginInfo(user, is_admin);
-            userChecks.UpdateLastLogin(user, is_admin);
+            home_user_details.Text = control.FillLoginInfo(user, is_admin);
+            control.UpdateUserLogin(user, is_admin);
 
             // Make the tab controls visible:
             tab_control.Appearance = TabAppearance.Normal;
@@ -305,9 +260,8 @@ namespace Project_Forms
                 {
                     decimal expense = Convert.ToDecimal(ee_expense_input.Text);
                     DateTime date = Convert.ToDateTime(ee_date_picker.Value.ToShortDateString());
-                    Control newdata = new Control();
-
-                    newdata.AddTransaction(expense, ee_category_list.Text, date, current_user, ee_comment_box.Text);
+                    
+                    control.AddTransaction(expense, ee_category_list.Text, date, current_user, ee_comment_box.Text);
                     ee_category_list.SelectedIndex = -1;
                     ee_date_picker.Value = DateTime.Today;
                     ee_expense_input.Clear();
@@ -350,23 +304,21 @@ namespace Project_Forms
                 decimal mil_total = 0;                                          // Total mileage
                 DateTime startDate = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());    // Grab the start date
                 DateTime endDate = Convert.ToDateTime(vr_end_date_picker.Value.ToShortDateString());        // Grab the end date
-                Data reports = new Data();
-                Control loadData = new Control();
-
+               
                 // Fill the grid view with summary report:
-                reports.FillGridSummaryView(this.vr_grid, vr_category_list.Text, ref exp_total, ref mil_total, startDate, endDate, current_user);
+                control.FillGridSummary(this.vr_grid, vr_category_list.Text, ref exp_total, ref mil_total, startDate, endDate, current_user);
                 
                 vr_report_label.Text = vr_category_list.Text + " Report";       // Display the appropriate title for the report.
                 vr_report_label.Show();                                         // Show the new title.
 
                 if (vr_category_list.Text == "Mileage")
                 {
-                    vr_mileage_total.Text = loadData.GetMileage(startDate, endDate).ToString() + " mi"; //display total for mileage only
+                    vr_mileage_total.Text = control.GetTotalMileage(startDate, endDate).ToString() + " mi"; //display total for mileage only
                 }
                 else if (vr_category_list.Text == "All Categories")
                 {
                     vr_mon_total.Text = "$" + exp_total.ToString("N02", ci);//Display the total correct format with commas
-                    vr_mileage_total.Text = loadData.GetMileage(startDate, endDate).ToString("N0", ci) + " mi"; //display total for mileage only
+                    vr_mileage_total.Text = control.GetTotalMileage(startDate, endDate).ToString("N0", ci) + " mi"; //display total for mileage only
                 }
                 else
                 {
@@ -406,20 +358,17 @@ namespace Project_Forms
                 DateTime startDate = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());
                 DateTime endDate = Convert.ToDateTime(vr_end_date_picker.Value.ToShortDateString());
 
-                Data reports = new Data();
-                Control loadData = new Control();
-
                 // Fill the data grid with detailed info:
-                reports.FillGridDetailView(this.vr_grid, vr_category_list.Text, ref exp_total, ref mil_total, startDate, endDate, current_user);
+                control.FillGridDetailed(this.vr_grid, vr_category_list.Text, ref exp_total, ref mil_total, startDate, endDate, current_user);
 
                 if (vr_category_list.Text == "Mileage")
                 {
-                    vr_mileage_total.Text = loadData.GetMileage(startDate, endDate).ToString(); //display total for mileage only
+                    vr_mileage_total.Text = control.GetTotalMileage(startDate, endDate).ToString(); //display total for mileage only
                 }
                 else if (vr_category_list.Text == "All Categories")
                 {
                     vr_mon_total.Text = "$" + exp_total.ToString("N02", ci);//Display the total correct format with commas
-                    vr_mileage_total.Text = loadData.GetMileage(startDate, endDate).ToString("N0", ci) + " mi"; //display total for mileage only
+                    vr_mileage_total.Text = control.GetTotalMileage(startDate, endDate).ToString("N0", ci) + " mi"; //display total for mileage only
                 }
                 else
                 {
@@ -449,8 +398,6 @@ namespace Project_Forms
             DateTime startDate = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());
             DateTime endDate = Convert.ToDateTime(vr_end_date_picker.Value.ToShortDateString());
 
-            Data history = new Data();
-
             //make sure that ALL the fields are filled in and also that the user does not pick an end date earlier than the start date
             if (vh_user_list.Text == "" || vh_category_list.Text == "") 
             {
@@ -473,7 +420,7 @@ namespace Project_Forms
             }
             else
             {
-                history.GetTransactionData(this.vh_grid, vh_user_list.Text, vh_category_list.Text, startDate, endDate);
+                control.GetTransactionHistory(this.vh_grid, vh_user_list.Text, vh_category_list.Text, startDate, endDate);
             }
 
             
@@ -494,8 +441,7 @@ namespace Project_Forms
                 string end = this.vr_grid.Rows[vr_grid.Rows.Count - 1].Cells[0].Value.ToString();
                 string user = current_user;
 
-                Control excel = new Control();
-                excel.export(this.vr_grid, vr_mon_total.Text, vr_mileage_total.Text,start,end,user);
+                control.export(this.vr_grid, vr_mon_total.Text, vr_mileage_total.Text,start,end,user);
             }
         }//end 
 
@@ -614,7 +560,6 @@ namespace Project_Forms
         //========================================================================
         private void RefreshDropdowns()
         {
-            Data updates = new Data();
             // Clear all the lists first:
             ee_category_list.DataSource = null;
             vr_category_list.DataSource = null;
@@ -622,10 +567,10 @@ namespace Project_Forms
             vh_user_list.DataSource = null;
 
             // Update the lists:
-            ee_category_list.DataSource = updates.AddCategories();
-            vr_category_list.DataSource = updates.AddAllCategories();
-            vh_category_list.DataSource = updates.AddAllCategories();
-            vh_user_list.DataSource = updates.GetUsers();
+            ee_category_list.DataSource = control.GetCategories();
+            vr_category_list.DataSource = control.GetAllCategories();
+            vh_category_list.DataSource = control.GetAllCategories();
+            vh_user_list.DataSource = control.GetAllUsers();
             
             // Reset the indices:
             ee_category_list.SelectedIndex = -1;
