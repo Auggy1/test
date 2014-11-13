@@ -153,7 +153,7 @@ namespace Project_Forms
             // This is a check to see if the administrator wants to delete a user. 
             else if ((admin_user_dropdown.Text != "") && (delete_chkbox.Checked))
             {
-                functionCaller.DeleteUser(userToBeEdited);
+                functionCaller.DeleteUserFromXML(userToBeEdited);
                 delete_chkbox.Checked = false;
                 user_admin_err_msg.Text = userToBeEdited + " has been deleted.";
                 user_admin_err_msg.Show();

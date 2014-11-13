@@ -77,7 +77,6 @@ namespace Project_Forms
         {
             Data newtransaction = new Data();
             newtransaction.AddTransaction(expenditure, category, date, name, comments);
-            newtransaction.UpdateTransactionHistory(date, name);
         }//end addatransaction
         //=====================================================================
 
@@ -90,7 +89,7 @@ namespace Project_Forms
         public void SetLoginHistory(string name, DateTime date)
         {
             Data newtransaction = new Data();
-            newtransaction.SetLoginHistory(name, date);
+            //newtransaction.SetLoginHistory(name, date);
         }
         //========================================================================
 

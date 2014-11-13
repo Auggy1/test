@@ -22,20 +22,73 @@ using System.Security.Cryptography;
 namespace Project_Forms
 {
     //=========================================================================
-    // AUTHOR:  Michelle Jaro
-    // PURPOSE: A simple class of string and datetime variables to be 
-    //          passed to the control under certain conditions
+    // AUTHOR: Michelle Jaro & Jeff Henry
+    // PURPOSE: This is a class declaration for transactions. All information 
+    //          relevant to a transaction will be saved into a Transaction object
+    //          and added to a list, to be used with other functions.
     // PARAMS:  None
     //=========================================================================
     public class Transaction
     {
-        public DateTime Date { get; set; }
-        public string Category { get; set; }
-        public string Expense { get; set; }
-        public string AddedBy { get; set; }
+        public string username { get; set; }
+        public decimal expenditure { get; set; }
+        public string comments { get; set; }
+        public string category { get; set; }
+        public DateTime dateEntered { get; set; }
+
+        public Transaction()
+        {
+            username = comments = category = null;
+            expenditure = 0.00m;
+            dateEntered = DateTime.Now;
+        }
+
+        public Transaction(string user, decimal exp, string cmmt, string cat, DateTime date)
+        {
+            username = user;
+            expenditure = exp;
+            comments = cmmt;
+            category = cat;
+            dateEntered = date;
+        }
     }//end transaction class
     //=========================================================================
 
+    //=========================================================================
+    // AUTHOR:  Jeff Henry
+    // PURPOSE: This class will hold all information on a particular user.
+    //=========================================================================
+    public class User
+    {
+        public string username { get; set; }
+        public string firstname { get; set; }
+        public string lastname { get; set; }
+        public string password { get; set; }
+        public string email { get; set; }
+        public bool admin { get; set; }
+        public bool locked { get; set; }
+        public DateTime lastLogin { get; set; }
+
+        public User()
+        {
+            username = firstname = lastname = password = email = null;
+            admin = locked = false;
+            lastLogin = DateTime.Now;
+        }
+
+        public User(string user, string fname, string lname, string pass, string mail, bool isAdmin, bool isLocked, DateTime login)
+        {
+            username = user;
+            firstname = fname;
+            lastname = lname;
+            password = pass;
+            email = mail;
+            admin = isAdmin;
+            locked = isLocked;
+            lastLogin = login;
+        }
+    }//end user class
+    //=========================================================================
 
     //=========================================================================
     // PURPOSE: The Data class is the only class capable of reading, writing, 
@@ -49,16 +102,13 @@ namespace Project_Forms
         int idnum = 0;  //global idnum so that all functions can see it
       
         //=====================================================================
-        // AUTHOR:  Karan Singh
-        // PURPOSE: Various lists that are used to story the values recieved from reading the XML in the
-        //          load_name function. 
-        // PARAMS:  None
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: These are the lists that will hold all information for the 
+        //          control funtions to interact with, modify, or return to the
+        //          main program.
         //=====================================================================
-        List<string> names = new List<string>();
-        List<DateTime> newdates = new List<DateTime>();
-        List<string> newnames = new List<string>();
-        List<string> newcat = new List<string>();
-
+        List<Transaction> transactions = new List<Transaction>();
+        List<User> users = new List<User>();
 
         //=====================================================================
         // AUTHOR:  Karan Singh
@@ -71,7 +121,6 @@ namespace Project_Forms
                 new XDocument(
                 new XDeclaration("1.0", "utf-8", "yes"),
                 new XComment("This database will store transactions under <Transaction> label"),
-                new XComment("This transaction history will be stored under History_Username"),
                 new XElement("App_Records",
                 new XElement("All_Transactions"),
                 new XElement("Change_History", new XElement("DefaultID", 1)), new XElement("Login_History", new XElement("Default_login_id", 0))));
@@ -147,33 +196,56 @@ namespace Project_Forms
             new XComment("This database will store transactions under <User> label"),
             new XComment("This user information will be stored under Username"),
             new XElement("Users", new XElement("User",
-                                         new XElement("Username", "admin"),
-                                         new XElement("password", "admin"),
-                                         new XElement("firstName", "admin"),
-                                         new XElement("lastName", "admin"),
-                                         new XElement("email", "admin@vbm.com"),
-                                         new XElement("admin", true),
-                                         new XElement("locked", false),
-                                         new XElement("lastLogin", DateTime.Now.ToString()))));
+                                  new XElement("username", "admin"),
+                                  new XElement("password", "admin"),
+                                  new XElement("firstName", "admin"),
+                                  new XElement("lastName", "admin"),
+                                  new XElement("email", "admin@vbm.com"),
+                                  new XElement("admin", true),
+                                  new XElement("locked", false),
+                                  new XElement("lastLogin", DateTime.Now.ToString()))));
             Database.Save(@"user_admin.xml");
         }//end userAmdminXml
         //=====================================================================
 
         //=====================================================================
-        // AUTHOR:  Karan Singh
-        // PURPOSE: Goes to the location of the xml file to check if it exists. Boolean.
+        // AUTHOR:  Karan Singh & Jeff Henry (Refactored)
+        // PURPOSE: Goes to the location of the xml file to check if it exists. 
         // OUTPUT:  true : if the file exists
         // PARAMS:  None
         //=====================================================================
         public bool CheckXMLExistence()
         {
-            if (File.Exists(@"transactions.xml") && File.Exists(@"users.xml") 
-                && File.Exists(@"categories.xml") && File.Exists(@"user_admin.xml"))
-                {return true;}
-            else
-                return false;
+            return File.Exists(@"transactions.xml") && File.Exists(@"users.xml")
+                && File.Exists(@"categories.xml") && File.Exists(@"user_admin.xml");
+                
         }//end xmlCheck
         //=====================================================================
+
+        //=====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will load all the transactions from the xml
+        //          file and save them to the transactions list to be used in
+        //          other functions.
+        // UPDATED: 11/12/2014 - Jeff Henry - Initial Creation
+        //=====================================================================
+        public void LoadTransactionsFromXML()
+        {
+            XmlDocument xml = new XmlDocument();
+            xml.Load("transactions.xml");
+            XmlNodeList list = xml.SelectNodes("/App_Records/All_Transactions/Transaction");
+
+            foreach (XmlNode node in list)
+            {
+                Transaction new_trans = new Transaction();
+                new_trans.username = node["Added_By"].InnerText;
+                new_trans.expenditure = Convert.ToDecimal(node["Expenditure"].InnerText);
+                new_trans.comments = node["Comments"].InnerText;
+                new_trans.category = node["Category"].InnerText;
+                new_trans.dateEntered = Convert.ToDateTime(node["Date"].InnerText);
+                transactions.Add(new_trans);
+            }
+        }
 
         //=====================================================================
         // By:      Karan Singh
@@ -183,118 +255,27 @@ namespace Project_Forms
         //          default id afterwards for future use.
         // PARAMS:  Expense, category, date, name
         // UPDATED: Ranier Limpiado - Added comments for transactions
+        //          Jeff Henry - Removed Unused id values, saves transaction to list.
         //=====================================================================
         public void AddTransaction(decimal expenditure, string category, DateTime date, string name, string comments)
         {
-            int id = 1;
-            XDocument get_id = XDocument.Load("transactions.xml");
-
-            var ids = from id1 in get_id.Descendants("Change_History")
-                      select new { id = id1.Element("DefaultID").Value };
-
-            foreach (var id1 in ids){id = Convert.ToInt32(id1.id);}
-
-            // Update the global id number.
-            idnum = id; 
-
+            // Update the transactions xml
             var doc = XDocument.Load("transactions.xml");
             doc.Element("App_Records").Element("All_Transactions").Add(new XElement("Transaction",
                                       new XElement("Added_By", name),
-                                      new XAttribute("Id", id),
                                       new XElement("Expenditure", expenditure),
                                       new XElement("Comments", comments), 
                                       new XElement("Category", category),
                                       new XElement("Date", date)));
-            doc.Element("App_Records").Element("Change_History").Element("DefaultID").SetValue(id++);
             doc.Save(@"transactions.xml");
+            
+            // Update the list:
+            Transaction new_trans = new Transaction(name, expenditure, comments, category, date);
+            transactions.Add(new_trans);
 
         }//end add_transaction
         //=====================================================================
-
-        //=====================================================================
-        // AUTHOR:  Maxwell Partington & Ranier Limpiado  10/24/2014
-        // PURPOSE: To make populate the transaction xml
-        // PARAMS:  expenditure, category, date, name of user, and comments
-        // UPDATED: Ranier Limpiado - Accepts comments on expenditures now.
-        //=====================================================================
-        public void add_detailed(decimal expenditure, string category, DateTime date, string name, string comments)
-        {
-            var doc = XDocument.Load("detailed_transaction.xml");
-            doc.Element("All_Transactions").Add(new XElement("Transaction",
-                                     new XElement("Added_By", name),
-                                     new XElement("Expenditure", expenditure),
-                                     new XElement("Comments", comments), 
-                                     new XElement("Category", category),
-                                     new XElement("Date", date)));
-            doc.Save(@"detailed_transaction.xml");
-        }//end add_detailed
-        //=====================================================================
-
-        //=====================================================================
-        // AUTHOR:  Karan Singh
-        // PURPOSE: Add history of the transaction made to keep track of all 
-        //          changes made to the "database". 
-        // PARAMS:  Date, name
-        //=====================================================================
-        public void UpdateTransactionHistory(DateTime date, string user)
-        {
-            var doc = XDocument.Load("transactions.xml");
-            doc.Element("App_Records").Element("Change_History").Add(new XElement("Record", new XAttribute("ChangeID", idnum),
-                                     new XElement("Transaction_Date", date), new XElement("Adding_user", user)));
-            doc.Save(@"transactions.xml");
-        }//end add_history
-        //=====================================================================
-
-        //=====================================================================
-        // AUTHOR:  Karan Singh
-        // PURPOSE: Add login history as called by the control so that the last
-        //          date is easier to access 
-        // PARAMS:  Date, username
-        //=====================================================================
-        public void SetLoginHistory(string username, DateTime date)
-        {
-            int id = 1;
-            XDocument get_id = XDocument.Load("transactions.xml");
-            var ids = from id1 in get_id.Descendants("Login_History")
-                      select new{id = id1.Element("Default_login_id").Value};
-            foreach (var id1 in ids){id = Convert.ToInt32(id1.id);}//end foreach
-
-            id++;
-            var doc = XDocument.Load(@"transactions.xml");
-            doc.Element("App_Records").Element("Login_History").Add(new XElement("Log", new XAttribute("id", id), new XElement("User", username), new XElement("last_login", date)));
-            doc.Element("App_Records").Element("Login_History").Element("Default_login_id").SetValue(id);
-            doc.Save(@"transactions.xml");
-        }//end add_login_history
-        //=====================================================================
-
-        //=====================================================================
-        // AUTHOR:  Karan Singh
-        // PURPOSE: Simply gets the default id of the transaction for the use of a function or another method. 
-        // PARAMS:  None
-        //=====================================================================
-        public void getdefaultid()
-        {
-            int id = 1;
-            XDocument get_id = XDocument.Load("transactions.xml");
-            var ids = from id1 in get_id.Descendants("Change_History")
-                      select new{id = id1.Element("DefaultID").Value};
-            foreach (var id1 in ids){id = Convert.ToInt32(id1.id);}
-
-            //update global id number according to read value
-            idnum = id;
-        }//end getdefaultid
-        //=====================================================================
         
-        //=====================================================================
-        // AUTHOR:  Karan Singh
-        // PURPOSE: List and list function of datetime that allows for the login
-        //          history to be read and transfered
-        //          to the Control class.
-        // PARAMS:  Name
-        //=====================================================================
-        List<DateTime> dates = new List<DateTime>();
-        public List<DateTime> login { get; set; }
-
         //=====================================================================
         // AUTHOR:      Jeff Henry
         // PURPOSE:     If an administrator chooses to change a user to admin 
@@ -306,10 +287,9 @@ namespace Project_Forms
         //=====================================================================
         public void ChangeAuthorization(string user, bool toAdmin)
         {
-            bool locked = false; 
-            Data checkExists = new Data();
+            bool locked = false;
 
-            if (checkExists.CheckXMLExistence())
+            if (CheckXMLExistence())
             {
                 // If being transferred to admin.xml, open the users.xml and save
                 // the info to transfer then delete the user from the users.xml
@@ -318,18 +298,16 @@ namespace Project_Forms
                     XDocument users_xml = XDocument.Load(@"users.xml");
 
                     // Parse through the xml for the user:
-                    foreach (var User in users_xml.Document.Descendants("User"))
-                    {
-                        if (User.Element("Username").Value == user)
-                        {
+                    foreach (var User in users_xml.Document.Descendants("User")){
+                        if (User.Element("Username").Value == user){
                             if (User.Element("locked").Value == "True")
                                 locked = true;
                             // Move the user over to the users.xml
                             AddNewUser(user, User.Element("password").Value,
                                        toAdmin, User.Element("firstName").Value,
                                        User.Element("lastName").Value,
-                                       User.Element("email").Value, 
-                                       User.Element("lastLogin").Value, locked);
+                                       User.Element("email").Value,
+                                       locked);
                             User.Remove();
                             users_xml.Save(@"users.xml");
                             return;
@@ -341,10 +319,8 @@ namespace Project_Forms
                     XDocument admins_xml = XDocument.Load(@"user_admin.xml");
 
                     // Parse through the xml for the user:
-                    foreach (var User in admins_xml.Document.Descendants("User"))
-                    {
-                        if (User.Element("Username").Value == user)
-                        {
+                    foreach (var User in admins_xml.Document.Descendants("User")){
+                        if (User.Element("Username").Value == user){
                             if (User.Element("locked").Value == "True")
                                 locked = true;
                             // Move the user over to the admin.xml
@@ -352,7 +328,7 @@ namespace Project_Forms
                                        toAdmin, User.Element("firstName").Value,
                                        User.Element("lastName").Value,
                                        User.Element("email").Value,
-                                       User.Element("lastLogin").Value, locked);
+                                       locked);
                             User.Remove();
                             admins_xml.Save(@"user_admin.xml");
                             return;
@@ -372,44 +348,28 @@ namespace Project_Forms
         // UPDATED:     11/7/2014 - Jeff Henry - Modified parameters to allow 
         //                          more function use.
         //=====================================================================
-        public void AddNewUser(string userToAdd, string userPassword, bool userAdmin, string firstName, string lastName, string email, string login, bool isLocked)
+        public void AddNewUser(string userToAdd, string userPassword, bool userAdmin, string firstName, string lastName, string email, bool isLocked)
         {
-            string password = userPassword;
-            string user = userToAdd;
-            bool admin = userAdmin;
-            bool locked = isLocked;
-            string fname = firstName;
-            string lname = lastName;
-            string uEmail = email;
-            string lastLogin;
-            if (login == "ignore")
-                lastLogin = "Hello! This is your first login!";
-            else
-                lastLogin = login;
-
             // Load the XML document
             var docu = XDocument.Load(@"users.xml");
 
             // This performs encryption on all name elements
             var nameElements = docu.Descendants("password").ToList();
             foreach (var nameElement in nameElements)
-            {
                 nameElement.Value = new string(nameElement.Value.Reverse().ToArray());
-       
-            }//end foreach
-           
+
             if (!userAdmin) //add to normal users xml
             {
                 var doc = XDocument.Load("users.xml");
                 doc.Element("Users").Add(new XElement("User",
-                                         new XElement("Username", user), 
-                                         new XElement("password", password), 
-                                         new XElement("firstName", fname), 
-                                         new XElement("lastName", lname), 
-                                         new XElement("email", uEmail), 
-                                         new XElement("admin", admin), 
-                                         new XElement("locked", locked),
-                                         new XElement("lastLogin", lastLogin)));
+                                         new XElement("Username", userToAdd), 
+                                         new XElement("password", userPassword), 
+                                         new XElement("firstName", firstName), 
+                                         new XElement("lastName", lastName), 
+                                         new XElement("email", email), 
+                                         new XElement("admin", userAdmin), 
+                                         new XElement("locked", isLocked),
+                                         new XElement("lastLogin", DateTime.Now.ToString())));
                                         
                 doc.Save(@"users.xml");
                 MessageBox.Show("User saved.");
@@ -418,103 +378,71 @@ namespace Project_Forms
             {
                 var doc = XDocument.Load("user_admin.xml");
                 doc.Element("Users").Add(new XElement("User",
-                                         new XElement("Username", user), 
-                                         new XElement("password", password), 
-                                         new XElement("firstName", fname), 
-                                         new XElement("lastName", lname), 
-                                         new XElement("email", uEmail), 
-                                         new XElement("admin", admin),
-                                         new XElement("locked", locked),
-                                         new XElement("lastLogin", lastLogin)));
+                                         new XElement("Username", userToAdd), 
+                                         new XElement("password", userPassword), 
+                                         new XElement("firstName", firstName), 
+                                         new XElement("lastName", lastName), 
+                                         new XElement("email", email), 
+                                         new XElement("admin", userAdmin),
+                                         new XElement("locked", isLocked),
+                                         new XElement("lastLogin", DateTime.Now.ToString())));
                 doc.Save(@"user_admin.xml");
                 MessageBox.Show("User saved.");
             }
+
+            // Save the user to the list:
+            User new_user = new User(userToAdd, firstName, lastName, userPassword, email, userAdmin, isLocked, DateTime.Now);
+            users.Add(new_user);
+
         }//end addNewUser
         //=========================================================================
 
         //=========================================================================
-        // AUTHOR:      Maxwell Partington & Ranier Limpiado 
-        // PURPOSE:     This function is designed to edit a user to be admin, or not
-        //              an admin, and to lock or unlock the user. 
-        // PARAMETERS:  The username that will be edited, a boolean admin key, and a 
-        //              boolean locked key. 
-        // UPDATED: 11/3/2014
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function deletes the user from the list of users.
         //=========================================================================
-        public void EditUser(string userToEdit, bool admin, bool locked)
+        public void DeleteUserFromList(string userToDelete)
         {
-            string userName;
-            bool exists;
-            string userLock = locked.ToString();
-            string userAdmin = admin.ToString();
-
-            Data checkExists = new Data();
-            exists = checkExists.CheckXMLExistence();
-
-            if (exists == true)
-            {
-                XDocument userDoc = XDocument.Load(@"users.xml");
-
-                foreach (var User in userDoc.Descendants("User"))
-                {
-                    userName = User.Element("Username").Value;
-                    if (userName == userToEdit)
-                    {
-                       User.Element("admin").Value = userAdmin;
-                       userDoc.Save(@"users.xml");
-                       MessageBox.Show("User is now an administrator.");
-                    }
-                }//end foreach
-            }
-        }//end editUser5
-        //=========================================================================
+            var user = users.Single(x => x.username == userToDelete);
+            users.Remove(user);
+        }
 
         //=========================================================================
         // AUTHOR:      Maxwell Partington & Ranier Limpiado 
         // PURPOSE:     This function is designed to delete a user from the appropriate
         //              XML document. 
         // PARAMETERS:  The username that will be 
-        // UPDATED: 11/3/2014
+        // UPDATED:     11/12/2014  Jeff Henry - Refactoring
         //=========================================================================
-        public void DeleteUser(string userToDelete)
+        public void DeleteUserFromXML(string userToDelete)
         {
-            string userName;
-            bool exists;
-            bool deleted = false; 
-            Data checkExists = new Data();
-            exists = checkExists.CheckXMLExistence();
-            if (exists == true)
+            if (CheckXMLExistence())
             {
                 XDocument userDoc = XDocument.Load(@"users.xml");
-                XDocument adminDoc = XDocument.Load(@"user_admin.xml");
                 
                 foreach (var User in userDoc.Descendants("User"))
                 {
-                    userName = User.Element("Username").Value;
-                    if (userName == userToDelete)
+                    if (userToDelete == User.Element("Username").Value)
                     {
                         User.Remove();
                         userDoc.Save(@"users.xml");
-                        MessageBox.Show("User deleted.");
-                        deleted = true; 
+                        MessageBox.Show(userToDelete + " deleted.");
                         return; 
                     }
                 }//end foreach
-                if (deleted == false)
+                XDocument adminDoc = XDocument.Load(@"user_admin.xml");
+                foreach (var User in adminDoc.Descendants("User"))
                 {
-                    foreach (var User in adminDoc.Descendants("User"))
+                    if (userToDelete == User.Element("Username").Value)
                     {
-                        userName = User.Element("Username").Value;
-                        if (userName == userToDelete)
-                        {
-                            User.Remove();
-                            adminDoc.Save(@"user_admin.xml");
-                            MessageBox.Show("User deleted.");
-                            deleted = true;
-                            return;
-                        }
+                        User.Remove();
+                        adminDoc.Save(@"user_admin.xml");
+                        MessageBox.Show(userToDelete + " deleted.");
+                        return;
                     }
                 }
-            }
+             }
+
         }//end deleteUser
         //=========================================================================
 
@@ -527,9 +455,7 @@ namespace Project_Forms
         //=========================================================================
         public void LockUnlockUser(string userToLockUnlock, bool toBeLocked)
         {
-            Data checkExists = new Data();
-            
-            if (checkExists.CheckXMLExistence()){
+            if (CheckXMLExistence()){
                 XDocument userDoc = XDocument.Load(@"users.xml");
                 
                 // Handle if the user is being locked:
@@ -1506,5 +1432,123 @@ namespace Project_Forms
     }//end class: Data
     //=====================================================================
 
+
+    //=====================================================================
+    //                      !! Deprecated Functions !! 
+    //=====================================================================
+    /*
+     * 
+    //=====================================================================
+        // AUTHOR:  Maxwell Partington & Ranier Limpiado  10/24/2014
+        // PURPOSE: To make populate the transaction xml
+        // PARAMS:  expenditure, category, date, name of user, and comments
+        // UPDATED: Ranier Limpiado - Accepts comments on expenditures now.
+        //=====================================================================
+        public void add_detailed(decimal expenditure, string category, DateTime date, string name, string comments)
+        {
+            var doc = XDocument.Load("detailed_transaction.xml");
+            doc.Element("All_Transactions").Add(new XElement("Transaction",
+                                     new XElement("Added_By", name),
+                                     new XElement("Expenditure", expenditure),
+                                     new XElement("Comments", comments), 
+                                     new XElement("Category", category),
+                                     new XElement("Date", date)));
+            doc.Save(@"detailed_transaction.xml");
+        }//end add_detailed
+        //=====================================================================
+
+        //=====================================================================
+        // AUTHOR:  Karan Singh
+        // PURPOSE: Add history of the transaction made to keep track of all 
+        //          changes made to the "database". 
+        // PARAMS:  Date, name
+        //=====================================================================
+        public void UpdateTransactionHistory(DateTime date, string user)
+        {
+            var doc = XDocument.Load("transactions.xml");
+            doc.Element("App_Records").Element("Change_History").Add(new XElement("Record", new XAttribute("ChangeID", idnum),
+                                     new XElement("Transaction_Date", date), new XElement("Adding_user", user)));
+            doc.Save(@"transactions.xml");
+        }//end add_history
+        //=====================================================================
+        
+        //=====================================================================
+        // AUTHOR:  Karan Singh
+        // PURPOSE: Add login history as called by the control so that the last
+        //          date is easier to access 
+        // PARAMS:  Date, username
+        //=====================================================================
+        public void SetLoginHistory(string username, DateTime date)
+        {
+            int id = 1;
+            XDocument get_id = XDocument.Load("transactions.xml");
+            var ids = from id1 in get_id.Descendants("Login_History")
+                      select new{id = id1.Element("Default_login_id").Value};
+            foreach (var id1 in ids){id = Convert.ToInt32(id1.id);}//end foreach
+
+            id++;
+            var doc = XDocument.Load(@"transactions.xml");
+            doc.Element("App_Records").Element("Login_History").Add(new XElement("Log", new XAttribute("id", id), new XElement("User", username), new XElement("last_login", date)));
+            doc.Element("App_Records").Element("Login_History").Element("Default_login_id").SetValue(id);
+            doc.Save(@"transactions.xml");
+        }//end add_login_history
+        //=====================================================================
+     
+        //=====================================================================
+        // AUTHOR:  Karan Singh
+        // PURPOSE: Simply gets the default id of the transaction for the use of a function or another method. 
+        // PARAMS:  None
+        //=====================================================================
+        public void getdefaultid()
+        {
+            int id = 1;
+            XDocument get_id = XDocument.Load("transactions.xml");
+            var ids = from id1 in get_id.Descendants("Change_History")
+                      select new{id = id1.Element("DefaultID").Value};
+            foreach (var id1 in ids){id = Convert.ToInt32(id1.id);}
+
+            //update global id number according to read value
+            idnum = id;
+        }//end getdefaultid
+        //=====================================================================
+      
+        //=========================================================================
+        // AUTHOR:      Maxwell Partington & Ranier Limpiado 
+        // PURPOSE:     This function is designed to edit a user to be admin, or not
+        //              an admin, and to lock or unlock the user. 
+        // PARAMETERS:  The username that will be edited, a boolean admin key, and a 
+        //              boolean locked key. 
+        // UPDATED: 11/3/2014
+        //=========================================================================
+        public void EditUser(string userToEdit, bool admin, bool locked)
+        {
+            string userName;
+            bool exists;
+            string userLock = locked.ToString();
+            string userAdmin = admin.ToString();
+
+            Data checkExists = new Data();
+            exists = checkExists.CheckXMLExistence();
+
+            if (exists == true)
+            {
+                XDocument userDoc = XDocument.Load(@"users.xml");
+
+                foreach (var User in userDoc.Descendants("User"))
+                {
+                    userName = User.Element("Username").Value;
+                    if (userName == userToEdit)
+                    {
+                       User.Element("admin").Value = userAdmin;
+                       userDoc.Save(@"users.xml");
+                       MessageBox.Show("User is now an administrator.");
+                    }
+                }//end foreach
+            }
+        }//end editUser5
+        //=========================================================================
+
+      
+    */
 }//end
 //===================================================================== 
