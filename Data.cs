@@ -844,80 +844,62 @@ namespace Project_Forms
         //=====================================================================
         public void FillGridSummaryView(DataGridView datagrid, string category, ref decimal exp_total, ref decimal mil_total, DateTime start, DateTime end, string user)
         {
-            List<string> expenses = new List<string>();
-            List<string> cats = new List<string>();
-            List<DateTime> dates = new List<DateTime>();
-            List<string> users = new List<string>();
-
-            XmlDocument xml = new XmlDocument();
-            xml.Load("transactions.xml");
-            XmlNodeList list = xml.SelectNodes("/App_Records/All_Transactions/Transaction");
-
-            foreach (XmlNode node in list)
-            {
-                dates.Add(Convert.ToDateTime(node["Date"].InnerText));
-                expenses.Add(node["Expenditure"].InnerText);
-                cats.Add(node["Category"].InnerText);
-                users.Add(node["Added_By"].InnerText);
-            }
-
-            var trans_xml = XDocument.Load(@"transactions.xml");
-            var trans_count = trans_xml.Descendants("Transaction").Count();
-
             // Administrator:
             if (CheckIfAdmin(user)){
-                // All Categories
+                // All Categories:
                 if (category == "All Categories"){
-                    for (int i = 0; i < trans_count; i++){
-                        if (dates[i] >= start && dates[i] <= end){
-                            datagrid.Rows.Add(dates[i], expenses[i], cats[i]);
-                            if (cats[i] == "Mileage")
-                                mil_total += Convert.ToDecimal(expenses[i]);
+                    // Update data grid from the lists:
+                    foreach (var trans in transactions){
+                        if (trans.dateEntered >= start && trans.dateEntered <= end){
+                            datagrid.Rows.Add(trans.dateEntered, trans.expenditure, trans.category);
+                            if (trans.category == "Mileage")
+                                mil_total += Convert.ToDecimal(trans.expenditure);
                             else
-                                exp_total += Convert.ToDecimal(expenses[i]);
+                                exp_total += Convert.ToDecimal(trans.expenditure);
                         }
                     }
                 }
                 // One Category:
                 else if (category != "All Categories"){
-                    for (int i = 0; i < trans_count; i++){
-                        if (dates[i] >= start && dates[i] <= end && cats[i] == category){
-                            datagrid.Rows.Add(dates[i], expenses[i], cats[i]);
-                            if (category == "Mileage")
-                                mil_total += Convert.ToDecimal(expenses[i]);
+                    foreach (var trans in transactions){
+                        if (trans.dateEntered >= start && trans.dateEntered <= end && trans.category == category){
+                            datagrid.Rows.Add(trans.dateEntered, trans.expenditure);
+                            if (trans.category == "Mileage")
+                                mil_total += Convert.ToDecimal(trans.expenditure);
                             else
-                                exp_total += Convert.ToDecimal(expenses[i]);
+                                exp_total += Convert.ToDecimal(trans.expenditure);
+
                         }
                     }
                 }
             }
-
             // Employee:
-            else if(!CheckIfAdmin(user)){
+            else if (!CheckIfAdmin(user)){
                 // All Categories:
                 if (category == "All Categories"){
-                    for (int i = 0; i < trans_count; i++){
-                        if (dates[i] >= start && dates[i] <= end){
-                            if (users[i] == user){
-                                datagrid.Rows.Add(dates[i], expenses[i], cats[i]);
-                                if (cats[i] == "Mileage")
-                                    mil_total += Convert.ToDecimal(expenses[i]);
+                    foreach (var trans in transactions){
+                        if (trans.username == user){
+                            if (trans.dateEntered >= start && trans.dateEntered <= end){
+                                datagrid.Rows.Add(trans.dateEntered, trans.expenditure, trans.category);
+                                if (trans.category == "Mileage")
+                                    mil_total += Convert.ToDecimal(trans.expenditure);
                                 else
-                                    exp_total += Convert.ToDecimal(expenses[i]);
+                                    exp_total += Convert.ToDecimal(trans.expenditure);
                             }
                         }
                     }
                 }
                 // One Category:
                 else if (category != "All Categories"){
-                    for (int i = 0; i < trans_count; i++){
-                        if (dates[i] >= start && dates[i] <= end && cats[i] == category){
-                            if (users[i] == user){
-                                datagrid.Rows.Add(dates[i], expenses[i], cats[i]);
-                                if (category == "Mileage")
-                                    mil_total += Convert.ToDecimal(expenses[i]);
+                    foreach (var trans in transactions){
+                        if (trans.username == user){
+                            if (trans.dateEntered >= start && trans.dateEntered <= end && trans.category == category){
+                                datagrid.Rows.Add(trans.dateEntered, trans.expenditure);
+                                if (trans.category == "Mileage")
+                                    mil_total += Convert.ToDecimal(trans.expenditure);
                                 else
-                                    exp_total += Convert.ToDecimal(expenses[i]);
+                                    exp_total += Convert.ToDecimal(trans.expenditure);
+
                             }
                         }
                     }
@@ -933,51 +915,32 @@ namespace Project_Forms
         //=====================================================================
         public void FillGridDetailView(DataGridView datagrid, string category, ref decimal exp_total, ref decimal mil_total, DateTime start, DateTime end, string user)
         {
-            List<string> expenses = new List<string>();
-            List<string> cats = new List<string>();
-            List<DateTime> dates = new List<DateTime>();
-            List<string> users = new List<string>();
-            List<string> comments = new List<string>();
-
-            XmlDocument xml = new XmlDocument();
-            xml.Load("transactions.xml");
-            XmlNodeList list = xml.SelectNodes("App_Records/All_Transactions/Transaction");
-
-            foreach (XmlNode node in list)
-            {
-                dates.Add(Convert.ToDateTime(node["Date"].InnerText));
-                expenses.Add(node["Expenditure"].InnerText);
-                cats.Add(node["Category"].InnerText);
-                users.Add(node["Added_By"].InnerText);
-                comments.Add(node["Comments"].InnerText);
-            }
-
-            var trans_xml = XDocument.Load(@"transactions.xml");
-            var trans_count = trans_xml.Descendants("Transaction").Count();
-            
             // Administrator:
             if (CheckIfAdmin(user)){
                 // All Categories:
                 if (category == "All Categories"){
-                    for (int i = 0; i < trans_count; i++){
-                        if (dates[i] >= start && dates[i] <= end){
-                            datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i], comments[i]);
-                            if (cats[i] == "Mileage")
-                                mil_total += Convert.ToDecimal(expenses[i]);
+                    // Update data grid from the lists:
+                    foreach (var trans in transactions){
+                        if (trans.dateEntered >= start && trans.dateEntered <= end){
+                            datagrid.Rows.Add(trans.dateEntered, trans.expenditure, trans.category, trans.username, trans.comments);
+                            if (trans.category == "Mileage")
+                                mil_total += Convert.ToDecimal(trans.expenditure);
                             else
-                                exp_total += Convert.ToDecimal(expenses[i]);
+                                exp_total += Convert.ToDecimal(trans.expenditure);
                         }
                     }
                 }
                 // One Category:
                 else if (category != "All Categories"){
-                    for (int i = 0; i < trans_count; i++){
-                        if (dates[i] >= start && dates[i] <= end && cats[i] == category){
-                            datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i], comments[i]);
-                            if (cats[i] == "Mileage")
-                                mil_total += Convert.ToDecimal(expenses[i]);
+                    foreach (var trans in transactions){
+                        if (trans.dateEntered >= start && trans.dateEntered <= end && trans.category == category)
+                        {
+                            datagrid.Rows.Add(trans.dateEntered, trans.expenditure, " ", trans.username, trans.comments);
+                            if (trans.category == "Mileage")
+                                mil_total += Convert.ToDecimal(trans.expenditure);
                             else
-                                exp_total += Convert.ToDecimal(expenses[i]);
+                                exp_total += Convert.ToDecimal(trans.expenditure);
+
                         }
                     }
                 }
@@ -986,28 +949,29 @@ namespace Project_Forms
             else if (!CheckIfAdmin(user)){
                 // All Categories:
                 if (category == "All Categories"){
-                    for (int i = 0; i < trans_count; i++){
-                        if (dates[i] >= start && dates[i] <= end){
-                            if (users[i] == user){
-                                datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i], comments[i]);
-                                if (cats[i] == "Mileage")
-                                    mil_total += Convert.ToDecimal(expenses[i]);
+                    foreach (var trans in transactions){
+                        if (trans.username == user){
+                            if (trans.dateEntered >= start && trans.dateEntered <= end){
+                                datagrid.Rows.Add(trans.dateEntered, trans.expenditure, trans.category, trans.username, trans.comments);
+                                if (trans.category == "Mileage")
+                                    mil_total += Convert.ToDecimal(trans.expenditure);
                                 else
-                                    exp_total += Convert.ToDecimal(expenses[i]);
+                                    exp_total += Convert.ToDecimal(trans.expenditure);
                             }
                         }
                     }
                 }
                 // One Category:
                 else if (category != "All Categories"){
-                    for (int i = 0; i < trans_count; i++){
-                        if (dates[i] >= start && dates[i] <= end && cats[i] == category){
-                            if (users[i] == user){
-                                datagrid.Rows.Add(dates[i], expenses[i], cats[i], users[i], comments[i]);
-                                if (cats[i] == "Mileage")
-                                    mil_total += Convert.ToDecimal(expenses[i]);
+                    foreach (var trans in transactions){
+                        if (trans.username == user){
+                            if (trans.dateEntered >= start && trans.dateEntered <= end && trans.category == category){
+                                datagrid.Rows.Add(trans.dateEntered, trans.expenditure, " ", trans.username, trans.comments);
+                                if (trans.category == "Mileage")
+                                    mil_total += Convert.ToDecimal(trans.expenditure);
                                 else
-                                    exp_total += Convert.ToDecimal(expenses[i]);
+                                    exp_total += Convert.ToDecimal(trans.expenditure);
+
                             }
                         }
                     }

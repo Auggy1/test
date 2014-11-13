@@ -174,7 +174,7 @@ namespace Project_Forms
         //=====================================================================
         private void AddUserClick(object sender, EventArgs e)
         { 
-            New_Account form = new New_Account();
+            New_Account form = new New_Account(control);
             form.ShowDialog();
         }
 

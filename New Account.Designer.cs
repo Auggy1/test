@@ -160,7 +160,8 @@
             this.na_username.Name = "na_username";
             this.na_username.Size = new System.Drawing.Size(100, 20);
             this.na_username.TabIndex = 0;
-            this.na_username.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.toolTip1.SetToolTip(this.na_username, resources.GetString("na_username.ToolTip"));
+            this.na_username.TextChanged += new System.EventHandler(this.UsernameBoxTextChange);
             // 
             // na_firstname
             // 
@@ -168,7 +169,7 @@
             this.na_firstname.Name = "na_firstname";
             this.na_firstname.Size = new System.Drawing.Size(100, 20);
             this.na_firstname.TabIndex = 2;
-            this.na_firstname.TextChanged += new System.EventHandler(this.na_firstname_TextChanged);
+            this.na_firstname.TextChanged += new System.EventHandler(this.FirstNameTextChange);
             // 
             // na_password
             // 
@@ -177,7 +178,8 @@
             this.na_password.PasswordChar = '*';
             this.na_password.Size = new System.Drawing.Size(100, 20);
             this.na_password.TabIndex = 1;
-            this.na_password.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
+            this.toolTip1.SetToolTip(this.na_password, resources.GetString("na_password.ToolTip"));
+            this.na_password.TextChanged += new System.EventHandler(this.PasswordBoxTextChange);
             // 
             // na_lastname
             // 
@@ -185,7 +187,7 @@
             this.na_lastname.Name = "na_lastname";
             this.na_lastname.Size = new System.Drawing.Size(100, 20);
             this.na_lastname.TabIndex = 3;
-            this.na_lastname.TextChanged += new System.EventHandler(this.na_lastname_TextChanged);
+            this.na_lastname.TextChanged += new System.EventHandler(this.LastNameTextChange);
             // 
             // na_email
             // 
@@ -209,7 +211,7 @@
             this.na_cancel_btn.TabIndex = 7;
             this.na_cancel_btn.Text = "Cancel";
             this.na_cancel_btn.UseVisualStyleBackColor = true;
-            this.na_cancel_btn.Click += new System.EventHandler(this.button1_Click);
+            this.na_cancel_btn.Click += new System.EventHandler(this.CancelClick);
             // 
             // na_submit_btn
             // 
@@ -219,7 +221,7 @@
             this.na_submit_btn.TabIndex = 6;
             this.na_submit_btn.Text = "Submit";
             this.na_submit_btn.UseVisualStyleBackColor = true;
-            this.na_submit_btn.Click += new System.EventHandler(this.button2_Click);
+            this.na_submit_btn.Click += new System.EventHandler(this.SubmitClick);
             // 
             // errorProvider1
             // 

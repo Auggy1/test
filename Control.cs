@@ -240,6 +240,27 @@ namespace Project_Forms
             alldata.ExportToExcel(gridview, total, mileage, start, end, user);
         }//end
         //========================================================================
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will perform the action of adding a new user.
+        // UPDATE:  11/13/2014  Jeff Henry  - Initial Creation
+        //========================================================================
+        public void AddNewUser(string user, string enc_pass, bool admin, string first, string last, string email, bool locked)
+        {
+            alldata.AddNewUser(user, enc_pass, admin, first, last, email, locked);
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will perform the encryption of a users password
+        //          and return the encrpyted password to the main program.
+        // UPDATES: 11/13/2014  Jeff Henry  - Initial Creation
+        //========================================================================
+        public string Encrypt(string password, string cypher)
+        {
+            return alldata.Encrypt(password, cypher);
+        }
     }
     //========================================================================
     // !! Deprecated Functions !!
