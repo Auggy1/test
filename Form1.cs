@@ -31,6 +31,8 @@ namespace Project_Forms
     {
         DateTime date;// public datetime variable to transfer date between functions
         string current_user = "";
+        bool original_lock_value = false;
+        bool original_admin_value = false;
         Control control;
         
         public Home()
@@ -73,7 +75,6 @@ namespace Project_Forms
 
             /****************************************** Hidden labels/tabs ********************************************/
             expense_error_msg.Hide();                               // Hide the expense error message.
-            administrationToolStripMenuItem.Visible = false;        // Hide the administration menu
             tab_control.Controls.Remove(vh_tab);                    // Remove the view history tab
             vr_report_label.Hide();                                 // Hides the view report label
             this.vh_grid.Rows.Clear();                              // Clears the vh grid
@@ -105,7 +106,6 @@ namespace Project_Forms
             {
                 tab_control.Controls.Add(vh_tab);   // Addd the View History Tab to the form
                 tab_control.SelectedTab = vr_tab;   // Change the tab to View History
-                administrationToolStripMenuItem.Visible = true;
             }
             else if (!is_admin)
             {
@@ -165,18 +165,6 @@ namespace Project_Forms
         {
             this.Close();
         }//end logOutToolStripMenuItem
-
-
-        //=====================================================================
-        // AUTHOR:  Maxwell Partington & Ranier Limpiado 
-        // PURPOSE: Allows the admin to create a new account for a user. 
-        // UPDATED: 11/3/14
-        //=====================================================================
-        private void AddUserClick(object sender, EventArgs e)
-        { 
-            New_Account form = new New_Account(control);
-            form.ShowDialog();
-        }
 
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado
@@ -565,18 +553,24 @@ namespace Project_Forms
             vr_category_list.DataSource = null;
             vh_category_list.DataSource = null;
             vh_user_list.DataSource = null;
+            admin_user_dropdown.DataSource = null;
+            admin_cat_dropdown.DataSource = null;
 
             // Update the lists:
             ee_category_list.DataSource = control.GetCategories();
             vr_category_list.DataSource = control.GetAllCategories();
             vh_category_list.DataSource = control.GetAllCategories();
             vh_user_list.DataSource = control.GetAllUsers();
-            
+            admin_user_dropdown.DataSource = control.GetAllUsers();
+            admin_cat_dropdown.DataSource = control.GetCategories();
+
             // Reset the indices:
             ee_category_list.SelectedIndex = -1;
             vr_category_list.SelectedIndex = -1;
             vh_category_list.SelectedIndex = -1;
             vh_user_list.SelectedIndex = -1;
+            admin_user_dropdown.SelectedIndex = -1;
+            admin_cat_dropdown.SelectedIndex = -1;
         }
 
         //========================================================================
@@ -587,6 +581,152 @@ namespace Project_Forms
         private void ExpenseEntryTextChanged(object sender, EventArgs e)
         {
             ee_success_message.Visible = false;
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will update the checkboxes depending on the user
+        //          selected.
+        //========================================================================
+        private void AdministrationUserSelected(object sender, EventArgs e)
+        {
+            admin_user_submit_btn.Enabled = false;
+ 
+            if (control.CheckIfAdmin(admin_user_dropdown.Text))
+            {
+                make_admin_chkbox.Checked = true;
+                original_admin_value = true;
+            }
+            else
+            {
+                make_admin_chkbox.Checked = false;
+                original_admin_value = false;
+            }
+            if (control.CheckIfLocked(admin_user_dropdown.Text))
+            {
+                lock_unlock_chkbox.Checked = true;
+                original_lock_value = true;
+            }
+            else
+            {
+                lock_unlock_chkbox.Checked = false;
+                original_lock_value = false;
+            }
+        }
+
+        //========================================================================
+        // AUTHOR: Jeff Henry
+        // PURPOSE: This function will enable the add button when a category name is
+        //          entered.
+        //========================================================================
+        private void AdministrationNewCatNameEntered(object sender, EventArgs e)
+        {
+            if (admin_new_cat_input.Text != "") { admin_cat_add_btn.Enabled = true; }
+            else admin_cat_add_btn.Enabled = false;
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will enable the delete button when a category is 
+        //          chosen.
+        //========================================================================
+        private void AdministrationCategorySelected(object sender, EventArgs e)
+        {
+            if (admin_cat_dropdown.SelectedIndex != -1)
+            {
+                admin_cat_delete_btn.Enabled = true;
+                admin_cat_newname.Enabled = true;
+            }
+            else
+            {
+                admin_cat_delete_btn.Enabled = false;
+                admin_cat_newname.Enabled = false;
+            }
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will enable the rename button when a new name is
+        //          entered for the selected category.
+        //========================================================================
+        private void AdministrationCategoryNameEntered(object sender, EventArgs e)
+        {
+            if (admin_cat_newname.Text != "") { admin_cat_rename_btn.Enabled = true; }
+            else { admin_cat_rename_btn.Enabled = false; }
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function handle when the user wants to add a new category
+        //========================================================================
+        private void AddCategoryClick(object sender, EventArgs e)
+        {
+            control.AddNewCategory(admin_new_cat_input.Text);
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function handle when the user wants to delete a category
+        //========================================================================
+        private void DeleteCategoryClick(object sender, EventArgs e)
+        {
+            control.DeleteCategory(admin_cat_dropdown.Text);
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function handle when the user wants to rename a category
+        //========================================================================
+        private void RenameCategoryClick(object sender, EventArgs e)
+        {
+            control.RenameCategory(admin_cat_dropdown.Text, admin_cat_newname.Text);
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will handle modifying a user.
+        //========================================================================
+        private void SubmitUserChangesClick(object sender, EventArgs e)
+        {
+            // Check whether any changes were made by the administrator:
+
+            // Refresh the dropdowns:
+            RefreshDropdowns();
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will handle if the state of the checkbox changes
+        //========================================================================
+        private void AdminCheckboxChange(object sender, EventArgs e)
+        {
+            if (make_admin_chkbox.Checked == original_admin_value)
+                admin_user_submit_btn.Enabled = false;
+            else
+                admin_user_submit_btn.Enabled = true;
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will handle if the state of the checkbox changes
+        //========================================================================
+        private void LockCheckboxChange(object sender, EventArgs e)
+        {
+            if (lock_unlock_chkbox.Checked == original_lock_value)
+                admin_user_submit_btn.Enabled = false;
+            else
+                admin_user_submit_btn.Enabled = true;
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will open the new account form when clicked.
+        //========================================================================
+        private void AddUserClick(object sender, EventArgs e)
+        {
+            New_Account createUser = new New_Account(control);
+            createUser.ShowDialog();
+            RefreshDropdowns();
         }
 
         //========================================================================

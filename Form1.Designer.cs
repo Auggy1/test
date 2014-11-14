@@ -35,9 +35,6 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.administrationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.applicationHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -98,11 +95,36 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
+            this.admin_tab = new System.Windows.Forms.TabPage();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.add_user_btn = new System.Windows.Forms.Button();
+            this.user_admin_label = new System.Windows.Forms.Label();
+            this.delete_user_label = new System.Windows.Forms.Label();
+            this.delete_chkbox = new System.Windows.Forms.CheckBox();
+            this.admin_user_submit_btn = new System.Windows.Forms.Button();
+            this.lock_unlock_label = new System.Windows.Forms.Label();
+            this.admin_label = new System.Windows.Forms.Label();
+            this.make_admin_chkbox = new System.Windows.Forms.CheckBox();
+            this.lock_unlock_chkbox = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.admin_user_dropdown = new System.Windows.Forms.ComboBox();
+            this.admin_users_label = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.admin_cat_newname = new System.Windows.Forms.TextBox();
+            this.admin_cat_name_label = new System.Windows.Forms.Label();
+            this.admin_cat_dropdown = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.admin_cat_delete_btn = new System.Windows.Forms.Button();
+            this.admin_cat_rename_btn = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.admin_new_cat_input = new System.Windows.Forms.TextBox();
+            this.admin_cat_add_btn = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider3 = new System.Windows.Forms.ErrorProvider(this.components);
             this.eventLog1 = new System.Diagnostics.EventLog();
-            this.admin_tab = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.tab_control.SuspendLayout();
             this.home_tab.SuspendLayout();
@@ -112,6 +134,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.vr_grid)).BeginInit();
             this.vh_tab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vh_grid)).BeginInit();
+            this.admin_tab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider3)).BeginInit();
@@ -131,7 +158,6 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.administrationToolStripMenuItem,
             this.helpToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -162,29 +188,6 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitProgramClick);
-            // 
-            // administrationToolStripMenuItem
-            // 
-            this.administrationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addUserToolStripMenuItem,
-            this.editUserToolStripMenuItem});
-            this.administrationToolStripMenuItem.Name = "administrationToolStripMenuItem";
-            this.administrationToolStripMenuItem.Size = new System.Drawing.Size(98, 20);
-            this.administrationToolStripMenuItem.Text = "Administration";
-            // 
-            // addUserToolStripMenuItem
-            // 
-            this.addUserToolStripMenuItem.Name = "addUserToolStripMenuItem";
-            this.addUserToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.addUserToolStripMenuItem.Text = "Add User";
-            this.addUserToolStripMenuItem.Click += new System.EventHandler(this.AddUserClick);
-            // 
-            // editUserToolStripMenuItem
-            // 
-            this.editUserToolStripMenuItem.Name = "editUserToolStripMenuItem";
-            this.editUserToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.editUserToolStripMenuItem.Text = "Edit User/Category";
-            this.editUserToolStripMenuItem.Click += new System.EventHandler(this.EditUserCategoryClick);
             // 
             // helpToolStripMenuItem
             // 
@@ -788,6 +791,278 @@
             this.label21.TabIndex = 33;
             this.label21.Text = "Categories";
             // 
+            // admin_tab
+            // 
+            this.admin_tab.Controls.Add(this.splitContainer1);
+            this.admin_tab.Location = new System.Drawing.Point(4, 22);
+            this.admin_tab.Name = "admin_tab";
+            this.admin_tab.Padding = new System.Windows.Forms.Padding(3);
+            this.admin_tab.Size = new System.Drawing.Size(719, 367);
+            this.admin_tab.TabIndex = 4;
+            this.admin_tab.Text = "Administration";
+            this.admin_tab.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.add_user_btn);
+            this.splitContainer1.Panel1.Controls.Add(this.user_admin_label);
+            this.splitContainer1.Panel1.Controls.Add(this.delete_user_label);
+            this.splitContainer1.Panel1.Controls.Add(this.delete_chkbox);
+            this.splitContainer1.Panel1.Controls.Add(this.admin_user_submit_btn);
+            this.splitContainer1.Panel1.Controls.Add(this.lock_unlock_label);
+            this.splitContainer1.Panel1.Controls.Add(this.admin_label);
+            this.splitContainer1.Panel1.Controls.Add(this.make_admin_chkbox);
+            this.splitContainer1.Panel1.Controls.Add(this.lock_unlock_chkbox);
+            this.splitContainer1.Panel1.Controls.Add(this.label2);
+            this.splitContainer1.Panel1.Controls.Add(this.admin_user_dropdown);
+            this.splitContainer1.Panel1.Controls.Add(this.admin_users_label);
+            this.splitContainer1.Panel1.Controls.Add(this.label1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.label3);
+            this.splitContainer1.Panel2.Controls.Add(this.admin_cat_newname);
+            this.splitContainer1.Panel2.Controls.Add(this.admin_cat_name_label);
+            this.splitContainer1.Panel2.Controls.Add(this.admin_cat_dropdown);
+            this.splitContainer1.Panel2.Controls.Add(this.label7);
+            this.splitContainer1.Panel2.Controls.Add(this.admin_cat_delete_btn);
+            this.splitContainer1.Panel2.Controls.Add(this.admin_cat_rename_btn);
+            this.splitContainer1.Panel2.Controls.Add(this.label8);
+            this.splitContainer1.Panel2.Controls.Add(this.admin_new_cat_input);
+            this.splitContainer1.Panel2.Controls.Add(this.admin_cat_add_btn);
+            this.splitContainer1.Panel2.Controls.Add(this.label6);
+            this.splitContainer1.Size = new System.Drawing.Size(713, 361);
+            this.splitContainer1.SplitterDistance = 329;
+            this.splitContainer1.TabIndex = 0;
+            // 
+            // add_user_btn
+            // 
+            this.add_user_btn.Location = new System.Drawing.Point(129, 65);
+            this.add_user_btn.Name = "add_user_btn";
+            this.add_user_btn.Size = new System.Drawing.Size(75, 23);
+            this.add_user_btn.TabIndex = 31;
+            this.add_user_btn.Text = "Add User";
+            this.add_user_btn.UseVisualStyleBackColor = true;
+            this.add_user_btn.Click += new System.EventHandler(this.AddUserClick);
+            // 
+            // user_admin_label
+            // 
+            this.user_admin_label.AutoSize = true;
+            this.user_admin_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.user_admin_label.Location = new System.Drawing.Point(83, 27);
+            this.user_admin_label.Name = "user_admin_label";
+            this.user_admin_label.Size = new System.Drawing.Size(167, 20);
+            this.user_admin_label.TabIndex = 23;
+            this.user_admin_label.Text = "User Administration";
+            // 
+            // delete_user_label
+            // 
+            this.delete_user_label.AutoSize = true;
+            this.delete_user_label.Location = new System.Drawing.Point(74, 291);
+            this.delete_user_label.Name = "delete_user_label";
+            this.delete_user_label.Size = new System.Drawing.Size(63, 13);
+            this.delete_user_label.TabIndex = 30;
+            this.delete_user_label.Text = "Delete User";
+            // 
+            // delete_chkbox
+            // 
+            this.delete_chkbox.AutoSize = true;
+            this.delete_chkbox.Location = new System.Drawing.Point(235, 290);
+            this.delete_chkbox.Name = "delete_chkbox";
+            this.delete_chkbox.Size = new System.Drawing.Size(15, 14);
+            this.delete_chkbox.TabIndex = 29;
+            this.delete_chkbox.UseVisualStyleBackColor = true;
+            // 
+            // admin_user_submit_btn
+            // 
+            this.admin_user_submit_btn.Enabled = false;
+            this.admin_user_submit_btn.Location = new System.Drawing.Point(112, 315);
+            this.admin_user_submit_btn.Name = "admin_user_submit_btn";
+            this.admin_user_submit_btn.Size = new System.Drawing.Size(100, 23);
+            this.admin_user_submit_btn.TabIndex = 28;
+            this.admin_user_submit_btn.Text = "Submit Changes";
+            this.admin_user_submit_btn.UseVisualStyleBackColor = true;
+            this.admin_user_submit_btn.Click += new System.EventHandler(this.SubmitUserChangesClick);
+            // 
+            // lock_unlock_label
+            // 
+            this.lock_unlock_label.AutoSize = true;
+            this.lock_unlock_label.Location = new System.Drawing.Point(75, 264);
+            this.lock_unlock_label.Name = "lock_unlock_label";
+            this.lock_unlock_label.Size = new System.Drawing.Size(113, 13);
+            this.lock_unlock_label.TabIndex = 27;
+            this.lock_unlock_label.Text = "Lock/Unlock Account";
+            // 
+            // admin_label
+            // 
+            this.admin_label.AutoSize = true;
+            this.admin_label.Location = new System.Drawing.Point(74, 238);
+            this.admin_label.Name = "admin_label";
+            this.admin_label.Size = new System.Drawing.Size(67, 13);
+            this.admin_label.TabIndex = 26;
+            this.admin_label.Text = "Administrator";
+            // 
+            // make_admin_chkbox
+            // 
+            this.make_admin_chkbox.AutoSize = true;
+            this.make_admin_chkbox.Location = new System.Drawing.Point(235, 236);
+            this.make_admin_chkbox.Name = "make_admin_chkbox";
+            this.make_admin_chkbox.Size = new System.Drawing.Size(15, 14);
+            this.make_admin_chkbox.TabIndex = 25;
+            this.make_admin_chkbox.UseVisualStyleBackColor = true;
+            this.make_admin_chkbox.CheckedChanged += new System.EventHandler(this.AdminCheckboxChange);
+            // 
+            // lock_unlock_chkbox
+            // 
+            this.lock_unlock_chkbox.AutoSize = true;
+            this.lock_unlock_chkbox.Location = new System.Drawing.Point(235, 263);
+            this.lock_unlock_chkbox.Name = "lock_unlock_chkbox";
+            this.lock_unlock_chkbox.Size = new System.Drawing.Size(15, 14);
+            this.lock_unlock_chkbox.TabIndex = 24;
+            this.lock_unlock_chkbox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lock_unlock_chkbox.UseVisualStyleBackColor = true;
+            this.lock_unlock_chkbox.CheckedChanged += new System.EventHandler(this.LockCheckboxChange);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(74, 212);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(114, 20);
+            this.label2.TabIndex = 23;
+            this.label2.Text = "User Options";
+            // 
+            // admin_user_dropdown
+            // 
+            this.admin_user_dropdown.FormattingEnabled = true;
+            this.admin_user_dropdown.Location = new System.Drawing.Point(129, 184);
+            this.admin_user_dropdown.Name = "admin_user_dropdown";
+            this.admin_user_dropdown.Size = new System.Drawing.Size(121, 21);
+            this.admin_user_dropdown.TabIndex = 21;
+            this.admin_user_dropdown.SelectedIndexChanged += new System.EventHandler(this.AdministrationUserSelected);
+            // 
+            // admin_users_label
+            // 
+            this.admin_users_label.AutoSize = true;
+            this.admin_users_label.Location = new System.Drawing.Point(75, 187);
+            this.admin_users_label.Name = "admin_users_label";
+            this.admin_users_label.Size = new System.Drawing.Size(37, 13);
+            this.admin_users_label.TabIndex = 20;
+            this.admin_users_label.Text = "Users:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(74, 149);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(157, 20);
+            this.label1.TabIndex = 19;
+            this.label1.Text = "Edit Existing User:";
+            // 
+            // admin_cat_newname
+            // 
+            this.admin_cat_newname.Enabled = false;
+            this.admin_cat_newname.Location = new System.Drawing.Point(127, 287);
+            this.admin_cat_newname.Name = "admin_cat_newname";
+            this.admin_cat_newname.Size = new System.Drawing.Size(100, 20);
+            this.admin_cat_newname.TabIndex = 22;
+            this.admin_cat_newname.TextChanged += new System.EventHandler(this.AdministrationCategoryNameEntered);
+            // 
+            // admin_cat_name_label
+            // 
+            this.admin_cat_name_label.AutoSize = true;
+            this.admin_cat_name_label.Location = new System.Drawing.Point(36, 290);
+            this.admin_cat_name_label.Name = "admin_cat_name_label";
+            this.admin_cat_name_label.Size = new System.Drawing.Size(63, 13);
+            this.admin_cat_name_label.TabIndex = 21;
+            this.admin_cat_name_label.Text = "New Name:";
+            // 
+            // admin_cat_dropdown
+            // 
+            this.admin_cat_dropdown.FormattingEnabled = true;
+            this.admin_cat_dropdown.Location = new System.Drawing.Point(127, 248);
+            this.admin_cat_dropdown.Name = "admin_cat_dropdown";
+            this.admin_cat_dropdown.Size = new System.Drawing.Size(100, 21);
+            this.admin_cat_dropdown.TabIndex = 19;
+            this.admin_cat_dropdown.SelectedIndexChanged += new System.EventHandler(this.AdministrationCategorySelected);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(36, 251);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(60, 13);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "Categories:";
+            // 
+            // admin_cat_delete_btn
+            // 
+            this.admin_cat_delete_btn.Enabled = false;
+            this.admin_cat_delete_btn.Location = new System.Drawing.Point(262, 246);
+            this.admin_cat_delete_btn.Name = "admin_cat_delete_btn";
+            this.admin_cat_delete_btn.Size = new System.Drawing.Size(75, 23);
+            this.admin_cat_delete_btn.TabIndex = 17;
+            this.admin_cat_delete_btn.Text = "Delete";
+            this.admin_cat_delete_btn.UseVisualStyleBackColor = true;
+            this.admin_cat_delete_btn.Click += new System.EventHandler(this.DeleteCategoryClick);
+            // 
+            // admin_cat_rename_btn
+            // 
+            this.admin_cat_rename_btn.Enabled = false;
+            this.admin_cat_rename_btn.Location = new System.Drawing.Point(262, 285);
+            this.admin_cat_rename_btn.Name = "admin_cat_rename_btn";
+            this.admin_cat_rename_btn.Size = new System.Drawing.Size(75, 23);
+            this.admin_cat_rename_btn.TabIndex = 16;
+            this.admin_cat_rename_btn.Text = " Rename";
+            this.admin_cat_rename_btn.UseVisualStyleBackColor = true;
+            this.admin_cat_rename_btn.Click += new System.EventHandler(this.RenameCategoryClick);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(36, 73);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(85, 13);
+            this.label8.TabIndex = 15;
+            this.label8.Text = "Category to add:";
+            // 
+            // admin_new_cat_input
+            // 
+            this.admin_new_cat_input.Location = new System.Drawing.Point(127, 67);
+            this.admin_new_cat_input.Name = "admin_new_cat_input";
+            this.admin_new_cat_input.Size = new System.Drawing.Size(100, 20);
+            this.admin_new_cat_input.TabIndex = 14;
+            this.admin_new_cat_input.TextChanged += new System.EventHandler(this.AdministrationNewCatNameEntered);
+            // 
+            // admin_cat_add_btn
+            // 
+            this.admin_cat_add_btn.Enabled = false;
+            this.admin_cat_add_btn.Location = new System.Drawing.Point(262, 65);
+            this.admin_cat_add_btn.Name = "admin_cat_add_btn";
+            this.admin_cat_add_btn.Size = new System.Drawing.Size(75, 23);
+            this.admin_cat_add_btn.TabIndex = 13;
+            this.admin_cat_add_btn.Text = "Add";
+            this.admin_cat_add_btn.UseVisualStyleBackColor = true;
+            this.admin_cat_add_btn.Click += new System.EventHandler(this.AddCategoryClick);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(88, 27);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(201, 20);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "Category Administration";
+            // 
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
@@ -804,15 +1079,15 @@
             // 
             this.eventLog1.SynchronizingObject = this;
             // 
-            // admin_tab
+            // label3
             // 
-            this.admin_tab.Location = new System.Drawing.Point(4, 22);
-            this.admin_tab.Name = "admin_tab";
-            this.admin_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.admin_tab.Size = new System.Drawing.Size(719, 367);
-            this.admin_tab.TabIndex = 4;
-            this.admin_tab.Text = "Administration";
-            this.admin_tab.UseVisualStyleBackColor = true;
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(98, 212);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(191, 20);
+            this.label3.TabIndex = 32;
+            this.label3.Text = "Edit Existing Category:";
             // 
             // Home
             // 
@@ -846,6 +1121,13 @@
             this.vh_tab.ResumeLayout(false);
             this.vh_tab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vh_grid)).EndInit();
+            this.admin_tab.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider3)).EndInit();
@@ -862,7 +1144,6 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logOutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem administrationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.TabControl tab_control;
@@ -877,8 +1158,6 @@
         private System.Windows.Forms.ErrorProvider errorProvider2;
         private System.Windows.Forms.ErrorProvider errorProvider3;
         private System.Diagnostics.EventLog eventLog1;
-        private System.Windows.Forms.ToolStripMenuItem addUserToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editUserToolStripMenuItem;
         private System.Windows.Forms.Label ee_category_label;
         private System.Windows.Forms.Label ee_label;
         private System.Windows.Forms.Label ee_comments_label;
@@ -930,5 +1209,30 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn commentsHeader;
         private System.Windows.Forms.Label ee_success_message;
         private System.Windows.Forms.TabPage admin_tab;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.ComboBox admin_user_dropdown;
+        private System.Windows.Forms.Label admin_users_label;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label delete_user_label;
+        private System.Windows.Forms.CheckBox delete_chkbox;
+        private System.Windows.Forms.Button admin_user_submit_btn;
+        private System.Windows.Forms.Label lock_unlock_label;
+        private System.Windows.Forms.Label admin_label;
+        private System.Windows.Forms.CheckBox make_admin_chkbox;
+        private System.Windows.Forms.CheckBox lock_unlock_chkbox;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox admin_new_cat_input;
+        private System.Windows.Forms.Button admin_cat_add_btn;
+        private System.Windows.Forms.ComboBox admin_cat_dropdown;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button admin_cat_delete_btn;
+        private System.Windows.Forms.Button admin_cat_rename_btn;
+        private System.Windows.Forms.TextBox admin_cat_newname;
+        private System.Windows.Forms.Label admin_cat_name_label;
+        private System.Windows.Forms.Button add_user_btn;
+        private System.Windows.Forms.Label user_admin_label;
+        private System.Windows.Forms.Label label3;
     }
 }

@@ -441,7 +441,7 @@ namespace Project_Forms
                                          new XElement("lastLogin", DateTime.Now.ToString())));
                                         
                 doc.Save(@"users.xml");
-                MessageBox.Show("User saved.");
+                MessageBox.Show("New Employee " + userToAdd + " saved.");
             }
             else if (userAdmin) //add to admin users xml
             {
@@ -456,7 +456,7 @@ namespace Project_Forms
                                          new XElement("locked", isLocked),
                                          new XElement("lastLogin", DateTime.Now.ToString())));
                 doc.Save(@"user_admin.xml");
-                MessageBox.Show("User saved.");
+                MessageBox.Show("New Administrator " + userToAdd + " saved.");
             }
 
             // Save the user to the list:
@@ -572,7 +572,7 @@ namespace Project_Forms
                 userDoc.Save(@"categories.xml");
                 MessageBox.Show("Category saved.");
             }
-        }//end addNewCategory
+        }//end addCategory
         //=========================================================================
 
 

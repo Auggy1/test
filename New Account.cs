@@ -67,7 +67,7 @@ namespace Project_Forms
                 na_error_msg_1.Visible = true;
                 //MessageBox.Show("Please enter a password");
             }
-            else if (CheckInput(na_firstname.Text))
+            else if (!CheckInput(na_firstname.Text))
             {
                 na_error_msg_1.Text = "Username not allowed. Please try again.";
                 na_error_msg_1.Visible = true;
@@ -99,16 +99,14 @@ namespace Project_Forms
                     na_error_msg_2.Visible = true;
                     na_username.Text = "";
                     return;
-                    //MessageBox.Show("User exists already.");
-                    //this.Close();
                 }
                 else 
                 {
                     string encryptedPass = allcontrol.Encrypt(na_password.Text, "password");// encrypt the password, need to decrypt it later 10/27/2014
                     allcontrol.AddNewUser(na_username.Text, encryptedPass, admin_chkbox.Checked, na_firstname.Text, na_lastname.Text, na_email.Text,false);
                 }
+                ClearEntries();
                 this.Refresh();
-                //this.Close();
             }
         }//end 
         //=====================================================================
@@ -132,13 +130,20 @@ namespace Project_Forms
         // PURPOSE: To check if the correct format is entered into the password 
         //          and username
         // PARAMS:  None. 
-        // UPDATED: 11/13/14    Jeff Henry  -   Checks for whitespace
+        // UPDATED: 11/13/14    Jeff Henry  - Checks for whitespace
+        //          11/14/14    Jeff Henry  - Wont allow more than 9 characters
+        //                                  - Enables submit button after 2 chars.
         //=====================================================================
         private void UsernameBoxTextChange(object sender, EventArgs e)
         {
+            if (na_username.TextLength >= 2)
+                na_submit_btn.Enabled = true;
+            else
+                na_submit_btn.Enabled = false;
+            
             // Check for whitespaces:
             foreach (char c in na_username.Text.ToCharArray())
-                if (char.IsWhiteSpace(c))
+                if (char.IsWhiteSpace(c) || na_username.TextLength > 9)
                 {
                     na_username.Text = na_username.Text.Remove(na_username.Text.Length - 1);
                     na_username.Select(na_username.Text.Length, 0);
@@ -156,16 +161,18 @@ namespace Project_Forms
         //          and username
         // PARAMS:  None. 
         // UPDATED: 11/13/14    Jeff Henry  - Checks for whitespaces now.
+        //          11/14/14    Jeff Henry  - Wont allow more than 9 characters.
         //=====================================================================
         private void PasswordBoxTextChange(object sender, EventArgs e)
         {
             // Check for whitespaces.
             foreach (char c in na_password.Text.ToCharArray())
-                if (char.IsWhiteSpace(c))
+                if (char.IsWhiteSpace(c) || na_password.TextLength > 9)
                 {
                     na_password.Text = na_password.Text.Remove(na_password.Text.Length - 1);
                     na_password.Select(na_password.Text.Length, 0);
                 }
+               
             // Check the password length:
             if (na_password.Text.Length < 6)
                 errorProvider2.SetError(na_password, "Needs to be at least 6 characters."); 
@@ -282,5 +289,21 @@ namespace Project_Forms
             }
         }//end
          
+        //=====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will refresh all the textboxes in the form.
+        //=====================================================================
+        private void ClearEntries()
+        {
+            na_username.Text = "";
+            na_password.Text = "";
+            na_firstname.Text = "";
+            na_lastname.Text = "";
+            na_email.Text = "";
+            na_verifyemail.Text = "";
+            na_submit_btn.Enabled = false;
+            errorProvider1.Clear();
+            errorProvider2.Clear();
+        }
     }
 }

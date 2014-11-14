@@ -93,6 +93,15 @@ namespace Project_Forms
             return alldata.CheckIfAdmin(user);
         }
 
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will return whether a user is locked or not.
+        //========================================================================
+        public bool CheckIfLocked(string user)
+        {
+            return alldata.CheckIfLocked(user);
+        }
+
         //====================================================================
         // AUTHOR:  Jeff Henry
         // PURPOSE: This function will return whether a user exists or not
@@ -258,6 +267,33 @@ namespace Project_Forms
         public void AddNewUser(string user, string enc_pass, bool admin, string first, string last, string email, bool locked)
         {
             alldata.AddNewUser(user, enc_pass, admin, first, last, email, locked);
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will perform the action of adding a new category
+        //========================================================================
+        public void AddNewCategory(string categoryName)
+        {
+            alldata.AddCategory(categoryName);
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will perform the action of deleting a category
+        //========================================================================
+        public void DeleteCategory(string categoryName)
+        {
+            alldata.DeleteCategory(categoryName);
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will perform the action of renaming a category
+        //========================================================================
+        public void RenameCategory(string categoryName, string newName)
+        {
+            alldata.RenameCategory(categoryName, newName);
         }
 
         //========================================================================

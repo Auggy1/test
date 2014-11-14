@@ -217,6 +217,7 @@
             // 
             // na_submit_btn
             // 
+            this.na_submit_btn.Enabled = false;
             this.na_submit_btn.Location = new System.Drawing.Point(12, 262);
             this.na_submit_btn.Name = "na_submit_btn";
             this.na_submit_btn.Size = new System.Drawing.Size(75, 23);
