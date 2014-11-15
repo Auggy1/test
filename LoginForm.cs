@@ -106,5 +106,18 @@ namespace Project_Forms
             username_box.Text = "";
             password_box.Text = "";
         }
+
+        //===================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will enable the login button once a password
+        //          and username is entered.
+        //===================================================================
+        private void password_box_TextChanged(object sender, EventArgs e)
+        {
+            if (username_box.Text != "" && password_box.Text != "")
+                login_btn.Enabled = true;
+            else
+                login_btn.Enabled = false;
+        }
     }
 }

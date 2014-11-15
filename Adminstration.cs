@@ -142,7 +142,7 @@ namespace Project_Forms
                 DialogResult dialog = MessageBox.Show("Are you sure you want to make '" + userToBeEdited + "' an admin?", "Confirm", MessageBoxButtons.YesNo);
                 if (dialog == DialogResult.Yes)
                 {
-                    functionCaller.ChangeAuthorization(userToBeEdited, true);
+                    functionCaller.ChangeAuthorizationInXML(userToBeEdited, true);
                     make_admin_chkbox.Checked = false;
                     return;
                 }

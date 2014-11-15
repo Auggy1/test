@@ -203,6 +203,44 @@ namespace Project_Forms
         }
 
         //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function returns a list of all the users.
+        //====================================================================
+        public List<string> GetEmployees()
+        {
+            return alldata.GetEmployees();
+        }
+
+        //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will change the authority level of the user.
+        //====================================================================
+        public void ChangeAuthorization(string user, bool admin)
+        {
+            alldata.ChangeAuthorizationInXML(user, admin);
+            alldata.ChangeAuthorizationInList(user, admin);
+        }
+
+        //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will change the lock status of the user
+        //====================================================================
+        public void ChangeLock(string user, bool locked)
+        {
+            alldata.LockUnlockUser(user, locked);
+        }
+
+        //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will delete the user selected from the 
+        //          dropdown list
+        //====================================================================
+        public void DeleteUser(string user)
+        {
+            alldata.DeleteUserFromList(user);
+            alldata.DeleteUserFromXML(user);
+        }
+        //====================================================================
         // AUTHOR:  Karan Singh
         // PURPOSE: Gets the various data fields from the forms and adds a 
         //          transaction and history at the same time

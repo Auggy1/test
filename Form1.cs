@@ -57,6 +57,7 @@ namespace Project_Forms
             vr_category_list.SelectedIndex = -1;
             vh_category_list.SelectedIndex = -1;
             vh_user_list.SelectedIndex = -1;
+            tab_control.Controls.Remove(admin_tab);
 
             /*************************************** Date and Time Displays *******************************************/
             ee_date_picker.MaxDate = DateTime.Now;                  // Enter Expense date picker
@@ -88,10 +89,6 @@ namespace Project_Forms
             home_user_details.Text = control.FillLoginInfo(user, is_admin);
             control.UpdateUserLogin(user, is_admin);
 
-            // Make the tab controls visible:
-            tab_control.Appearance = TabAppearance.Normal;
-            tab_control.ItemSize = new Size(20, 20);
-            tab_control.SizeMode = TabSizeMode.Normal;
             logOutToolStripMenuItem.Visible = true;
 
             if (System.DateTime.Now.Hour > 12)
@@ -104,8 +101,10 @@ namespace Project_Forms
             //==================================================================
             if (is_admin)
             {
-                tab_control.Controls.Add(vh_tab);   // Addd the View History Tab to the form
-                tab_control.SelectedTab = vr_tab;   // Change the tab to View History
+                tab_control.Controls.Add(vh_tab);       // Add the View History Tab to the form
+                tab_control.Controls.Add(admin_tab);    // Add the Administration Tab to the form
+                tab_control.SelectedTab = vr_tab;       // Change the tab to View History
+
             }
             else if (!is_admin)
             {
@@ -561,7 +560,7 @@ namespace Project_Forms
             vr_category_list.DataSource = control.GetAllCategories();
             vh_category_list.DataSource = control.GetAllCategories();
             vh_user_list.DataSource = control.GetAllUsers();
-            admin_user_dropdown.DataSource = control.GetAllUsers();
+            admin_user_dropdown.DataSource = control.GetEmployees();
             admin_cat_dropdown.DataSource = control.GetCategories();
 
             // Reset the indices:
@@ -662,6 +661,7 @@ namespace Project_Forms
         private void AddCategoryClick(object sender, EventArgs e)
         {
             control.AddNewCategory(admin_new_cat_input.Text);
+            RefreshDropdowns();
         }
 
         //========================================================================
@@ -671,6 +671,7 @@ namespace Project_Forms
         private void DeleteCategoryClick(object sender, EventArgs e)
         {
             control.DeleteCategory(admin_cat_dropdown.Text);
+            RefreshDropdowns();
         }
 
         //========================================================================
@@ -680,6 +681,7 @@ namespace Project_Forms
         private void RenameCategoryClick(object sender, EventArgs e)
         {
             control.RenameCategory(admin_cat_dropdown.Text, admin_cat_newname.Text);
+            RefreshDropdowns();
         }
 
         //========================================================================
@@ -689,7 +691,18 @@ namespace Project_Forms
         private void SubmitUserChangesClick(object sender, EventArgs e)
         {
             // Check whether any changes were made by the administrator:
-
+            if (make_admin_chkbox.Checked != original_admin_value)
+            {
+                control.ChangeAuthorization(admin_user_dropdown.Text, make_admin_chkbox.Checked);
+            }
+            else if (lock_unlock_chkbox.Checked != original_lock_value)
+            {
+                control.ChangeLock(admin_user_dropdown.Text, lock_unlock_chkbox.Checked);
+            }
+            else if (delete_chkbox.Checked)
+            {
+                control.DeleteUser(admin_user_dropdown.Text);
+            }
             // Refresh the dropdowns:
             RefreshDropdowns();
         }
@@ -727,6 +740,32 @@ namespace Project_Forms
             New_Account createUser = new New_Account(control);
             createUser.ShowDialog();
             RefreshDropdowns();
+        }
+
+        //=======================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will make the search button clickable once
+        //          a category is chosen.
+        //=======================================================================
+        private void VhCatergorySelected(object sender, EventArgs e)
+        {
+            if(vh_category_list.SelectedIndex != -1)
+                vh_search_btn.Enabled = true;
+        }
+
+        //=======================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will enable all the buttons once a category is 
+        //          chosen.
+        //=======================================================================
+        private void VrCategorySelected(object sender, EventArgs e)
+        {
+            if (vr_category_list.SelectedIndex != -1)
+            {
+                view_reports_btn.Enabled = true;
+                detailed_report_btn.Enabled = true;
+                export_btn.Enabled = true;
+            }
         }
 
         //========================================================================

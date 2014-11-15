@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.username_box = new System.Windows.Forms.TextBox();
             this.password_box = new System.Windows.Forms.TextBox();
             this.username_label = new System.Windows.Forms.Label();
@@ -58,6 +59,7 @@
             this.password_box.PasswordChar = '*';
             this.password_box.Size = new System.Drawing.Size(100, 20);
             this.password_box.TabIndex = 1;
+            this.password_box.TextChanged += new System.EventHandler(this.password_box_TextChanged);
             // 
             // username_label
             // 
@@ -90,6 +92,7 @@
             // 
             // login_btn
             // 
+            this.login_btn.Enabled = false;
             this.login_btn.Location = new System.Drawing.Point(197, 52);
             this.login_btn.Name = "login_btn";
             this.login_btn.Size = new System.Drawing.Size(75, 23);
@@ -118,6 +121,7 @@
             this.Controls.Add(this.username_label);
             this.Controls.Add(this.password_box);
             this.Controls.Add(this.username_box);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

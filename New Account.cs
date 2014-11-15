@@ -59,37 +59,32 @@ namespace Project_Forms
             {
                 na_error_msg_1.Text = "Username must contain the following: [a-z][A-Z][0-9][_]";
                 na_error_msg_1.Visible = true;
-                //MessageBox.Show("Please enter a user name containing the following characters: [a-z][A-Z][0-9] or [_]");
             }
             else if (string.IsNullOrWhiteSpace(na_password.Text))
             {
                 na_error_msg_1.Text = "Please enter a password";
                 na_error_msg_1.Visible = true;
-                //MessageBox.Show("Please enter a password");
             }
             else if (!CheckInput(na_firstname.Text))
             {
                 na_error_msg_1.Text = "Username not allowed. Please try again.";
                 na_error_msg_1.Visible = true;
-                //MessageBox.Show("Please enter a valid username");
+                
             }
             else if (na_password.Text.Length < 6) // make sure format is correct for password
             {
                 na_error_msg_1.Text = "Password must be at least 6 characters long.";
                 na_error_msg_1.Visible = true;
-                //MessageBox.Show("Please enter a password that is at least 6 characters long.");
             }
             else if (!na_verifyemail.Text.Equals(na_email.Text))
             {
                 na_error_msg_2.Text = "Emails do not match. Try Again.";
                 na_error_msg_2.Visible = true;
-                //MessageBox.Show("Emails do not match. Try Again.");
             }
             else if (!string.IsNullOrWhiteSpace(na_email.Text) && !IsValidEmail(na_email.Text))
             {
                 na_error_msg_2.Text = "Please enter a valid email address. (Ex. johndoe@aol.com)";
                 na_error_msg_2.Visible = true;
-               //MessageBox.Show("Please enter a valid email address (johndoe@aol.com).");
             }
             else // if everything is filled correctly, 
             {

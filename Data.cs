@@ -22,7 +22,7 @@ using System.Security.Cryptography;
 namespace Project_Forms
 {
     //=========================================================================
-    // AUTHOR: Michelle Jaro & Jeff Henry
+    // AUTHOR:  Michelle Jaro & Jeff Henry
     // PURPOSE: This is a class declaration for transactions. All information 
     //          relevant to a transaction will be saved into a Transaction object
     //          and added to a list, to be used with other functions.
@@ -118,8 +118,25 @@ namespace Project_Forms
             List<string> userlist = new List<string>();
             foreach (var user in users)
                 userlist.Add(user.username);
+            userlist.Sort();
             return userlist;
         }
+
+        //=====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will return a list of only employees to be 
+        //          used for dropdown lists in the main program.
+        //=====================================================================
+        public List<string> GetEmployees()
+        {
+            List<string> userlist = new List<string>();
+            foreach (var user in users)
+                if (!user.admin)
+                    userlist.Add(user.username);
+            userlist.Sort();
+            return userlist;
+        }
+
 
         //=====================================================================
         // AUTHOR:  Jeff Henry
@@ -344,7 +361,24 @@ namespace Project_Forms
 
         }//end add_transaction
         //=====================================================================
-        
+
+        //=====================================================================
+        // AUTHOR:      Jeff Henry
+        // PURPOSE:     If an administrator chooses to change a user to admin 
+        //              or vice versa, this function transfers the user to the
+        //              appropriate xml file and removes them from the original.
+        // PARAMETERS:  User to transfer and if the change is to the admin xml,
+        //              Otherwise it will be moving an admin to the users.xml.
+        // UPDATED:     11/14/2014 - Jeff Henry - Initial Creation
+        //=====================================================================
+        public void ChangeAuthorizationInList(string userToChange, bool toAdmin)
+        {
+            foreach (var user in users)
+                if (user.username == userToChange)
+                    user.admin = toAdmin;
+        }
+
+
         //=====================================================================
         // AUTHOR:      Jeff Henry
         // PURPOSE:     If an administrator chooses to change a user to admin 
@@ -354,7 +388,7 @@ namespace Project_Forms
         //              Otherwise it will be moving an admin to the users.xml.
         // UPDATED:     11/7/2014 - Jeff Henry - Initial Creation
         //=====================================================================
-        public void ChangeAuthorization(string user, bool toAdmin)
+        public void ChangeAuthorizationInXML(string user, bool toAdmin)
         {
             bool locked = false;
 

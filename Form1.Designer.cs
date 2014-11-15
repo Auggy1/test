@@ -110,6 +110,7 @@
             this.admin_user_dropdown = new System.Windows.Forms.ComboBox();
             this.admin_users_label = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.admin_cat_newname = new System.Windows.Forms.TextBox();
             this.admin_cat_name_label = new System.Windows.Forms.Label();
             this.admin_cat_dropdown = new System.Windows.Forms.ComboBox();
@@ -124,7 +125,6 @@
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider3 = new System.Windows.Forms.ErrorProvider(this.components);
             this.eventLog1 = new System.Diagnostics.EventLog();
-            this.label3 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.tab_control.SuspendLayout();
             this.home_tab.SuspendLayout();
@@ -323,9 +323,9 @@
             this.expense_error_msg.ForeColor = System.Drawing.Color.Red;
             this.expense_error_msg.Location = new System.Drawing.Point(199, 251);
             this.expense_error_msg.Name = "expense_error_msg";
-            this.expense_error_msg.Size = new System.Drawing.Size(75, 13);
+            this.expense_error_msg.Size = new System.Drawing.Size(101, 13);
             this.expense_error_msg.TabIndex = 18;
-            this.expense_error_msg.Text = "Error Message";
+            this.expense_error_msg.Text = "Enter Expense Error";
             // 
             // save_expense_btn
             // 
@@ -441,9 +441,9 @@
             this.vr_error_msg.ForeColor = System.Drawing.Color.Red;
             this.vr_error_msg.Location = new System.Drawing.Point(25, 192);
             this.vr_error_msg.Name = "vr_error_msg";
-            this.vr_error_msg.Size = new System.Drawing.Size(35, 13);
+            this.vr_error_msg.Size = new System.Drawing.Size(100, 13);
             this.vr_error_msg.TabIndex = 36;
-            this.vr_error_msg.Text = "label1";
+            this.vr_error_msg.Text = "View Reports Errors";
             this.vr_error_msg.Visible = false;
             // 
             // vr_mileage_total
@@ -475,6 +475,7 @@
             // 
             // detailed_report_btn
             // 
+            this.detailed_report_btn.Enabled = false;
             this.detailed_report_btn.Location = new System.Drawing.Point(60, 254);
             this.detailed_report_btn.Name = "detailed_report_btn";
             this.detailed_report_btn.Size = new System.Drawing.Size(95, 23);
@@ -485,6 +486,7 @@
             // 
             // export_btn
             // 
+            this.export_btn.Enabled = false;
             this.export_btn.Location = new System.Drawing.Point(60, 283);
             this.export_btn.Name = "export_btn";
             this.export_btn.Size = new System.Drawing.Size(95, 23);
@@ -585,6 +587,7 @@
             // 
             // view_reports_btn
             // 
+            this.view_reports_btn.Enabled = false;
             this.view_reports_btn.Location = new System.Drawing.Point(60, 225);
             this.view_reports_btn.Name = "view_reports_btn";
             this.view_reports_btn.Size = new System.Drawing.Size(95, 23);
@@ -601,6 +604,7 @@
             this.vr_category_list.Name = "vr_category_list";
             this.vr_category_list.Size = new System.Drawing.Size(127, 21);
             this.vr_category_list.TabIndex = 23;
+            this.vr_category_list.SelectedIndexChanged += new System.EventHandler(this.VrCategorySelected);
             // 
             // vr_start_date
             // 
@@ -656,9 +660,9 @@
             this.vh_error_msg.ForeColor = System.Drawing.Color.Red;
             this.vh_error_msg.Location = new System.Drawing.Point(53, 280);
             this.vh_error_msg.Name = "vh_error_msg";
-            this.vh_error_msg.Size = new System.Drawing.Size(35, 13);
+            this.vh_error_msg.Size = new System.Drawing.Size(90, 13);
             this.vh_error_msg.TabIndex = 45;
-            this.vh_error_msg.Text = "label1";
+            this.vh_error_msg.Text = "View History Error";
             this.vh_error_msg.Visible = false;
             // 
             // vh_start_date_picker
@@ -746,6 +750,7 @@
             // 
             // vh_search_btn
             // 
+            this.vh_search_btn.Enabled = false;
             this.vh_search_btn.Location = new System.Drawing.Point(151, 233);
             this.vh_search_btn.Name = "vh_search_btn";
             this.vh_search_btn.Size = new System.Drawing.Size(98, 25);
@@ -763,6 +768,7 @@
             this.vh_category_list.Name = "vh_category_list";
             this.vh_category_list.Size = new System.Drawing.Size(98, 21);
             this.vh_category_list.TabIndex = 37;
+            this.vh_category_list.SelectedIndexChanged += new System.EventHandler(this.VhCatergorySelected);
             // 
             // label19
             // 
@@ -810,6 +816,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.Transparent;
             this.splitContainer1.Panel1.Controls.Add(this.add_user_btn);
             this.splitContainer1.Panel1.Controls.Add(this.user_admin_label);
             this.splitContainer1.Panel1.Controls.Add(this.delete_user_label);
@@ -826,6 +833,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.BackColor = System.Drawing.Color.Transparent;
             this.splitContainer1.Panel2.Controls.Add(this.label3);
             this.splitContainer1.Panel2.Controls.Add(this.admin_cat_newname);
             this.splitContainer1.Panel2.Controls.Add(this.admin_cat_name_label);
@@ -838,7 +846,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.admin_cat_add_btn);
             this.splitContainer1.Panel2.Controls.Add(this.label6);
             this.splitContainer1.Size = new System.Drawing.Size(713, 361);
-            this.splitContainer1.SplitterDistance = 329;
+            this.splitContainer1.SplitterDistance = 336;
             this.splitContainer1.TabIndex = 0;
             // 
             // add_user_btn
@@ -864,7 +872,7 @@
             // delete_user_label
             // 
             this.delete_user_label.AutoSize = true;
-            this.delete_user_label.Location = new System.Drawing.Point(74, 291);
+            this.delete_user_label.Location = new System.Drawing.Point(83, 263);
             this.delete_user_label.Name = "delete_user_label";
             this.delete_user_label.Size = new System.Drawing.Size(63, 13);
             this.delete_user_label.TabIndex = 30;
@@ -873,7 +881,7 @@
             // delete_chkbox
             // 
             this.delete_chkbox.AutoSize = true;
-            this.delete_chkbox.Location = new System.Drawing.Point(235, 290);
+            this.delete_chkbox.Location = new System.Drawing.Point(244, 262);
             this.delete_chkbox.Name = "delete_chkbox";
             this.delete_chkbox.Size = new System.Drawing.Size(15, 14);
             this.delete_chkbox.TabIndex = 29;
@@ -882,7 +890,7 @@
             // admin_user_submit_btn
             // 
             this.admin_user_submit_btn.Enabled = false;
-            this.admin_user_submit_btn.Location = new System.Drawing.Point(112, 315);
+            this.admin_user_submit_btn.Location = new System.Drawing.Point(121, 287);
             this.admin_user_submit_btn.Name = "admin_user_submit_btn";
             this.admin_user_submit_btn.Size = new System.Drawing.Size(100, 23);
             this.admin_user_submit_btn.TabIndex = 28;
@@ -893,7 +901,7 @@
             // lock_unlock_label
             // 
             this.lock_unlock_label.AutoSize = true;
-            this.lock_unlock_label.Location = new System.Drawing.Point(75, 264);
+            this.lock_unlock_label.Location = new System.Drawing.Point(84, 236);
             this.lock_unlock_label.Name = "lock_unlock_label";
             this.lock_unlock_label.Size = new System.Drawing.Size(113, 13);
             this.lock_unlock_label.TabIndex = 27;
@@ -902,7 +910,7 @@
             // admin_label
             // 
             this.admin_label.AutoSize = true;
-            this.admin_label.Location = new System.Drawing.Point(74, 238);
+            this.admin_label.Location = new System.Drawing.Point(83, 210);
             this.admin_label.Name = "admin_label";
             this.admin_label.Size = new System.Drawing.Size(67, 13);
             this.admin_label.TabIndex = 26;
@@ -911,7 +919,7 @@
             // make_admin_chkbox
             // 
             this.make_admin_chkbox.AutoSize = true;
-            this.make_admin_chkbox.Location = new System.Drawing.Point(235, 236);
+            this.make_admin_chkbox.Location = new System.Drawing.Point(244, 208);
             this.make_admin_chkbox.Name = "make_admin_chkbox";
             this.make_admin_chkbox.Size = new System.Drawing.Size(15, 14);
             this.make_admin_chkbox.TabIndex = 25;
@@ -921,7 +929,7 @@
             // lock_unlock_chkbox
             // 
             this.lock_unlock_chkbox.AutoSize = true;
-            this.lock_unlock_chkbox.Location = new System.Drawing.Point(235, 263);
+            this.lock_unlock_chkbox.Location = new System.Drawing.Point(244, 235);
             this.lock_unlock_chkbox.Name = "lock_unlock_chkbox";
             this.lock_unlock_chkbox.Size = new System.Drawing.Size(15, 14);
             this.lock_unlock_chkbox.TabIndex = 24;
@@ -933,7 +941,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(74, 212);
+            this.label2.Location = new System.Drawing.Point(83, 184);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(114, 20);
             this.label2.TabIndex = 23;
@@ -942,7 +950,7 @@
             // admin_user_dropdown
             // 
             this.admin_user_dropdown.FormattingEnabled = true;
-            this.admin_user_dropdown.Location = new System.Drawing.Point(129, 184);
+            this.admin_user_dropdown.Location = new System.Drawing.Point(138, 156);
             this.admin_user_dropdown.Name = "admin_user_dropdown";
             this.admin_user_dropdown.Size = new System.Drawing.Size(121, 21);
             this.admin_user_dropdown.TabIndex = 21;
@@ -951,7 +959,7 @@
             // admin_users_label
             // 
             this.admin_users_label.AutoSize = true;
-            this.admin_users_label.Location = new System.Drawing.Point(75, 187);
+            this.admin_users_label.Location = new System.Drawing.Point(84, 159);
             this.admin_users_label.Name = "admin_users_label";
             this.admin_users_label.Size = new System.Drawing.Size(37, 13);
             this.admin_users_label.TabIndex = 20;
@@ -961,11 +969,21 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(74, 149);
+            this.label1.Location = new System.Drawing.Point(83, 121);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(157, 20);
             this.label1.TabIndex = 19;
             this.label1.Text = "Edit Existing User:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(88, 210);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(191, 20);
+            this.label3.TabIndex = 32;
+            this.label3.Text = "Edit Existing Category:";
             // 
             // admin_cat_newname
             // 
@@ -1078,16 +1096,6 @@
             // eventLog1
             // 
             this.eventLog1.SynchronizingObject = this;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(98, 212);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(191, 20);
-            this.label3.TabIndex = 32;
-            this.label3.Text = "Edit Existing Category:";
             // 
             // Home
             // 
