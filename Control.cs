@@ -60,6 +60,7 @@ namespace Project_Forms
                 alldata.CreateUserXML();
                 alldata.CreateCategoriesXML(); 
                 alldata.CreateAdminXML();
+                alldata.CreateActivitiesXML();
             }
         }//end createxmlfile
         //========================================================================

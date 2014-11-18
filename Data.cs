@@ -198,18 +198,37 @@ namespace Project_Forms
         }
 
         //=====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will create Activities XML to be used to keep
+        //          track of all new expenses and user activities while the
+        //          admin is logged of.
+        // PARAMETERS: None
+        //=====================================================================
+        public void CreateActivitiesXML()
+        {
+            XDocument ActivitiesLog =
+                new XDocument(
+                    new XDeclaration("1.0", "utf-8", "yes"),
+                    new XComment("This activity log will store activities under <Activity> label"),
+                    new XElement("All Activities"));
+            ActivitiesLog.Save(@"activities.xml");
+        }
+        //=====================================================================
+
+        //=====================================================================
         // AUTHOR:  Karan Singh
-        // PURPOSE: Provides a generate template with which the xml should be initially created
+        // PURPOSE: Provides a generate template with which the xml should be 
+        //          initially created
         // PARAMS:  None
         //=====================================================================
         public void CreateTransactionXML()
         {
             XDocument Database =
                 new XDocument(
-                new XDeclaration("1.0", "utf-8", "yes"),
-                new XComment("This database will store transactions under <Transaction> label"),
-                new XElement("App_Records",
-                new XElement("All_Transactions")));
+                    new XDeclaration("1.0", "utf-8", "yes"),
+                    new XComment("This database will store transactions under <Transaction> label"),
+                    new XElement("App_Records",
+                    new XElement("All_Transactions")));
                 Database.Save(@"transactions.xml");
         }//end xmlCreate
         //=====================================================================
@@ -302,8 +321,11 @@ namespace Project_Forms
         //=====================================================================
         public bool CheckXMLExistence()
         {
-            return File.Exists(@"transactions.xml") && File.Exists(@"users.xml")
-                && File.Exists(@"categories.xml") && File.Exists(@"user_admin.xml");
+            return File.Exists(@"transactions.xml") 
+                && File.Exists(@"users.xml")
+                && File.Exists(@"categories.xml") 
+                && File.Exists(@"user_admin.xml")
+                && File.Exists(@"activities.xml");
                 
         }//end xmlCheck
         //=====================================================================
