@@ -39,6 +39,8 @@
             this.applicationHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.applicationInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changePasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.time_stamp = new System.Windows.Forms.Label();
             this.tab_control = new System.Windows.Forms.TabControl();
             this.home_tab = new System.Windows.Forms.TabPage();
@@ -159,7 +161,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.helpToolStripMenuItem,
-            this.aboutToolStripMenuItem});
+            this.aboutToolStripMenuItem,
+            this.settingsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(753, 24);
@@ -219,6 +222,21 @@
             this.applicationInfoToolStripMenuItem.Text = "Application Info";
             this.applicationInfoToolStripMenuItem.Click += new System.EventHandler(this.AboutClick);
             // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.changePasswordToolStripMenuItem});
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.settingsToolStripMenuItem.Text = "Options";
+            // 
+            // changePasswordToolStripMenuItem
+            // 
+            this.changePasswordToolStripMenuItem.Name = "changePasswordToolStripMenuItem";
+            this.changePasswordToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.changePasswordToolStripMenuItem.Text = "Change Password";
+            this.changePasswordToolStripMenuItem.Click += new System.EventHandler(this.ChangePasswordOptionSelected);
+            // 
             // time_stamp
             // 
             this.time_stamp.AutoSize = true;
@@ -257,7 +275,7 @@
             // home_user_details
             // 
             this.home_user_details.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.home_user_details.Location = new System.Drawing.Point(6, 256);
+            this.home_user_details.Location = new System.Drawing.Point(6, 251);
             this.home_user_details.Name = "home_user_details";
             this.home_user_details.ReadOnly = true;
             this.home_user_details.Size = new System.Drawing.Size(296, 108);
@@ -881,11 +899,13 @@
             // delete_chkbox
             // 
             this.delete_chkbox.AutoSize = true;
+            this.delete_chkbox.Enabled = false;
             this.delete_chkbox.Location = new System.Drawing.Point(244, 262);
             this.delete_chkbox.Name = "delete_chkbox";
             this.delete_chkbox.Size = new System.Drawing.Size(15, 14);
             this.delete_chkbox.TabIndex = 29;
             this.delete_chkbox.UseVisualStyleBackColor = true;
+            this.delete_chkbox.CheckedChanged += new System.EventHandler(this.DeleteCheckboxChange);
             // 
             // admin_user_submit_btn
             // 
@@ -919,6 +939,7 @@
             // make_admin_chkbox
             // 
             this.make_admin_chkbox.AutoSize = true;
+            this.make_admin_chkbox.Enabled = false;
             this.make_admin_chkbox.Location = new System.Drawing.Point(244, 208);
             this.make_admin_chkbox.Name = "make_admin_chkbox";
             this.make_admin_chkbox.Size = new System.Drawing.Size(15, 14);
@@ -929,6 +950,7 @@
             // lock_unlock_chkbox
             // 
             this.lock_unlock_chkbox.AutoSize = true;
+            this.lock_unlock_chkbox.Enabled = false;
             this.lock_unlock_chkbox.Location = new System.Drawing.Point(244, 235);
             this.lock_unlock_chkbox.Name = "lock_unlock_chkbox";
             this.lock_unlock_chkbox.Size = new System.Drawing.Size(15, 14);
@@ -1242,5 +1264,7 @@
         private System.Windows.Forms.Button add_user_btn;
         private System.Windows.Forms.Label user_admin_label;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changePasswordToolStripMenuItem;
     }
 }

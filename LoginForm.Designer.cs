@@ -38,6 +38,7 @@
             this.login_btn = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
             this.SuspendLayout();
@@ -83,7 +84,7 @@
             // 
             this.login_error_msg.AutoSize = true;
             this.login_error_msg.ForeColor = System.Drawing.Color.Red;
-            this.login_error_msg.Location = new System.Drawing.Point(14, 90);
+            this.login_error_msg.Location = new System.Drawing.Point(14, 89);
             this.login_error_msg.Name = "login_error_msg";
             this.login_error_msg.Size = new System.Drawing.Size(58, 13);
             this.login_error_msg.TabIndex = 4;
@@ -93,9 +94,9 @@
             // login_btn
             // 
             this.login_btn.Enabled = false;
-            this.login_btn.Location = new System.Drawing.Point(197, 52);
+            this.login_btn.Location = new System.Drawing.Point(195, 26);
             this.login_btn.Name = "login_btn";
-            this.login_btn.Size = new System.Drawing.Size(75, 23);
+            this.login_btn.Size = new System.Drawing.Size(94, 23);
             this.login_btn.TabIndex = 5;
             this.login_btn.Text = "Login";
             this.login_btn.UseVisualStyleBackColor = true;
@@ -109,12 +110,22 @@
             // 
             this.errorProvider2.ContainerControl = this;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(195, 52);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(94, 23);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Forgot Password";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // LoginForm
             // 
             this.AcceptButton = this.login_btn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 111);
+            this.ClientSize = new System.Drawing.Size(301, 111);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.login_btn);
             this.Controls.Add(this.login_error_msg);
             this.Controls.Add(this.password_label);
@@ -126,6 +137,7 @@
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
+            this.TopMost = true;
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).EndInit();
             this.ResumeLayout(false);
@@ -143,5 +155,6 @@
         private System.Windows.Forms.Button login_btn;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.ErrorProvider errorProvider2;
+        private System.Windows.Forms.Button button1;
     }
 }

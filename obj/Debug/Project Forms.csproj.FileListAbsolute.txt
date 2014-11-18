@@ -223,3 +223,4 @@ C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\P
 C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\obj\Debug\Project Forms.csprojResolveAssemblyReference.cache
 C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\obj\Debug\Project_Forms.Properties.Resources.resources
 C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\obj\Debug\Project_Forms.LoginForm.resources
+C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\obj\Debug\Project_Forms.ChangePasswordForm.resources

@@ -442,6 +442,38 @@ namespace Project_Forms
         }
 
         //=====================================================================
+        // AUTHOR:      Jeff Henry
+        // PURPOSE:     This function will change the users password in the XML
+        //              file.
+        // PARAMETERS:  The username, the new password
+        // UPDATED:     11/18/2014 - Jeff Henry - Initial creation
+        //=====================================================================
+        public void ChangePasswordInXML(string userName, string newPass)
+        {
+            if (CheckXMLExistence())
+            {
+                XDocument users = XDocument.Load(@"users.xml");
+                foreach (var user in users.Document.Descendants("User"))
+                    if (user.Element("username").Value == userName)
+                        user.Element("password").Value = newPass;
+                users.Save(@"users.xml");
+            }
+        }
+
+        //=====================================================================
+        // AUTHOR:      Jeff Henry
+        // PURPOSE:     This function will change the users password in the Lists
+        // PARAMETERS:  The username, the new password
+        // UPDATED:     11/18/2014 - Jeff Henry - Initial Creation
+        //=====================================================================
+        public void ChangePasswordInList(string userName, string newPass)
+        {
+            foreach (var user in users)
+                if (user.username == userName)
+                    user.password = newPass;
+        }
+
+        //=====================================================================
         // AUTHOR:      Maxwell Partington & Ranier Limpiado 
         // PURPOSE:     This function is designed to add a new user to the
         //              users.xml or the user_admin.xml. 

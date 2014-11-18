@@ -1,4 +1,4 @@
-﻿//=====================================================================
+﻿//=======================================================================
 // AUTHORS: 
 //              Cycle 1: Karan Singh & Michelle Jaro
 //              Cycle 2: Maxwell Partington & Ranier Limpiado     
@@ -8,7 +8,7 @@
 //              or admin. 
 // PARAMS:      Proper execution of the .exe is the only parameter. 
 // LAST UPDATE: 11/6/14
-//=====================================================================
+//=======================================================================
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -590,7 +590,13 @@ namespace Project_Forms
         private void AdministrationUserSelected(object sender, EventArgs e)
         {
             admin_user_submit_btn.Enabled = false;
- 
+            if (admin_user_dropdown.Text != "")
+            {
+                make_admin_chkbox.Enabled = true;
+                lock_unlock_chkbox.Enabled = true;
+                delete_chkbox.Enabled = true;
+            }
+
             if (control.CheckIfAdmin(admin_user_dropdown.Text))
             {
                 make_admin_chkbox.Checked = true;
@@ -703,8 +709,11 @@ namespace Project_Forms
             {
                 control.DeleteUser(admin_user_dropdown.Text);
             }
-            // Refresh the dropdowns:
+            // Refresh the dropdowns and disable checkboxes:
             RefreshDropdowns();
+            make_admin_chkbox.Enabled = false;
+            lock_unlock_chkbox.Enabled = false;
+            delete_chkbox.Enabled = false;
         }
 
         //========================================================================
@@ -725,10 +734,24 @@ namespace Project_Forms
         //========================================================================
         private void LockCheckboxChange(object sender, EventArgs e)
         {
-            if (lock_unlock_chkbox.Checked == original_lock_value)
-                admin_user_submit_btn.Enabled = false;
-            else
+            if (admin_user_dropdown.Text != "")
+            {
+                if (lock_unlock_chkbox.Checked == original_lock_value)
+                    admin_user_submit_btn.Enabled = false;
+                else
+                    admin_user_submit_btn.Enabled = true;
+            }
+        }
+        //=======================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will handle if the state of the checkbox changes
+        //=======================================================================
+        private void DeleteCheckboxChange(object sender, EventArgs e)
+        {
+            if (admin_user_dropdown.Text != "")
                 admin_user_submit_btn.Enabled = true;
+            else
+                admin_user_submit_btn.Enabled = false;
         }
 
         //========================================================================
@@ -767,6 +790,18 @@ namespace Project_Forms
                 export_btn.Enabled = true;
             }
         }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will open a change password form when selected.
+        //========================================================================
+        private void ChangePasswordOptionSelected(object sender, EventArgs e)
+        {
+            ChangePasswordForm cp_form = new ChangePasswordForm(control, current_user);
+            cp_form.ShowDialog();
+        }
+
+        
 
         //========================================================================
         //                      !! DEPRECATED FUNCTIONS !!

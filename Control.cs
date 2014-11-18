@@ -232,6 +232,16 @@ namespace Project_Forms
 
         //====================================================================
         // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will change the users password.
+        //====================================================================
+        public void ChangePassword(string user, string new_pass)
+        {
+            alldata.ChangePasswordInXML(user, new_pass);
+            alldata.ChangePasswordInList(user, new_pass);
+        }
+
+        //====================================================================
+        // AUTHOR:  Jeff Henry
         // PURPOSE: This function will delete the user selected from the 
         //          dropdown list
         //====================================================================

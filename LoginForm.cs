@@ -20,6 +20,8 @@ namespace Project_Forms
 {
     public partial class LoginForm : Form
     {
+        int lockCount = 0;  // Counter for failed login attempts
+
         public LoginForm()
         {
             InitializeComponent();
@@ -56,7 +58,7 @@ namespace Project_Forms
                 login_error_msg.Text = "Username is too short.";
                 login_error_msg.Show();
             }
-            else if (password_box.TextLength < 6 && username_box.Text != "admin") 
+            else if (password_box.TextLength < 6 && username_box.Text != "admin")
             {
                 errorProvider1.SetError(password_box, "Password is too short.");
                 login_error_msg.Text = "Password is too short.";
@@ -68,30 +70,54 @@ namespace Project_Forms
                 bool exists = allcontrol.CheckUserExistence(username_box.Text, admin);
                 bool validPass = allcontrol.VerifyPassword(username_box.Text, password_box.Text);
 
-                // If the user entered correct login information, we need to call the main 
-                // form and pass information such as who logged in, and if they are an
-                // administrator so we can determine what tabs and information should be shown.
-                if (exists && validPass)
+                // Check if the user is locked:
+                if (allcontrol.CheckIfLocked(username_box.Text) && !admin)
                 {
-                    Home main_app = new Home(username_box.Text, admin, allcontrol);
-                    this.Hide();
-                    main_app.ShowDialog();
+                    login_error_msg.Text = "User is locked. Contact your Administrator";
+                    login_error_msg.Show();
                     reset();
-                    this.Show();
-                    username_box.Focus();
+                    return;
                 }
-                else if (!exists)
+                else
                 {
-                    login_error_msg.Text = "User does not exist.";
-                    login_error_msg.Show();
-                    username_box.Clear();
-                    password_box.Clear();
-                }
-                else if (!validPass)
-                {
-                    login_error_msg.Text = "Invalid Password. Try Again.";
-                    login_error_msg.Show();
-                    password_box.Clear();
+                    // If the user entered correct login information, we need to call the main 
+                    // form and pass information such as who logged in, and if they are an
+                    // administrator so we can determine what tabs and information should be shown.
+                    if (exists && validPass)
+                    {
+                        Home main_app = new Home(username_box.Text, admin, allcontrol);
+                        this.Hide();
+                        main_app.ShowDialog();
+                        reset();
+                        this.Show();
+                        username_box.Focus();
+                    }
+                    else if (!exists)
+                    {
+                        login_error_msg.Text = "User does not exist.";
+                        login_error_msg.Show();
+                        username_box.Clear();
+                        password_box.Clear();
+                    }
+                    else if (!validPass)
+                    {
+                        lockCount++;
+                        // If 8 failed login attempts, the account will be locked and user notified.
+                        if (lockCount == 8)
+                        {
+                            allcontrol.ChangeLock(username_box.Text, true);
+                            login_error_msg.Text = "8 Failed login attempts. Account will be locked";
+                            login_error_msg.Show();
+                            reset();
+                        }
+                        // Otherwise present an error and clear password field.
+                        else
+                        {
+                            login_error_msg.Text = "Invalid Password. Try Again.";
+                            login_error_msg.Show();
+                            password_box.Clear();
+                        }
+                    }
                 }
             }
 
@@ -105,6 +131,7 @@ namespace Project_Forms
         {
             username_box.Text = "";
             password_box.Text = "";
+            lockCount = 0;
         }
 
         //===================================================================
