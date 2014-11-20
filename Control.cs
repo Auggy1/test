@@ -116,9 +116,18 @@ namespace Project_Forms
         // AUTHOR:  Jeff Henry
         // PURPOSE: This function will return whether a user exists or not
         //====================================================================
-        public bool CheckUserExistence(string user, bool isAdmin)
+        public bool CheckUserExistence(string user)
         {
-            return alldata.CheckUserExistence(user, isAdmin);
+            return alldata.CheckUserExistence(user);
+        }
+
+        //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will return whether a category exists or not
+        //====================================================================
+        public bool CheckCategoryExistence(string category)
+        {
+            return alldata.CheckCategoryExistence(category);
         }
 
         //====================================================================

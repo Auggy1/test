@@ -548,7 +548,7 @@ namespace Project_Forms
                         User.Remove();
                         userDoc.Save(@"users.xml");
                         MessageBox.Show(userToDelete + " has been deleted.");
-                        return; 
+                        break; 
                     }
                 }//end foreach
              }
@@ -785,7 +785,7 @@ namespace Project_Forms
         // PARAMETERS:  The newUser to be checked
         // UPDATED:     11/9/2014   Jeff Henry - Refactoring
         //=========================================================================
-        public bool CheckUserExistence(string newUser, bool adminUser)
+        public bool CheckUserExistence(string newUser)
         {
             foreach (var user in users)
             {
@@ -1362,7 +1362,7 @@ namespace Project_Forms
             } 
 
             return categories;
-         }//end addCategories
+         }//end GetCategories
         //=====================================================================
 
         //=====================================================================
@@ -1388,7 +1388,7 @@ namespace Project_Forms
             cats.Insert(0, "All Categories");
 
             return cats;
-        }//end addCategories
+        }//end GetAllCategories
         //=====================================================================
 
         //=====================================================================

@@ -1,27 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <!--This database will store transactions under <Transaction> label-->
 <App_Records>
-  <All_Transactions>
-    <Transaction>
-      <Added_By>admin</Added_By>
-      <Expenditure>25000.00</Expenditure>
-      <Comments>New Company Car</Comments>
-      <Category>Automobile</Category>
-      <Date>2014-11-19T00:00:00</Date>
-    </Transaction>
-    <Transaction>
-      <Added_By>admin</Added_By>
-      <Expenditure>5050.00</Expenditure>
-      <Comments>Trip to London.</Comments>
-      <Category>Travel</Category>
-      <Date>2014-11-19T00:00:00</Date>
-    </Transaction>
-    <Transaction>
-      <Added_By>admin</Added_By>
-      <Expenditure>400.00</Expenditure>
-      <Comments>New Banners.</Comments>
-      <Category>Advertising</Category>
-      <Date>2014-11-19T00:00:00</Date>
-    </Transaction>
-  </All_Transactions>
+  <All_Transactions />
 </App_Records>

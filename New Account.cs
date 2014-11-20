@@ -65,9 +65,9 @@ namespace Project_Forms
                 na_error_msg_1.Text = "Please enter a password";
                 na_error_msg_1.Visible = true;
             }
-            else if (!CheckInput(na_firstname.Text))
+            else if (allcontrol.CheckUserExistence(na_username.Text))
             {
-                na_error_msg_1.Text = "Username not allowed. Please try again.";
+                na_error_msg_1.Text = "Username is taken. Please try another.";
                 na_error_msg_1.Visible = true;
                 
             }
@@ -88,7 +88,7 @@ namespace Project_Forms
             }
             else // if everything is filled correctly, 
             {
-                if (allcontrol.CheckUserExistence(na_username.Text,admin_chkbox.Checked))
+                if (allcontrol.CheckUserExistence(na_username.Text))
                 {
                     na_error_msg_2.Text = "Username is taken, try again.";
                     na_error_msg_2.Visible = true;
@@ -138,7 +138,7 @@ namespace Project_Forms
             
             // Check for whitespaces:
             foreach (char c in na_username.Text.ToCharArray())
-                if (char.IsWhiteSpace(c) || na_username.TextLength > 9)
+                if (char.IsWhiteSpace(c) || na_username.TextLength > 9 || !char.IsLetterOrDigit(c))
                 {
                     na_username.Text = na_username.Text.Remove(na_username.Text.Length - 1);
                     na_username.Select(na_username.Text.Length, 0);
@@ -162,7 +162,7 @@ namespace Project_Forms
         {
             // Check for whitespaces.
             foreach (char c in na_password.Text.ToCharArray())
-                if (char.IsWhiteSpace(c) || na_password.TextLength > 9)
+                if (char.IsWhiteSpace(c) || na_password.TextLength > 9 || !char.IsLetterOrDigit(c))
                 {
                     na_password.Text = na_password.Text.Remove(na_password.Text.Length - 1);
                     na_password.Select(na_password.Text.Length, 0);
@@ -194,8 +194,12 @@ namespace Project_Forms
         //=====================================================================
         public bool IsValidEmail(string emailaddress)
         {
-            try{MailAddress m = new MailAddress(emailaddress);return true;}
-            catch (FormatException){return false;}
+            Match match = Regex.Match(emailaddress, @"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b", RegexOptions.IgnoreCase);
+            if (!match.Success) { return false; }
+            return true;
+
+            //try{MailAddress m = new MailAddress(emailaddress);return true;}
+            //catch (FormatException){return false;}
         }
 
         //=====================================================================
@@ -207,7 +211,7 @@ namespace Project_Forms
         {
             // Look for whitespaces first:
             foreach (char c in na_firstname.Text.ToCharArray())
-                if (char.IsWhiteSpace(c))
+                if (char.IsWhiteSpace(c) || !char.IsLetter(c))
                 {
                     na_firstname.Text = na_firstname.Text.Remove(na_firstname.Text.Length - 1);
                     na_firstname.Select(na_firstname.Text.Length, 0);
@@ -235,7 +239,7 @@ namespace Project_Forms
         {
             // Look for whitespaces first:
             foreach (char c in na_lastname.Text.ToCharArray())
-                if (char.IsWhiteSpace(c))
+                if (char.IsWhiteSpace(c) || !char.IsLetter(c))
                 {
                     na_lastname.Text = na_lastname.Text.Remove(na_lastname.Text.Length - 1);
                     na_lastname.Select(na_lastname.Text.Length, 0);

@@ -1,9 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!--This database will store transactions under <Activity> label-->
 <App_Records>
   <All_Activities>
     <First_Run>False</First_Run>
-    <Activity>5:16 PM admin entered an expense.</Activity>
-    <Activity>5:17 PM admin entered an expense.</Activity>
-    <Activity>5:17 PM admin entered an expense.</Activity>
+    <Activity>6:39 PM admin Logged In.</Activity>
+    <Activity>7:05 PM admin Logged In.</Activity>
+    <Activity>7:10 PM admin Logged In.</Activity>
+    <Activity>7:11 PM admin Logged In.</Activity>
+    <Activity>7:12 PM admin Logged In.</Activity>
+    <Activity>7:23 PM admin Logged In.</Activity>
+    <Activity>7:24 PM admin Logged In.</Activity>
+    <Activity>7:27 PM Ranier's account was created.</Activity>
+    <Activity>7:27 PM Ranier was locked.</Activity>
+    <Activity>7:27 PM Ranier was unlocked.</Activity>
   </All_Activities>
 </App_Records>

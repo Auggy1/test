@@ -67,7 +67,7 @@ namespace Project_Forms
             else
             {
                 bool admin = allcontrol.CheckIfAdmin(username_box.Text);
-                bool exists = allcontrol.CheckUserExistence(username_box.Text, admin);
+                bool exists = allcontrol.CheckUserExistence(username_box.Text);
                 bool validPass = allcontrol.VerifyPassword(username_box.Text, password_box.Text);
 
                 // Check if the user is locked:

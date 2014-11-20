@@ -131,6 +131,7 @@
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider3 = new System.Windows.Forms.ErrorProvider(this.components);
             this.eventLog1 = new System.Diagnostics.EventLog();
+            this.add_cat_error_msg = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.tab_control.SuspendLayout();
             this.home_tab.SuspendLayout();
@@ -858,6 +859,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.Transparent;
+            this.splitContainer1.Panel2.Controls.Add(this.add_cat_error_msg);
             this.splitContainer1.Panel2.Controls.Add(this.label3);
             this.splitContainer1.Panel2.Controls.Add(this.admin_cat_newname);
             this.splitContainer1.Panel2.Controls.Add(this.admin_cat_name_label);
@@ -1167,6 +1169,17 @@
             // 
             this.eventLog1.SynchronizingObject = this;
             // 
+            // add_cat_error_msg
+            // 
+            this.add_cat_error_msg.AutoSize = true;
+            this.add_cat_error_msg.ForeColor = System.Drawing.Color.Red;
+            this.add_cat_error_msg.Location = new System.Drawing.Point(36, 121);
+            this.add_cat_error_msg.Name = "add_cat_error_msg";
+            this.add_cat_error_msg.Size = new System.Drawing.Size(142, 13);
+            this.add_cat_error_msg.TabIndex = 33;
+            this.add_cat_error_msg.Text = "Add Category Error Message";
+            this.add_cat_error_msg.Visible = false;
+            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1319,5 +1332,6 @@
         private System.Windows.Forms.RichTextBox activity_rt_box;
         private System.Windows.Forms.Button load_activity_btn;
         private System.Windows.Forms.Button clr_activity_btn;
+        private System.Windows.Forms.Label add_cat_error_msg;
     }
 }

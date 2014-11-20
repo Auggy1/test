@@ -670,8 +670,19 @@ namespace Project_Forms
         //========================================================================
         private void AddCategoryClick(object sender, EventArgs e)
         {
-            control.AddNewCategory(admin_new_cat_input.Text);
-            RefreshDropdowns();
+            add_cat_error_msg.Visible = false;
+            if (!control.CheckCategoryExistence(admin_new_cat_input.Text))
+            {
+                control.AddNewCategory(admin_new_cat_input.Text);
+                RefreshDropdowns();
+            }
+            else
+            {
+                add_cat_error_msg.Text = admin_new_cat_input.Text + " already exists.";
+                add_cat_error_msg.Visible = true;
+                admin_new_cat_input.Text = "";
+                admin_new_cat_input.Select(admin_new_cat_input.TextLength, 0);
+            }
         }
 
         //========================================================================
