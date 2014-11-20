@@ -58,8 +58,7 @@ namespace Project_Forms
             {
                 alldata.CreateTransactionXML();
                 alldata.CreateUserXML();
-                alldata.CreateCategoriesXML(); 
-                alldata.CreateAdminXML();
+                alldata.CreateCategoriesXML();
                 alldata.CreateActivitiesXML();
             }
         }//end createxmlfile
@@ -74,6 +73,16 @@ namespace Project_Forms
         {
             alldata.LoadTransactionsFromXML();
             alldata.LoadUsersFromXML();
+        }
+
+        //====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will check if the program is being ran for 
+        //          the first time.
+        //====================================================================
+        public void CheckFirstRun()
+        {
+            alldata.CheckFirstRun();
         }
 
         //====================================================================
@@ -354,6 +363,38 @@ namespace Project_Forms
         public string Encrypt(string password, string cypher)
         {
             return alldata.Encrypt(password, cypher);
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: THis function will save a new activity to the activity.xml
+        // UPDATED: 11/18/2014 Jeff Henry - Initial Creation
+        //========================================================================
+        public void AddActivity(string activity)
+        {
+            alldata.AddActivity(activity);
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will populate the activity rich text box with 
+        //          all activities from the activity.xml.
+        // UPDATED: 11/18/2014 Jeff Henry   - Initial Creation
+        //========================================================================
+        public void PopulateActivityLog(RichTextBox activityLog)
+        {
+            alldata.PopulateActivityLog(activityLog);
+        }
+    
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will clear all the activities from the activity
+        //          xml file.
+        // UPDATED: 11/19/2014 Jeff Henry   - Initial Creation
+        //========================================================================
+        public void ClearActivity()
+        {
+            alldata.ClearActivity();
         }
     }
     //========================================================================

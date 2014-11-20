@@ -87,7 +87,9 @@ namespace Project_Forms
                     {
                         Home main_app = new Home(username_box.Text, admin, allcontrol);
                         this.Hide();
+                        allcontrol.CheckFirstRun();
                         main_app.ShowDialog();
+                        allcontrol.CheckFirstRun();
                         reset();
                         this.Show();
                         username_box.Focus();
@@ -105,6 +107,7 @@ namespace Project_Forms
                         // If 8 failed login attempts, the account will be locked and user notified.
                         if (lockCount == 8)
                         {
+                            allcontrol.AddActivity(DateTime.Now.ToShortTimeString() + " " + username_box.Text + " had 8 failed login attempts. (Will be locked.)");
                             allcontrol.ChangeLock(username_box.Text, true);
                             login_error_msg.Text = "8 Failed login attempts. Account will be locked";
                             login_error_msg.Show();
@@ -113,6 +116,7 @@ namespace Project_Forms
                         // Otherwise present an error and clear password field.
                         else
                         {
+                            allcontrol.AddActivity(DateTime.Now.ToShortTimeString() + " " + username_box.Text + " had a failed login attempt.");
                             login_error_msg.Text = "Invalid Password. Try Again.";
                             login_error_msg.Show();
                             password_box.Clear();

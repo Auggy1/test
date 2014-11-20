@@ -156,6 +156,7 @@ namespace Project_Forms
         // AUTHOR:  Jeff Henry
         // PURPOSE: This function will grab all users from the xml and will save
         //          them to the users list.
+        // UPDATED: 11/18/2014  - Jeff Henry    - No need for admin.xml
         //=====================================================================
         public void LoadUsersFromXML()
         {
@@ -177,23 +178,6 @@ namespace Project_Forms
                     new_user.lastLogin = Convert.ToDateTime(node["lastLogin"].InnerText);
                     users.Add(new_user);
                 }
-
-                XmlDocument admin_xml = new XmlDocument();
-                admin_xml.Load("user_admin.xml");
-                XmlNodeList admin_list = admin_xml.SelectNodes("/Users/User");
-                foreach (XmlNode node in admin_list)
-                {
-                    User new_user = new User();
-                    new_user.username = node["username"].InnerText;
-                    new_user.firstname = node["firstName"].InnerText;
-                    new_user.lastname = node["lastName"].InnerText;
-                    new_user.password = node["password"].InnerText;
-                    new_user.email = node["email"].InnerText;
-                    new_user.admin = Convert.ToBoolean(node["admin"].InnerText);
-                    new_user.locked = Convert.ToBoolean(node["locked"].InnerText);
-                    new_user.lastLogin = Convert.ToDateTime(node["lastLogin"].InnerText);
-                    users.Add(new_user);
-                }
             }
         }
 
@@ -202,16 +186,19 @@ namespace Project_Forms
         // PURPOSE: This function will create Activities XML to be used to keep
         //          track of all new expenses and user activities while the
         //          admin is logged of.
-        // PARAMETERS: None
+        // PARAMETERS:  None
+        // UPDATES:     11/18/2014 - Jeff Henry - Initial Creation
         //=====================================================================
         public void CreateActivitiesXML()
         {
-            XDocument ActivitiesLog =
+            XDocument Database =
                 new XDocument(
                     new XDeclaration("1.0", "utf-8", "yes"),
-                    new XComment("This activity log will store activities under <Activity> label"),
-                    new XElement("All Activities"));
-            ActivitiesLog.Save(@"activities.xml");
+                    new XComment("This database will store transactions under <Activity> label"),
+                    new XElement("App_Records",
+                    new XElement("All_Activities",
+                    new XElement("First_Run","True"))));
+            Database.Save(@"activities.xml");
         }
         //=====================================================================
 
@@ -274,44 +261,31 @@ namespace Project_Forms
         //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado 
         // DATE:    10/24/14
-        // PURPOSE: Added a default admin account for the first creation of the xml. 
+        // PURPOSE: This creates the User xml that will hold all data on each
+        //          user created by the software.
+        // UPDATED: 11/18/2014 - Jeff Henry - Only one user file will be used.
         //=====================================================================
         public void CreateUserXML()
         {
             XDocument Database =
-            new XDocument(
-            new XDeclaration("1.0", "utf-8", "yes"),
-            new XComment("This database will all users under <User> label"),
-            new XComment("This user information will be stored under Username"),
-            new XElement("Users"));
+           new XDocument(
+           new XDeclaration("1.0", "utf-8", "yes"),
+           new XComment("This database will store transactions under <User> label"),
+           new XComment("This user information will be stored under Username"),
+           new XElement("Users", new XElement("User",
+                                 new XElement("username", "admin"),
+                                 new XElement("password", "admin"),
+                                 new XElement("firstName", "Default"),
+                                 new XElement("lastName", "Administrator"),
+                                 new XElement("email", "admin@vbm.com"),
+                                 new XElement("admin", true),
+                                 new XElement("locked", false),
+                                 new XElement("lastLogin", DateTime.Now.ToString()))));
             Database.Save(@"users.xml");
         }//end userXml
         //=====================================================================
 
-        //=====================================================================
-        // AUTHOR: Maxwell Partington & Ranier Limpiado 
-        // DATE:   10/24/14
-        // EDIT:   Added a default admin account for the first creation of the xml. 
-        //=====================================================================
-        public void CreateAdminXML()
-        {
-            XDocument Database =
-            new XDocument(
-            new XDeclaration("1.0", "utf-8", "yes"),
-            new XComment("This database will store transactions under <User> label"),
-            new XComment("This user information will be stored under Username"),
-            new XElement("Users", new XElement("User",
-                                  new XElement("username", "admin"),
-                                  new XElement("password", "admin"),
-                                  new XElement("firstName", "admin"),
-                                  new XElement("lastName", "admin"),
-                                  new XElement("email", "admin@vbm.com"),
-                                  new XElement("admin", true),
-                                  new XElement("locked", false),
-                                  new XElement("lastLogin", DateTime.Now.ToString()))));
-            Database.Save(@"user_admin.xml");
-        }//end userAmdminXml
-        //=====================================================================
+        
 
         //=====================================================================
         // AUTHOR:  Karan Singh & Jeff Henry (Refactored)
@@ -323,12 +297,38 @@ namespace Project_Forms
         {
             return File.Exists(@"transactions.xml") 
                 && File.Exists(@"users.xml")
-                && File.Exists(@"categories.xml") 
-                && File.Exists(@"user_admin.xml")
+                && File.Exists(@"categories.xml")
                 && File.Exists(@"activities.xml");
                 
         }//end xmlCheck
         //=====================================================================
+
+        //=====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will check whether it is the first time 
+        //          running the software. If so, it will suggest to the admin
+        //          to create a new administrator account and to lock the 
+        //          default administrator account.
+        // UPDATED: 11/18/2014 - Jeff Henry - Initial Creation
+        //=====================================================================
+        public void CheckFirstRun()
+        {            
+            XmlDocument xml = new XmlDocument();
+            xml.Load(@"activities.xml");
+            XmlNode node = xml.DocumentElement.GetElementsByTagName("First_Run")[0];
+            if (node.InnerText == "True")
+            {
+                MessageBox.Show("We have determined that this is your first time running the"
+                            + " Venture Business Management Software. We suggest that you"
+                            + " create a unique Administrator account under the Administration"
+                            + " tab and lock the default 'admin' account that you used to login"
+                            + " with. If you require a more detailed explanation of how to edit"
+                            + " users, click on the help button at the top of the application.","Welcome");
+                node.InnerText = "False";
+            }
+            xml.Save(@"activities.xml");
+            
+        }
 
         //=====================================================================
         // AUTHOR:  Jeff Henry
@@ -340,7 +340,7 @@ namespace Project_Forms
         public void LoadTransactionsFromXML()
         {
             XmlDocument xml = new XmlDocument();
-            xml.Load("transactions.xml");
+            xml.Load(@"transactions.xml");
             XmlNodeList list = xml.SelectNodes("/App_Records/All_Transactions/Transaction");
 
             foreach (XmlNode node in list)
@@ -381,6 +381,9 @@ namespace Project_Forms
             Transaction new_trans = new Transaction(name, expenditure, comments, category, date);
             transactions.Add(new_trans);
 
+            // Update the activity xml:
+            AddActivity(DateTime.Now.ToShortTimeString() + " " + name + " entered an expense for " + category + ".");
+
         }//end add_transaction
         //=====================================================================
 
@@ -408,58 +411,31 @@ namespace Project_Forms
         //              appropriate xml file and removes them from the original.
         // PARAMETERS:  User to transfer and if the change is to the admin xml,
         //              Otherwise it will be moving an admin to the users.xml.
-        // UPDATED:     11/7/2014 - Jeff Henry - Initial Creation
+        // UPDATED:     11/7/2014   - Jeff Henry - Initial Creation
+        //              11/18/2014  - Jeff Henry - No need for admin.xml
         //=====================================================================
         public void ChangeAuthorizationInXML(string user, bool toAdmin)
         {
-            bool locked = false;
-
             if (CheckXMLExistence())
             {
-                // If being transferred to admin.xml, open the users.xml and save
-                // the info to transfer then delete the user from the users.xml
-                if (toAdmin)
-                {
-                    XDocument users_xml = XDocument.Load(@"users.xml");
+                XDocument users_xml = XDocument.Load(@"users.xml");
 
-                    // Parse through the xml for the user:
-                    foreach (var User in users_xml.Document.Descendants("User")){
-                        if (User.Element("username").Value == user){
-                            if (User.Element("locked").Value == "True")
-                                locked = true;
-                            // Move the user over to the users.xml
-                            AddNewUser(user, User.Element("password").Value,
-                                       toAdmin, User.Element("firstName").Value,
-                                       User.Element("lastName").Value,
-                                       User.Element("email").Value,
-                                       locked);
-                            User.Remove();
-                            users_xml.Save(@"users.xml");
-                            return;
-                        }
-                    }//end foreach
-                }
-                else
+                // Parse through the xml for the user:
+                foreach (var User in users_xml.Document.Descendants("User"))
                 {
-                    XDocument admins_xml = XDocument.Load(@"user_admin.xml");
+                    if (User.Element("username").Value == user)
+                    {
+                        User.Element("admin").Value = toAdmin.ToString();
+                        users_xml.Save(@"users.xml");
+                        return;
+                    }
+                }//end foreach
 
-                    // Parse through the xml for the user:
-                    foreach (var User in admins_xml.Document.Descendants("User")){
-                        if (User.Element("username").Value == user){
-                            if (User.Element("locked").Value == "True")
-                                locked = true;
-                            // Move the user over to the admin.xml
-                            AddNewUser(user, User.Element("password").Value,
-                                       toAdmin, User.Element("firstName").Value,
-                                       User.Element("lastName").Value,
-                                       User.Element("email").Value,
-                                       locked);
-                            User.Remove();
-                            admins_xml.Save(@"user_admin.xml");
-                            return;
-                        }
-                    }//end foreach
-                }
+                // Change Authorization in List:
+                foreach (var User in users)
+                    if (User.username == user)
+                        User.admin = toAdmin;
+
             }
         }
 
@@ -480,6 +456,9 @@ namespace Project_Forms
                         user.Element("password").Value = newPass;
                 users.Save(@"users.xml");
             }
+
+            // Update the activity xml:
+            AddActivity(DateTime.Now.ToShortTimeString() + " " + userName + " changed their password.");
         }
 
         //=====================================================================
@@ -498,12 +477,13 @@ namespace Project_Forms
         //=====================================================================
         // AUTHOR:      Maxwell Partington & Ranier Limpiado 
         // PURPOSE:     This function is designed to add a new user to the
-        //              users.xml or the user_admin.xml. 
+        //              users.xml
         // PARAMETERS:  The usersname to add, their new passowrd, if they will
         //              be an admin or not, their first name, last name, 
         //              and email, last login date. 
-        // UPDATED:     11/7/2014 - Jeff Henry - Modified parameters to allow 
-        //                          more function use.
+        // UPDATED:     11/7/2014   - Jeff Henry -  Modified parameters to allow 
+        //                                          more function use.
+        //              11/18/2014  - Jeff Henry -  No need for admin.xml
         //=====================================================================
         public void AddNewUser(string userToAdd, string userPassword, bool userAdmin, string firstName, string lastName, string email, bool isLocked)
         {
@@ -514,42 +494,26 @@ namespace Project_Forms
             var nameElements = docu.Descendants("password").ToList();
             foreach (var nameElement in nameElements)
                 nameElement.Value = new string(nameElement.Value.Reverse().ToArray());
-
-            if (!userAdmin) //add to normal users xml
-            {
-                var doc = XDocument.Load("users.xml");
-                doc.Element("Users").Add(new XElement("User",
-                                         new XElement("username", userToAdd), 
-                                         new XElement("password", userPassword), 
-                                         new XElement("firstName", firstName), 
-                                         new XElement("lastName", lastName), 
-                                         new XElement("email", email), 
-                                         new XElement("admin", userAdmin), 
-                                         new XElement("locked", isLocked),
-                                         new XElement("lastLogin", DateTime.Now.ToString())));
+            var userXML = XDocument.Load("users.xml");
+            userXML.Element("Users").Add(new XElement("User",
+                                        new XElement("username", userToAdd), 
+                                        new XElement("password", userPassword), 
+                                        new XElement("firstName", firstName), 
+                                        new XElement("lastName", lastName), 
+                                        new XElement("email", email), 
+                                        new XElement("admin", userAdmin), 
+                                        new XElement("locked", isLocked),
+                                        new XElement("lastLogin", DateTime.Now.ToString())));
                                         
-                doc.Save(@"users.xml");
-                MessageBox.Show("New Employee " + userToAdd + " saved.");
-            }
-            else if (userAdmin) //add to admin users xml
-            {
-                var doc = XDocument.Load("user_admin.xml");
-                doc.Element("Users").Add(new XElement("User",
-                                         new XElement("username", userToAdd), 
-                                         new XElement("password", userPassword), 
-                                         new XElement("firstName", firstName), 
-                                         new XElement("lastName", lastName), 
-                                         new XElement("email", email), 
-                                         new XElement("admin", userAdmin),
-                                         new XElement("locked", isLocked),
-                                         new XElement("lastLogin", DateTime.Now.ToString())));
-                doc.Save(@"user_admin.xml");
-                MessageBox.Show("New Administrator " + userToAdd + " saved.");
-            }
-
+            userXML.Save(@"users.xml");
+            MessageBox.Show("New Employee: " + userToAdd + " has been saved.");
+            
             // Save the user to the list:
             User new_user = new User(userToAdd, firstName, lastName, userPassword, email, userAdmin, isLocked, DateTime.Now);
             users.Add(new_user);
+
+            // Update the activity xml:
+            AddActivity(DateTime.Now.ToShortTimeString() + " " + userToAdd + "'s account was created.");
 
         }//end addNewUser
         //=========================================================================
@@ -583,22 +547,17 @@ namespace Project_Forms
                     {
                         User.Remove();
                         userDoc.Save(@"users.xml");
-                        MessageBox.Show(userToDelete + " deleted.");
+                        MessageBox.Show(userToDelete + " has been deleted.");
                         return; 
                     }
                 }//end foreach
-                XDocument adminDoc = XDocument.Load(@"user_admin.xml");
-                foreach (var User in adminDoc.Descendants("User"))
-                {
-                    if (userToDelete == User.Element("username").Value)
-                    {
-                        User.Remove();
-                        adminDoc.Save(@"user_admin.xml");
-                        MessageBox.Show(userToDelete + " deleted.");
-                        return;
-                    }
-                }
              }
+            // Delete user from the lists:
+            var userInList = users.Single(user => user.username == userToDelete);
+            users.Remove(userInList);
+
+            // Update the activity xml:
+            AddActivity(DateTime.Now.ToShortTimeString() + " " + userToDelete + " was deleted.");
 
         }//end deleteUser
         //=========================================================================
@@ -624,6 +583,9 @@ namespace Project_Forms
                             userDoc.Save(@"users.xml");
                             return;
                         }
+                        // Update the activity xml:
+                        AddActivity(DateTime.Now.ToShortTimeString() + " " + userToLockUnlock + " was locked.");
+
                     }//end foreach
                 }
                 
@@ -637,6 +599,8 @@ namespace Project_Forms
                             userDoc.Save(@"users.xml");
                             return;
                         }
+                        // Update the activity xml:
+                        AddActivity(DateTime.Now.ToShortTimeString() + " " + userToLockUnlock + " was unlocked.");
                     }
                 }
             }
@@ -659,6 +623,9 @@ namespace Project_Forms
                 userDoc.Element("All_Categories").Add(new XElement("Category", new XElement("categoryName", newCategory)));
                 userDoc.Save(@"categories.xml");
                 MessageBox.Show("Category saved.");
+
+                // Update the activity xml:
+                AddActivity(DateTime.Now.ToShortTimeString() + " The new category " + newCategory + " was created.");
             }
         }//end addCategory
         //=========================================================================
@@ -683,6 +650,9 @@ namespace Project_Forms
                         Category.Remove();
                         userDoc.Save(@"categories.xml");
                         MessageBox.Show("Category deleted.");
+
+                        // Update the activity xml:
+                        AddActivity(DateTime.Now.ToShortTimeString() + " The category " + delCategory + " was deleted.");
                         break;
                     }
                 }//end foreach
@@ -710,6 +680,10 @@ namespace Project_Forms
                             Category.Element("categoryName").Value = newName;
                             userDoc.Save(@"categories.xml");
                             MessageBox.Show("Category renamed.");
+
+                            // Update the activity xml:
+                            AddActivity(DateTime.Now.ToShortTimeString() + " The Category " + catToRename + " was renamed to " + newName + ".");
+
                             break;
                         }
                     }
@@ -757,25 +731,13 @@ namespace Project_Forms
             else if (username == "admin" && password != "admin"){return false;}
             else if (username != "admin")
             {
-                if (CheckIfAdmin(username)){
-                    XmlDocument admin_xml = new XmlDocument();
-                    admin_xml.Load(@"user_admin.xml");
-                    XmlNodeList list = admin_xml.SelectNodes("/Users/User");
-                    foreach (XmlNode xn in list){
-                        if (xn["username"].InnerText == username)
-                            if (Decrypt(xn["password"].InnerText, "password") == password){return true;}
-                    }//end foreach
-                }//end if admin
-
-                else if (!CheckIfAdmin(username)){
-                    XmlDocument userXml = new XmlDocument();
-                    userXml.Load(@"users.xml");
-                    XmlNodeList nonAdminList = userXml.SelectNodes("/Users/User");
-                    foreach (XmlNode xn in nonAdminList){
-                        if (xn["username"].InnerText == username)
-                            if (Decrypt(xn["password"].InnerText, "password") == password) { return true; }
-                    }//end foreach
-                }
+                XmlDocument userXml = new XmlDocument();
+                userXml.Load(@"users.xml");
+                XmlNodeList nonAdminList = userXml.SelectNodes("/Users/User");
+                foreach (XmlNode xn in nonAdminList){
+                    if (xn["username"].InnerText == username)
+                        if (Decrypt(xn["password"].InnerText, "password") == password) { return true; }
+                }//end foreach
             }
             return false;
         }//end checkUserPassword
@@ -830,35 +792,6 @@ namespace Project_Forms
                 if (user.username == newUser)return true;
             }
             return false;
-            /*
-            if (adminUser)
-            {
-                XmlDocument xml = new XmlDocument();
-                xml.Load("user_admin.xml");
-                XmlNodeList list = xml.SelectNodes("/Users/User");
-                foreach (XmlNode xn in list){
-                    if (xn["Username"].InnerText == newUser){return true;}
-                }//end foreach
-
-                XmlDocument userXml = new XmlDocument();
-                userXml.Load("users.xml");
-                XmlNodeList userList = userXml.SelectNodes("/Users/User");
-                foreach (XmlNode xn in userList){
-                    if (xn["Username"].InnerText == newUser){return true;}
-                }//end foreach 
-                
-            }
-            else if (!adminUser)
-            {
-                XmlDocument xml = new XmlDocument();
-                xml.Load("users.xml");
-                XmlNodeList list = xml.SelectNodes("/Users/User");
-                foreach (XmlNode xn in list){
-                    if (xn["Username"].InnerText == newUser){return true;}
-                }//end foreach  
-            }
-            return false;
-           */
         }//end userExists
         //==========================================================================
 
@@ -1074,7 +1007,7 @@ namespace Project_Forms
         //              different nodes in the transaction xml
         //              used for the view history tab
         // PARAMETERS:  datagrid, user, category, start date, end date
-        // UPDATED: 11/3/2014
+        // UPDATED:     11/3/2014   Jeff Henry - Refactoring
         //=====================================================================
         public void GetTransactionHistory(DataGridView datagrid, string user, string category, DateTime start, DateTime end)
         {
@@ -1261,10 +1194,11 @@ namespace Project_Forms
         //=====================================================================
         public string FillInLoginInfo(string user, bool adminUser)
         {
+            XmlDocument xml = new XmlDocument();
+            xml.Load("users.xml");
             // Administrator:
             if (adminUser){
-                XmlDocument xml = new XmlDocument();
-                xml.Load("user_admin.xml");
+                
                 XmlNodeList list = xml.SelectNodes("/Users/User");
                 foreach (XmlNode xn in list)
                 {
@@ -1280,8 +1214,6 @@ namespace Project_Forms
             // Employee:
             else if (!adminUser)
             {
-                XmlDocument xml = new XmlDocument();
-                xml.Load("users.xml");
                 XmlNodeList list = xml.SelectNodes("/Users/User");
                 foreach (XmlNode xn in list){
                     if (xn["username"].InnerText == user){
@@ -1304,33 +1236,16 @@ namespace Project_Forms
         //=====================================================================
         public void UpdateLastLogin(string user, bool adminUser)
         {
-            // Administrator:
-            if (adminUser)
-            {
-                XmlDocument xml = new XmlDocument();
-                xml.Load("user_admin.xml");
-                XmlNodeList list = xml.SelectNodes("/Users/User");
-                foreach (XmlNode xn in list){
-                    if (xn["username"].InnerText == user){
-                        xn["lastLogin"].InnerText = DateTime.Now.ToString();
-                        xml.Save(@"user_admin.xml");
-                    }
-                    
-                }//end foreach 
-            }
-            // Employee:
-            else if (!adminUser)
-            {
-                XmlDocument xml = new XmlDocument();
-                xml.Load("users.xml");
-                XmlNodeList list = xml.SelectNodes("/Users/User");
-                foreach (XmlNode xn in list){
-                    if (xn["username"].InnerText == user){
-                        xn["lastLogin"].InnerText = DateTime.Now.ToString();
-                        xml.Save(@"users.xml"); 
-                    }
-                }//end foreach 
-            }
+            XmlDocument xml = new XmlDocument();
+            xml.Load("users.xml");
+            XmlNodeList list = xml.SelectNodes("/Users/User");
+            foreach (XmlNode xn in list){
+                if (xn["username"].InnerText == user){
+                    xn["lastLogin"].InnerText = DateTime.Now.ToString();
+                    xml.Save(@"users.xml"); 
+                }
+            }//end foreach 
+
         }//end fillInLoginInfo
         //=====================================================================
 
@@ -1418,6 +1333,8 @@ namespace Project_Forms
                     ExcelSheet = null;
                     ExcelBook = null;
                     ExcelApp = null;
+
+
                 }
             }
         }//end 
@@ -1454,7 +1371,7 @@ namespace Project_Forms
         //          to the first combobox on form1. This was written because 
         //          it will contain the "All Categories" name. 
         // PARAMS:  None.  
-        // UPDATED: 11/9/2014   
+        // UPDATED: 11/9/2014   Jeff Henry - Initial Creation
         //=====================================================================
         public List<string> GetAllCategories()
         {
@@ -1473,6 +1390,59 @@ namespace Project_Forms
             return cats;
         }//end addCategories
         //=====================================================================
+
+        //=====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will add a new activity to the activity.xml
+        // PARAMS:  Activity to add the the xml
+        // UPDATED: 11/19/2014 Jeff Henry - Initial Creation
+        //=====================================================================
+        public void AddActivity(string activity)
+        {
+            if (CheckXMLExistence())
+            {
+                XDocument activity_xml = XDocument.Load(@"activities.xml");
+                activity_xml.Element("App_Records").Element("All_Activities").Add(new XElement("Activity", activity));
+                activity_xml.Save(@"activities.xml");
+            }
+         }
+
+        //=====================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function wll read all the activiteis from the activity
+        //          xml and send the data to the rich text box on the main form.
+        // PARAMS:  The rich text box to populate.
+        // UPDATED: 11/19/2014  Jeff Henry - Initial Creation  
+        //=====================================================================
+        public void PopulateActivityLog(RichTextBox activityLog)
+        {
+            activityLog.Clear();
+            activityLog.AppendText("---------------------------------------------------------------------------------------------------");
+            activityLog.AppendText(" TODAY'S ACTIVITY ");
+            activityLog.AppendText("---------------------------------------------------------------------------------------------------\n");
+            activityLog.AppendText(" Today's Date:\t" + DateTime.Now.ToShortDateString() + "\n");
+            activityLog.AppendText(" Log Generated:\t" + DateTime.Now.ToShortTimeString() + "\n");
+            activityLog.AppendText("--------------------------------------------------------------------------------------------------------------------");
+            activityLog.AppendText("--------------------------------------------------------------------------------------------------------------------\n");
+            XDocument activity_xml = XDocument.Load(@"activities.xml");
+            foreach (var activity in activity_xml.Descendants("Activity"))
+            {
+                activityLog.AppendText(activity.Value + "\n");
+            }
+        }
+
+        //=====================================================================
+        // AUTHORS: Jeff Henry
+        // PURPOSE: This function will clear all activities from the activity
+        //          xml file.
+        // UPDATED: 11/19/2014  Jeff Henry - Initial Creation
+        //=====================================================================
+        public void ClearActivity()
+        {
+            XElement root = XElement.Load(@"activities.xml");
+            root.Descendants("All_Activities").Descendants("Activity").Remove();
+            root.Save(@"activities.xml");
+        }
 
     }//end class: Data
     //=====================================================================
@@ -1644,6 +1614,30 @@ namespace Project_Forms
         }//end loadCat
         //=====================================================================
       
+        //=====================================================================
+        // AUTHOR: Maxwell Partington & Ranier Limpiado 
+        // DATE:   10/24/14
+        // EDIT:   Added a default admin account for the first creation of the xml. 
+        //=====================================================================
+        public void CreateAdminXML()
+        {
+            XDocument Database =
+            new XDocument(
+            new XDeclaration("1.0", "utf-8", "yes"),
+            new XComment("This database will store transactions under <User> label"),
+            new XComment("This user information will be stored under Username"),
+            new XElement("Users", new XElement("User",
+                                  new XElement("username", "admin"),
+                                  new XElement("password", "admin"),
+                                  new XElement("firstName", "admin"),
+                                  new XElement("lastName", "admin"),
+                                  new XElement("email", "admin@vbm.com"),
+                                  new XElement("admin", true),
+                                  new XElement("locked", false),
+                                  new XElement("lastLogin", DateTime.Now.ToString()))));
+            Database.Save(@"user_admin.xml");
+        }//end userAmdminXml
+        //=====================================================================
     */
 }//end
 //===================================================================== 

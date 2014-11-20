@@ -4,31 +4,24 @@
   <All_Transactions>
     <Transaction>
       <Added_By>admin</Added_By>
-      <Expenditure>200</Expenditure>
-      <Comments>Drive to LA</Comments>
-      <Category>Mileage</Category>
-      <Date>2014-11-13T00:00:00</Date>
+      <Expenditure>25000.00</Expenditure>
+      <Comments>New Company Car</Comments>
+      <Category>Automobile</Category>
+      <Date>2014-11-19T00:00:00</Date>
     </Transaction>
     <Transaction>
       <Added_By>admin</Added_By>
-      <Expenditure>350.00</Expenditure>
-      <Comments>Banners
-</Comments>
+      <Expenditure>5050.00</Expenditure>
+      <Comments>Trip to London.</Comments>
+      <Category>Travel</Category>
+      <Date>2014-11-19T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>400.00</Expenditure>
+      <Comments>New Banners.</Comments>
       <Category>Advertising</Category>
-      <Date>2014-11-13T00:00:00</Date>
-    </Transaction>
-    <Transaction>
-      <Added_By>admin</Added_By>
-      <Expenditure>85.00</Expenditure>
-      <Comments>New Printer</Comments>
-      <Category>Office Expenses</Category>
-      <Date>2014-11-05T00:00:00</Date>
+      <Date>2014-11-19T00:00:00</Date>
     </Transaction>
   </All_Transactions>
-  <Change_History>
-    <DefaultID>1</DefaultID>
-  </Change_History>
-  <Login_History>
-    <Default_login_id>0</Default_login_id>
-  </Login_History>
 </App_Records>

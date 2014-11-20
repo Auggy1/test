@@ -77,6 +77,8 @@ namespace Project_Forms
             /****************************************** Hidden labels/tabs ********************************************/
             expense_error_msg.Hide();                               // Hide the expense error message.
             tab_control.Controls.Remove(vh_tab);                    // Remove the view history tab
+            tab_control.Controls.Remove(admin_tab);                 // Remove the administration tab
+            tab_control.Controls.Remove(activity_log_tab);          // Remove the activity log tab
             vr_report_label.Hide();                                 // Hides the view report label
             this.vh_grid.Rows.Clear();                              // Clears the vh grid
             this.vr_grid.Rows.Clear();                              // Clears the vr grid
@@ -88,6 +90,7 @@ namespace Project_Forms
             // Update the Home tab and save users Login History:
             home_user_details.Text = control.FillLoginInfo(user, is_admin);
             control.UpdateUserLogin(user, is_admin);
+            control.AddActivity(DateTime.Now.ToShortTimeString() + " " + user + " Logged In.");
 
             logOutToolStripMenuItem.Visible = true;
 
@@ -101,10 +104,10 @@ namespace Project_Forms
             //==================================================================
             if (is_admin)
             {
-                tab_control.Controls.Add(vh_tab);       // Add the View History Tab to the form
-                tab_control.Controls.Add(admin_tab);    // Add the Administration Tab to the form
-                tab_control.SelectedTab = vr_tab;       // Change the tab to View History
-
+                tab_control.Controls.Add(vh_tab);           // Add the View History Tab to the form
+                tab_control.Controls.Add(activity_log_tab); // Add the Activity Log Tab to the form
+                tab_control.Controls.Add(admin_tab);        // Add the Administration Tab to the form
+                tab_control.SelectedTab = vr_tab;           // Change the tab to View History
             }
             else if (!is_admin)
             {
@@ -162,6 +165,7 @@ namespace Project_Forms
         //=====================================================================
         private void LogoutClick(object sender, EventArgs e)
         {
+            control.AddActivity(DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + " " + current_user + " Logged Out.");
             this.Close();
         }//end logOutToolStripMenuItem
 
@@ -247,7 +251,7 @@ namespace Project_Forms
                 {
                     decimal expense = Convert.ToDecimal(ee_expense_input.Text);
                     DateTime date = Convert.ToDateTime(ee_date_picker.Value.ToShortDateString());
-                    
+
                     control.AddTransaction(expense, ee_category_list.Text, date, current_user, ee_comment_box.Text);
                     ee_category_list.SelectedIndex = -1;
                     ee_date_picker.Value = DateTime.Today;
@@ -560,7 +564,7 @@ namespace Project_Forms
             vr_category_list.DataSource = control.GetAllCategories();
             vh_category_list.DataSource = control.GetAllCategories();
             vh_user_list.DataSource = control.GetAllUsers();
-            admin_user_dropdown.DataSource = control.GetEmployees();
+            admin_user_dropdown.DataSource = control.GetAllUsers();
             admin_cat_dropdown.DataSource = control.GetCategories();
 
             // Reset the indices:
@@ -705,7 +709,7 @@ namespace Project_Forms
             {
                 control.ChangeLock(admin_user_dropdown.Text, lock_unlock_chkbox.Checked);
             }
-            else if (delete_chkbox.Checked)
+            if (delete_chkbox.Checked)
             {
                 control.DeleteUser(admin_user_dropdown.Text);
             }
@@ -799,6 +803,30 @@ namespace Project_Forms
         {
             ChangePasswordForm cp_form = new ChangePasswordForm(control, current_user);
             cp_form.ShowDialog();
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will call the appropriate control functions to 
+        //          populate the activity log based on what is saved in the 
+        //          activities.xml.
+        // UPDATED: 11/19/2014 - Jeff Henry - Initial Creation
+        //========================================================================
+        private void LoadActivityClick(object sender, EventArgs e)
+        {
+            control.PopulateActivityLog(activity_rt_box);
+        }
+
+        //========================================================================
+        // AUTHOR:  Jeff Henry
+        // PURPOSE: This function will call the appropriate control functions to 
+        //          clear all data from the activity xml for the day.
+        // UPDATED: 11/19/2014 - Jeff Henry - Initial Creation
+        //========================================================================
+        private void ClearActivityClick(object sender, EventArgs e)
+        {
+            activity_rt_box.Clear();
+            control.ClearActivity();
         }
 
         

@@ -123,6 +123,10 @@
             this.admin_new_cat_input = new System.Windows.Forms.TextBox();
             this.admin_cat_add_btn = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
+            this.activity_log_tab = new System.Windows.Forms.TabPage();
+            this.clr_activity_btn = new System.Windows.Forms.Button();
+            this.load_activity_btn = new System.Windows.Forms.Button();
+            this.activity_rt_box = new System.Windows.Forms.RichTextBox();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider3 = new System.Windows.Forms.ErrorProvider(this.components);
@@ -141,6 +145,7 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.activity_log_tab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider3)).BeginInit();
@@ -253,6 +258,7 @@
             this.tab_control.Controls.Add(this.vr_tab);
             this.tab_control.Controls.Add(this.vh_tab);
             this.tab_control.Controls.Add(this.admin_tab);
+            this.tab_control.Controls.Add(this.activity_log_tab);
             this.tab_control.Location = new System.Drawing.Point(12, 27);
             this.tab_control.Name = "tab_control";
             this.tab_control.SelectedIndex = 0;
@@ -1103,6 +1109,48 @@
             this.label6.TabIndex = 4;
             this.label6.Text = "Category Administration";
             // 
+            // activity_log_tab
+            // 
+            this.activity_log_tab.Controls.Add(this.clr_activity_btn);
+            this.activity_log_tab.Controls.Add(this.load_activity_btn);
+            this.activity_log_tab.Controls.Add(this.activity_rt_box);
+            this.activity_log_tab.Location = new System.Drawing.Point(4, 22);
+            this.activity_log_tab.Name = "activity_log_tab";
+            this.activity_log_tab.Padding = new System.Windows.Forms.Padding(3);
+            this.activity_log_tab.Size = new System.Drawing.Size(719, 367);
+            this.activity_log_tab.TabIndex = 5;
+            this.activity_log_tab.Text = "Activity Log";
+            this.activity_log_tab.UseVisualStyleBackColor = true;
+            // 
+            // clr_activity_btn
+            // 
+            this.clr_activity_btn.Location = new System.Drawing.Point(344, 338);
+            this.clr_activity_btn.Name = "clr_activity_btn";
+            this.clr_activity_btn.Size = new System.Drawing.Size(104, 23);
+            this.clr_activity_btn.TabIndex = 2;
+            this.clr_activity_btn.Text = "Clear Activity Log";
+            this.clr_activity_btn.UseVisualStyleBackColor = true;
+            this.clr_activity_btn.Click += new System.EventHandler(this.ClearActivityClick);
+            // 
+            // load_activity_btn
+            // 
+            this.load_activity_btn.Location = new System.Drawing.Point(226, 339);
+            this.load_activity_btn.Name = "load_activity_btn";
+            this.load_activity_btn.Size = new System.Drawing.Size(112, 23);
+            this.load_activity_btn.TabIndex = 1;
+            this.load_activity_btn.Text = "Load Activity";
+            this.load_activity_btn.UseVisualStyleBackColor = true;
+            this.load_activity_btn.Click += new System.EventHandler(this.LoadActivityClick);
+            // 
+            // activity_rt_box
+            // 
+            this.activity_rt_box.Location = new System.Drawing.Point(6, 6);
+            this.activity_rt_box.Name = "activity_rt_box";
+            this.activity_rt_box.ReadOnly = true;
+            this.activity_rt_box.Size = new System.Drawing.Size(707, 326);
+            this.activity_rt_box.TabIndex = 0;
+            this.activity_rt_box.Text = "";
+            // 
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
@@ -1158,6 +1206,7 @@
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.activity_log_tab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider3)).EndInit();
@@ -1266,5 +1315,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changePasswordToolStripMenuItem;
+        private System.Windows.Forms.TabPage activity_log_tab;
+        private System.Windows.Forms.RichTextBox activity_rt_box;
+        private System.Windows.Forms.Button load_activity_btn;
+        private System.Windows.Forms.Button clr_activity_btn;
     }
 }

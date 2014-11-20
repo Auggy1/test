@@ -1,16 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!--This database will all users under <User> label-->
+<!--This database will store transactions under <User> label-->
 <!--This user information will be stored under Username-->
 <Users>
   <User>
-    <username>newuser</username>
-    <password>tnMGTjxKo/NrGyVB4SopXg==</password>
-    <firstName>Puto</firstName>
-    <lastName>Muff</lastName>
-    <email>
-    </email>
-    <admin>false</admin>
+    <username>admin</username>
+    <password>admin</password>
+    <firstName>Default</firstName>
+    <lastName>Administrator</lastName>
+    <email>admin@vbm.com</email>
+    <admin>true</admin>
     <locked>false</locked>
-    <lastLogin>11/18/2014 12:40:10 PM</lastLogin>
+    <lastLogin>11/19/2014 5:16:17 PM</lastLogin>
   </User>
 </Users>
