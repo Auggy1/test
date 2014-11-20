@@ -10,6 +10,17 @@
     <email>admin@vbm.com</email>
     <admin>true</admin>
     <locked>false</locked>
-    <lastLogin>11/19/2014 7:24:03 PM</lastLogin>
+    <lastLogin>11/20/2014 12:44:58 PM</lastLogin>
+  </User>
+  <User>
+    <username>Michelle</username>
+    <password>IsDFmROP25SA8xtsATQhPg==</password>
+    <firstName>Michelle</firstName>
+    <lastName>Jaro</lastName>
+    <email>
+    </email>
+    <admin>true</admin>
+    <locked>false</locked>
+    <lastLogin>11/20/2014 12:14:27 PM</lastLogin>
   </User>
 </Users>

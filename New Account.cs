@@ -62,7 +62,7 @@ namespace Project_Forms
             }
             else if (string.IsNullOrWhiteSpace(na_password.Text))
             {
-                na_error_msg_1.Text = "Please enter a password";
+                na_error_msg_1.Text = "Please enter a password with 6 characters.";
                 na_error_msg_1.Visible = true;
             }
             else if (allcontrol.CheckUserExistence(na_username.Text))
@@ -76,9 +76,14 @@ namespace Project_Forms
                 na_error_msg_1.Text = "Password must be at least 6 characters long.";
                 na_error_msg_1.Visible = true;
             }
-            else if (!na_verifyemail.Text.Equals(na_email.Text))
+            else if (na_firstname.Text == "")
             {
-                na_error_msg_2.Text = "Emails do not match. Try Again.";
+                na_error_msg_2.Text = "Please enter a valid first name. [a-z][A-z][-']";
+                na_error_msg_2.Visible = true;
+            }
+            else if (na_lastname.Text == "")
+            {
+                na_error_msg_2.Text = "Please enter a valid last name. [a-z][A-z][-']";
                 na_error_msg_2.Visible = true;
             }
             else if (!string.IsNullOrWhiteSpace(na_email.Text) && !IsValidEmail(na_email.Text))
@@ -86,19 +91,25 @@ namespace Project_Forms
                 na_error_msg_2.Text = "Please enter a valid email address. (Ex. johndoe@aol.com)";
                 na_error_msg_2.Visible = true;
             }
+            else if (!na_verifyemail.Text.Equals(na_email.Text))
+            {
+                na_error_msg_2.Text = "Emails do not match. Please re-enter them.";
+                na_error_msg_2.Visible = true;
+            }
+            
             else // if everything is filled correctly, 
             {
                 if (allcontrol.CheckUserExistence(na_username.Text))
                 {
-                    na_error_msg_2.Text = "Username is taken, try again.";
+                    na_error_msg_2.Text = "Username is taken. Try again.";
                     na_error_msg_2.Visible = true;
                     na_username.Text = "";
                     return;
                 }
-                else 
+                else
                 {
                     string encryptedPass = allcontrol.Encrypt(na_password.Text, "password");// encrypt the password, need to decrypt it later 10/27/2014
-                    allcontrol.AddNewUser(na_username.Text, encryptedPass, admin_chkbox.Checked, na_firstname.Text, na_lastname.Text, na_email.Text,false);
+                    allcontrol.AddNewUser(na_username.Text, encryptedPass, admin_chkbox.Checked, na_firstname.Text, na_lastname.Text, na_email.Text, false);
                 }
                 ClearEntries();
                 this.Refresh();

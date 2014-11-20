@@ -57,12 +57,16 @@ namespace Project_Forms
                 errorProvider1.SetError(username_box, "Username is too short.");
                 login_error_msg.Text = "Username is too short.";
                 login_error_msg.Show();
+                username_box.Text = "";
+                password_box.Text = "";
             }
             else if (password_box.TextLength < 6 && username_box.Text != "admin")
             {
                 errorProvider1.SetError(password_box, "Password is too short.");
                 login_error_msg.Text = "Password is too short.";
                 login_error_msg.Show();
+                password_box.Text = "";
+                password_box.Select(password_box.TextLength, 0);
             }
             else
             {
@@ -96,7 +100,7 @@ namespace Project_Forms
                     }
                     else if (!exists)
                     {
-                        login_error_msg.Text = "User does not exist.";
+                        login_error_msg.Text = "User does not exist. Try Again.";
                         login_error_msg.Show();
                         username_box.Clear();
                         password_box.Clear();
@@ -117,7 +121,7 @@ namespace Project_Forms
                         else
                         {
                             allcontrol.AddActivity(DateTime.Now.ToShortTimeString() + " " + username_box.Text + " had a failed login attempt.");
-                            login_error_msg.Text = "Invalid Password. Try Again.";
+                            login_error_msg.Text = "Invalid password. Try Again.";
                             login_error_msg.Show();
                             password_box.Clear();
                         }

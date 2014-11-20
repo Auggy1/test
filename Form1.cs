@@ -195,57 +195,60 @@ namespace Project_Forms
             decimal d;
             CultureInfo ci = new CultureInfo("en-us");  // Used to display the totals in the correct format added 11/2/2014
             errorProvider1.Clear();
+            ee_success_message.Visible = false;
+            expense_error_msg.Visible = false;
+
             if (ee_category_list.Text == "")           //Is a Cateogory chosen?
             {
                 errorProvider1.SetError(ee_category_list, "Please select a category.");
                 expense_error_msg.Text = "Please select a category.";
-                expense_error_msg.Show();
+                expense_error_msg.Visible = true;
             }
             else if (ee_expense_input.Text == "")      //Is an Expense entered?
             {
                 errorProvider1.SetError(ee_expense_input, "Please enter an expense.");
                 expense_error_msg.Text = "Please enter an expense.";
-                expense_error_msg.Show();
+                expense_error_msg.Visible = true;
             }
             else if (!decimal.TryParse(ee_expense_input.Text, NumberStyles.Currency | NumberStyles.AllowCurrencySymbol, ci, out d))
             {
                 errorProvider1.SetError(ee_expense_input, "Please enter a valid expense. (Ex. $100.00)");
-                expense_error_msg.Text = "Please enter a valid expense (Ex. $100.00)";
-                expense_error_msg.Show();
+                expense_error_msg.Text = "Please enter a valid expense (Ex. 1234.56)";
+                expense_error_msg.Visible = true;
                 ee_expense_input.Clear();
                 return;
             }
             else if (ee_category_list.Text == "Mileage" && !decimal.TryParse(ee_expense_input.Text, out d))
             {
                 errorProvider1.SetError(ee_category_list, "Please enter a valid mileage. (Ex. 25)");
-                expense_error_msg.Text = "Please enter a valid mileage. (Ex. 25)";
-                expense_error_msg.Show();
+                expense_error_msg.Text = "Please enter a valid mileage. (Ex. 1234.5)";
+                expense_error_msg.Visible = true;
             }
             else if (Convert.ToDecimal(ee_expense_input.Text) == 0)//no 0 values allowed for expense
             {
                 errorProvider1.SetError(ee_expense_input, "Entries of $0.00 are not allowed.");
                 expense_error_msg.Text = "Entries of $0.00 are not allowed.";
-                expense_error_msg.Show();
+                expense_error_msg.Visible = true;
             }
             else// convert the contents of the input to the correct formats and pass them to an add transaction function in Control
             {
                 if (!CheckExpenseInput(ee_expense_input.Text) && ee_category_list.Text != "Mileage")//added 10/30/2014 checks for decimal and correct formatting if it's not mileage
                 {
-                    errorProvider1.SetError(ee_expense_input, "Please enter a valid expense. (Ex. $10.00)");
-                    expense_error_msg.Text = "Please enter a valid expense. (Ex. $100.00)";
-                    expense_error_msg.Show();
+                    errorProvider1.SetError(ee_expense_input, "Please enter a valid expense. (Ex. 1234.56)");
+                    expense_error_msg.Text = "Please enter a valid expense. (Ex. 1234.56)";
+                    expense_error_msg.Visible = true;
                 }
                 else if (ee_category_list.Text == "Mileage" && ee_expense_input.Text.Contains("."))
                 {
-                    errorProvider1.SetError(ee_expense_input, "Please enter a valid mileage (Ex. 125)");
-                    expense_error_msg.Text = "Please enter a valid mileage (Ex. 125)";
-                    expense_error_msg.Show();
+                    errorProvider1.SetError(ee_expense_input, "Please enter a valid mileage (Ex. 1234.5)");
+                    expense_error_msg.Text = "Please enter a valid mileage (Ex. 1234.5)";
+                    expense_error_msg.Visible = true;
                 }
                 else if (ee_category_list.Text == "Mileage" && ee_expense_input.TextLength > 5)
                 {
                     errorProvider1.SetError(ee_expense_input, "Expense is too large for a mileage.");
                     expense_error_msg.Text = "Expense is too large for a mileage.";
-                    expense_error_msg.Show();
+                    expense_error_msg.Visible = true;
                 }
                 else
                 {
@@ -257,7 +260,7 @@ namespace Project_Forms
                     ee_date_picker.Value = DateTime.Today;
                     ee_expense_input.Clear();
                     ee_comment_box.Clear();
-                    ee_success_message.Text = "The expense was successfully saved.";
+                    ee_success_message.Text = "The Expense has been saved.";
                     ee_success_message.Visible = true;
                 }
             }
@@ -339,7 +342,7 @@ namespace Project_Forms
             if (vr_category_list.Text == "")
             {
                 errorProvider1.SetError(vr_category_list, "Please select a category.");
-                vr_error_msg.Text = "Please select a categoy.";
+                vr_error_msg.Text = "Please select a category.";
                 vr_error_msg.Visible = true;
             }
             else
@@ -425,7 +428,7 @@ namespace Project_Forms
         private void ExportClick(object sender, EventArgs e)
         {
             if (vr_grid.Rows.Count == 0)
-                MessageBox.Show("Cannot export an empty report. Please generate a report first.");
+                MessageBox.Show("Please generate a report to export.");
             else
             {
                 string start = this.vr_grid.Rows[0].Cells[0].Value.ToString();
@@ -678,7 +681,7 @@ namespace Project_Forms
             }
             else
             {
-                add_cat_error_msg.Text = admin_new_cat_input.Text + " already exists.";
+                add_cat_error_msg.Text = "The category '" + admin_new_cat_input.Text + "' already exists.";
                 add_cat_error_msg.Visible = true;
                 admin_new_cat_input.Text = "";
                 admin_new_cat_input.Select(admin_new_cat_input.TextLength, 0);
@@ -711,6 +714,15 @@ namespace Project_Forms
         //========================================================================
         private void SubmitUserChangesClick(object sender, EventArgs e)
         {
+            user_admin_error_msg.Visible = false;
+            // Make sure an admin can't get locked:
+            if (make_admin_chkbox.Checked && lock_unlock_chkbox.Checked)
+            {
+                user_admin_error_msg.Text = "An Administrator account can't be locked.";
+                user_admin_error_msg.Visible = true;
+                return;
+            }
+
             // Check whether any changes were made by the administrator:
             if (make_admin_chkbox.Checked != original_admin_value)
             {

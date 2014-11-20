@@ -112,6 +112,7 @@
             this.admin_user_dropdown = new System.Windows.Forms.ComboBox();
             this.admin_users_label = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.add_cat_error_msg = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.admin_cat_newname = new System.Windows.Forms.TextBox();
             this.admin_cat_name_label = new System.Windows.Forms.Label();
@@ -131,7 +132,8 @@
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider3 = new System.Windows.Forms.ErrorProvider(this.components);
             this.eventLog1 = new System.Diagnostics.EventLog();
-            this.add_cat_error_msg = new System.Windows.Forms.Label();
+            this.user_admin_error_msg = new System.Windows.Forms.Label();
+            this.edit_cat_error_msg = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.tab_control.SuspendLayout();
             this.home_tab.SuspendLayout();
@@ -842,6 +844,7 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.BackColor = System.Drawing.Color.Transparent;
+            this.splitContainer1.Panel1.Controls.Add(this.user_admin_error_msg);
             this.splitContainer1.Panel1.Controls.Add(this.add_user_btn);
             this.splitContainer1.Panel1.Controls.Add(this.user_admin_label);
             this.splitContainer1.Panel1.Controls.Add(this.delete_user_label);
@@ -859,6 +862,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.Transparent;
+            this.splitContainer1.Panel2.Controls.Add(this.edit_cat_error_msg);
             this.splitContainer1.Panel2.Controls.Add(this.add_cat_error_msg);
             this.splitContainer1.Panel2.Controls.Add(this.label3);
             this.splitContainer1.Panel2.Controls.Add(this.admin_cat_newname);
@@ -1004,6 +1008,17 @@
             this.label1.Size = new System.Drawing.Size(157, 20);
             this.label1.TabIndex = 19;
             this.label1.Text = "Edit Existing User:";
+            // 
+            // add_cat_error_msg
+            // 
+            this.add_cat_error_msg.AutoSize = true;
+            this.add_cat_error_msg.ForeColor = System.Drawing.Color.Red;
+            this.add_cat_error_msg.Location = new System.Drawing.Point(36, 121);
+            this.add_cat_error_msg.Name = "add_cat_error_msg";
+            this.add_cat_error_msg.Size = new System.Drawing.Size(142, 13);
+            this.add_cat_error_msg.TabIndex = 33;
+            this.add_cat_error_msg.Text = "Add Category Error Message";
+            this.add_cat_error_msg.Visible = false;
             // 
             // label3
             // 
@@ -1169,16 +1184,27 @@
             // 
             this.eventLog1.SynchronizingObject = this;
             // 
-            // add_cat_error_msg
+            // user_admin_error_msg
             // 
-            this.add_cat_error_msg.AutoSize = true;
-            this.add_cat_error_msg.ForeColor = System.Drawing.Color.Red;
-            this.add_cat_error_msg.Location = new System.Drawing.Point(36, 121);
-            this.add_cat_error_msg.Name = "add_cat_error_msg";
-            this.add_cat_error_msg.Size = new System.Drawing.Size(142, 13);
-            this.add_cat_error_msg.TabIndex = 33;
-            this.add_cat_error_msg.Text = "Add Category Error Message";
-            this.add_cat_error_msg.Visible = false;
+            this.user_admin_error_msg.AutoSize = true;
+            this.user_admin_error_msg.ForeColor = System.Drawing.Color.Red;
+            this.user_admin_error_msg.Location = new System.Drawing.Point(84, 324);
+            this.user_admin_error_msg.Name = "user_admin_error_msg";
+            this.user_admin_error_msg.Size = new System.Drawing.Size(127, 13);
+            this.user_admin_error_msg.TabIndex = 32;
+            this.user_admin_error_msg.Text = "User Administration Errors";
+            this.user_admin_error_msg.Visible = false;
+            // 
+            // edit_cat_error_msg
+            // 
+            this.edit_cat_error_msg.AutoSize = true;
+            this.edit_cat_error_msg.ForeColor = System.Drawing.Color.Red;
+            this.edit_cat_error_msg.Location = new System.Drawing.Point(39, 323);
+            this.edit_cat_error_msg.Name = "edit_cat_error_msg";
+            this.edit_cat_error_msg.Size = new System.Drawing.Size(100, 13);
+            this.edit_cat_error_msg.TabIndex = 34;
+            this.edit_cat_error_msg.Text = "Edit Category Errors";
+            this.edit_cat_error_msg.Visible = false;
             // 
             // Home
             // 
@@ -1333,5 +1359,7 @@
         private System.Windows.Forms.Button load_activity_btn;
         private System.Windows.Forms.Button clr_activity_btn;
         private System.Windows.Forms.Label add_cat_error_msg;
+        private System.Windows.Forms.Label user_admin_error_msg;
+        private System.Windows.Forms.Label edit_cat_error_msg;
     }
 }

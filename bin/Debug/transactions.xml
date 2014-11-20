@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <!--This database will store transactions under <Transaction> label-->
 <App_Records>
-  <All_Transactions />
+  <All_Transactions>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>212.00</Expenditure>
+      <Comments>Neon Sign commision</Comments>
+      <Category>Advertising</Category>
+      <Date>2014-11-20T00:00:00</Date>
+    </Transaction>
+  </All_Transactions>
 </App_Records>

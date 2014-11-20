@@ -641,6 +641,7 @@ namespace Project_Forms
         //=========================================================================
         public void DeleteCategory(string delCategory)
         {
+            bool succesfulDelete = false;
             if (CheckXMLExistence()){
                 XDocument userDoc = XDocument.Load(@"categories.xml");
 
@@ -649,13 +650,17 @@ namespace Project_Forms
                     {
                         Category.Remove();
                         userDoc.Save(@"categories.xml");
-                        MessageBox.Show("Category deleted.");
-
+                        MessageBox.Show("Category '" + delCategory + "' has been deleted.");
+                        succesfulDelete = true;
                         // Update the activity xml:
                         AddActivity(DateTime.Now.ToShortTimeString() + " The category " + delCategory + " was deleted.");
                         break;
                     }
                 }//end foreach
+            }
+            if (!succesfulDelete)
+            {
+                MessageBox.Show("Category '" + delCategory + "' has not been delete.");
             }
         }//end deleteCategory
         //=========================================================================
