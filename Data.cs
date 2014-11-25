@@ -11,6 +11,9 @@
 //=====================================================================
 using System;
 using System.IO;
+using System.Data;
+using System.Drawing;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Text;
@@ -18,6 +21,8 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using System.Security.Cryptography;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 namespace Project_Forms
 {
@@ -1259,7 +1264,7 @@ namespace Project_Forms
         // PURPOSE: Exports the report into excel. 
         // UPDATED: 11/7/2014   - Jeff Henry (Added SaveFileDialog) 
         //=======================================================
-        public void ExportToExcel(DataGridView dataGrid, string total, string mileage, string start_date, string end_date, string user)
+       /* public void ExportToExcel(DataGridView dataGrid, string total, string mileage, string start_date, string end_date, string user)
         {
             // Prompt the User where to save the file.
             Stream myStream;
@@ -1343,6 +1348,100 @@ namespace Project_Forms
                 }
             }
         }//end 
+        //=====================================================================
+
+        //=====================================================================
+        */
+        //=====================================================================
+        // Author: Augustin Garcia
+        // Purpose: This function was written to export the data to a pdf file
+        // PARAMS: 
+        //=====================================================================
+        public void ExportToPDF(DataGridView dataGrid, string total, string mileage, string start_date, string end_date, string user)
+        {
+            DataGridView companyInfo = new DataGridView();
+
+            //var img = Project_Forms.Properties.Resources.
+            
+
+            DataGridViewImageCell imageCell = new DataGridViewImageCell();
+            
+            //companyInfo.Rows.Add();
+
+            PdfPTable headerTable = new PdfPTable(dataGrid.ColumnCount);
+            
+            //Creating a table from the dataGrid data
+            PdfPTable pdfTable = new PdfPTable(dataGrid.ColumnCount);
+            pdfTable.DefaultCell.Padding = 6;
+            pdfTable.WidthPercentage = 90;
+            pdfTable.HorizontalAlignment = Element.ALIGN_CENTER;
+
+
+
+            int index = 0;  // Used to shade every other row on the table
+            double isNum;   // Used to check for numerical values (to right align them)
+
+            //Header row
+            foreach (DataGridViewColumn column in dataGrid.Columns)
+            {
+                PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText));
+                cell.BackgroundColor = new iTextSharp.text.BaseColor(200, 220, 250);
+                cell.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+                pdfTable.AddCell(cell);
+            }
+
+            //Data row(s)
+            foreach (DataGridViewRow row in dataGrid.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    PdfPCell pCell;
+                    // Checks to make sure cells are not empty before attempting to add them to the table. 
+                    // Otherwise it throughts a null exception
+                    if(cell.Value != null)
+                        pCell = new PdfPCell(new Phrase(cell.Value.ToString()));
+                    else
+                        pCell = new PdfPCell(new Phrase(""));
+
+                    // Aligning text in the cells
+                    if (double.TryParse(cell.Value.ToString(), out isNum))
+                        pCell.HorizontalAlignment = PdfPCell.ALIGN_RIGHT;
+                    else
+                        pCell.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+
+                    // Aligns all cells to the bottom of the cell for a cleaner look
+                    pCell.VerticalAlignment = PdfPCell.ALIGN_BOTTOM;
+
+                    // Lightly shades every other row to increase readability
+                    if(index % 2 != 0)
+                        pCell.BackgroundColor = new iTextSharp.text.BaseColor(240, 240, 240);
+                    
+                    pdfTable.AddCell(pCell);
+                }
+                index++; // Used to shade every other row of the table
+            }
+
+            string folderPath = "C:\\PDFs\\";
+            if(!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            string fileName = Path.Combine(String.Format("ExpenseReport-{0}.pdf", DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss")));
+
+            using (FileStream stream = new FileStream(folderPath + fileName, FileMode.CreateNew))
+            {
+                Document pdfDoc = new Document(PageSize.LEGAL, 10f, 10f, 10f, 0f);
+                PdfWriter.GetInstance(pdfDoc, stream);
+                pdfDoc.Open();
+                pdfDoc.Add(pdfTable);
+                pdfDoc.Close();
+                stream.Close();
+            }
+
+
+        }
+        //end
         //=====================================================================
 
         //=====================================================================

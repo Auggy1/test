@@ -319,10 +319,11 @@ namespace Project_Forms
         // PARAMS:  This function requires the gridview data, the total of all 
         //          expenditures, as well as the milage.  
         // DATE:    10/29/14
+        // UPDATE:  11/24/2014 - Augustin Garcia - Update function call
         //========================================================================
         public void export(DataGridView gridview, string total, string mileage, string start, string end, string user)
         {
-            alldata.ExportToExcel(gridview, total, mileage, start, end, user);
+            alldata.ExportToPDF(gridview, total, mileage, start, end, user);
         }//end
         //========================================================================
 

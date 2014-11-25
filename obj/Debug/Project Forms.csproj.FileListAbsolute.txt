@@ -224,3 +224,20 @@ C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\P
 C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\obj\Debug\Project_Forms.LoginForm.resources
 C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\obj\Debug\Project_Forms.ChangePasswordForm.resources
 C:\Users\Jeff\Documents\Visual Studio 2010\Projects\Venture Business Managment\Project Forms\Project Forms\obj\Debug\Project Forms.csprojResolveAssemblyReference.cache
+C:\Users\Augustin\Desktop\test\bin\Debug\Venture Business Management.exe.config
+C:\Users\Augustin\Desktop\test\obj\Debug\Venture Business Management.exe
+C:\Users\Augustin\Desktop\test\obj\Debug\Venture Business Management.pdb
+C:\Users\Augustin\Desktop\test\bin\Debug\Venture Business Management.exe
+C:\Users\Augustin\Desktop\test\bin\Debug\Venture Business Management.pdb
+C:\Users\Augustin\Desktop\test\bin\Debug\itextsharp.dll
+C:\Users\Augustin\Desktop\test\bin\Debug\itextsharp.xml
+C:\Users\Augustin\Desktop\test\obj\Debug\Project Forms.csprojResolveAssemblyReference.cache
+C:\Users\Augustin\Desktop\test\obj\Debug\Project_Forms.AboutBox1.resources
+C:\Users\Augustin\Desktop\test\obj\Debug\Project_Forms.Adminstration.resources
+C:\Users\Augustin\Desktop\test\obj\Debug\Project_Forms.ChangePasswordForm.resources
+C:\Users\Augustin\Desktop\test\obj\Debug\Project_Forms.Home.resources
+C:\Users\Augustin\Desktop\test\obj\Debug\Project_Forms.Form2.resources
+C:\Users\Augustin\Desktop\test\obj\Debug\Project_Forms.LoginForm.resources
+C:\Users\Augustin\Desktop\test\obj\Debug\Project_Forms.New_Account.resources
+C:\Users\Augustin\Desktop\test\obj\Debug\Project_Forms.Properties.Resources.resources
+C:\Users\Augustin\Desktop\test\obj\Debug\Project Forms.csproj.GenerateResource.Cache

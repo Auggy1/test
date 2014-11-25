@@ -108,5 +108,10 @@ namespace Project_Forms
             }
         }
         #endregion
+
+        private void labelVersion_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

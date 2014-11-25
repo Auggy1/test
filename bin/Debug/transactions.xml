@@ -9,5 +9,155 @@
       <Category>Advertising</Category>
       <Date>2014-11-20T00:00:00</Date>
     </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>132232.43</Expenditure>
+      <Comments>Yeah</Comments>
+      <Category>Automobile</Category>
+      <Date>2014-11-11T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>2323.23</Expenditure>
+      <Comments>Test
+</Comments>
+      <Category>Interest (other)</Category>
+      <Date>2014-10-01T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>50.00</Expenditure>
+      <Comments>Test
+</Comments>
+      <Category>Travel</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>3223.02</Expenditure>
+      <Comments>vffsdfdsfsdfdf</Comments>
+      <Category>Employee benefits</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>232.23</Expenditure>
+      <Comments>dfafdfsffsffdkj;kj;fjlk;fdsafklsfk;fdajfdfaf</Comments>
+      <Category>Office Expenses</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>232.33</Expenditure>
+      <Comments>afdslkdfl;jl3je fds; affsa foofoafdaf</Comments>
+      <Category>Rent (other)</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>333232.23</Expenditure>
+      <Comments>dfafafdsfs</Comments>
+      <Category>Pension &amp; profit sharing plans</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>23322.32</Expenditure>
+      <Comments>fafd</Comments>
+      <Category>Utilities</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>323.23</Expenditure>
+      <Comments>kkl;joji
+</Comments>
+      <Category>Taxes and licenses</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>23232.23</Expenditure>
+      <Comments></Comments>
+      <Category>Supplies</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>23233</Expenditure>
+      <Comments></Comments>
+      <Category>Mileage</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>23232.23</Expenditure>
+      <Comments></Comments>
+      <Category>Legal &amp; professional fees</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>24545.45</Expenditure>
+      <Comments></Comments>
+      <Category>Depletion</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>354545.44</Expenditure>
+      <Comments></Comments>
+      <Category>Repairs and maintenance</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>545454.45</Expenditure>
+      <Comments></Comments>
+      <Category>Contract labor</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>454545.04</Expenditure>
+      <Comments></Comments>
+      <Category>Repairs and maintenance</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>45454.45</Expenditure>
+      <Comments></Comments>
+      <Category>Repairs and maintenance</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>22000.00</Expenditure>
+      <Comments></Comments>
+      <Category>Automobile</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>45000.00</Expenditure>
+      <Comments></Comments>
+      <Category>Automobile</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>250.00</Expenditure>
+      <Comments></Comments>
+      <Category>Automobile</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>3434.34</Expenditure>
+      <Comments></Comments>
+      <Category>Office Expenses</Category>
+      <Date>2014-11-24T00:00:00</Date>
+    </Transaction>
   </All_Transactions>
 </App_Records>

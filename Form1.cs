@@ -852,6 +852,17 @@ namespace Project_Forms
             control.ClearActivity();
         }
 
+        private void vr_grid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void home_logo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
         
 
         //========================================================================
