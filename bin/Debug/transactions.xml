@@ -159,5 +159,12 @@
       <Category>Office Expenses</Category>
       <Date>2014-11-24T00:00:00</Date>
     </Transaction>
+    <Transaction>
+      <Added_By>admin</Added_By>
+      <Expenditure>999999.99</Expenditure>
+      <Comments></Comments>
+      <Category>Advertising</Category>
+      <Date>2014-11-28T00:00:00</Date>
+    </Transaction>
   </All_Transactions>
 </App_Records>

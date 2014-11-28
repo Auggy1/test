@@ -45,6 +45,7 @@ namespace Project_Forms
         //          added to the xml file
         // PARAMS:  None.
         // UPDATED: 11/5/14     Email is no longer required. Jeff Henry
+        //          11/28/14    Fixed error message to comply with SRS - Augustin Garcia
         //=====================================================================
         private void SubmitClick(object sender, EventArgs e)
         {
@@ -57,7 +58,9 @@ namespace Project_Forms
             // make sure format is correct for username
             if (string.IsNullOrWhiteSpace(na_username.Text) || !CheckInput(na_username.Text) || na_username.Text.Length < 5) 
             {
-                na_error_msg_1.Text = "Username must contain the following: [a-z][A-Z][0-9][_]";
+                na_error_msg_1.Text = "Please enter a (minimum 5 character) username using any of the following characters: [a-z][A-Z][0-9][_]";
+                na_error_msg_1.MaximumSize = new Size(300, 0);
+                na_error_msg_1.AutoSize = true;
                 na_error_msg_1.Visible = true;
             }
             else if (string.IsNullOrWhiteSpace(na_password.Text))

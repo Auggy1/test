@@ -1359,12 +1359,12 @@ namespace Project_Forms
         //=====================================================================
         public void ExportToPDF(DataGridView dataGrid, string total, string mileage, string start_date, string end_date, string user)
         {
-            DataGridView companyInfo = new DataGridView();
+            //DataGridView companyInfo = new DataGridView();
 
             //var img = Project_Forms.Properties.Resources.
             
-
-            DataGridViewImageCell imageCell = new DataGridViewImageCell();
+            
+            //DataGridViewImageCell imageCell = new DataGridViewImageCell();
             
             //companyInfo.Rows.Add();
 
@@ -1372,8 +1372,10 @@ namespace Project_Forms
             
             //Creating a table from the dataGrid data
             PdfPTable pdfTable = new PdfPTable(dataGrid.ColumnCount);
-            pdfTable.DefaultCell.Padding = 6;
+            pdfTable.DefaultCell.Padding = 0;
+            pdfTable.DefaultCell.BorderWidth = 0;
             pdfTable.WidthPercentage = 90;
+            
             pdfTable.HorizontalAlignment = Element.ALIGN_CENTER;
 
 
@@ -1404,7 +1406,7 @@ namespace Project_Forms
                         pCell = new PdfPCell(new Phrase(""));
 
                     // Aligning text in the cells
-                    if (double.TryParse(cell.Value.ToString(), out isNum))
+                    if ((cell.Value != null) && (double.TryParse(cell.Value.ToString(), out isNum)))
                         pCell.HorizontalAlignment = PdfPCell.ALIGN_RIGHT;
                     else
                         pCell.HorizontalAlignment = PdfPCell.ALIGN_CENTER;

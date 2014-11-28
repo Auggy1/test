@@ -2,7 +2,7 @@
 // AUTHORS: 
 //              Cycle 1: Karan Singh & Michelle Jaro
 //              Cycle 2: Maxwell Partington & Ranier Limpiado     
-//              Cycle 3: Jeff Henry & Augustine Garcia
+//              Cycle 3: Jeff Henry & Augustin Garcia
 // PURPOSE:     This is the main form of the program that runs all of the
 //              functionality that the user requires, be it regular user
 //              or admin. 

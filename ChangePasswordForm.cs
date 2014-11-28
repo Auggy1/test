@@ -90,6 +90,8 @@ namespace Project_Forms
         // PURPOSE: This function will check the inputs for validity and if
         //          all return successful, the users password will be updated
         //          in the xml and list.
+        // UPDATED: Augustin Garcia - Fixed bug that prevented password validation
+        //                          - Fixed error message to comply with SRS
         //===================================================================
         private void ChangePasswordClick(object sender, EventArgs e)
         {
@@ -105,29 +107,31 @@ namespace Project_Forms
             // Handle if the old password wasn't correct:
             if (!old_valid)
             {
-                errorProvider1.SetError(old_password_box, "Old password does not match.");
-                password_error_msg.Text = "Old password does not match.";
+                errorProvider1.SetError(old_password_box, "Incorrect Current Password. Please re-enter your current password.");
+                password_error_msg.Text = "Incorrect Current Password. Please re-enter your current password.";
+                password_error_msg.MaximumSize = new Size(300, 0);
+                password_error_msg.AutoSize = true;
                 password_error_msg.Show();
                 old_password_box.Text = "";
                 new_password_box.Text = "";
                 verify_password_box.Text = "";
             }
             // Make sure the new password is at least 6 characters long:
-            if (new_password_box.Text.Length < 6)
+            else if (new_password_box.Text.Length < 6)
             {
                 errorProvider2.SetError(new_password_box, "New Password must be at least 6 characters long.");
                 password_error_msg.Text = "New Password must be at least 6 characters long.";
                 password_error_msg.Show();
             }
             // Make sure the verify password is at least 6 characters long:
-            if (verify_password_box.Text.Length < 6)
+            else if (verify_password_box.Text.Length < 6)
             {
                 errorProvider3.SetError(verify_password_box, "New Password must be at least 6 characters long.");
                 password_error_msg.Text = "New Password must be at least 6 characters long.";
                 password_error_msg.Show();
             }
             // Make sure the new password isn't the same as the old password:
-            if (old_password_box.Text == new_password_box.Text)
+            else if (old_password_box.Text == new_password_box.Text)
             {
                 errorProvider2.SetError(new_password_box, "New password must be different from the old password.");
                 password_error_msg.Text = "New password must be different from the old password.";
@@ -138,7 +142,7 @@ namespace Project_Forms
 
 
             // Check that the new password equals the verify password:
-            if (new_password_box.Text != verify_password_box.Text)
+            else if (new_password_box.Text != verify_password_box.Text)
             {
                 errorProvider3.SetError(verify_password_box, "Passwords did not match.");
                 password_error_msg.Text = "New passwords did not match.";

@@ -1017,9 +1017,9 @@
             this.admin_label.Location = new System.Drawing.Point(111, 258);
             this.admin_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.admin_label.Name = "admin_label";
-            this.admin_label.Size = new System.Drawing.Size(91, 17);
+            this.admin_label.Size = new System.Drawing.Size(129, 17);
             this.admin_label.TabIndex = 26;
-            this.admin_label.Text = "Administrator";
+            this.admin_label.Text = "Make Administrator";
             // 
             // make_admin_chkbox
             // 
@@ -1092,7 +1092,7 @@
             // 
             this.edit_cat_error_msg.AutoSize = true;
             this.edit_cat_error_msg.ForeColor = System.Drawing.Color.Red;
-            this.edit_cat_error_msg.Location = new System.Drawing.Point(52, 398);
+            this.edit_cat_error_msg.Location = new System.Drawing.Point(15, 399);
             this.edit_cat_error_msg.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.edit_cat_error_msg.Name = "edit_cat_error_msg";
             this.edit_cat_error_msg.Size = new System.Drawing.Size(136, 17);
@@ -1104,7 +1104,7 @@
             // 
             this.add_cat_error_msg.AutoSize = true;
             this.add_cat_error_msg.ForeColor = System.Drawing.Color.Red;
-            this.add_cat_error_msg.Location = new System.Drawing.Point(48, 149);
+            this.add_cat_error_msg.Location = new System.Drawing.Point(4, 128);
             this.add_cat_error_msg.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.add_cat_error_msg.Name = "add_cat_error_msg";
             this.add_cat_error_msg.Size = new System.Drawing.Size(191, 17);
@@ -1116,7 +1116,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(117, 258);
+            this.label3.Location = new System.Drawing.Point(2, 250);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(232, 25);
@@ -1126,7 +1126,7 @@
             // admin_cat_newname
             // 
             this.admin_cat_newname.Enabled = false;
-            this.admin_cat_newname.Location = new System.Drawing.Point(169, 353);
+            this.admin_cat_newname.Location = new System.Drawing.Point(92, 354);
             this.admin_cat_newname.Margin = new System.Windows.Forms.Padding(4);
             this.admin_cat_newname.Name = "admin_cat_newname";
             this.admin_cat_newname.Size = new System.Drawing.Size(132, 22);
@@ -1136,7 +1136,7 @@
             // admin_cat_name_label
             // 
             this.admin_cat_name_label.AutoSize = true;
-            this.admin_cat_name_label.Location = new System.Drawing.Point(48, 357);
+            this.admin_cat_name_label.Location = new System.Drawing.Point(4, 357);
             this.admin_cat_name_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.admin_cat_name_label.Name = "admin_cat_name_label";
             this.admin_cat_name_label.Size = new System.Drawing.Size(80, 17);
@@ -1146,7 +1146,7 @@
             // admin_cat_dropdown
             // 
             this.admin_cat_dropdown.FormattingEnabled = true;
-            this.admin_cat_dropdown.Location = new System.Drawing.Point(169, 305);
+            this.admin_cat_dropdown.Location = new System.Drawing.Point(92, 309);
             this.admin_cat_dropdown.Margin = new System.Windows.Forms.Padding(4);
             this.admin_cat_dropdown.Name = "admin_cat_dropdown";
             this.admin_cat_dropdown.Size = new System.Drawing.Size(132, 24);
@@ -1156,7 +1156,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(48, 309);
+            this.label7.Location = new System.Drawing.Point(4, 309);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(80, 17);
@@ -1166,7 +1166,7 @@
             // admin_cat_delete_btn
             // 
             this.admin_cat_delete_btn.Enabled = false;
-            this.admin_cat_delete_btn.Location = new System.Drawing.Point(349, 303);
+            this.admin_cat_delete_btn.Location = new System.Drawing.Point(265, 303);
             this.admin_cat_delete_btn.Margin = new System.Windows.Forms.Padding(4);
             this.admin_cat_delete_btn.Name = "admin_cat_delete_btn";
             this.admin_cat_delete_btn.Size = new System.Drawing.Size(100, 28);
@@ -1178,7 +1178,7 @@
             // admin_cat_rename_btn
             // 
             this.admin_cat_rename_btn.Enabled = false;
-            this.admin_cat_rename_btn.Location = new System.Drawing.Point(349, 351);
+            this.admin_cat_rename_btn.Location = new System.Drawing.Point(265, 353);
             this.admin_cat_rename_btn.Margin = new System.Windows.Forms.Padding(4);
             this.admin_cat_rename_btn.Name = "admin_cat_rename_btn";
             this.admin_cat_rename_btn.Size = new System.Drawing.Size(100, 28);
@@ -1190,7 +1190,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(48, 90);
+            this.label8.Location = new System.Drawing.Point(4, 85);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(113, 17);
@@ -1199,7 +1199,7 @@
             // 
             // admin_new_cat_input
             // 
-            this.admin_new_cat_input.Location = new System.Drawing.Point(169, 82);
+            this.admin_new_cat_input.Location = new System.Drawing.Point(125, 82);
             this.admin_new_cat_input.Margin = new System.Windows.Forms.Padding(4);
             this.admin_new_cat_input.Name = "admin_new_cat_input";
             this.admin_new_cat_input.Size = new System.Drawing.Size(132, 22);
@@ -1209,7 +1209,7 @@
             // admin_cat_add_btn
             // 
             this.admin_cat_add_btn.Enabled = false;
-            this.admin_cat_add_btn.Location = new System.Drawing.Point(349, 80);
+            this.admin_cat_add_btn.Location = new System.Drawing.Point(265, 80);
             this.admin_cat_add_btn.Margin = new System.Windows.Forms.Padding(4);
             this.admin_cat_add_btn.Name = "admin_cat_add_btn";
             this.admin_cat_add_btn.Size = new System.Drawing.Size(100, 28);
@@ -1222,7 +1222,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(117, 33);
+            this.label6.Location = new System.Drawing.Point(2, 33);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(243, 25);
