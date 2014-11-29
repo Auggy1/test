@@ -424,6 +424,7 @@ namespace Project_Forms
         //Author: Maxwell Partington & Ranier Limpiado 
         //Purpose: Exports the report into excel.
         //Updated: 11/2/2014 //brandnew
+        //         11/28/2014 Fixed bug that was passing wrong dates
         //=======================================================
         private void ExportClick(object sender, EventArgs e)
         {
@@ -431,11 +432,13 @@ namespace Project_Forms
                 MessageBox.Show("Please generate a report to export.");
             else
             {
-                string start = this.vr_grid.Rows[0].Cells[0].Value.ToString();
-                string end = this.vr_grid.Rows[vr_grid.Rows.Count - 1].Cells[0].Value.ToString();
+                DateTime start = Convert.ToDateTime(vr_start_date_picker.Value.ToShortDateString());
+                DateTime end = Convert.ToDateTime(vr_end_date_picker.Value.ToShortDateString());
+                string startDate = start.ToString();
+                string endDate = end.ToString();
                 string user = current_user;
 
-                control.export(this.vr_grid, vr_mon_total.Text, vr_mileage_total.Text,start,end,user);
+                control.export(this.vr_grid, vr_mon_total.Text, vr_mileage_total.Text,startDate,endDate,user);
             }
         }//end 
 

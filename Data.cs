@@ -1258,19 +1258,21 @@ namespace Project_Forms
 
         }//end fillInLoginInfo
         //=====================================================================
-
-        //=======================================================
-        // AUTHOR: Maxwell Partington & Ranier Limpiado 
-        // PURPOSE: Exports the report into excel. 
-        // UPDATED: 11/7/2014   - Jeff Henry (Added SaveFileDialog) 
-        //=======================================================
-       /* public void ExportToExcel(DataGridView dataGrid, string total, string mileage, string start_date, string end_date, string user)
+        
+        //=====================================================================
+        // Author: Augustin Garcia
+        // Purpose: This function was written to export the data to a pdf file
+        // PARAMS: 
+        //=====================================================================
+        public void ExportToPDF(DataGridView dataGrid, string total, string mileage, string start_date, string end_date, string user)
         {
-            // Prompt the User where to save the file.
+            
+
+             // Prompt the User where to save the file.
             Stream myStream;
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "Excel File | *xls";
-            saveFileDialog1.Title = "Save as Excel File";
+            saveFileDialog1.Filter = "pdf | *pdf";
+            saveFileDialog1.Title = "Save as PDF";
 
             // If the user choose a directory and gave the file a name, save the excel:
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -1279,169 +1281,148 @@ namespace Project_Forms
                 {
                     var current_date = DateTime.Now.ToShortDateString();
 
-                    Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
-                    Microsoft.Office.Interop.Excel._Workbook ExcelBook;
-                    Microsoft.Office.Interop.Excel._Worksheet ExcelSheet;
-                    int i = 0;
-                    int j = 0;
-                    var totalHeader = 0;// go to the very right of the columns
-                    
-                    // Create the Excel Object:
-                    ExcelBook = (Microsoft.Office.Interop.Excel._Workbook)ExcelApp.Workbooks.Add(1);
-                    ExcelSheet = (Microsoft.Office.Interop.Excel._Worksheet)ExcelBook.ActiveSheet;
-                    
-                    // Create the header:
-                    ExcelSheet.Cells[1, 1] = "Business Name Here." +
-                                            "\nDate Processed:\t" + current_date +
-                                            "\nProcessed by:\t" + user +
-                                            "\nDate Range:\t" + start_date +
-                                            " - " + end_date;
-                    Microsoft.Office.Interop.Excel.Range Title = ExcelSheet.get_Range("A1:G1", Type.Missing);
-                    Title.Merge(Type.Missing);
-                    Title.RowHeight = 80;
+                    //Removing timestamp from dates passed in
+                    string newStart = new string(start_date.TakeWhile(c => c != ' ').ToArray());
+                    string newEnd = new string(end_date.TakeWhile(c => c != ' ').ToArray());
 
-                    for (i = 1; i <= dataGrid.Columns.Count; i++)
+                    // Company information to go next to the logo
+                    object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+                    Paragraph userInfo = new iTextSharp.text.Paragraph(user
+                                    + "\n" + current_date,FontFactory.GetFont("Verdane", 9));
+
+                    // Information displayed on the right side (User creating report and date)
+                    Paragraph reportDate = new iTextSharp.text.Paragraph("Report over the period of\n" + newStart
+                                                                          + " - " + newEnd + "\n\n\n", FontFactory.GetFont("Verdana", 10));
+                    reportDate.Alignment = Element.ALIGN_CENTER;
+
+                    // Formatting information next to logo
+                    string compName = Assembly.GetExecutingAssembly().GetName().Name.ToString();
+                    string assemblyVersion = "Version: " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                    string copyright = ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
+
+                    Paragraph companyInfo = new iTextSharp.text.Paragraph(compName + "\n"
+                                                                          + assemblyVersion + "\n"
+                                                                          + copyright, FontFactory.GetFont("Verdana", 10));
+                   
+
+                    // Setting up company logo
+                    iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance("vbmLogo.png");
+                    logo.ScalePercent(25f);
+
+                    PdfPTable letterHead = new PdfPTable(3);
+
+                    letterHead.HorizontalAlignment = Element.ALIGN_LEFT;
+                    PdfPCell imageCell = new PdfPCell(logo);
+                    imageCell.HorizontalAlignment = Element.ALIGN_RIGHT;
+                    imageCell.BorderWidth = 0;
+                    PdfPCell compCell = new PdfPCell(companyInfo);
+                    compCell.HorizontalAlignment = Element.ALIGN_LEFT;
+                    compCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    compCell.BorderWidth = 0;
+
+                    
+                    // User info for the report created
+                    PdfPCell reportInfo = new PdfPCell(new Phrase(userInfo));
+                    reportInfo.BorderWidth = 0;
+                    reportInfo.HorizontalAlignment = Element.ALIGN_RIGHT;
+                    reportInfo.VerticalAlignment = Element.ALIGN_MIDDLE;
+
+                    // Other information needed in the report 
+                    Paragraph miliageAndTotal = new iTextSharp.text.Paragraph("\n\nTotal expenses: " + total
+                                                                               + "\nTotal mileage: " + mileage, FontFactory.GetFont("Verdana", 12));
+                    miliageAndTotal.Alignment = Element.ALIGN_LEFT;
+
+                    PdfPTable footer = new PdfPTable(2);
+                    footer.DefaultCell.BorderWidth = 0;
+                    footer.WidthPercentage = 90f;
+                    footer.AddCell(miliageAndTotal);
+                    footer.AddCell(new Phrase(""));
+                    
+
+
+
+                    letterHead.WidthPercentage = 80f;
+                    letterHead.HorizontalAlignment = Element.ALIGN_LEFT;
+                    letterHead.AddCell(imageCell);
+                    letterHead.AddCell(compCell);
+                    letterHead.AddCell(reportInfo);
+
+
+                    PdfPTable headerTable = new PdfPTable(dataGrid.ColumnCount);
+
+                    //Creating a table from the dataGrid data
+                    PdfPTable pdfTable = new PdfPTable(dataGrid.ColumnCount);
+                    pdfTable.DefaultCell.Padding = 0;
+                    pdfTable.DefaultCell.BorderWidth = 0;
+                    pdfTable.WidthPercentage = 90f;
+
+                    pdfTable.HorizontalAlignment = Element.ALIGN_CENTER;
+
+                    //Paragraph filePath = new Paragraph(myStream.ToString());
+
+
+
+                    int rowIndex = 0;  // Used to shade every other row on the table
+                    double isNum;   // Used to check for numerical values (to right align them)
+
+                    //Header row
+                    foreach (DataGridViewColumn column in dataGrid.Columns)
                     {
-                        ExcelSheet.Cells[2, i] = dataGrid.Columns[i - 1].HeaderText;
-                        totalHeader = i + 1;
+                        PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText));
+                        cell.BackgroundColor = new iTextSharp.text.BaseColor(200, 220, 250);
+                        cell.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+                        pdfTable.AddCell(cell);
                     }
-                    
-                    var totalRow = 0;
-                    var totalCol = 0;
 
-                    //export the data to excel
-                    for (i = 1; i <= dataGrid.RowCount; i++)
+                    //Data row(s)
+                    foreach (DataGridViewRow row in dataGrid.Rows)
                     {
-                        for (j = 1; j <= dataGrid.Columns.Count; j++)
+                        foreach (DataGridViewCell cell in row.Cells)
                         {
-                            ExcelSheet.Cells[i + 2, j] = dataGrid.Rows[i - 1].Cells[j - 1].Value;
-                            totalCol = j + 1;
-                        }
-                        totalRow = i + 1;
+                            PdfPCell pCell;
+
+                            // Checks to make sure cells are not empty before attempting to add them to the table. 
+                            // Otherwise it throws a null exception
+                            if (cell.Value != null)
+                                pCell = new PdfPCell(new Phrase(cell.Value.ToString(), FontFactory.GetFont("Verdana", 8)));
+                            else
+                                pCell = new PdfPCell(new Phrase(""));
+
+                            if ((cell.Value != null) && (double.TryParse(cell.Value.ToString(), out isNum)))
+                                pCell.HorizontalAlignment = PdfPCell.ALIGN_RIGHT;
+                            else
+                                pCell.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+
+                            // Aligns all cells to the bottom of the cell for a cleaner look
+                            pCell.VerticalAlignment = PdfPCell.ALIGN_BOTTOM;
+
+                            // Lightly shades every other row to increase readability
+                            if (rowIndex % 2 != 0)
+                                pCell.BackgroundColor = new iTextSharp.text.BaseColor(240, 240, 240);
+
+                            pCell.BorderWidth = 0;
+                            pCell.FixedHeight = 16f;
+                            pdfTable.AddCell(pCell);
+                         }
+                        rowIndex++; // Used to shade every other row of the table
                     }
-                    ExcelSheet.Cells[totalRow + 5, 1] = "Expense Total:";           // Display the expense total after all the expense
-                    ExcelSheet.Cells[totalRow + 6, 1] = "Mileage Total:";           // Display the mileage total after all the expense
-                    ExcelSheet.Cells[totalRow + 5, totalCol-1] = total;       //Show the total in the correct cell
-                    ExcelSheet.Cells[totalRow + 6, totalCol-1] = mileage;   //Show the total mileage in the correct cell
-                    ExcelApp.Visible = true;
 
-                    //set the font detailed
-                    Microsoft.Office.Interop.Excel.Range myRange = ExcelSheet.Range[ExcelSheet.Cells[1, 1], ExcelSheet.Cells[dataGrid.RowCount + 1, dataGrid.Columns.Count]];
-                    Microsoft.Office.Interop.Excel.Font x = myRange.Font;
-                    x.Name = "Arial";
-                    x.Size = 10;
-                    
-                    //Bold the header row
-                    myRange = ExcelSheet.Range[ExcelSheet.Cells[1, 1], ExcelSheet.Cells[1, dataGrid.Columns.Count + 2]];
-                    x = myRange.Font;
-                    x.Bold = true;
+                    string fileName = Path.Combine(String.Format("{0}.pdf", saveFileDialog1.FileName));
 
-                    //autofit everything
-                    myRange.EntireColumn.AutoFit();
-
-                    //
-                    ExcelSheet = null;
-                    ExcelBook = null;
-                    ExcelApp = null;
-
-
+                    using (myStream = new FileStream(fileName, FileMode.CreateNew))
+                    {
+                        Document pdfDoc = new Document(PageSize.LEGAL, 12f, 12f, 12f, 0f);
+                        PdfWriter.GetInstance(pdfDoc, myStream);
+                        pdfDoc.Open();
+                        pdfDoc.Add(letterHead);
+                        pdfDoc.Add(reportDate);
+                        pdfDoc.Add(pdfTable);
+                        pdfDoc.Add(footer);
+                        pdfDoc.Close();
+                        myStream.Close();
+                    }
                 }
             }
-        }//end 
-        //=====================================================================
-
-        //=====================================================================
-        */
-        //=====================================================================
-        // Author: Augustin Garcia
-        // Purpose: This function was written to export the data to a pdf file
-        // PARAMS: 
-        //=====================================================================
-        public void ExportToPDF(DataGridView dataGrid, string total, string mileage, string start_date, string end_date, string user)
-        {
-            //DataGridView companyInfo = new DataGridView();
-
-            //var img = Project_Forms.Properties.Resources.
-            
-            
-            //DataGridViewImageCell imageCell = new DataGridViewImageCell();
-            
-            //companyInfo.Rows.Add();
-
-            PdfPTable headerTable = new PdfPTable(dataGrid.ColumnCount);
-            
-            //Creating a table from the dataGrid data
-            PdfPTable pdfTable = new PdfPTable(dataGrid.ColumnCount);
-            pdfTable.DefaultCell.Padding = 0;
-            pdfTable.DefaultCell.BorderWidth = 0;
-            pdfTable.WidthPercentage = 90;
-            
-            pdfTable.HorizontalAlignment = Element.ALIGN_CENTER;
-
-
-
-            int index = 0;  // Used to shade every other row on the table
-            double isNum;   // Used to check for numerical values (to right align them)
-
-            //Header row
-            foreach (DataGridViewColumn column in dataGrid.Columns)
-            {
-                PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText));
-                cell.BackgroundColor = new iTextSharp.text.BaseColor(200, 220, 250);
-                cell.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
-                pdfTable.AddCell(cell);
-            }
-
-            //Data row(s)
-            foreach (DataGridViewRow row in dataGrid.Rows)
-            {
-                foreach (DataGridViewCell cell in row.Cells)
-                {
-                    PdfPCell pCell;
-                    // Checks to make sure cells are not empty before attempting to add them to the table. 
-                    // Otherwise it throughts a null exception
-                    if(cell.Value != null)
-                        pCell = new PdfPCell(new Phrase(cell.Value.ToString()));
-                    else
-                        pCell = new PdfPCell(new Phrase(""));
-
-                    // Aligning text in the cells
-                    if ((cell.Value != null) && (double.TryParse(cell.Value.ToString(), out isNum)))
-                        pCell.HorizontalAlignment = PdfPCell.ALIGN_RIGHT;
-                    else
-                        pCell.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
-
-                    // Aligns all cells to the bottom of the cell for a cleaner look
-                    pCell.VerticalAlignment = PdfPCell.ALIGN_BOTTOM;
-
-                    // Lightly shades every other row to increase readability
-                    if(index % 2 != 0)
-                        pCell.BackgroundColor = new iTextSharp.text.BaseColor(240, 240, 240);
-                    
-                    pdfTable.AddCell(pCell);
-                }
-                index++; // Used to shade every other row of the table
-            }
-
-            string folderPath = "C:\\PDFs\\";
-            if(!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
-            }
-
-            string fileName = Path.Combine(String.Format("ExpenseReport-{0}.pdf", DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss")));
-
-            using (FileStream stream = new FileStream(folderPath + fileName, FileMode.CreateNew))
-            {
-                Document pdfDoc = new Document(PageSize.LEGAL, 10f, 10f, 10f, 0f);
-                PdfWriter.GetInstance(pdfDoc, stream);
-                pdfDoc.Open();
-                pdfDoc.Add(pdfTable);
-                pdfDoc.Close();
-                stream.Close();
-            }
-
-
         }
         //end
         //=====================================================================
@@ -1559,6 +1540,97 @@ namespace Project_Forms
     //=====================================================================
     /*
      * 
+     * 
+     * //=======================================================
+        // AUTHOR: Maxwell Partington & Ranier Limpiado 
+        // PURPOSE: Exports the report into excel. 
+        // UPDATED: 11/7/2014   - Jeff Henry (Added SaveFileDialog) 
+        //=======================================================
+       /* public void ExportToExcel(DataGridView dataGrid, string total, string mileage, string start_date, string end_date, string user)
+        {
+            // Prompt the User where to save the file.
+            Stream myStream;
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Excel File | *xls";
+            saveFileDialog1.Title = "Save as Excel File";
+
+            // If the user choose a directory and gave the file a name, save the excel:
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                if ((myStream = saveFileDialog1.OpenFile()) != null)
+                {
+                    var current_date = DateTime.Now.ToShortDateString();
+
+                    Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
+                    Microsoft.Office.Interop.Excel._Workbook ExcelBook;
+                    Microsoft.Office.Interop.Excel._Worksheet ExcelSheet;
+                    int i = 0;
+                    int j = 0;
+                    var totalHeader = 0;// go to the very right of the columns
+                    
+                    // Create the Excel Object:
+                    ExcelBook = (Microsoft.Office.Interop.Excel._Workbook)ExcelApp.Workbooks.Add(1);
+                    ExcelSheet = (Microsoft.Office.Interop.Excel._Worksheet)ExcelBook.ActiveSheet;
+                    
+                    // Create the header:
+                    ExcelSheet.Cells[1, 1] = "Business Name Here." +
+                                            "\nDate Processed:\t" + current_date +
+                                            "\nProcessed by:\t" + user +
+                                            "\nDate Range:\t" + start_date +
+                                            " - " + end_date;
+                    Microsoft.Office.Interop.Excel.Range Title = ExcelSheet.get_Range("A1:G1", Type.Missing);
+                    Title.Merge(Type.Missing);
+                    Title.RowHeight = 80;
+
+                    for (i = 1; i <= dataGrid.Columns.Count; i++)
+                    {
+                        ExcelSheet.Cells[2, i] = dataGrid.Columns[i - 1].HeaderText;
+                        totalHeader = i + 1;
+                    }
+                    
+                    var totalRow = 0;
+                    var totalCol = 0;
+
+                    //export the data to excel
+                    for (i = 1; i <= dataGrid.RowCount; i++)
+                    {
+                        for (j = 1; j <= dataGrid.Columns.Count; j++)
+                        {
+                            ExcelSheet.Cells[i + 2, j] = dataGrid.Rows[i - 1].Cells[j - 1].Value;
+                            totalCol = j + 1;
+                        }
+                        totalRow = i + 1;
+                    }
+                    ExcelSheet.Cells[totalRow + 5, 1] = "Expense Total:";           // Display the expense total after all the expense
+                    ExcelSheet.Cells[totalRow + 6, 1] = "Mileage Total:";           // Display the mileage total after all the expense
+                    ExcelSheet.Cells[totalRow + 5, totalCol-1] = total;       //Show the total in the correct cell
+                    ExcelSheet.Cells[totalRow + 6, totalCol-1] = mileage;   //Show the total mileage in the correct cell
+                    ExcelApp.Visible = true;
+
+                    //set the font detailed
+                    Microsoft.Office.Interop.Excel.Range myRange = ExcelSheet.Range[ExcelSheet.Cells[1, 1], ExcelSheet.Cells[dataGrid.RowCount + 1, dataGrid.Columns.Count]];
+                    Microsoft.Office.Interop.Excel.Font x = myRange.Font;
+                    x.Name = "Arial";
+                    x.Size = 10;
+                    
+                    //Bold the header row
+                    myRange = ExcelSheet.Range[ExcelSheet.Cells[1, 1], ExcelSheet.Cells[1, dataGrid.Columns.Count + 2]];
+                    x = myRange.Font;
+                    x.Bold = true;
+
+                    //autofit everything
+                    myRange.EntireColumn.AutoFit();
+
+                    //
+                    ExcelSheet = null;
+                    ExcelBook = null;
+                    ExcelApp = null;
+
+
+                }
+            }
+        }//end 
+        //=====================================================================
     //=====================================================================
         // AUTHOR:  Maxwell Partington & Ranier Limpiado  10/24/2014
         // PURPOSE: To make populate the transaction xml

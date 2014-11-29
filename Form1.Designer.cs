@@ -546,7 +546,7 @@
             this.export_btn.Name = "export_btn";
             this.export_btn.Size = new System.Drawing.Size(127, 28);
             this.export_btn.TabIndex = 31;
-            this.export_btn.Text = "Export to Excel";
+            this.export_btn.Text = "Export to PDF";
             this.export_btn.UseVisualStyleBackColor = true;
             this.export_btn.Click += new System.EventHandler(this.ExportClick);
             // 
